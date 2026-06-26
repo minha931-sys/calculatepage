@@ -92,3 +92,51 @@
     <section class="content-block category-guide"><h2>${data.title}를 사용할 때 알아두세요</h2><p>${data.guide}</p></section>
     <section class="content-block category-faq"><h2>자주 묻는 질문</h2>${faqBlock(data.faq)}</section>`;
 })();
+
+(function(){
+  const key=document.body.dataset.category;
+  const root=document.querySelector('#category');
+  if(key!=='conversion'||!root||typeof calculators==='undefined')return;
+
+  const href=id=>`/calculators/${id}.html`;
+  const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
+  const link=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
+  const groupBlock=group=>{
+    const links=group.ids.map(link).filter(Boolean).join('');
+    return links?`<article class="category-purpose-card"><h3>${group.title}</h3><p>${group.desc}</p><div class="category-purpose-links">${links}</div></article>`:'';
+  };
+  const faq=items=>items.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('');
+  const allIds=['length-conversion','area-unit-conversion','weight-conversion','temperature-conversion','volume-conversion','speed-conversion','area-conversion','scale','cbm','volumetric-weight'];
+  const recommend=['length-conversion','area-unit-conversion','temperature-conversion','weight-conversion','volume-conversion','speed-conversion'];
+  const groups=[
+    {title:'범용 단위 변환',desc:'길이, 넓이, 무게, 온도, 부피, 속도처럼 기본 단위를 바로 변환합니다.',ids:['length-conversion','area-unit-conversion','weight-conversion','temperature-conversion','volume-conversion','speed-conversion']},
+    {title:'부동산 면적',desc:'제곱미터와 평처럼 부동산에서 자주 쓰는 면적 기준을 확인합니다.',ids:['area-conversion']},
+    {title:'도면 / 비율',desc:'도면, 모형, 지도처럼 축척과 실제 크기를 비교할 때 사용합니다.',ids:['scale']},
+    {title:'물류 / 배송',desc:'박스 부피, CBM, 부피무게처럼 배송비와 화물 규격 계산에 활용합니다.',ids:['cbm','volumetric-weight']}
+  ];
+
+  document.title='단위환산 계산기 | 계산페이지';
+  document.querySelector('meta[name="description"]')?.setAttribute('content','길이, 넓이, 무게, 온도, 부피, 속도 등 자주 쓰는 단위 변환 계산기를 한곳에서 빠르게 이용하세요.');
+  root.innerHTML=`
+    <p class="eyebrow">길이·넓이·무게·온도·부피·속도</p>
+    <h1>단위환산 계산기</h1>
+    <p class="lead">생활, 업무, 공부, 해외 단위 확인에 필요한 변환 계산기를 모았습니다. 값을 입력하고 기준 단위와 변환 단위를 선택하면 바로 결과를 확인할 수 있습니다.</p>
+    <section class="category-featured">
+      <div class="section-heading"><h2>추천 단위환산 계산기</h2><p>가장 자주 쓰는 단위 변환부터 시작해 보세요.</p></div>
+      <div class="card-grid">${recommend.map(card).filter(Boolean).join('')}</div>
+    </section>
+    <section class="category-purpose">
+      <div class="section-heading"><h2>어떤 단위를 바꾸세요?</h2><p>목적에 맞는 변환 계산기를 빠르게 고를 수 있게 묶었습니다.</p></div>
+      <div class="category-purpose-grid">${groups.map(groupBlock).join('')}</div>
+    </section>
+    <section class="category-all">
+      <div class="section-heading"><h2>전체 단위환산 계산기 목록</h2><p>범용 변환과 특화 계산기를 역할별로 정리했습니다.</p></div>
+      <div class="card-grid">${allIds.map(card).filter(Boolean).join('')}</div>
+    </section>
+    <section class="content-block category-guide"><h2>단위환산 계산기를 사용할 때 알아두세요</h2><p>대부분의 단위 변환은 표준 환산 계수를 기준으로 계산합니다. 다만 업체, 학교, 기관, 물류사마다 반올림 단위나 표기 관행이 다를 수 있으므로 공식 문서 제출이나 비용 정산에는 해당 기관 기준을 함께 확인하는 것이 좋습니다.</p></section>
+    <section class="content-block category-faq"><h2>자주 묻는 질문</h2>${faq([
+      ['평과 제곱미터 변환은 정확한가요?','1평을 3.305785㎡로 두고 계산합니다. 부동산 표기에서는 전용면적과 공급면적 기준이 다를 수 있습니다.'],
+      ['온도 변환은 어떤 공식을 쓰나요?','섭씨와 화씨는 °F = °C × 9 ÷ 5 + 32, 켈빈은 K = °C + 273.15 기준으로 변환합니다.'],
+      ['배송 무게와 부피무게는 단위 변환만으로 충분한가요?','배송비는 운송사별 분모, 반올림, 최소 청구 중량 기준이 있어 실제 운임 기준을 함께 확인해야 합니다.']
+    ])}</section>`;
+})();

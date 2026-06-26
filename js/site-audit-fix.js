@@ -1098,3 +1098,45 @@
     replaceHomeButtonWithCategoryMore();
   }, 120);
 })();
+
+(function(){
+  const root=document.querySelector('#calculator');
+  if(!root)return;
+  const slug=
+    document.body.dataset.calculator ||
+    document.body.dataset.customCalculator ||
+    document.body.dataset.advancedCalculator ||
+    document.body.dataset.batch ||
+    document.body.dataset.misc ||
+    document.body.dataset.taxCalculator ||
+    document.body.dataset.propertyLaborCalculator ||
+    '';
+  const conversionIds=[
+    'length-conversion','area-unit-conversion','weight-conversion','temperature-conversion',
+    'volume-conversion','speed-conversion','unit','area-conversion','scale','cbm','volumetric-weight'
+  ];
+  const apply=()=>{
+    const nav=document.querySelector('.site-header nav');
+    if(nav){
+      nav.innerHTML=[
+        ['money','금융','/categories/money.html'],
+        ['education','교육','/categories/education.html'],
+        ['health','건강','/categories/health.html'],
+        ['life','생활','/categories/life.html'],
+        ['business','업무','/categories/business.html'],
+        ['conversion','단위환산','/categories/conversion.html']
+      ].map(([key,label,href])=>`<a href="${href}"${conversionIds.includes(slug)&&key==='conversion'?' class="active"':''}>${label}</a>`).join('');
+    }
+    if(conversionIds.includes(slug)){
+      const button=root.querySelector('.calculator-home');
+      if(button){
+        button.href='/categories/conversion.html';
+        button.textContent='단위환산 카테고리 더보기';
+        button.classList.add('category-more-link');
+      }
+    }
+  };
+  apply();
+  window.addEventListener('load',apply);
+  setTimeout(apply,180);
+})();
