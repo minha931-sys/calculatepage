@@ -358,7 +358,7 @@ function improveCalculatorSearch(){
   const normalize=value=>String(value).toLowerCase().replace(/[\s·/]/g,'');
   const boostRank=new Map(searchBoostIds.map((id,index)=>[id,index]));
   const renderLinks=ids=>ids.filter(id=>calculators[id]).map(id=>`<a class="search-result search-suggested" href="${href(id)}"><b>${calculators[id].n}</b><small>${cats[calculators[id].c]?.[0]||'계산기'}</small><span>${calculators[id].d||''}</span></a>`).join('');
-  const renderEmpty=()=>{box.innerHTML=`<div class="search-suggestions"><b>바로 많이 쓰는 계산기</b><div class="search-suggestion-grid">${renderLinks(popularCalculatorIds)}</div><div class="search-keywords"><span>추천 검색어</span><button type="button">월급</button><button type="button">엔빵</button><button type="button">평수</button><button type="button">디데이</button><button type="button">할인</button></div></div>`};
+  const renderEmpty=()=>{box.innerHTML=`<div class="search-suggestions"><b>자주 찾는 계산기</b><div class="search-suggestion-grid">${renderLinks(popularCalculatorIds)}</div><div class="search-keywords"><span>추천 검색어</span><button type="button">월급</button><button type="button">엔빵</button><button type="button">평수</button><button type="button">디데이</button><button type="button">할인</button></div></div>`};
   const score=([key,item],query)=>{
     const name=normalize(item.n),description=normalize(item.d||''),category=normalize(cats[item.c]?.[0]||''),alias=normalize(searchAliases[key]||''),id=normalize(key);
     let value=0;

@@ -10,6 +10,8 @@
     document.body.dataset.misc ||
     '';
 
+  const SITE_ORIGIN = 'https://calculatepage.com';
+  const officialUrl = () => SITE_ORIGIN + location.pathname;
   const money = n => Math.round(n).toLocaleString('ko-KR') + '원';
 
   function ensureHeader(){
@@ -129,7 +131,7 @@
       '@type': 'WebApplication',
       name,
       description,
-      url: location.href,
+      url: officialUrl(),
       applicationCategory: 'CalculatorApplication',
       operatingSystem: 'Any',
       offers: {
@@ -353,7 +355,7 @@
       if(!button) return;
       const result = button.closest('.result');
       const title = root.querySelector('h1')?.textContent?.trim() || document.title.replace(/\s*\|\s*계산페이지\s*$/,'');
-      const text = `${title}\n${getShareBody(result)}\n\n계산페이지: ${location.href}`;
+      const text = `${title}\n${getShareBody(result)}\n\n계산페이지: ${officialUrl()}`;
       const done = message => {
         button.textContent = message;
         setTimeout(() => button.textContent = '결과 공유', 1500);
@@ -569,6 +571,85 @@
 
   window.addEventListener('load',()=>{appendTopDetail();appendRiskNotice();});
   setTimeout(()=>{appendTopDetail();appendRiskNotice();},360);
+})();
+
+// 애드센스 승인 전 핵심 계산기 10개 보강: 실제 예시와 해석 기준을 짧고 유용하게 추가합니다.
+(function enhanceCoreCalculatorExamples(){
+  const root=document.querySelector('#calculator');
+  if(!root)return;
+  const slug=
+    document.body.dataset.calculator||
+    document.body.dataset.customCalculator||
+    document.body.dataset.advancedCalculator||
+    document.body.dataset.batch||
+    document.body.dataset.misc||
+    document.body.dataset.taxCalculator||
+    document.body.dataset.propertyLaborCalculator||
+    '';
+  if(!slug)return;
+
+  const examples={
+    percent:{
+      title:'퍼센트 계산 예시와 해석',
+      body:'예를 들어 80,000원의 15%는 12,000원입니다. 반대로 12,000원이 80,000원에서 차지하는 비율을 구하면 15%입니다. 할인, 수수료, 증가율처럼 기준값이 무엇인지 먼저 정하면 결과를 잘못 해석할 가능성이 줄어듭니다.',
+      points:['부분값 = 기준값 × 퍼센트 ÷ 100','비율 = 부분값 ÷ 기준값 × 100','증가율은 이전 값, 할인율은 정가를 기준으로 보는 것이 일반적입니다.']
+    },
+    discount:{
+      title:'할인율 계산 예시와 해석',
+      body:'정가가 120,000원이고 할인율이 25%라면 할인 금액은 30,000원, 결제 기준 가격은 90,000원입니다. 쿠폰, 적립금, 배송비가 따로 있으면 실제 결제 금액과 체감 할인율은 달라질 수 있습니다.',
+      points:['할인 금액 = 정가 × 할인율 ÷ 100','할인 후 가격 = 정가 - 할인 금액','여러 할인은 단순 합산보다 순차 적용되는 경우가 많습니다.']
+    },
+    salary:{
+      title:'월급 실수령액 계산 예시와 해석',
+      body:'월 세전 급여가 3,000,000원이라도 4대보험, 소득세, 지방소득세, 비과세 항목에 따라 실제 입금액은 달라집니다. 이 계산기는 급여명세서를 받기 전 대략적인 월 현금흐름을 가늠할 때 쓰는 참고용 도구입니다.',
+      points:['비과세액이 있으면 과세 대상 급여가 줄어 실수령액이 달라질 수 있습니다.','부양가족 수와 간이세액표 적용 방식에 따라 소득세가 달라질 수 있습니다.','성과급, 상여금, 식대, 차량유지비는 회사 급여 규정을 함께 확인하세요.']
+    },
+    gpa:{
+      title:'학점 계산 예시와 해석',
+      body:'3학점 과목에서 A0, 2학점 과목에서 B+를 받았다면 단순 평균이 아니라 학점 수를 곱한 가중 평균으로 평점이 계산됩니다. 과목별 학점이 다를수록 학점 수가 큰 과목의 성적이 평균에 더 크게 반영됩니다.',
+      points:['평균 평점 = 과목별 평점 × 학점의 합 ÷ 전체 학점','P/F 과목은 학교 기준에 따라 평점 평균에서 제외될 수 있습니다.','4.5 만점과 4.3 만점은 환산 기준이 다르므로 학교 성적표 기준을 확인하세요.']
+    },
+    'd-day':{
+      title:'디데이 계산 예시와 해석',
+      body:'오늘이 6월 1일이고 목표일이 6월 10일이면 목표일 포함 여부에 따라 남은 날짜가 다르게 보일 수 있습니다. 시험, 여행, 계약처럼 날짜 기준이 중요한 일정은 목표일을 포함할지 먼저 정하는 것이 좋습니다.',
+      points:['목표일 미포함은 기준일과 목표일 사이의 간격을 봅니다.','목표일 포함은 준비 기간이나 행사일까지 남은 전체 날짜를 세고 싶을 때 유용합니다.','해외 일정은 현지 날짜와 시간대를 따로 확인하세요.']
+    },
+    'dutch-pay':{
+      title:'더치페이 계산 예시와 해석',
+      body:'식사 58,000원, 카페 16,000원을 4명이 나누면 총 74,000원을 기준으로 1인당 18,500원입니다. 100원 또는 1,000원 단위로 올림 정산하면 남는 차액이 생길 수 있으므로 결과의 정산 차액도 함께 확인하세요.',
+      points:['총 정산 금액 = 입력한 항목 금액의 합계','1인당 부담액 = 총 정산 금액 ÷ 전체 인원수','올림 단위를 적용하면 실제 걷는 총액이 원래 금액보다 조금 커질 수 있습니다.']
+    },
+    'area-conversion':{
+      title:'평수 계산 예시와 해석',
+      body:'84㎡를 평으로 바꾸면 약 25.4평입니다. 다만 아파트에서 말하는 평형은 공급면적 기준인 경우가 많고, 실제 생활 공간은 전용면적 기준으로 보는 것이 더 자연스러울 수 있습니다.',
+      points:['평 = 제곱미터 ÷ 3.305785','제곱미터 = 평 × 3.305785','전용률은 단지, 주택 유형, 공용면적 구성에 따라 달라집니다.']
+    },
+    vat:{
+      title:'부가세 계산 예시와 해석',
+      body:'공급가액이 100,000원이면 일반적인 10% 부가세는 10,000원이고 합계 금액은 110,000원입니다. 반대로 부가세 포함 금액이 110,000원이라면 공급가액은 100,000원으로 볼 수 있습니다.',
+      points:['부가세 = 공급가액 × 10%','합계 금액 = 공급가액 × 1.1','면세, 영세율, 간이과세 거래는 일반 10% 계산과 다를 수 있습니다.']
+    },
+    'loan-interest':{
+      title:'대출 이자 계산 예시와 해석',
+      body:'대출 원금 10,000,000원에 연 4.8% 금리를 단순 월 이자로 보면 한 달 이자는 약 40,000원입니다. 실제 대출은 상환 방식, 거치기간, 중도상환수수료, 보증료에 따라 월 부담액이 달라질 수 있습니다.',
+      points:['단순 월 이자 = 대출 원금 × 연 이자율 ÷ 12','원리금균등은 월 납입액이 비교적 일정합니다.','원금균등은 초기 납입액이 크지만 총 이자가 줄어드는 경우가 많습니다.']
+    },
+    'savings-interest':{
+      title:'예금 이자 계산 예시와 해석',
+      body:'1,000만 원을 연 3.5%로 12개월 예치하면 세전 이자는 약 350,000원입니다. 세후 수령액은 이자소득세 적용 여부와 상품별 우대금리 조건에 따라 달라질 수 있습니다.',
+      points:['세전 이자 = 원금 × 연 이자율 × 예치개월 ÷ 12','일반 과세 상품은 이자소득세를 반영하면 실제 수령 이자가 줄어듭니다.','중도해지나 우대금리 미충족 시 예상 결과와 다를 수 있습니다.']
+    }
+  };
+
+  function append(){
+    if(root.querySelector('.core-calculator-example'))return;
+    const data=examples[slug];
+    if(!data)return;
+    root.insertAdjacentHTML('beforeend',`<section class="content-block core-calculator-example"><h2>${data.title}</h2><p>${data.body}</p><ul>${data.points.map(item=>`<li>${item}</li>`).join('')}</ul></section>`);
+  }
+
+  window.addEventListener('load',append);
+  setTimeout(append,420);
 })();
 
 // 2차 후보 실사용형 개선: 단순 산식 계산기를 판단 가능한 계산기로 보강합니다.
