@@ -1,0 +1,910 @@
+﻿[
+    {
+        "Path":  "/",
+        "Title":  "일상에 필요한 계산기를 한곳에",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"},{\"tag\":\"button\",\"cls\":\"home-category active\",\"id\":\"\",\"w\":162,\"h\":30,\"text\":\"💳금융 계산기\"},{\"tag\":\"button\",\"cls\":\"home-category\",\"id\":\"\",\"w\":162,\"h\":30,\"text\":\"📚교육 계산기\"},{\"tag\":\"button\",\"cls\":\"home-category\",\"id\":\"\",\"w\":162,\"h\":30,\"text\":\"🌿건강 계산기\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/categories/money.html",
+        "Title":  "금융 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/categories/education.html",
+        "Title":  "교육 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/categories/health.html",
+        "Title":  "건강 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/categories/life.html",
+        "Title":  "생활 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/categories/business.html",
+        "Title":  "업무 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/age.html",
+        "Title":  "나이 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/annual-leave.html",
+        "Title":  "연차 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/annual-salary.html",
+        "Title":  "연봉 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"as-months\",\"w\":301,\"h\":19,\"text\":\"12개월\\n13개월\\n14개월\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/average-price.html",
+        "Title":  "평단가 계산기",
+        "Overflow":  0,
+        "Offenders":  "[{\"tag\":\"table\",\"cls\":\"estimate-table\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"매수 수량\\t매수 단가(원)\\t매수 금액\\n\\t\\t0원\\n\\t\\t0원\\n\\t\\t0원\",\"overflowX\":\"visible\",\"display\":\"table\"},{\"tag\":\"thead\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"매수 수량\\t매수 단가(원)\\t매수 금액\",\"overflowX\":\"visible\",\"display\":\"table-header-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"매수 수량\\t매수 단가(원)\\t매수 금액\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":304,\"left\":337,\"right\":641,\"text\":\"매수 단가(원)\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":42,\"left\":641,\"right\":683,\"text\":\"매수 금액\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"tbody\",\"cls\":\"\",\"id\":\"ap-rows\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"0원\\n\\t\\t0원\\n\\t\\t0원\",\"overflowX\":\"visible\",\"display\":\"table-row-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"0원\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"td\",\"cls\":\"\",\"id\":\"\",\"w\":304,\"left\":337,\"right\":641,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-cell\"}]",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/average-score.html",
+        "Title":  "평균 점수 계산기",
+        "Overflow":  0,
+        "Offenders":  "[{\"tag\":\"table\",\"cls\":\"estimate-table\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"과목\\t점수\\t가중치/학점\",\"overflowX\":\"visible\",\"display\":\"table\"},{\"tag\":\"thead\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"과목\\t점수\\t가중치/학점\",\"overflowX\":\"visible\",\"display\":\"table-header-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"과목\\t점수\\t가중치/학점\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":304,\"left\":337,\"right\":641,\"text\":\"점수\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":42,\"left\":641,\"right\":683,\"text\":\"가중치/학점\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"tbody\",\"cls\":\"\",\"id\":\"avg-rows\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-row-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"td\",\"cls\":\"\",\"id\":\"\",\"w\":304,\"left\":337,\"right\":641,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-cell\"}]",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"avg-weight\",\"id\":\"\",\"w\":24,\"h\":40,\"text\":\"ex) 1\"},{\"tag\":\"input\",\"cls\":\"avg-weight\",\"id\":\"\",\"w\":24,\"h\":40,\"text\":\"ex) 1\"},{\"tag\":\"input\",\"cls\":\"avg-weight\",\"id\":\"\",\"w\":24,\"h\":40,\"text\":\"ex) 1\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/averaging-down.html",
+        "Title":  "물타기 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/bmi.html",
+        "Title":  "BMI 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/bmr.html",
+        "Title":  "기초대사량 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"ch0\",\"w\":301,\"h\":19,\"text\":\"남성\\n여성\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/body-fat.html",
+        "Title":  "체지방률 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/break-even.html",
+        "Title":  "손익분기점 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/budget.html",
+        "Title":  "생활비 예산 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/calorie-deficit.html",
+        "Title":  "칼로리 적자 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/calorie.html",
+        "Title":  "권장 칼로리 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"cal-level\",\"w\":301,\"h\":19,\"text\":\"좌식 생활 · 운동 거의 없음\\n가벼운 활동 · 주 1~3회 운동\\n보통 활\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/capital-gains-tax.html",
+        "Title":  "양도소득세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/car-acquisition-tax.html",
+        "Title":  "자동차 취득세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/car-installment.html",
+        "Title":  "자동차 할부 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/car-tax.html",
+        "Title":  "자동차세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"kind\",\"w\":301,\"h\":19,\"text\":\"비영업용 승용차\\n영업용 승용차\\n전기차·수소차\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"prepay\",\"w\":301,\"h\":19,\"text\":\"연납 없음\\n1월\\n3월\\n6월\\n9월\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/card-installment.html",
+        "Title":  "카드 할부 수수료 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/cbm.html",
+        "Title":  "CBM 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/compound-interest.html",
+        "Title":  "복리 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/comprehensive-income-tax.html",
+        "Title":  "종합소득세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/d-day.html",
+        "Title":  "디데이 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"ld-include\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/daily-proration.html",
+        "Title":  "일할 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/date.html",
+        "Title":  "날짜 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"ld-direction\",\"w\":301,\"h\":19,\"text\":\"이후\\n이전\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/day-count.html",
+        "Title":  "일수 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"dc-start-inclusive\",\"w\":13,\"h\":13,\"text\":\"on\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"dc-end-inclusive\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/discount.html",
+        "Title":  "할인율 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/dsr.html",
+        "Title":  "DSR 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/dutch-pay.html",
+        "Title":  "더치페이 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/electricity.html",
+        "Title":  "전기요금 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"season\",\"w\":301,\"h\":19,\"text\":\"기타 계절\\n하계 7~8월\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/estimate.html",
+        "Title":  "견적 계산기",
+        "Overflow":  0,
+        "Offenders":  "[{\"tag\":\"table\",\"cls\":\"estimate-table\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"항목명\\t수량\\t단가(원)\\t금액\\t\\n\\t\\t\\t0원\\t×\\n\\t\\t\\t0원\\t×\\n\\t\\t\\t0원\\t×\",\"overflowX\":\"visible\",\"display\":\"table\"},{\"tag\":\"thead\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"항목명\\t수량\\t단가(원)\\t금액\",\"overflowX\":\"visible\",\"display\":\"table-header-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"항목명\\t수량\\t단가(원)\\t금액\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":187,\"left\":220,\"right\":407,\"text\":\"수량\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":188,\"left\":407,\"right\":596,\"text\":\"단가(원)\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":44,\"left\":596,\"right\":640,\"text\":\"금액\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":43,\"left\":640,\"right\":683,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"tbody\",\"cls\":\"\",\"id\":\"estimate-rows\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"0원\\t×\\n\\t\\t\\t0원\\t×\\n\\t\\t\\t0원\\t×\",\"overflowX\":\"visible\",\"display\":\"table-row-group\"}]",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"button\",\"cls\":\"row-delete\",\"id\":\"\",\"w\":25,\"h\":24,\"text\":\"×\"},{\"tag\":\"button\",\"cls\":\"row-delete\",\"id\":\"\",\"w\":25,\"h\":24,\"text\":\"×\"},{\"tag\":\"button\",\"cls\":\"row-delete\",\"id\":\"\",\"w\":25,\"h\":24,\"text\":\"×\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/exam-dday.html",
+        "Title":  "시험 D-day 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/exam-target.html",
+        "Title":  "시험 성적 목표 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/exchange.html",
+        "Title":  "환율 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/exercise-calorie.html",
+        "Title":  "운동 칼로리 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"ec-type\",\"w\":301,\"h\":19,\"text\":\"걷기 (보통 속도)\\n조깅\\n러닝 (약 10km/h)\\n자전거 (보통 속도)\\n\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/expected-value.html",
+        "Title":  "기댓값 계산기",
+        "Overflow":  0,
+        "Offenders":  "[{\"tag\":\"table\",\"cls\":\"estimate-table\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"결과 이름\\t발생 확률(%)\\t결과값\\t\\n\\t\\t\\t×\\n\\t\\t\\t×\",\"overflowX\":\"visible\",\"display\":\"table\"},{\"tag\":\"thead\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"결과 이름\\t발생 확률(%)\\t결과값\",\"overflowX\":\"visible\",\"display\":\"table-header-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"결과 이름\\t발생 확률(%)\\t결과값\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":202,\"left\":235,\"right\":437,\"text\":\"발생 확률(%)\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":202,\"left\":437,\"right\":640,\"text\":\"결과값\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":43,\"left\":640,\"right\":683,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"tbody\",\"cls\":\"\",\"id\":\"ev-rows\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"×\\n\\t\\t\\t×\",\"overflowX\":\"visible\",\"display\":\"table-row-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":650,\"left\":33,\"right\":683,\"text\":\"×\",\"overflowX\":\"visible\",\"display\":\"table-row\"}]",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"},{\"tag\":\"a\",\"cls\":\"calculator-home\",\"id\":\"\",\"w\":107,\"h\":23,\"text\":\"← 계산페이지 홈\"},{\"tag\":\"button\",\"cls\":\"row-delete\",\"id\":\"\",\"w\":25,\"h\":24,\"text\":\"×\"},{\"tag\":\"button\",\"cls\":\"row-delete\",\"id\":\"\",\"w\":25,\"h\":24,\"text\":\"×\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/four-insurance.html",
+        "Title":  "4대보험 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/freelance-rate.html",
+        "Title":  "프리랜서 단가 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/fuel-cost.html",
+        "Title":  "연료비 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/gift-tax.html",
+        "Title":  "증여세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"relation\",\"w\":301,\"h\":19,\"text\":\"배우자\\n직계존속→성년\\n직계존속→미성년\\n직계비속\\n기타 친족\\n그 외\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"skip\",\"w\":301,\"h\":19,\"text\":\"없음\\n30%\\n40%\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"file-credit\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/gpa.html",
+        "Title":  "학점 계산기",
+        "Overflow":  0,
+        "Offenders":  "[{\"tag\":\"table\",\"cls\":\"gpa-table\",\"id\":\"\",\"w\":590,\"left\":31,\"right\":621,\"text\":\"과목명\\t성적\\t학점\\t전공\\t\\n\\t\\n선택\\nA+\\nA0\\nB+\\nB0\\nC+\\nC0\\nD+\\nD0\\nF\\nP\\n\\t\\n선\",\"overflowX\":\"visible\",\"display\":\"table\"},{\"tag\":\"thead\",\"cls\":\"\",\"id\":\"\",\"w\":590,\"left\":31,\"right\":621,\"text\":\"과목명\\t성적\\t학점\\t전공\",\"overflowX\":\"visible\",\"display\":\"table-header-group\"},{\"tag\":\"tr\",\"cls\":\"\",\"id\":\"\",\"w\":590,\"left\":31,\"right\":621,\"text\":\"과목명\\t성적\\t학점\\t전공\",\"overflowX\":\"visible\",\"display\":\"table-row\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":98,\"left\":293,\"right\":391,\"text\":\"성적\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":98,\"left\":391,\"right\":489,\"text\":\"학점\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":88,\"left\":489,\"right\":578,\"text\":\"전공\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"th\",\"cls\":\"\",\"id\":\"\",\"w\":43,\"left\":578,\"right\":621,\"text\":\"\",\"overflowX\":\"visible\",\"display\":\"table-cell\"},{\"tag\":\"tbody\",\"cls\":\"\",\"id\":\"course-rows\",\"w\":590,\"left\":31,\"right\":621,\"text\":\"선택\\nA+\\nA0\\nB+\\nB0\\nC+\\nC0\\nD+\\nD0\\nF\\nP\\n\\t\\n선택\\n1\\n2\\n3\\n4\\n5\\n6\\n\\t \",\"overflowX\":\"visible\",\"display\":\"table-row-group\"}]",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"grade-scale\",\"w\":81,\"h\":28,\"text\":\"4.5 만점\\n4.3 만점\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"include-p\",\"w\":13,\"h\":13,\"text\":\"on\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/housing-subscription.html",
+        "Title":  "청약 가점 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/income-tax.html",
+        "Title":  "근로소득 세금 간편 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/installment.html",
+        "Title":  "적금 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/international-age.html",
+        "Title":  "만나이 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/jeonse-loan.html",
+        "Title":  "전세대출 이자 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"jl-method\",\"w\":301,\"h\":19,\"text\":\"만기일시: 이자만 납부\\n원리금균등\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/loan-interest.html",
+        "Title":  "대출 이자 계산기",
+        "Overflow":  0,
+        "Offenders":  "{\"tag\":\"button\",\"cls\":\"loan-tab\",\"id\":\"\",\"w\":140,\"left\":297,\"right\":437,\"text\":\"만기일시상환\",\"overflowX\":\"visible\",\"display\":\"block\"}",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/loan-schedule.html",
+        "Title":  "대출 상환 스케줄 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"ls-method\",\"w\":301,\"h\":19,\"text\":\"원리금균등상환\\n원금균등상환\\n만기일시상환\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/local-health-insurance.html",
+        "Title":  "지역가입자 건강보험료 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/lotto-tax.html",
+        "Title":  "로또 세금 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/margin.html",
+        "Title":  "마진율 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"mg-vat\",\"w\":301,\"h\":19,\"text\":\"판매가에 부가세 포함\\n판매가가 공급가액\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/menstrual-cycle.html",
+        "Title":  "생리 주기 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"cycle-date\",\"w\":112,\"h\":21,\"text\":\"\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"cycle-length\",\"w\":177,\"h\":21,\"text\":\"ex) 28\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/monthly-rent-deduction.html",
+        "Title":  "월세 세액공제 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"mr-house\",\"w\":301,\"h\":19,\"text\":\"무주택\\n무주택 아님\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/national-pension.html",
+        "Title":  "국민연금 예상수령액 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/ovulation.html",
+        "Title":  "배란일·가임기 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"cycle-date\",\"w\":112,\"h\":21,\"text\":\"\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"cycle-length\",\"w\":177,\"h\":21,\"text\":\"ex) 28\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/parental-leave.html",
+        "Title":  "육아휴직 급여 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/percent-change.html",
+        "Title":  "퍼센트 증가율·감소율 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/percent.html",
+        "Title":  "퍼센트 계산기",
+        "Overflow":  0,
+        "Offenders":  "{\"tag\":\"button\",\"cls\":\"percent-tab\",\"id\":\"\",\"w\":145,\"left\":307,\"right\":452,\"text\":\"몇 %인지 구하기\",\"overflowX\":\"visible\",\"display\":\"block\"}",
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/pregnancy-week.html",
+        "Title":  "임신 주수 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"pregnancy-date\",\"w\":112,\"h\":21,\"text\":\"\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/prepayment-fee.html",
+        "Title":  "중도상환수수료 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/property-tax.html",
+        "Title":  "재산세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"owner\",\"w\":301,\"h\":19,\"text\":\"1세대 1주택\\n그 외 주택\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"urban\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/rent-conversion.html",
+        "Title":  "전월세 전환 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/retake.html",
+        "Title":  "재수강 학점 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/roi.html",
+        "Title":  "ROI 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/running-pace.html",
+        "Title":  "러닝 페이스 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/salary.html",
+        "Title":  "월급 실수령액 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/savings-interest.html",
+        "Title":  "예금 이자 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"include-interest-tax\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/scale.html",
+        "Title":  "스케일 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/school-grade.html",
+        "Title":  "내신 등급 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/severance.html",
+        "Title":  "퇴직금 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/shipping-split.html",
+        "Title":  "배송비 분할 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"mode\",\"w\":301,\"h\":19,\"text\":\"상품금액 비례\\n수량 비례\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/stock-leverage.html",
+        "Title":  "주식 레버리지 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"input\",\"cls\":\"\",\"id\":\"sl-use-fee\",\"w\":13,\"h\":13,\"text\":\"on\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/stock-return.html",
+        "Title":  "주식 수익률 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/target-gpa.html",
+        "Title":  "목표 학점 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/target-weight.html",
+        "Title":  "목표 체중 계산기 | 계산페이지",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  {
+
+                 },
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/time.html",
+        "Title":  "시간 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/travel-budget.html",
+        "Title":  "여행 경비 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/unemployment-benefit.html",
+        "Title":  "실업급여 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/unit.html",
+        "Title":  "단위 변환 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"u-type\",\"w\":301,\"h\":19,\"text\":\"길이\\n무게\\n면적\\n온도\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"u-from\",\"w\":301,\"h\":19,\"text\":\"밀리미터\\n센티미터\\n미터\\n킬로미터\\n인치\\n피트\\n야드\\n마일\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"u-to\",\"w\":301,\"h\":19,\"text\":\"밀리미터\\n센티미터\\n미터\\n킬로미터\\n인치\\n피트\\n야드\\n마일\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/vat.html",
+        "Title":  "부가세 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/volumetric-weight.html",
+        "Title":  "부피무게 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/wage.html",
+        "Title":  "시급 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"wg-type\",\"w\":301,\"h\":19,\"text\":\"월급\\n주급\\n일급\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/water.html",
+        "Title":  "물 섭취량 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/weekly-holiday-pay.html",
+        "Title":  "주휴수당 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":21,\"text\":\"업무\"},{\"tag\":\"a\",\"cls\":\"calculator-home\",\"id\":\"\",\"w\":107,\"h\":23,\"text\":\"← 계산페이지 홈\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/withholding-33.html",
+        "Title":  "원천징수 3.3% 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"},{\"tag\":\"select\",\"cls\":\"\",\"id\":\"mode\",\"w\":301,\"h\":19,\"text\":\"세전 금액 → 실수령액\\n실수령액 → 세전 금액\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/work-hours.html",
+        "Title":  "근무시간 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    },
+    {
+        "Path":  "/calculators/youth-leap-account.html",
+        "Title":  "청년도약계좌 만기 계산기",
+        "Overflow":  0,
+        "Offenders":  {
+
+                      },
+        "Tiny":  "[{\"tag\":\"a\",\"cls\":\"active\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"금융\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"교육\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"건강\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"생활\"},{\"tag\":\"a\",\"cls\":\"\",\"id\":\"\",\"w\":26,\"h\":26,\"text\":\"업무\"}]",
+        "HeaderHeight":  64
+    }
+]
