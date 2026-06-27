@@ -357,6 +357,7 @@ function improveCalculatorSearch(){
   if(!input||!box)return;
   const normalize=value=>String(value).toLowerCase().replace(/[\s·/]/g,'');
   const boostRank=new Map(searchBoostIds.map((id,index)=>[id,index]));
+  let currentSearchTarget='';
   const renderLinks=ids=>ids.filter(id=>calculators[id]).map(id=>`<a class="search-result search-suggested" href="${href(id)}"><b>${calculators[id].n}</b><small>${cats[calculators[id].c]?.[0]||'계산기'}</small><span>${calculators[id].d||''}</span></a>`).join('');
   const renderEmpty=()=>{box.innerHTML=`<div class="search-suggestions"><b>자주 찾는 계산기</b><div class="search-suggestion-grid">${renderLinks(popularCalculatorIds)}</div><div class="search-keywords"><span>추천 검색어</span><button type="button">월급</button><button type="button">엔빵</button><button type="button">평수</button><button type="button">디데이</button><button type="button">할인</button></div></div>`};
   const score=([key,item],query)=>{
@@ -374,16 +375,18 @@ function improveCalculatorSearch(){
   };
   const render=()=>{
     const query=normalize(input.value);
-    if(!query){renderEmpty();return}
+    if(!query){currentSearchTarget='';renderEmpty();return}
     const matches=Object.entries(calculators).map(entry=>{
       const [key,item]=entry;
       const category=cats[item.c]?.[0]||'';
       const text=normalize(`${item.n} ${item.d||''} ${category} ${key} ${searchAliases[key]||''}`);
       return text.includes(query)?[entry,score(entry,query)]:null;
     }).filter(Boolean).sort((a,b)=>b[1]-a[1]||a[0][1].n.localeCompare(b[0][1].n,'ko-KR')).slice(0,8).map(([entry])=>entry);
+    currentSearchTarget=matches[0]?href(matches[0][0]):'';
     box.innerHTML=matches.length?matches.map(([key,item])=>`<a class="search-result" href="${href(key)}"><b>${item.n}</b><small>${cats[item.c]?.[0]||'계산기'}</small><span>${item.d||''}</span></a>`).join(''):'<div class="search-empty">검색 결과가 없습니다. 다른 단어로 검색해 보세요.</div>';
   };
   box.addEventListener('click',event=>{const link=event.target.closest('a.search-result');if(link){window.location.href=link.href;return}const keyword=event.target.closest('.search-keywords button');if(!keyword)return;input.value=keyword.textContent;render();input.focus()});
+  input.onkeydown=event=>{if(event.key!=='Enter')return;render();if(!currentSearchTarget)return;event.preventDefault();window.location.href=currentSearchTarget};
   input.oninput=render;input.onfocus=render;
 }
 improveCalculatorSearch();
