@@ -383,7 +383,7 @@ function improveCalculatorSearch(){
     }).filter(Boolean).sort((a,b)=>b[1]-a[1]||a[0][1].n.localeCompare(b[0][1].n,'ko-KR')).slice(0,8).map(([entry])=>entry);
     box.innerHTML=matches.length?matches.map(([key,item])=>`<a class="search-result" href="${href(key)}"><b>${item.n}</b><small>${cats[item.c]?.[0]||'계산기'}</small><span>${item.d||''}</span></a>`).join(''):'<div class="search-empty">검색 결과가 없습니다. 다른 단어로 검색해 보세요.</div>';
   };
-  box.addEventListener('click',event=>{const keyword=event.target.closest('.search-keywords button');if(!keyword)return;input.value=keyword.textContent;render();input.focus()});
+  box.addEventListener('click',event=>{const link=event.target.closest('a.search-result');if(link){window.location.href=link.href;return}const keyword=event.target.closest('.search-keywords button');if(!keyword)return;input.value=keyword.textContent;render();input.focus()});
   input.oninput=render;input.onfocus=render;
 }
 improveCalculatorSearch();
