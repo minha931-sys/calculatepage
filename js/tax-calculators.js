@@ -342,9 +342,9 @@
             </select></label>
           </div>
           <div class="readable-guide-grid youth-close-guide">
-            <article><b>일반 중도해지</b><p>특별 사유가 없고 3년 이상 유지 조건에도 해당하지 않는 해지입니다. 계산기는 기존 도약계좌 정부기여금을 0%로 봅니다.</p></article>
-            <article><b>3년 이상 유지 해지</b><p>가입일부터 3년이 지난 뒤 해지하는 경우입니다. 계산기는 비과세 가능성과 정부기여금 60% 반영 가정으로 비교합니다.</p></article>
-            <article><b>특별중도해지</b><p>사망·해외이주, 퇴직, 사업장 폐업, 천재지변, 장기치료 질병, 생애최초 주택구입, 혼인·출산 등 사유가 있을 때 선택하세요.</p></article>
+            <article class="guide-action" data-close-type="normal" tabindex="0" role="button"><b>일반 중도해지</b><p>특별 사유가 없고 3년 이상 유지 조건에도 해당하지 않는 해지입니다. 계산기는 기존 도약계좌 정부기여금을 0%로 봅니다.</p><small>이 해지 유형 선택</small></article>
+            <article class="guide-action" data-close-type="three-year" tabindex="0" role="button"><b>3년 이상 유지 해지</b><p>가입일부터 3년이 지난 뒤 해지하는 경우입니다. 계산기는 비과세 가능성과 정부기여금 60% 반영 가정으로 비교합니다.</p><small>이 해지 유형 선택</small></article>
+            <article class="guide-action" data-close-type="special" tabindex="0" role="button"><b>특별중도해지</b><p>사망·해외이주, 퇴직, 사업장 폐업, 천재지변, 장기치료 질병, 생애최초 주택구입, 혼인·출산 등 사유가 있을 때 선택하세요.</p><small>이 해지 유형 선택</small></article>
           </div>
           <button class="primary-btn" id="tax-calc" type="button">유지 vs 전환 비교하기</button>
         </div>
@@ -374,6 +374,37 @@
         <h2>관련 계산기</h2>
         <div class="related"><a href="/calculators/youth-leap-account.html">청년미래적금 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a><a href="/calculators/installment.html">적금 계산기</a></div>
       </section>`;
+
+    const activateGuide = card => {
+      const closeType = card.dataset.closeType;
+      const focusTarget = card.dataset.focusTarget;
+
+      if(closeType){
+        const select = root.querySelector('#ys-close-type');
+        if(!select) return;
+        select.value = closeType;
+        root.querySelectorAll('[data-close-type]').forEach(item => item.classList.toggle('selected', item === card));
+        select.scrollIntoView({ behavior:'smooth', block:'center' });
+        select.focus({ preventScroll:true });
+        return;
+      }
+
+      if(focusTarget){
+        const target = root.querySelector('#' + focusTarget);
+        if(!target) return;
+        target.scrollIntoView({ behavior:'smooth', block:'center' });
+        target.focus({ preventScroll:true });
+      }
+    };
+
+    root.querySelectorAll('.youth-switch-box .guide-action').forEach(card => {
+      card.addEventListener('click', () => activateGuide(card));
+      card.addEventListener('keydown', event => {
+        if(event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        activateGuide(card);
+      });
+    });
 
     root.querySelector('#tax-calc').onclick = () => {
       const paidMonths = Math.min(Math.max(0,N('ys-paid-months')),60);

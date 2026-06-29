@@ -201,7 +201,8 @@
     const shareable = new Set([
       'estimate','dutch-pay','travel-budget','shipping-split','budget','loan-schedule',
       'average-price','gpa','average-score','work-hours','day-count','d-day','date',
-      'loan-interest','savings-interest','salary','freelance-rate','area-conversion'
+      'loan-interest','savings-interest','salary','freelance-rate','area-conversion','pet-age',
+      'electricity','fuel-cost'
     ]);
     const slug = getSlug();
     if(!shareable.has(slug) || root.dataset.shareButtonsBound) return;
@@ -613,7 +614,7 @@
     money:['percent','discount','savings-interest','installment','loan-interest','salary','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
     education:['gpa','target-gpa','retake','school-grade','average-score','exam-dday','exam-target','expected-value'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
-    life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','area-conversion'],
+    life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age','area-conversion'],
     business:['vat','margin','wage','work-hours','estimate','freelance-rate','severance','break-even','shipping-split','income-tax','annual-salary','annual-leave','four-insurance','parental-leave','comprehensive-income-tax','withholding-33','weekly-holiday-pay','interior-estimate','annual-leave-pay','ordinary-wage','overtime-pay','average-wage']
   };
   const category=Object.entries(categoryMap).find(([,ids])=>ids.includes(slug))?.[0]||'life';
@@ -1310,7 +1311,7 @@
     ],
     life: [
       'date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm',
-      'scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax',
+      'scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age',
       'area-conversion'
     ],
     business: [

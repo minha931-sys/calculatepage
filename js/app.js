@@ -825,3 +825,73 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();if(typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();}
   if(document.body.dataset.category)category();
 })();
+
+// Utility cost calculators
+(function(){
+  if(typeof calculators === 'undefined' || typeof cats === 'undefined') return;
+  calculators.electricity = {
+    n:'에어컨 전기세 계산기',
+    c:'life',
+    d:'에어컨 소비전력, 사용시간, 사용일수만으로 월 예상 전기세와 절약 효과를 계산합니다.'
+  };
+  calculators['fuel-cost'] = {
+    n:'주유비 계산기',
+    c:'life',
+    d:'주행거리, 연비, 유가, 반복 횟수로 총 주유비와 1인당 교통비를 계산합니다.'
+  };
+  if(typeof searchAliases !== 'undefined'){
+    Object.assign(searchAliases,{
+      electricity:'에어컨 전기세 전기요금 냉방비 에어컨 요금 kwh 전력 사용량',
+      'fuel-cost':'주유비 유류비 기름값 연비 주행거리 교통비 카풀 여행'
+    });
+  }
+  const add=(cat,ids)=>{
+    if(!cats[cat]) return;
+    const set=new Set((cats[cat][3]+' '+ids).trim().split(/\s+/).filter(Boolean));
+    cats[cat][3]=[...set].join(' ');
+  };
+  add('life','electricity fuel-cost');
+  if(typeof searchBoostIds !== 'undefined'){
+    ['electricity','fuel-cost'].forEach(id=>{ if(!searchBoostIds.includes(id)) searchBoostIds.push(id); });
+  }
+  if(document.querySelector('.popular-list')){
+    home();
+    if(typeof improveCalculatorSearch === 'function') improveCalculatorSearch();
+    if(typeof makeHomeCategoriesExpandable === 'function') makeHomeCategoriesExpandable();
+  }
+  if(document.body.dataset.category) category();
+})();
+
+// Hot topic calculators
+(function(){
+  if(typeof calculators === 'undefined' || typeof cats === 'undefined') return;
+  calculators['pet-age'] = {
+    n:'반려동물 나이 계산기',
+    c:'life',
+    d:'강아지와 고양이 나이를 사람 나이로 환산하고 생애 단계와 관리 포인트를 확인합니다.'
+  };
+  if(calculators['monthly-rent-deduction']){
+    calculators['monthly-rent-deduction'].n = '월세 세액공제 계산기';
+    calculators['monthly-rent-deduction'].d = '월세, 총급여, 무주택 여부로 연말정산 월세 세액공제 예상액을 계산합니다.';
+  }
+  if(typeof searchAliases !== 'undefined'){
+    Object.assign(searchAliases,{
+      'pet-age':'반려동물 나이 강아지 나이 고양이 나이 사람나이 환산 개나이 고양이나이',
+      'monthly-rent-deduction':'월세 세액공제 연말정산 월세공제 월세 환급 총급여 무주택'
+    });
+  }
+  const add=(cat,ids)=>{
+    if(!cats[cat]) return;
+    const set=new Set((cats[cat][3]+' '+ids).trim().split(/\s+/).filter(Boolean));
+    cats[cat][3]=[...set].join(' ');
+  };
+  add('life','pet-age');
+  add('money','monthly-rent-deduction');
+  if(typeof searchBoostIds !== 'undefined' && !searchBoostIds.includes('pet-age')) searchBoostIds.push('pet-age');
+  if(document.querySelector('.popular-list')){
+    home();
+    if(typeof improveCalculatorSearch === 'function') improveCalculatorSearch();
+    if(typeof makeHomeCategoriesExpandable === 'function') makeHomeCategoriesExpandable();
+  }
+  if(document.body.dataset.category) category();
+})();
