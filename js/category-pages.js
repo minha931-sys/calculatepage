@@ -22,10 +22,10 @@
       groups:[
         {title:'대출 / 이자',desc:'월 이자, 총 상환액, 대출 부담률을 먼저 확인할 때 사용하세요.',ids:['loan-interest','loan-schedule','jeonse-loan','prepayment-fee','dsr']},
         {title:'예금 / 적금',desc:'저축 만기 금액과 세후 이자를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account']},
-        {title:'월급 / 생활비',desc:'월 실수령액과 생활 예산, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','budget','unemployment-benefit','daily-proration','rent-conversion']},
+        {title:'월급 / 생활비',desc:'월 실수령액과 건강보험료, 생활 예산, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','employee-health-insurance','budget','unemployment-benefit','daily-proration','rent-conversion']},
         {title:'부동산 / 임대',desc:'복비, 취득세, 종부세, 임대수익률처럼 부동산 거래와 보유 비용을 점검하세요.',ids:['real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield','property-tax']},
         {title:'세금 / 공제',desc:'세금과 공제 예상액을 빠르게 보고 신고 전 체크리스트로 활용하세요.',ids:['capital-gains-tax','gift-tax','monthly-rent-deduction','property-tax','car-acquisition-tax','lotto-tax']},
-        {title:'투자 / 주식',desc:'매수 단가, 수익률, 레버리지 위험을 계산해 투자 판단을 보조합니다.',ids:['average-price','averaging-down','stock-return','stock-leverage','roi','percent-change']}
+        {title:'투자 / 주식',desc:'매수 단가, 수익률, 연평균 성장률, 레버리지 위험을 계산해 투자 판단을 보조합니다.',ids:['average-price','averaging-down','stock-return','stock-leverage','cagr','roi','percent-change']}
       ],
       guide:'금융 계산기는 실제 계약이나 신청 전에 대략적인 부담과 수익을 빠르게 파악하는 데 도움이 됩니다. 다만 금리, 세율, 수수료, 지원 조건은 금융기관·정부 제도·적용 시점에 따라 달라질 수 있으므로 최종 결정 전 공식 안내를 함께 확인하는 것이 좋습니다.',
       faq:[['계산 결과가 실제 금액과 같나요?','입력값을 기준으로 한 예상 결과입니다. 실제 금액은 상품 조건, 세율, 우대금리, 수수료에 따라 달라질 수 있습니다.'],['금융 계산기는 어떤 순서로 보면 좋나요?','대출은 월 상환액과 총 이자를 먼저 보고, 예금·적금은 세후 이자와 만기 금액을 함께 확인하는 것이 좋습니다.'],['입력한 금융 정보가 저장되나요?','이 사이트의 계산기는 브라우저에서 즉시 계산하는 용도이며, 별도 저장 기능이 없는 입력값은 서버에 저장되지 않습니다.']]

@@ -110,7 +110,7 @@
     if(!slug || root.querySelector('.audit-usage-note')) return;
     const leanPages = new Set([
       'break-even','calorie-deficit','electricity','exam-target','exchange','income-tax',
-      'percent-change','roi','shipping-split','travel-budget','daily-proration','expected-value'
+      'percent-change','roi','cagr','shipping-split','travel-budget','daily-proration','expected-value'
     ]);
     if(!leanPages.has(slug)) return;
     root.insertAdjacentHTML('beforeend',
@@ -156,10 +156,13 @@
       'travel-budget':'여행 경비 계산기','shipping-split':'배송비 분할 계산기','fuel-cost':'유류비 계산기',exchange:'환율 계산기','average-price':'평단가 계산기','stock-return':'주식 수익률 계산기',roi:'ROI 계산기','averaging-down':'물타기 계산기','percent-change':'퍼센트 증가율 계산기',
       'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기'
     };
+    labels.cagr = 'CAGR 계산기';
+    labels['employee-health-insurance'] = '직장인 건강보험료 계산기';
     const map = {
       percent:['discount','vat','margin','percent-change'],
       discount:['percent','vat','dutch-pay','budget'],
-      salary:['annual-salary','four-insurance','budget','severance'],
+      salary:['annual-salary','employee-health-insurance','four-insurance','budget'],
+      'employee-health-insurance':['salary','four-insurance','local-health-insurance','annual-salary'],
       gpa:['target-gpa','retake','average-score','school-grade'],
       'd-day':['date','day-count','exam-dday','age'],
       'dutch-pay':['budget','travel-budget','shipping-split','discount'],
@@ -188,7 +191,8 @@
       'volumetric-weight':['cbm','shipping-split','unit','scale'],
       'travel-budget':['dutch-pay','fuel-cost','budget','exchange'],
       'shipping-split':['dutch-pay','estimate','cbm','volumetric-weight'],
-      'average-price':['stock-return','averaging-down','percent','roi'],
+      'average-price':['stock-return','averaging-down','cagr','roi'],
+      cagr:['compound-interest','roi','stock-return','percent-change'],
       'loan-schedule':['loan-interest','dsr','prepayment-fee','savings-interest']
     };
     const ids = (map[slug] || []).filter(id => id !== slug);
@@ -611,7 +615,7 @@
   if(!slug)return;
 
   const categoryMap={
-    money:['percent','discount','savings-interest','installment','loan-interest','salary','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
+    money:['percent','discount','savings-interest','installment','loan-interest','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
     education:['gpa','target-gpa','retake','school-grade','average-score','exam-dday','exam-target','expected-value'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age','area-conversion'],
@@ -699,8 +703,8 @@
 
   const sensitive={
     tax:['vat','income-tax','capital-gains-tax','gift-tax','property-tax','comprehensive-income-tax','comprehensive-real-estate-tax','withholding-33','monthly-rent-deduction','lotto-tax','car-tax','car-acquisition-tax','real-estate-acquisition-tax','youth-leap-account'],
-    labor:['salary','annual-salary','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
-    finance:['loan-interest','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','roi','compound-interest','national-pension','local-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
+    labor:['salary','annual-salary','employee-health-insurance','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
+    finance:['loan-interest','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
   };
@@ -1298,9 +1302,9 @@
     money: [
       'percent','discount','savings-interest','installment','loan-interest','salary','budget',
       'averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan',
-      'car-installment','compound-interest','percent-change','roi','exchange','daily-proration',
+      'car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration',
       'stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment',
-      'monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension',
+      'monthly-rent-deduction','loan-schedule','employee-health-insurance','capital-gains-tax','gift-tax','national-pension',
       'local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription',
       'real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'
     ],
