@@ -200,6 +200,7 @@
         <div class="content-block youth-intro">
           <h2>청년미래적금이란?</h2>
           <p>청년미래적금은 청년도약계좌 후속으로 추진되는 청년 자산형성 적금입니다. 기본 구조는 <strong>3년 동안 매달 적금</strong>을 넣고, 조건을 충족하면 은행 이자와 정부기여금을 함께 받는 방식입니다.</p>
+          <a class="youth-switch-cta" href="/calculators/youth-account-switch.html"><span>청년도약계좌 이용 중이라면</span><b>미래적금 전환 비교 계산하기</b></a>
           <ul>
             <li>월 납입 한도는 최대 50만원 기준으로 계산합니다.</li>
             <li>일반형은 납입액의 6%, 우대형은 납입액의 12%를 정부기여금으로 가정합니다.</li>
@@ -278,6 +279,123 @@
       const capNotice = monthlyRaw > 500000 ? '<p>월 납입액은 최대 50만원까지만 반영했습니다.</p>' : '';
       const typeLabel = typeValue === 'preferential' ? '우대형 12%' : typeValue === 'general' ? '일반형 6%' : '비과세만 적용';
       result(`<div class="savings-result-grid">${card('만기 예상 수령액',money(total))}${card('내가 넣은 원금',money(principal))}${card('예상 은행 이자',money(interest))}${card('예상 정부기여금',money(contribution))}</div><table class="rate-table"><tbody><tr><td>선택 유형</td><td>${typeLabel}</td></tr><tr><td>월 납입액</td><td>${money(monthly)}</td></tr><tr><td>가입 기간</td><td>${months}개월</td></tr><tr><td>입력 금리</td><td>연 ${annualRate.toFixed(2).replace(/\.00$/,'')}%</td></tr></tbody></table>${capNotice}<p>정부기여금과 비과세는 자격 요건을 충족한다는 가정의 참고용 추정입니다.</p>`);
+    };
+    return;
+  }
+
+  if(type === 'youth-account-switch'){
+    const money = value => Math.round(Number(value)||0).toLocaleString('ko-KR') + '원';
+    const accumulatedInterest = (monthly, months, annualRate) => {
+      const principal = monthly * months;
+      const r = Math.max(0,annualRate) / 100 / 12;
+      return r ? monthly * (((1 + r) ** months - 1) / r) - principal : 0;
+    };
+    const leapGovMonthly = (monthly, salary) => {
+      if(salary <= 24000000) return Math.min(monthly,400000) * .06 + Math.max(0,monthly - 400000) * .03;
+      if(salary <= 36000000) return Math.min(monthly,500000) * .046 + Math.max(0,monthly - 500000) * .03;
+      if(salary <= 48000000) return Math.min(monthly,600000) * .037 + Math.max(0,monthly - 600000) * .03;
+      if(salary <= 60000000) return monthly * .03;
+      return 0;
+    };
+    root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
+      <h1>청년도약계좌 vs 청년미래적금 비교 계산기</h1>
+      <p class="lead">청년도약계좌를 계속 유지할지, 청년미래적금으로 갈아탈지 고민하는 사람을 위한 비교 계산기입니다.</p>
+      <section class="calculator-box utility-box readable-calc-box youth-switch-box">
+        <div class="readable-intro">
+          <h2>전환 전에 비교해야 할 핵심</h2>
+          <p>청년도약계좌는 5년 만기 구조이고, 청년미래적금은 3년 만기와 월 50만원 한도, 일반형·우대형 기여금 구조로 보는 방식이 다릅니다. 이 계산기는 <strong>지금까지 넣은 기간</strong>과 <strong>앞으로 넣을 금액</strong>을 나눠 비교합니다.</p>
+          <div class="readable-guide-grid">
+            <article><b>도약계좌 유지</b><p>현재 납입 조건으로 60개월 만기까지 계속 넣는다고 가정합니다.</p></article>
+            <article><b>미래적금 전환</b><p>현재 도약계좌를 정리하고 미래적금을 36개월 새로 넣는다고 가정합니다.</p></article>
+            <article><b>중도해지 주의</b><p>해지 사유와 상품 조건에 따라 기존 기여금·비과세·이자가 달라질 수 있습니다.</p></article>
+          </div>
+        </div>
+        <div class="utility-form">
+          <h2>1. 현재 청년도약계좌 상태</h2>
+          <div class="utility-fields">
+            <label><span>현재까지 납입한 개월 수</span><input id="ys-paid-months" type="number" min="0" max="60" step="1" placeholder="예: 24" inputmode="decimal"></label>
+            <label><span>도약계좌 월 납입액(원)</span><input id="ys-leap-monthly" type="number" min="0" max="700000" step="10000" placeholder="예: 700000" inputmode="decimal"></label>
+            <label><span>도약계좌 예상 연 금리(%)</span><input id="ys-leap-rate" type="number" min="0" step="0.1" placeholder="예: 5" inputmode="decimal"></label>
+            <label><span>연 총급여 기준</span><select id="ys-salary">
+              <option value="24000000">2,400만원 이하</option>
+              <option value="36000000">3,600만원 이하</option>
+              <option value="48000000">4,800만원 이하</option>
+              <option value="60000000">6,000만원 이하</option>
+              <option value="75000000">6,000만원 초과</option>
+            </select></label>
+          </div>
+        </div>
+        <div class="utility-form youth-switch-form">
+          <h2>2. 청년미래적금으로 갈아탈 경우</h2>
+          <div class="utility-fields">
+            <label><span>미래적금 월 납입액(원)</span><input id="ys-future-monthly" type="number" min="0" max="500000" step="10000" placeholder="예: 500000" inputmode="decimal"></label>
+            <label><span>미래적금 예상 연 금리(%)</span><input id="ys-future-rate" type="number" min="0" step="0.1" placeholder="예: 5" inputmode="decimal"></label>
+            <label><span>미래적금 유형</span><select id="ys-future-type">
+              <option value="general">일반형 · 정부기여금 6%</option>
+              <option value="preferential">우대형 · 정부기여금 12%</option>
+              <option value="taxfree">비과세만 적용 · 정부기여금 없음</option>
+            </select></label>
+            <label><span>도약계좌 해지 유형</span><select id="ys-close-type">
+              <option value="normal">일반 중도해지 · 기여금 제외</option>
+              <option value="three-year">3년 이상 유지 해지 · 기여금 60%</option>
+              <option value="special">특별중도해지 · 기여금 100%</option>
+            </select></label>
+          </div>
+          <div class="readable-guide-grid youth-close-guide">
+            <article><b>일반 중도해지</b><p>특별 사유가 없고 3년 이상 유지 조건에도 해당하지 않는 해지입니다. 계산기는 기존 도약계좌 정부기여금을 0%로 봅니다.</p></article>
+            <article><b>3년 이상 유지 해지</b><p>가입일부터 3년이 지난 뒤 해지하는 경우입니다. 계산기는 비과세 가능성과 정부기여금 60% 반영 가정으로 비교합니다.</p></article>
+            <article><b>특별중도해지</b><p>사망·해외이주, 퇴직, 사업장 폐업, 천재지변, 장기치료 질병, 생애최초 주택구입, 혼인·출산 등 사유가 있을 때 선택하세요.</p></article>
+          </div>
+          <button class="primary-btn" id="tax-calc" type="button">유지 vs 전환 비교하기</button>
+        </div>
+        <div class="result" aria-live="polite"></div>
+        <p class="calculator-note">이 계산기는 전환 판단을 돕는 참고용 추정입니다. 청년도약계좌 일반 중도해지, 3년 이상 유지 해지, 특별중도해지의 정부기여금·비과세 적용 여부는 가입 상품과 해지 사유에 따라 달라질 수 있으므로 실제 전환 전에는 은행과 공식 안내를 확인해야 합니다.</p>
+      </section>
+      <section class="content-block readable-faq">
+        <h2>어떻게 해석하면 좋을까요?</h2>
+        <details open><summary>차액만 보고 바로 갈아타도 되나요?</summary><p>아니요. 중도해지 시 기존 혜택을 잃을 수 있고, 미래적금 가입 자격이나 금리가 확정되지 않았을 수 있습니다. 결과는 금액 차이를 보기 위한 참고값입니다.</p></details>
+        <details><summary>도약계좌 납입액이 70만원이면 미래적금도 70만원으로 계산되나요?</summary><p>아니요. 미래적금은 월 50만원 한도로 계산합니다. 50만원을 초과해 입력하면 계산에서는 50만원까지만 반영합니다.</p></details>
+        <details><summary>해지 유형은 어떻게 고르면 되나요?</summary><p>특별중도해지 사유에 해당하면 특별중도해지를, 가입 후 3년 이상 유지한 뒤 해지하는 경우는 3년 이상 유지 해지를 선택하세요. 그 외에는 일반 중도해지로 보수적으로 보는 것이 좋습니다.</p></details>
+      </section>
+      <section class="content-block">
+        <h2>관련 계산기</h2>
+        <div class="related"><a href="/calculators/youth-leap-account.html">청년미래적금 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a><a href="/calculators/installment.html">적금 계산기</a></div>
+      </section>`;
+
+    root.querySelector('#tax-calc').onclick = () => {
+      const paidMonths = Math.min(Math.max(0,N('ys-paid-months')),60);
+      const leapMonthlyRaw = N('ys-leap-monthly');
+      const futureMonthlyRaw = N('ys-future-monthly');
+      const leapMonthly = Math.min(Math.max(0,leapMonthlyRaw),700000);
+      const futureMonthly = Math.min(Math.max(0,futureMonthlyRaw),500000);
+      const leapRate = N('ys-leap-rate');
+      const futureRate = N('ys-future-rate');
+      const salary = Number(V('ys-salary'));
+      if(!leapMonthly || !futureMonthly) return result('<strong>입력값을 확인해 주세요</strong><p>도약계좌 월 납입액과 미래적금 월 납입액을 입력해 주세요.</p>');
+
+      const leapGov = leapGovMonthly(leapMonthly,salary);
+      const leapPrincipalFull = leapMonthly * 60;
+      const leapInterestFull = accumulatedInterest(leapMonthly,60,leapRate);
+      const keepTotal = leapPrincipalFull + leapInterestFull + leapGov * 60;
+
+      const closedPrincipal = leapMonthly * paidMonths;
+      const closedInterest = accumulatedInterest(leapMonthly,paidMonths,leapRate);
+      const closeType = V('ys-close-type');
+      const closeGovRate = closeType === 'special' ? 1 : closeType === 'three-year' ? .6 : 0;
+      const closeTypeLabel = closeType === 'special' ? '특별중도해지' : closeType === 'three-year' ? '3년 이상 유지 해지' : '일반 중도해지';
+      const closedGov = leapGov * paidMonths * closeGovRate;
+      const closedTotal = closedPrincipal + closedInterest + closedGov;
+
+      const futureType = V('ys-future-type');
+      const futureContributionRate = futureType === 'preferential' ? .12 : futureType === 'general' ? .06 : 0;
+      const futurePrincipal = futureMonthly * 36;
+      const futureInterest = accumulatedInterest(futureMonthly,36,futureRate);
+      const futureContribution = futureMonthly * futureContributionRate * 36;
+      const switchTotal = closedTotal + futurePrincipal + futureInterest + futureContribution;
+      const diff = switchTotal - keepTotal;
+      const winner = diff > 0 ? '미래적금 전환 가정이 더 크게 나왔습니다.' : diff < 0 ? '도약계좌 유지 가정이 더 크게 나왔습니다.' : '두 가정의 예상 금액이 같습니다.';
+      const capNotice = `${leapMonthlyRaw > 700000 ? '<p>도약계좌 월 납입액은 최대 70만원까지만 반영했습니다.</p>' : ''}${futureMonthlyRaw > 500000 ? '<p>미래적금 월 납입액은 최대 50만원까지만 반영했습니다.</p>' : ''}`;
+      result(`<div class="savings-result-grid">${card('도약계좌 유지 예상',money(keepTotal))}${card('미래적금 전환 예상',money(switchTotal))}${card('예상 차액',`${diff >= 0 ? '+' : '-'}${money(Math.abs(diff))}`)}${card('해지 유형 반영 정리금',money(closedTotal))}</div><p>${winner}</p>${capNotice}<table class="rate-table"><tbody><tr><td>도약계좌 유지</td><td>원금 ${money(leapPrincipalFull)} · 이자 ${money(leapInterestFull)} · 기여금 ${money(leapGov * 60)}</td></tr><tr><td>전환 시 기존 계좌</td><td>${closeTypeLabel} · 원금 ${money(closedPrincipal)} · 이자 ${money(closedInterest)} · 기여금 ${money(closedGov)}(${Math.round(closeGovRate * 100)}%)</td></tr><tr><td>전환 후 미래적금</td><td>원금 ${money(futurePrincipal)} · 이자 ${money(futureInterest)} · 기여금 ${money(futureContribution)}</td></tr></tbody></table><p>특별중도해지 사유, 3년 이상 유지 인정, 비과세 적용 여부는 실제 상품 조건에 따라 달라질 수 있습니다.</p>`);
     };
     return;
   }

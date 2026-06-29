@@ -404,6 +404,195 @@
   setTimeout(run, 120);
 })();
 
+// Readability upgrade for high-intent labor and loan calculators.
+(function(){
+  const root = document.querySelector('#calculator');
+  if(!root) return;
+  const key = document.body.dataset.calculator || document.body.dataset.customCalculator || '';
+  if(!['severance','weekly-holiday-pay','loan-interest'].includes(key)) return;
+
+  const won = value => Math.round(Number(value) || 0).toLocaleString('ko-KR') + '원';
+  const num = id => Number(root.querySelector('#' + id)?.value || 0);
+  const val = id => root.querySelector('#' + id)?.value || '';
+  const card = (label,value,sub='') => `<div><span>${label}</span><b>${value}</b>${sub ? `<small>${sub}</small>` : ''}</div>`;
+  const field = (id,label,placeholder,type='number',extra='') => `<label><span>${label}</span><input id="${id}" type="${type}" placeholder="예: ${placeholder}" ${type === 'number' ? 'min="0" step="any" inputmode="decimal"' : ''} ${extra}></label>`;
+  const select = (id,label,options) => `<label><span>${label}</span><select id="${id}">${options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('')}</select></label>`;
+  const top = `<a class="calculator-home category-more-link" href="${key === 'loan-interest' ? '/categories/money.html' : '/categories/business.html'}">${key === 'loan-interest' ? '금융' : '업무'} 카테고리 더보기</a>`;
+  const show = (id,html) => { const result = root.querySelector('#' + id); result.innerHTML = html; result.classList.add('show'); };
+
+  if(key === 'severance'){
+    root.innerHTML = `${top}<h1>퇴직금 계산기</h1><p class="lead">입사일, 퇴사일, 최근 3개월 임금을 넣어 계속근로기간 기준 예상 퇴직금을 계산합니다.</p>
+      <section class="calculator-box utility-box readable-calc-box">
+        <div class="readable-intro">
+          <h2>퇴직금은 이렇게 계산해요</h2>
+          <p>퇴직금은 보통 <strong>1일 평균임금 × 30일 × 계속근로일수 ÷ 365</strong> 방식으로 계산합니다. 평균임금에는 퇴직 전 3개월 임금과 일부 상여금·연차수당 가산액이 함께 반영될 수 있습니다.</p>
+          <div class="readable-guide-grid">
+            <article><b>1년 이상 근무</b><p>계속근로기간이 1년 미만이면 일반적인 퇴직금 대상에서 제외될 수 있습니다.</p></article>
+            <article><b>주 15시간 이상</b><p>초단시간 근로 등 예외가 있을 수 있어 근로계약 조건 확인이 필요합니다.</p></article>
+            <article><b>세전 임금 기준</b><p>최근 3개월 임금 합계는 공제 전 금액을 기준으로 입력하세요.</p></article>
+          </div>
+        </div>
+        <div class="utility-form">
+          <h2>1. 근무 기간과 임금을 입력하세요</h2>
+          <div class="utility-fields">
+            ${field('sv-start','입사일','2023-01-01','date')}
+            ${field('sv-end','퇴사일','2026-01-01','date')}
+            ${field('sv-wage','퇴직 전 3개월 임금 합계(원)','9000000')}
+            ${field('sv-days','퇴직 전 3개월 총 일수','92')}
+            ${field('sv-bonus','연간 상여금 합계(원)','4000000')}
+            ${field('sv-leave','연차수당 합계(원)','300000')}
+          </div>
+          <button class="primary-btn" id="sv-calc" type="button">예상 퇴직금 계산하기</button>
+        </div>
+        <div class="result" id="sv-result" aria-live="polite"></div>
+        <p class="calculator-note">이 결과는 참고용 추정입니다. 평균임금보다 통상임금이 높은 경우, 제외 기간, 퇴직연금 유형, 세금, 회사 규정에 따라 실제 지급액은 달라질 수 있습니다.</p>
+      </section>
+      <section class="content-block readable-faq">
+        <h2>계산 전 확인할 점</h2>
+        <details open><summary>상여금과 연차수당은 어떻게 넣나요?</summary><p>고용노동부 계산 예시처럼 연간 상여금과 연차수당은 3개월분으로 환산해 평균임금에 더하는 방식으로 계산했습니다.</p></details>
+        <details><summary>퇴직소득세도 반영되나요?</summary><p>아니요. 이 계산기는 세전 퇴직금 추정입니다. 퇴직소득세는 근속연수와 과세 기준에 따라 달라져 별도 확인이 필요합니다.</p></details>
+      </section>`;
+    root.querySelector('#sv-calc').onclick = () => {
+      const start = new Date(val('sv-start'));
+      const end = new Date(val('sv-end'));
+      const wage = num('sv-wage');
+      const periodDays = num('sv-days') || 92;
+      if(!wage || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) return show('sv-result','<strong>입력값을 확인해 주세요</strong><p>입사일, 퇴사일, 최근 3개월 임금 합계를 입력해 주세요.</p>');
+      const serviceDays = Math.ceil((end - start) / 86400000);
+      const bonusPart = num('sv-bonus') * 3 / 12;
+      const leavePart = num('sv-leave') * 3 / 12;
+      const averageDaily = (wage + bonusPart + leavePart) / Math.max(1,periodDays);
+      const severance = averageDaily * 30 * serviceDays / 365;
+      const status = serviceDays < 365 ? '계속근로기간이 1년 미만으로 계산되어 일반적인 퇴직금 대상이 아닐 수 있습니다.' : '계속근로기간 1년 이상 기준으로 예상 퇴직금을 계산했습니다.';
+      show('sv-result',`<div class="savings-result-grid">${card('예상 퇴직금',won(severance),'세전 추정')}${card('1일 평균임금',won(averageDaily))}${card('계속근로일수',serviceDays.toLocaleString('ko-KR') + '일')}${card('평균임금 산정액',won(wage + bonusPart + leavePart))}</div><p>${status}</p>`);
+    };
+  }
+
+  if(key === 'weekly-holiday-pay'){
+    root.innerHTML = `${top}<h1>주휴수당 계산기</h1><p class="lead">시급, 1주 소정근로시간, 개근 여부를 입력해 주휴수당과 주급 예상액을 계산합니다.</p>
+      <section class="calculator-box utility-box readable-calc-box">
+        <div class="readable-intro">
+          <h2>주휴수당 대상인지 먼저 확인하세요</h2>
+          <p>주휴수당은 일반적으로 <strong>1주 소정근로시간 15시간 이상</strong>이고, 그 주의 <strong>소정근로일을 개근</strong>한 경우를 기준으로 봅니다.</p>
+          <div class="readable-guide-grid">
+            <article><b>소정근로시간</b><p>실제 추가근무가 아니라 근로계약상 약속한 주간 근무시간을 입력하세요.</p></article>
+            <article><b>개근 여부</b><p>결근이 있으면 주휴수당이 발생하지 않을 수 있습니다.</p></article>
+            <article><b>최대 8시간</b><p>계산 편의상 주휴시간은 1일 8시간 한도로 반영합니다.</p></article>
+          </div>
+        </div>
+        <div class="utility-form">
+          <h2>1. 근로 조건을 입력하세요</h2>
+          <div class="utility-fields">
+            ${field('whp-hourly','시급(원)','10030')}
+            ${field('whp-weekly','1주 소정근로시간','20')}
+            ${field('whp-days','주 소정근로일수','5')}
+            ${select('whp-attend','소정근로일 개근 여부',[['yes','개근했어요'],['no','결근이 있어요']])}
+          </div>
+          <button class="primary-btn" id="whp-calc" type="button">주휴수당 계산하기</button>
+        </div>
+        <div class="result" id="whp-result" aria-live="polite"></div>
+        <p class="calculator-note">이 결과는 참고용 추정입니다. 근로계약, 사업장 규모, 단시간 근로 조건, 결근 처리, 법령·행정해석 변경에 따라 실제 지급 여부와 금액은 달라질 수 있습니다.</p>
+      </section>
+      <section class="content-block readable-faq">
+        <h2>자주 헷갈리는 부분</h2>
+        <details open><summary>주 15시간은 실제 근무시간인가요?</summary><p>일반적으로 근로계약상 약속한 1주 소정근로시간을 기준으로 봅니다. 일시적인 추가근무만으로 판단하기 어렵습니다.</p></details>
+        <details><summary>월급제도 주휴수당을 따로 받나요?</summary><p>월급제는 주휴수당이 월급에 포함되어 설계된 경우가 많습니다. 별도 지급 여부는 임금명세서와 근로계약서를 함께 확인해야 합니다.</p></details>
+      </section>`;
+    root.querySelector('#whp-calc').onclick = () => {
+      const hourly = num('whp-hourly');
+      const weeklyHours = num('whp-weekly');
+      const days = Math.max(1,num('whp-days') || 5);
+      if(!hourly || !weeklyHours) return show('whp-result','<strong>입력값을 확인해 주세요</strong><p>시급과 1주 소정근로시간을 입력해 주세요.</p>');
+      const eligible = weeklyHours >= 15 && val('whp-attend') === 'yes';
+      const dailyHours = Math.min(8, weeklyHours / days);
+      const holidayHours = eligible ? dailyHours : 0;
+      const holidayPay = hourly * holidayHours;
+      const weeklyBasePay = hourly * weeklyHours;
+      const message = eligible ? '입력 조건 기준으로 주휴수당 발생 가능성이 있는 경우로 계산했습니다.' : '주 15시간 미만이거나 개근 조건을 충족하지 않는 것으로 계산했습니다.';
+      show('whp-result',`<div class="savings-result-grid">${card('예상 주휴수당',won(holidayPay))}${card('인정 주휴시간',holidayHours.toFixed(1) + '시간')}${card('기본 주급',won(weeklyBasePay))}${card('주휴 포함 주급',won(weeklyBasePay + holidayPay))}</div><p>${message}</p>`);
+    };
+  }
+
+  if(key === 'loan-interest'){
+    const forms = {
+      annuity:['원리금균등상환','매달 거의 같은 금액을 내는 방식입니다. 월 지출 계획을 세우기 쉽습니다.'],
+      principal:['원금균등상환','매달 같은 원금을 갚고 이자는 남은 원금에 따라 줄어듭니다.'],
+      bullet:['만기일시상환','매달 이자만 내고 원금은 만기에 한 번에 갚는 방식입니다.']
+    };
+    let mode = 'annuity';
+    root.innerHTML = `${top}<h1>대출 이자 계산기</h1><p class="lead">대출 원금, 금리, 기간을 입력해 상환 방식별 월 납입액과 총 이자를 비교합니다.</p>
+      <section class="calculator-box loan-box readable-calc-box">
+        <div class="readable-intro">
+          <h2>상환 방식부터 고르세요</h2>
+          <p>같은 원금과 금리라도 상환 방식에 따라 매달 납입액, 총 이자, 만기 부담이 달라집니다.</p>
+          <div class="readable-guide-grid">
+            <article><b>원리금균등</b><p>월 납입액이 일정해 예산 관리가 편합니다.</p></article>
+            <article><b>원금균등</b><p>초기 부담은 크지만 총 이자가 상대적으로 적을 수 있습니다.</p></article>
+            <article><b>만기일시</b><p>월 부담은 낮지만 만기에 원금을 한 번에 갚아야 합니다.</p></article>
+          </div>
+        </div>
+        <div class="loan-tabs" role="tablist">
+          <button class="loan-tab active" data-mode="annuity" type="button" role="tab">원리금균등</button>
+          <button class="loan-tab" data-mode="principal" type="button" role="tab">원금균등</button>
+          <button class="loan-tab" data-mode="bullet" type="button" role="tab">만기일시</button>
+        </div>
+        <div id="loan-form"></div>
+        <div class="result" id="loan-result" aria-live="polite"></div>
+        <p class="calculator-note">중도상환수수료, 인지세, 보증료, 거치기간, 변동금리, 우대금리 조건은 반영하지 않은 참고용 추정입니다. 실제 대출 조건은 금융기관 안내를 확인하세요.</p>
+      </section>
+      <section class="content-block readable-faq">
+        <h2>결과를 볼 때 확인할 점</h2>
+        <details open><summary>총 이자가 가장 적은 방식은 무엇인가요?</summary><p>같은 조건에서는 원금균등상환이 총 이자가 적은 경우가 많지만, 초기 월 납입액이 커질 수 있습니다.</p></details>
+        <details><summary>실제 은행 납입액과 다를 수 있나요?</summary><p>네. 실행일, 이자 계산 일수, 금리 변동, 수수료, 거치기간, 우대금리 충족 여부에 따라 실제 금액은 달라질 수 있습니다.</p></details>
+      </section>`;
+    const form = root.querySelector('#loan-form');
+    const result = root.querySelector('#loan-result');
+    const render = () => {
+      const [title,hint] = forms[mode];
+      form.innerHTML = `<div class="loan-form-inner"><h2>${title}</h2><p>${hint}</p><div class="loan-fields">${field('loan-principal','대출 원금(원)','10000000')}${field('loan-rate','연 이자율(%)','4.5')}${field('loan-months','상환 기간(개월)','36')}</div><div class="search-keywords loan-presets"><span>빠른 예시</span><button type="button" data-principal="10000000" data-rate="4.5" data-months="36">1천만원 · 3년</button><button type="button" data-principal="100000000" data-rate="4.2" data-months="240">1억원 · 20년</button><button type="button" data-principal="300000000" data-rate="4" data-months="360">3억원 · 30년</button></div><button class="primary-btn" id="calculate-loan" type="button">대출 이자 계산하기</button></div>`;
+      form.querySelectorAll('.loan-presets button').forEach(button => {
+        button.onclick = () => {
+          root.querySelector('#loan-principal').value = button.dataset.principal;
+          root.querySelector('#loan-rate').value = button.dataset.rate;
+          root.querySelector('#loan-months').value = button.dataset.months;
+        };
+      });
+      form.querySelector('#calculate-loan').onclick = () => {
+        const principal = num('loan-principal'), rate = num('loan-rate'), months = Math.round(num('loan-months'));
+        if(!principal || rate < 0 || !months) return show('loan-result','<strong>입력값을 확인해 주세요</strong><p>대출 원금, 금리, 상환 기간을 모두 입력해 주세요.</p>');
+        const monthlyRate = rate / 100 / 12;
+        let monthly = 0, totalInterest = 0, sub = '';
+        if(mode === 'annuity'){
+          monthly = monthlyRate === 0 ? principal / months : principal * monthlyRate * (1 + monthlyRate) ** months / ((1 + monthlyRate) ** months - 1);
+          totalInterest = monthly * months - principal;
+          sub = `매월 약 ${won(monthly)}을 납입하는 구조입니다.`;
+        }else if(mode === 'principal'){
+          const monthlyPrincipal = principal / months;
+          const first = monthlyPrincipal + principal * monthlyRate;
+          const last = monthlyPrincipal + monthlyPrincipal * monthlyRate;
+          monthly = first;
+          totalInterest = principal * monthlyRate * (months + 1) / 2;
+          sub = `첫 달 ${won(first)}에서 마지막 달 ${won(last)} 수준으로 줄어듭니다.`;
+        }else{
+          monthly = principal * monthlyRate;
+          totalInterest = monthly * months;
+          sub = `매달 이자만 내고 만기에 원금 ${won(principal)}을 상환합니다.`;
+        }
+        show('loan-result',`<div class="loan-result-grid"><div><span>${mode === 'principal' ? '첫 달 납입액' : '월 납입액'}</span><strong>${won(monthly)}</strong></div><div><span>총 이자</span><b>${won(totalInterest)}</b></div><div><span>총 상환액</span><b>${won(principal + totalInterest)}</b></div></div><p class="loan-result-note">${sub}</p>`);
+      };
+    };
+    root.querySelector('.loan-tabs').onclick = event => {
+      const tab = event.target.closest('.loan-tab');
+      if(!tab) return;
+      mode = tab.dataset.mode;
+      root.querySelectorAll('.loan-tab').forEach(button => button.classList.toggle('active',button === tab));
+      result.classList.remove('show');
+      render();
+    };
+    render();
+  }
+})();
+
 // 개별 계산기 페이지 공통 SEO 보강: 사용 맥락, 체크포인트, FAQ를 자동 추가합니다.
 (function enhanceCalculatorSeoTemplate(){
   const root=document.querySelector('#calculator');
@@ -421,7 +610,7 @@
   if(!slug)return;
 
   const categoryMap={
-    money:['percent','discount','savings-interest','installment','loan-interest','salary','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
+    money:['percent','discount','savings-interest','installment','loan-interest','salary','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
     education:['gpa','target-gpa','retake','school-grade','average-score','exam-dday','exam-target','expected-value'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','area-conversion'],
@@ -510,7 +699,7 @@
   const sensitive={
     tax:['vat','income-tax','capital-gains-tax','gift-tax','property-tax','comprehensive-income-tax','comprehensive-real-estate-tax','withholding-33','monthly-rent-deduction','lotto-tax','car-tax','car-acquisition-tax','real-estate-acquisition-tax','youth-leap-account'],
     labor:['salary','annual-salary','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
-    finance:['loan-interest','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','roi','compound-interest','national-pension','local-health-insurance','housing-subscription','rental-yield','rent-conversion'],
+    finance:['loan-interest','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','roi','compound-interest','national-pension','local-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
   };
@@ -1111,7 +1300,7 @@
       'car-installment','compound-interest','percent-change','roi','exchange','daily-proration',
       'stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment',
       'monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension',
-      'local-health-insurance','property-tax','youth-leap-account','housing-subscription',
+      'local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription',
       'real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'
     ],
     education: ['gpa','target-gpa','retake','school-grade','average-score','exam-dday','exam-target'],

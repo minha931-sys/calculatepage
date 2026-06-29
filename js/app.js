@@ -590,7 +590,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
       recommend:['loan-interest','savings-interest','salary','unemployment-benefit','stock-leverage'],
       groups:[
         {title:'대출 / 이자',desc:'월 이자, 총 상환액, 대출 부담률을 먼저 확인할 때 사용하세요.',ids:['loan-interest','loan-schedule','jeonse-loan','prepayment-fee','dsr']},
-        {title:'예금 / 적금',desc:'저축 만기 금액과 세후 이자를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account']},
+        {title:'예금 / 적금',desc:'저축 만기 금액과 세후 이자를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account','youth-account-switch']},
         {title:'월급 / 생활비',desc:'월 실수령액과 생활 예산, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','budget','unemployment-benefit','daily-proration','rent-conversion']},
         {title:'세금 / 공제',desc:'세금과 공제 예상액을 빠르게 보고 신고 전 체크리스트로 활용하세요.',ids:['capital-gains-tax','gift-tax','monthly-rent-deduction','property-tax','car-acquisition-tax','lotto-tax']},
         {title:'투자 / 주식',desc:'매수 단가, 수익률, 레버리지 위험을 계산해 투자 판단을 보조합니다.',ids:['average-price','averaging-down','stock-return','stock-leverage','roi','percent-change']}
@@ -716,12 +716,13 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     'withholding-33':{n:'원천징수 3.3% 계산기',c:'business',d:'프리랜서 3.3% 원천징수액과 실수령액을 계산합니다.'},
     'property-tax':{n:'재산세 계산기',c:'money',d:'주택 공시가격과 공정시장가액비율로 재산세를 계산합니다.'},
     'youth-leap-account':{n:'청년미래적금 계산기',c:'money',d:'월 납입액, 상품 유형, 예상 금리로 3년 만기 수령액과 정부기여금을 계산합니다.'},
+    'youth-account-switch':{n:'청년도약계좌 vs 청년미래적금 비교 계산기',c:'money',d:'청년도약계좌 유지와 청년미래적금 전환 예상 금액을 비교합니다.'},
     'lotto-tax':{n:'로또 세금 계산기',c:'life',d:'복권 당첨금의 세금과 예상 실수령액을 계산합니다.'}
   };
   Object.assign(calculators,added);
-  Object.assign(searchAliases,{'youth-leap-account':'청년미래적금 청년도약계좌 미래적금 청년 적금 정부기여금 비과세'});
+  Object.assign(searchAliases,{'youth-leap-account':'청년미래적금 청년도약계좌 미래적금 청년 적금 정부기여금 비과세','youth-account-switch':'청년도약계좌 청년미래적금 비교 전환 갈아타기 해지 유지 정부기여금'});
   const add=(cat,ids)=>{const set=new Set((cats[cat][3]+' '+ids).trim().split(/\s+/));cats[cat][3]=[...set].join(' ')};
-  add('money','capital-gains-tax gift-tax national-pension local-health-insurance property-tax youth-leap-account');
+  add('money','capital-gains-tax gift-tax national-pension local-health-insurance property-tax youth-leap-account youth-account-switch');
   add('business','comprehensive-income-tax withholding-33');
   add('life','car-tax lotto-tax');
   if(document.querySelector('.popular-list')){
