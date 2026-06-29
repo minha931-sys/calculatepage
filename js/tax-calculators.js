@@ -192,23 +192,94 @@
   }
 
   if(type === 'youth-leap-account'){
-    box('청년도약계좌 만기 계산기','월 납입액, 금리, 연 총급여 기준 개인소득 구간으로 만기 예상 수령액을 계산합니다.',
-      field('monthly','월 납입액(원)','700000') + field('rate','연 금리(%)','5') + field('months','가입기간(개월)','60') + field('salary','연 총급여(원)','36000000'),
-      '입력한 납입액, 금리, 총급여 구간을 기준으로 정부기여금을 간편 추정합니다. 개인·가구소득, 은행별 우대금리, 중도해지, 비과세 요건은 실제 상품 안내를 확인해야 합니다.',
-      '<ol><li>월 납입액은 최대 70만원 범위에서 입력하세요.</li><li>은행 기본금리와 우대금리를 합산해 연 금리를 입력하세요.</li><li><strong>연 총급여</strong>는 월급이 아니라 1년 기준 세전 총급여를 입력하세요. 예를 들어 월 세전 300만원이면 약 36,000,000원을 입력합니다.</li></ol>');
+    const money = value => Math.round(Number(value)||0).toLocaleString('ko-KR') + '원';
+    root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a>
+      <h1>청년미래적금 계산기</h1>
+      <p class="lead">청년미래적금을 처음 보는 사람도 월 납입액, 상품 유형, 예상 금리를 넣어 3년 만기 수령액과 정부기여금을 쉽게 확인할 수 있습니다.</p>
+      <section class="calculator-box utility-box youth-future-box">
+        <div class="content-block youth-intro">
+          <h2>청년미래적금이란?</h2>
+          <p>청년미래적금은 청년도약계좌 후속으로 추진되는 청년 자산형성 적금입니다. 기본 구조는 <strong>3년 동안 매달 적금</strong>을 넣고, 조건을 충족하면 은행 이자와 정부기여금을 함께 받는 방식입니다.</p>
+          <ul>
+            <li>월 납입 한도는 최대 50만원 기준으로 계산합니다.</li>
+            <li>일반형은 납입액의 6%, 우대형은 납입액의 12%를 정부기여금으로 가정합니다.</li>
+            <li>비과세만 적용되는 경우는 정부기여금 없이 은행 이자만 계산합니다.</li>
+          </ul>
+          <h2>일반형·우대형 기준을 쉽게 보면</h2>
+          <div class="youth-type-grid">
+            <article><b>일반형</b><strong>정부기여금 6%</strong><p>청년미래적금 가입 대상에 해당하고 기본 지원을 받는 경우로 가정합니다.</p></article>
+            <article><b>우대형</b><strong>정부기여금 12%</strong><p>중소기업 신규 취업 청년 등 우대 지원 대상에 해당하는 경우로 가정합니다.</p></article>
+            <article><b>비과세만 적용</b><strong>정부기여금 0원</strong><p>대상 여부가 불확실하거나 보수적으로 보고 싶을 때 선택하세요.</p></article>
+          </div>
+        </div>
+        <div class="utility-form">
+          <h2>1. 나는 어떤 유형으로 볼까요?</h2>
+          <div class="utility-fields">
+            <label><span>상품 유형</span><select id="yf-type">
+              <option value="general">일반형 · 정부기여금 6%</option>
+              <option value="preferential">우대형 · 정부기여금 12%</option>
+              <option value="taxfree">비과세만 적용 · 정부기여금 없음</option>
+            </select></label>
+            <label><span>월 납입액(원)</span><input id="yf-monthly" type="number" min="0" max="500000" step="10000" placeholder="예: 500000" inputmode="decimal"></label>
+            <label><span>예상 연 금리(%)</span><input id="yf-rate" type="number" min="0" step="0.1" placeholder="예: 5" inputmode="decimal"></label>
+            <div class="field full"><span>금리를 잘 모르겠다면</span><div class="search-keywords youth-rate-presets"><button type="button" data-rate="3.5">보수적 3.5%</button><button type="button" data-rate="5">기본 예시 5%</button><button type="button" data-rate="6">우대금리 포함 6%</button></div></div>
+            <label><span>가입 기간</span><select id="yf-months">
+              <option value="36">3년 만기(36개월)</option>
+              <option value="24">2년 유지 가정</option>
+              <option value="12">1년 유지 가정</option>
+            </select></label>
+          </div>
+          <button class="primary-btn" id="tax-calc" type="button">만기 예상액 계산하기</button>
+        </div>
+        <div class="result" aria-live="polite"></div>
+        <p class="calculator-note">이 계산기는 월 납입액과 입력 금리를 기준으로 한 참고용 추정입니다. 실제 가입 가능 여부, 기여금 지급 요건, 비과세 요건, 중도해지 기준, 은행별 우대금리는 공식 상품 안내를 확인해야 합니다.</p>
+      </section>
+      <section class="content-block">
+        <h2>청년미래적금 계산 방법</h2>
+        <ol>
+          <li><strong>상품 유형</strong>을 고르세요. 조건을 잘 모르겠다면 일반형으로 먼저 계산해도 됩니다.</li>
+          <li><strong>월 납입액</strong>은 매달 넣을 수 있는 금액을 입력하세요. 현재 계산기는 최대 50만원까지만 반영합니다.</li>
+          <li><strong>예상 연 금리</strong>는 은행 기본금리와 우대금리를 합친 값을 입력하세요. 아직 금리를 모르면 3.5%, 5%, 6% 버튼으로 먼저 비교해 보세요.</li>
+          <li>결과에서 내가 넣은 원금, 예상 은행 이자, 정부기여금을 나눠 확인하세요.</li>
+        </ol>
+      </section>
+      <section class="content-block">
+        <h2>결과를 볼 때 꼭 알아둘 점</h2>
+        <ul>
+          <li>정부기여금은 상품 유형과 자격 조건을 충족한다는 가정으로 계산합니다.</li>
+          <li>중도해지, 납입 중단, 소득 기준 미충족, 은행별 우대금리 미충족 시 실제 수령액은 줄어들 수 있습니다.</li>
+          <li>비과세는 세금이 없다는 뜻이지, 모든 가입자가 정부기여금을 받는다는 뜻은 아닙니다.</li>
+        </ul>
+      </section>
+      <section class="content-block">
+        <h2>자주 묻는 질문</h2>
+        <details><summary>청년미래적금은 청년도약계좌와 같은 상품인가요?</summary><p>같은 상품명은 아닙니다. 청년미래적금은 청년도약계좌 후속 성격으로 추진되는 적금으로 알려져 있으며, 세부 가입 조건과 출시 일정은 공식 안내를 확인해야 합니다.</p></details>
+        <details><summary>일반형과 우대형은 무엇이 다른가요?</summary><p>이 계산기에서는 일반형은 납입액의 6%, 우대형은 12%를 정부기여금으로 가정합니다. 우대형은 중소기업 신규 취업 청년 등 우대 지원 대상에 해당하는 경우로 보고 계산합니다.</p></details>
+        <details><summary>금리를 모르면 어떻게 입력하나요?</summary><p>아직 가입할 은행을 정하지 않았다면 4~5%처럼 보수적인 금리를 넣어 먼저 비교하고, 실제 상품 금리가 나오면 다시 계산하는 방식이 좋습니다.</p></details>
+      </section>`;
+
+    root.querySelectorAll('.youth-rate-presets button').forEach(button=>{
+      button.onclick=()=>{root.querySelector('#yf-rate').value=button.dataset.rate;};
+    });
+
     root.querySelector('#tax-calc').onclick = () => {
-      const monthly=Math.min(N('monthly'),700000), rate=N('rate')/100/12, months=N('months')||60, salary=N('salary');
-      if(!monthly || !months) return invalid('월 납입액과 가입기간을 입력해 주세요.');
-      let gov=0;
-      if(salary<=24000000) gov = Math.min(monthly,400000)*.06 + Math.max(0,monthly-400000)*.03;
-      else if(salary<=36000000) gov = Math.min(monthly,500000)*.046 + Math.max(0,monthly-500000)*.03;
-      else if(salary<=48000000) gov = Math.min(monthly,600000)*.037 + Math.max(0,monthly-600000)*.03;
-      else if(salary<=60000000) gov = monthly*.03;
-      else gov = 0;
-      const principal = monthly * months, govTotal = gov * months;
-      const interest = rate ? monthly * (((1+rate)**months - 1) / rate) - principal : 0;
-      result(`<div class="savings-result-grid">${card('만기 예상 수령액',W(principal+interest+govTotal))}${card('납입 원금',W(principal))}${card('예상 이자',W(interest))}${card('정부기여금',W(govTotal))}</div><p>월 정부기여금은 ${W(gov)}로 추정했습니다. 비과세 혜택은 별도 조건 충족을 전제로 합니다.</p>`);
+      const monthlyRaw = N('yf-monthly');
+      const monthly = Math.min(Math.max(monthlyRaw,0),500000);
+      const months = N('yf-months') || 36;
+      const annualRate = Math.max(0,N('yf-rate'));
+      const monthlyRate = annualRate / 100 / 12;
+      const typeValue = V('yf-type');
+      if(!monthly) return invalid('월 납입액을 입력해 주세요. 예: 500000');
+      const contributionRate = typeValue === 'preferential' ? .12 : typeValue === 'general' ? .06 : 0;
+      const principal = monthly * months;
+      const interest = monthlyRate ? monthly * (((1 + monthlyRate) ** months - 1) / monthlyRate) - principal : 0;
+      const contribution = monthly * contributionRate * months;
+      const total = principal + interest + contribution;
+      const capNotice = monthlyRaw > 500000 ? '<p>월 납입액은 최대 50만원까지만 반영했습니다.</p>' : '';
+      const typeLabel = typeValue === 'preferential' ? '우대형 12%' : typeValue === 'general' ? '일반형 6%' : '비과세만 적용';
+      result(`<div class="savings-result-grid">${card('만기 예상 수령액',money(total))}${card('내가 넣은 원금',money(principal))}${card('예상 은행 이자',money(interest))}${card('예상 정부기여금',money(contribution))}</div><table class="rate-table"><tbody><tr><td>선택 유형</td><td>${typeLabel}</td></tr><tr><td>월 납입액</td><td>${money(monthly)}</td></tr><tr><td>가입 기간</td><td>${months}개월</td></tr><tr><td>입력 금리</td><td>연 ${annualRate.toFixed(2).replace(/\.00$/,'')}%</td></tr></tbody></table>${capNotice}<p>정부기여금과 비과세는 자격 요건을 충족한다는 가정의 참고용 추정입니다.</p>`);
     };
+    return;
   }
 
   if(type === 'lotto-tax'){

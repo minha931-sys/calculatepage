@@ -715,10 +715,11 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     'comprehensive-income-tax':{n:'종합소득세 계산기',c:'business',d:'수입, 필요경비, 공제, 기납부세액으로 종합소득세를 계산합니다.'},
     'withholding-33':{n:'원천징수 3.3% 계산기',c:'business',d:'프리랜서 3.3% 원천징수액과 실수령액을 계산합니다.'},
     'property-tax':{n:'재산세 계산기',c:'money',d:'주택 공시가격과 공정시장가액비율로 재산세를 계산합니다.'},
-    'youth-leap-account':{n:'청년도약계좌 만기 계산기',c:'money',d:'월 납입액, 금리, 정부기여금을 반영해 만기 수령액을 계산합니다.'},
+    'youth-leap-account':{n:'청년미래적금 계산기',c:'money',d:'월 납입액, 상품 유형, 예상 금리로 3년 만기 수령액과 정부기여금을 계산합니다.'},
     'lotto-tax':{n:'로또 세금 계산기',c:'life',d:'복권 당첨금의 세금과 예상 실수령액을 계산합니다.'}
   };
   Object.assign(calculators,added);
+  Object.assign(searchAliases,{'youth-leap-account':'청년미래적금 청년도약계좌 미래적금 청년 적금 정부기여금 비과세'});
   const add=(cat,ids)=>{const set=new Set((cats[cat][3]+' '+ids).trim().split(/\s+/));cats[cat][3]=[...set].join(' ')};
   add('money','capital-gains-tax gift-tax national-pension local-health-insurance property-tax youth-leap-account');
   add('business','comprehensive-income-tax withholding-33');
