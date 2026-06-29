@@ -358,6 +358,19 @@
         <details><summary>해지 유형은 어떻게 고르면 되나요?</summary><p>특별중도해지 사유에 해당하면 특별중도해지를, 가입 후 3년 이상 유지한 뒤 해지하는 경우는 3년 이상 유지 해지를 선택하세요. 그 외에는 일반 중도해지로 보수적으로 보는 것이 좋습니다.</p></details>
       </section>
       <section class="content-block">
+        <h2>전환 전 체크할 것</h2>
+        <ul>
+          <li><strong>해지 유형</strong>: 일반 중도해지, 3년 이상 유지 해지, 특별중도해지 중 어떤 기준인지 먼저 확인하세요.</li>
+          <li><strong>비교 기간</strong>: 도약계좌 유지는 60개월 만기, 전환은 기존 납입 기간과 미래적금 36개월을 합산해 비교합니다.</li>
+          <li><strong>납입 원금</strong>: 총액 차이가 실제 혜택 차이가 아니라 원금 차이에서 생길 수 있으므로 총액 - 원금도 함께 보세요.</li>
+          <li><strong>은행 금리</strong>: 기본금리와 우대금리 충족 여부에 따라 실제 이자는 달라질 수 있습니다.</li>
+        </ul>
+      </section>
+      <section class="content-block">
+        <h2>계산 기준</h2>
+        <p>전환 총 예상은 기존 청년도약계좌 해지액에 청년미래적금 36개월 만기액을 더한 값입니다. 유지 예상은 청년도약계좌를 60개월 만기까지 유지한다고 가정합니다. 해지 유형, 가입 자격, 정부기여금 지급 여부는 개인별 조건에 따라 달라질 수 있어 결과는 참고용 추정으로 확인하세요.</p>
+      </section>
+      <section class="content-block">
         <h2>관련 계산기</h2>
         <div class="related"><a href="/calculators/youth-leap-account.html">청년미래적금 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a><a href="/calculators/installment.html">적금 계산기</a></div>
       </section>`;
@@ -391,11 +404,26 @@
       const futurePrincipal = futureMonthly * 36;
       const futureInterest = accumulatedInterest(futureMonthly,36,futureRate);
       const futureContribution = futureMonthly * futureContributionRate * 36;
-      const switchTotal = closedTotal + futurePrincipal + futureInterest + futureContribution;
-      const diff = switchTotal - keepTotal;
-      const winner = diff > 0 ? '미래적금 전환 가정이 더 크게 나왔습니다.' : diff < 0 ? '도약계좌 유지 가정이 더 크게 나왔습니다.' : '두 가정의 예상 금액이 같습니다.';
+      const futureMaturity = futurePrincipal + futureInterest + futureContribution;
+      const switchTotal = closedTotal + futureMaturity;
+      const keepMonths = 60;
+      const switchMonths = paidMonths + 36;
+      const remainingLeapMonths = Math.max(0,60 - paidMonths);
+      const keepBenefit = leapInterestFull + leapGov * 60;
+      const switchBenefit = closedInterest + closedGov + futureInterest + futureContribution;
+      const benefitDiff = switchBenefit - keepBenefit;
+      const principalDiff = (closedPrincipal + futurePrincipal) - leapPrincipalFull;
+      const totalDiff = switchTotal - keepTotal;
+      const winner = benefitDiff > 0 ? '이자와 정부기여금 기준으로는 미래적금 전환 가정이 더 크게 나왔습니다.' : benefitDiff < 0 ? '이자와 정부기여금 기준으로는 도약계좌 유지 가정이 더 크게 나왔습니다.' : '두 가정의 예상 혜택이 같습니다.';
+      const verdict = benefitDiff > 0 && closeType !== 'normal'
+        ? ['전환 검토 가능','선택한 해지 유형에서 기존 혜택을 일부 또는 전부 반영할 수 있고, 입력 금리 기준 혜택 차액도 전환 쪽이 더 큽니다.']
+        : closeType === 'normal'
+          ? ['전환 신중','일반 중도해지는 기존 도약계좌 정부기여금을 받지 못하는 가정이라, 단순 전환만으로는 불리해질 수 있습니다. 특별중도해지나 3년 이상 유지 조건 해당 여부를 먼저 확인하세요.']
+          : benefitDiff < 0
+            ? ['유지 쪽 우세','입력값 기준으로는 도약계좌를 만기까지 유지하는 쪽의 이자와 정부기여금 혜택이 더 큽니다.']
+            : ['조건 확인 필요','혜택 차이가 크지 않습니다. 실제 해지 유형 인정 여부, 비과세, 은행 금리 조건을 확인한 뒤 판단하는 것이 좋습니다.'];
       const capNotice = `${leapMonthlyRaw > 700000 ? '<p>도약계좌 월 납입액은 최대 70만원까지만 반영했습니다.</p>' : ''}${futureMonthlyRaw > 500000 ? '<p>미래적금 월 납입액은 최대 50만원까지만 반영했습니다.</p>' : ''}`;
-      result(`<div class="savings-result-grid">${card('도약계좌 유지 예상',money(keepTotal))}${card('미래적금 전환 예상',money(switchTotal))}${card('예상 차액',`${diff >= 0 ? '+' : '-'}${money(Math.abs(diff))}`)}${card('해지 유형 반영 정리금',money(closedTotal))}</div><p>${winner}</p>${capNotice}<table class="rate-table"><tbody><tr><td>도약계좌 유지</td><td>원금 ${money(leapPrincipalFull)} · 이자 ${money(leapInterestFull)} · 기여금 ${money(leapGov * 60)}</td></tr><tr><td>전환 시 기존 계좌</td><td>${closeTypeLabel} · 원금 ${money(closedPrincipal)} · 이자 ${money(closedInterest)} · 기여금 ${money(closedGov)}(${Math.round(closeGovRate * 100)}%)</td></tr><tr><td>전환 후 미래적금</td><td>원금 ${money(futurePrincipal)} · 이자 ${money(futureInterest)} · 기여금 ${money(futureContribution)}</td></tr></tbody></table><p>특별중도해지 사유, 3년 이상 유지 인정, 비과세 적용 여부는 실제 상품 조건에 따라 달라질 수 있습니다.</p>`);
+      result(`<div class="switch-result-groups"><section><h3>도약계좌 유지</h3><div class="savings-result-grid">${card('유지 예상 총액',money(keepTotal))}${card('총 기간',`${keepMonths}개월`)}${card('납입 원금',money(leapPrincipalFull))}${card('총액 - 원금',money(keepTotal - leapPrincipalFull))}</div></section><section><h3>미래적금 전환</h3><div class="savings-result-grid">${card('전환 예상 총액',money(switchTotal))}${card('총 기간',`${switchMonths}개월`)}${card('납입 원금',money(closedPrincipal + futurePrincipal))}${card('총액 - 원금',money(switchTotal - closedPrincipal - futurePrincipal))}</div></section></div><div class="switch-verdict"><b>${verdict[0]}</b><p>${verdict[1]}</p></div><p>${winner}</p>${capNotice}<table class="rate-table"><tbody><tr><td>전환 총 예상 계산식</td><td>기존 도약계좌 해지액 ${money(closedTotal)} + 미래적금 만기액 ${money(futureMaturity)} = ${money(switchTotal)}</td></tr><tr><td>전환이 이득일 수 있는 경우</td><td>특별중도해지 또는 3년 이상 유지 해지에 해당하고, 혜택 차액이 전환 쪽으로 충분히 크게 나오는 경우입니다.</td></tr><tr><td>전환을 비추천하는 경우</td><td>일반 중도해지로 기존 기여금을 잃거나, 혜택 차액이 도약계좌 유지 쪽으로 나오는 경우입니다.</td></tr><tr><td>비교 기준</td><td>도약계좌는 60개월 만기 전체, 전환은 기존 납입 ${paidMonths}개월 + 미래적금 36개월입니다.</td></tr><tr><td>비교 총 기간</td><td>유지 ${keepMonths}개월 · 전환 ${switchMonths}개월</td></tr><tr><td>납입 원금</td><td>유지 ${money(leapPrincipalFull)} · 전환 ${money(closedPrincipal + futurePrincipal)}</td></tr><tr><td>혜택 차액</td><td>${benefitDiff >= 0 ? '+' : '-'}${money(Math.abs(benefitDiff))} · 이자와 정부기여금만 비교한 금액입니다.</td></tr><tr><td>납입 원금 차이</td><td>${principalDiff >= 0 ? '+' : '-'}${money(Math.abs(principalDiff))}</td></tr><tr><td>도약계좌 유지</td><td>원금 ${money(leapPrincipalFull)} · 이자 ${money(leapInterestFull)} · 기여금 ${money(leapGov * 60)}</td></tr><tr><td>전환 시 기존 계좌</td><td>${closeTypeLabel} · 원금 ${money(closedPrincipal)} · 이자 ${money(closedInterest)} · 기여금 ${money(closedGov)}(${Math.round(closeGovRate * 100)}%)</td></tr><tr><td>전환 후 미래적금</td><td>원금 ${money(futurePrincipal)} · 이자 ${money(futureInterest)} · 기여금 ${money(futureContribution)}</td></tr><tr><td>총 수령액 차이</td><td>${totalDiff >= 0 ? '+' : '-'}${money(Math.abs(totalDiff))} · 원금 차이가 포함된 금액입니다.</td></tr></tbody></table><p>전환 총 예상은 기존 도약계좌를 해지했을 때 받을 것으로 가정한 금액에, 새 미래적금 36개월 만기액을 더한 값입니다.</p><p>특별중도해지 사유, 3년 이상 유지 인정, 비과세 적용 여부는 실제 상품 조건에 따라 달라질 수 있습니다.</p>`);
     };
     return;
   }
