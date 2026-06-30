@@ -34,8 +34,8 @@
       eyebrow:'학점·성적·시험 일정',
       title:'교육 계산기',
       lead:'학점, 목표 평점, 내신 등급, 평균 점수, 시험 D-day 계산에 필요한 도구를 모았습니다.',
-      recommend:['gpa','target-gpa','school-grade','average-score','exam-dday'],
-      groups:[{title:'대학교 학점',desc:'이번 학기 평점, 목표 평점, 재수강 후 변화를 확인하세요.',ids:['gpa','target-gpa','retake']},{title:'시험 / 성적',desc:'평균 점수, 목표 점수, 내신 등급을 계산해 학습 계획에 활용하세요.',ids:['average-score','exam-target','school-grade']},{title:'일정 관리',desc:'시험까지 남은 날짜를 확인하고 준비 기간을 나눠 보세요.',ids:['exam-dday','d-day','date']},{title:'확률 / 판단',desc:'기댓값처럼 선택지를 비교해야 할 때 참고할 수 있습니다.',ids:['expected-value']}],
+      recommend:['gpa','target-gpa','school-grade','grade-cutoff','average-score'],
+      groups:[{title:'대학교 학점',desc:'이번 학기 평점, 목표 평점, 재수강 후 변화를 확인하세요.',ids:['gpa','target-gpa','retake']},{title:'시험 / 성적',desc:'평균 점수, 목표 점수, 내신 등급과 등급컷을 계산해 학습 계획에 활용하세요.',ids:['average-score','exam-target','school-grade','grade-cutoff']},{title:'일정 관리',desc:'시험까지 남은 날짜를 확인하고 준비 기간을 나눠 보세요.',ids:['exam-dday','d-day','date']},{title:'확률 / 판단',desc:'기댓값처럼 선택지를 비교해야 할 때 참고할 수 있습니다.',ids:['expected-value']}],
       guide:'교육 계산기는 성적을 예측하거나 학습 계획을 세우는 데 유용합니다. 학교별 학점 환산 기준, 내신 산출 방식, 시험 반영 비율은 다를 수 있으므로 최종 성적 판단에는 학교 기준을 함께 확인하세요.',
       faq:[['학점 계산 결과가 학교 성적표와 다를 수 있나요?','학교마다 A+, P/F, 재수강 처리 방식이 다를 수 있어 실제 성적표와 차이가 날 수 있습니다.'],['목표 학점 계산기는 언제 쓰면 좋나요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],['내신 등급은 정확한가요?','일반적인 석차 누적 비율 기준의 예상값입니다. 과목별 반영 방식은 학교 기준을 확인해야 합니다.']]
     },

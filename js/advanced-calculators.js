@@ -57,6 +57,59 @@
     };
     return;
   }
+  if(type==='grade-cutoff'){
+    root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>등급컷 계산기</h1><p class="lead">5등급제 또는 9등급제를 선택하고 학년 전체 인원수 기준으로 각 등급이 몇 등까지인지 확인하세요.</p><section class="calculator-box utility-box readable-calc-box grade-cutoff-box"><div class="readable-intro"><h2>등급제 선택</h2><p>현재 적용되는 등급제를 먼저 선택하세요. 선택한 기준만 아래 입력값과 결과에 반영됩니다.</p><div class="readable-guide-grid grade-system-guide"><article class="grade-system-card selected" data-grade-system="5" tabindex="0" role="button"><b>5등급제</b><p>1등급 10%, 2등급 누적 34%, 3등급 누적 66%, 4등급 누적 90% 기준입니다.</p><small>5등급제로 계산</small></article><article class="grade-system-card" data-grade-system="9" tabindex="0" role="button"><b>9등급제</b><p>1등급 4%, 2등급 누적 11%, 3등급 누적 23%처럼 더 촘촘한 상대평가 구간입니다.</p><small>9등급제로 계산</small></article></div></div><div class="utility-form"><div class="utility-fields"><label><span>등급제 선택</span><select id="gc-system"><option value="5">5등급제</option><option value="9">9등급제</option></select></label>${field('gc-total','학년 전체 인원수','240')}</div><button class="primary-btn" id="gc-calc" type="button">등급컷 계산하기</button></div><div class="result" id="gc-result" aria-live="polite"></div><p class="calculator-note">이 계산기는 수강자수와 누적 등급비율을 곱한 값을 반올림해 등급별 누적 학생수를 계산합니다. 실제 내신 등급은 과목별 수강자 수, 동점자, 중간석차, 학교 성적 처리 기준에 따라 달라질 수 있습니다.</p></section><section class="content-block grade-ratio-guide"><h2>등급 비율 기준</h2><div class="grade-ratio-grid"><article><h3>5등급제</h3><table><thead><tr><th>등급</th><th>비율</th><th>누적</th></tr></thead><tbody><tr><td>1등급</td><td>10%</td><td>10%</td></tr><tr><td>2등급</td><td>24%</td><td>34%</td></tr><tr><td>3등급</td><td>32%</td><td>66%</td></tr><tr><td>4등급</td><td>24%</td><td>90%</td></tr><tr><td>5등급</td><td>10%</td><td>100%</td></tr></tbody></table></article><article><h3>9등급제</h3><table><thead><tr><th>등급</th><th>비율</th><th>누적</th></tr></thead><tbody><tr><td>1등급</td><td>4%</td><td>4%</td></tr><tr><td>2등급</td><td>7%</td><td>11%</td></tr><tr><td>3등급</td><td>12%</td><td>23%</td></tr><tr><td>4등급</td><td>17%</td><td>40%</td></tr><tr><td>5등급</td><td>20%</td><td>60%</td></tr><tr><td>6등급</td><td>17%</td><td>77%</td></tr><tr><td>7등급</td><td>12%</td><td>89%</td></tr><tr><td>8등급</td><td>7%</td><td>96%</td></tr><tr><td>9등급</td><td>4%</td><td>100%</td></tr></tbody></table></article></div></section><section class="content-block readable-faq"><h2>계산 결과를 볼 때 주의할 점</h2><details open><summary>소수점이 나오면 어떻게 처리하나요?</summary><p>등급별 누적 학생수는 수강자수와 누적 등급비율을 곱한 값을 반올림해 계산합니다. 예를 들어 237명의 상위 10%는 23.7명이므로 24등까지로 봅니다.</p></details><details><summary>동점자가 있으면 등급컷이 바뀌나요?</summary><p>바뀔 수 있습니다. 실제 내신은 단순 등수보다 중간석차와 동점자 처리 기준이 중요합니다. 같은 점수 학생이 많으면 계산기에서 보이는 컷과 실제 등급 경계가 달라질 수 있습니다.</p></details><details><summary>5등급제와 9등급제 중 무엇을 보면 되나요?</summary><p>적용 학년과 교육과정에 따라 다릅니다. 현재 자신의 학교·학년에서 5등급제를 적용하는지, 9등급제를 적용하는지 먼저 확인한 뒤 해당 표를 참고하세요.</p></details></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/school-grade.html">내신 등급 계산기</a><a href="/calculators/average-score.html">평균 점수 계산기</a><a href="/calculators/exam-target.html">시험 성적 목표 계산기</a><a href="/calculators/exam-dday.html">시험 D-day 계산기</a></div></section>`;
+    const result=root.querySelector('#gc-result');
+    const grade5=[['1등급',10,10],['2등급',24,34],['3등급',32,66],['4등급',24,90],['5등급',10,100]];
+    const grade9=[['1등급',4,4],['2등급',7,11],['3등급',12,23],['4등급',17,40],['5등급',20,60],['6등급',17,77],['7등급',12,89],['8등급',7,96],['9등급',4,100]];
+    const syncSystemCards=value=>{
+      root.querySelectorAll('.grade-system-card').forEach(card=>card.classList.toggle('selected',card.dataset.gradeSystem===value));
+    };
+    root.querySelectorAll('.grade-system-card').forEach(card=>{
+      const choose=()=>{
+        const select=root.querySelector('#gc-system');
+        select.value=card.dataset.gradeSystem;
+        syncSystemCards(select.value);
+      };
+      card.addEventListener('click',choose);
+      card.addEventListener('keydown',event=>{
+        if(event.key!=='Enter'&&event.key!==' ')return;
+        event.preventDefault();
+        choose();
+      });
+    });
+    root.querySelector('#gc-system').addEventListener('change',event=>syncSystemCards(event.target.value));
+    const cutoff=(total,cum)=>Math.round(total*cum/100);
+    const table=(title,rows,total)=>{
+      let previous=0;
+      const body=rows.map(([grade,rate,cum])=>{
+        const end=cutoff(total,cum);
+        const start=previous+1;
+        const count=Math.max(0,end-previous);
+        const range=count?`${start.toLocaleString('ko-KR')}등 ~ ${end.toLocaleString('ko-KR')}등`:'기준상 해당 인원 없음';
+        previous=end;
+        return `<tr><td>${grade}</td><td>${rate}%</td><td>상위 ${cum}%까지</td><td>${count.toLocaleString('ko-KR')}명</td><td>${range}</td></tr>`;
+      }).join('');
+      return `<section class="grade-cutoff-table"><h3>${title}</h3><div class="loan-schedule-table-wrap"><table class="loan-schedule-table"><thead><tr><th>등급</th><th>등급 비율</th><th>누적 기준</th><th>예상 인원</th><th>석차 범위</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
+    };
+    root.querySelector('#gc-calc').onclick=()=>{
+      const total=Math.floor(+root.querySelector('#gc-total').value);
+      const system=root.querySelector('#gc-system').value;
+      if(!total||total<1){
+        result.innerHTML='<strong>전체 인원수를 확인해 주세요</strong><p>학년 전체 인원수는 1명 이상으로 입력해야 합니다.</p>';
+        result.classList.add('show');
+        return;
+      }
+      const selected=system==='5'?grade5:grade9;
+      const systemName=system==='5'?'5등급제':'9등급제';
+      const first=cutoff(total,selected[0][2]);
+      const second=cutoff(total,selected[1][2]);
+      const middle=cutoff(total,selected[Math.floor(selected.length/2)][2]);
+      result.innerHTML=`<div class="savings-result-grid grade-cutoff-summary"><div><span>선택 기준</span><strong>${systemName}</strong></div><div><span>전체 인원</span><strong>${total.toLocaleString('ko-KR')}명</strong></div><div><span>1등급 컷</span><b>${first?`${first.toLocaleString('ko-KR')}등까지`:'기준상 없음'}</b><small>상위 ${selected[0][2]}%</small></div><div><span>2등급 이내</span><b>${second?`${second.toLocaleString('ko-KR')}등까지`:'기준상 없음'}</b><small>상위 ${selected[1][2]}%</small></div><div><span>${selected[Math.floor(selected.length/2)][0]} 이내</span><b>${middle?`${middle.toLocaleString('ko-KR')}등까지`:'기준상 없음'}</b><small>상위 ${selected[Math.floor(selected.length/2)][2]}%</small></div></div><div class="switch-verdict grade-cutoff-note"><b>${systemName} 계산 방식</b><p>등급별 누적 학생수는 수강자수와 누적 등급비율을 곱한 값을 반올림해 계산합니다.</p></div>${table(`${systemName} 기준`,selected,total)}<div class="grade-tie-note"><b>동점자는 어떻게 처리하나요?</b><p>동점자가 있으면 보통 <strong>중간석차</strong>를 적용합니다. 중간석차는 <strong>석차 + (동석차 인원수 - 1) ÷ 2</strong>로 계산하고, 이 중간석차를 수강자수로 나눈 백분율로 등급을 판단합니다. 따라서 같은 점수 학생이 많으면 위 표의 단순 컷과 실제 등급 경계가 달라질 수 있습니다.</p></div>`;
+      result.classList.add('show');
+    };
+    return;
+  }
   if(type==='prepayment-fee'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>중도상환수수료 계산기</h1><p class="lead">상환 예정 원금과 약정 수수료율로 예상 중도상환수수료를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('pf-principal','상환 예정 원금(원)','10000000')}${field('pf-rate','약정 수수료율(%)','1.2')}${field('pf-remain','수수료 부과 잔여 기간(개월)','12')}</div><button class="primary-btn" id="advanced-calc">수수료 계산하기</button></div><div class="result" id="advanced-result"></div><p class="calculator-note">은행별 면제 조건, 수수료 부과 기간, 일할 계산 방식은 다를 수 있습니다.</p></section>`;
     root.querySelector('#advanced-calc').onclick=()=>{const p=+root.querySelector('#pf-principal').value,r=+root.querySelector('#pf-rate').value,m=+root.querySelector('#pf-remain').value,result=root.querySelector('#advanced-result');if(!p||!r||!m)return;const fee=p*r/100*m/36;result.innerHTML=`<strong>${Math.round(fee).toLocaleString()}원</strong><p>3년 부과 기간을 기준으로 잔여 기간을 일할 반영한 단순 추정입니다.</p>`;result.classList.add('show')};
