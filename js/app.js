@@ -812,6 +812,131 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
 })();
 
+// Calculator descriptions
+(function(){
+  if(typeof calculators==='undefined')return;
+  const descriptions={
+    percent:'기준값과 퍼센트를 입력해 몇 퍼센트인지, 특정 비율의 금액이 얼마인지 빠르게 확인합니다.',
+    discount:'정가와 할인율을 입력하면 할인 금액, 최종 결제 금액, 실제 할인 효과를 한 번에 계산합니다.',
+    'savings-interest':'예금 원금, 연 금리, 예치 기간을 기준으로 만기 이자와 세후 수령액을 추정합니다.',
+    installment:'월 납입액, 금리, 기간을 입력해 적금 만기 원금, 예상 이자, 총 수령액을 계산합니다.',
+    'compound-interest':'원금, 수익률, 기간을 바탕으로 복리로 불어나는 금액과 누적 수익을 확인합니다.',
+    'loan-interest':'대출 원금, 금리, 기간을 입력해 월 상환액, 총 이자, 전체 상환 부담을 추정합니다.',
+    'loan-schedule':'대출 조건에 따라 월별 원금, 이자, 잔액 흐름을 상환표 형태로 정리합니다.',
+    'jeonse-loan':'전세대출 원금과 금리를 입력해 월 이자 부담과 연간 이자 비용을 추정합니다.',
+    dsr:'연소득과 기존·신규 대출 상환액을 기준으로 DSR 비율과 대출 부담 수준을 참고용으로 계산합니다.',
+    'prepayment-fee':'상환 예정 원금, 수수료율, 남은 기간을 입력해 예상 중도상환수수료를 계산합니다.',
+    salary:'월 세전 급여를 기준으로 공제액과 예상 실수령액을 계산해 급여 흐름을 확인합니다.',
+    budget:'월 수입과 고정비, 변동비를 입력해 남는 금액과 지출 비중을 점검합니다.',
+    'daily-proration':'월세, 급여, 구독료처럼 월 단위 금액을 실제 사용 일수에 맞춰 일할 계산합니다.',
+    'rent-conversion':'보증금과 월세 조건을 비교해 전월세 전환 시 부담이 어떻게 달라지는지 추정합니다.',
+    'youth-leap-account':'월 납입액, 상품 유형, 예상 금리로 청년미래적금 만기 수령액과 정부기여금을 계산합니다.',
+    'youth-account-switch':'청년도약계좌를 유지할 때와 청년미래적금으로 전환할 때의 원금, 기간, 예상 수령액을 비교합니다.',
+    'employee-health-insurance':'월 보수액을 기준으로 직장가입자 건강보험료와 장기요양보험료 근로자 부담분을 추정합니다.',
+    'monthly-rent-deduction':'월세, 총급여, 무주택 여부를 바탕으로 연말정산 월세 세액공제 예상액을 계산합니다.',
+    'capital-gains-tax':'양도가액, 취득가액, 필요경비를 입력해 양도차익과 예상 양도소득세를 참고용으로 계산합니다.',
+    'gift-tax':'증여재산가액과 관계별 공제를 반영해 과세표준과 예상 증여세를 추정합니다.',
+    'property-tax':'주택 공시가격과 공정시장가액비율을 기준으로 재산세 예상액을 계산합니다.',
+    'comprehensive-real-estate-tax':'주택 공시가격과 공제 기준을 입력해 종합부동산세 부담을 참고용으로 추정합니다.',
+    'real-estate-acquisition-tax':'주택 가격과 취득 조건을 입력해 예상 취득세와 거래 비용을 확인합니다.',
+    'real-estate-brokerage':'거래 종류와 금액을 기준으로 부동산 중개보수 상한액을 계산합니다.',
+    'rental-yield':'매입가, 보증금, 월세, 비용을 입력해 임대수익률과 월 현금흐름을 계산합니다.',
+    'car-acquisition-tax':'차량 가격과 세율을 기준으로 자동차 취득세 예상액을 계산합니다.',
+    'car-tax':'배기량, 차령, 연납 여부를 반영해 자동차세 예상 금액을 계산합니다.',
+    'car-installment':'차량 가격, 선수금, 금리, 기간을 입력해 자동차 할부 월 납입액을 추정합니다.',
+    'card-installment':'결제 금액, 할부 개월 수, 수수료율을 기준으로 카드 할부 수수료와 월 부담액을 계산합니다.',
+    'lotto-tax':'복권 당첨금 구간별 세율을 반영해 세금과 예상 실수령액을 계산합니다.',
+    'national-pension':'월 납입액과 가입 기간을 바탕으로 국민연금 예상 수령액을 참고용으로 추정합니다.',
+    'local-health-insurance':'소득과 재산 정보를 기준으로 지역가입자 건강보험료를 간편하게 추정합니다.',
+    'average-price':'여러 차수의 매수 수량과 단가를 합산해 평균 매입 단가와 총 투자금을 계산합니다.',
+    'averaging-down':'추가 매수 전후의 보유 수량, 총 투자금, 평균 단가 변화를 계산합니다.',
+    'stock-return':'매수·매도 단가, 수량, 수수료를 반영해 주식 투자 손익과 수익률을 계산합니다.',
+    'stock-leverage':'기초자산 수익률과 레버리지 배수를 기준으로 예상 손익과 위험 변화를 확인합니다.',
+    cagr:'시작 금액, 종료 금액, 기간을 입력해 연평균 성장률과 총 수익률을 계산합니다.',
+    roi:'투자금과 회수 금액을 입력해 투자수익률과 순이익을 계산합니다.',
+    'percent-change':'이전 값과 현재 값을 비교해 증가율, 감소율, 변화 폭을 계산합니다.',
+    gpa:'과목별 학점과 평점을 입력해 이번 학기 평균 평점과 총 이수 학점을 계산합니다.',
+    'target-gpa':'현재 누적 평점과 목표 평점을 기준으로 다음 학기에 필요한 평균 평점을 계산합니다.',
+    retake:'재수강 전후 성적을 반영해 누적 평점이 얼마나 바뀌는지 계산합니다.',
+    'school-grade':'내 석차와 전체 인원수를 입력해 예상 내신 등급을 참고용으로 확인합니다.',
+    'grade-cutoff':'전체 인원수와 5등급제·9등급제 기준으로 등급별 석차 범위와 예상 인원을 계산합니다.',
+    'average-score':'여러 과목 점수를 입력해 단순 평균 또는 가중 평균을 계산합니다.',
+    'exam-target':'현재 점수와 목표 평균을 바탕으로 남은 시험에서 필요한 점수를 계산합니다.',
+    'exam-dday':'시험 날짜까지 남은 일수를 계산해 학습 계획과 준비 기간을 세우는 데 활용합니다.',
+    'expected-value':'확률과 결과값을 입력해 선택지별 기대값을 계산하고 판단 기준을 정리합니다.',
+    date:'기준일에 원하는 일수를 더하거나 빼서 미래 날짜와 과거 날짜를 계산합니다.',
+    'd-day':'목표 날짜까지 남은 날 또는 지난 날을 기준일 포함 여부와 함께 계산합니다.',
+    'day-count':'두 날짜 사이의 총 일수, 주 수, 기간 차이를 빠르게 계산합니다.',
+    age:'생년월일을 기준으로 한국식 나이와 생일 기준 나이를 확인합니다.',
+    'international-age':'출생일과 기준일을 입력해 현재 만나이를 정확히 계산합니다.',
+    time:'시작 시간과 종료 시간, 휴게 시간을 입력해 실제 경과 시간과 근무 시간을 계산합니다.',
+    'dutch-pay':'여러 정산 항목을 추가하고 전체 인원수로 나눠 1인당 부담 금액을 계산합니다.',
+    'travel-budget':'여행 기간, 인원, 항목별 비용을 입력해 총 예산과 1인당 비용을 정리합니다.',
+    'fuel-cost':'주행거리, 연비, 유가, 반복 횟수를 입력해 총 주유비와 1인당 교통비를 계산합니다.',
+    'pet-age':'강아지와 고양이 나이를 사람 나이로 환산하고 생애 단계별 관리 포인트를 확인합니다.',
+    electricity:'에어컨 소비전력, 사용 시간, 사용 일수만으로 월 예상 전기요금과 절약 효과를 계산합니다.',
+    unit:'길이와 무게 등 자주 쓰는 단위를 입력값 기준으로 빠르게 변환합니다.',
+    scale:'도면, 지도, 모형의 축척 비율을 기준으로 실제 길이와 표시 길이를 변환합니다.',
+    cbm:'박스 가로·세로·높이와 수량을 입력해 총 부피와 CBM을 계산합니다.',
+    'volumetric-weight':'포장 규격과 실제 중량을 비교해 배송비 산정에 쓰이는 부피무게를 계산합니다.',
+    'length-conversion':'mm, cm, m, km, inch, ft, yd, mile 등 길이 단위를 서로 변환합니다.',
+    'area-unit-conversion':'제곱미터, 평, 제곱피트, 에이커 등 면적 단위를 입력값 기준으로 변환합니다.',
+    'weight-conversion':'mg, g, kg, ton, lb, oz 등 무게 단위를 빠르게 변환합니다.',
+    'temperature-conversion':'섭씨, 화씨, 켈빈 온도를 서로 변환하고 기준 온도 차이를 확인합니다.',
+    'volume-conversion':'mL, L, m3, 컵, 갤런 등 부피 단위를 실생활 기준으로 변환합니다.',
+    'speed-conversion':'m/s, km/h, mph, knot 등 속도 단위를 서로 변환합니다.',
+    'area-conversion':'제곱미터와 평을 변환하고 전용률을 선택적으로 반영해 실사용 면적을 계산합니다.',
+    bmi:'키와 몸무게를 입력해 BMI 수치와 일반적인 체중 범위를 참고용으로 확인합니다.',
+    bmr:'성별, 나이, 키, 몸무게를 기준으로 기초대사량을 계산합니다.',
+    calorie:'기초대사량과 활동량을 바탕으로 하루 권장 섭취 칼로리를 추정합니다.',
+    'calorie-deficit':'목표 감량 속도에 필요한 하루 칼로리 적자와 예상 기간을 계산합니다.',
+    water:'몸무게를 기준으로 하루 권장 물 섭취량을 참고용으로 계산합니다.',
+    'exercise-calorie':'몸무게, 운동 강도, 시간을 입력해 예상 운동 소모 칼로리를 계산합니다.',
+    'target-weight':'키와 목표 BMI를 기준으로 목표 체중 범위를 계산합니다.',
+    'running-pace':'거리와 시간을 입력해 1km당 페이스와 평균 속도를 계산합니다.',
+    'body-fat':'신체 치수를 입력해 체지방률을 참고용으로 추정합니다.',
+    ovulation:'최근 생리 시작일과 주기를 기준으로 예상 배란일과 가임기를 계산합니다.',
+    'menstrual-cycle':'최근 생리 시작일과 평균 주기를 기준으로 다음 생리 예정일을 계산합니다.',
+    'pregnancy-week':'마지막 생리 시작일을 기준으로 임신 주수와 출산 예정일을 계산합니다.',
+    vat:'공급가액 또는 합계 금액을 기준으로 부가세와 세전·세후 금액을 계산합니다.',
+    margin:'판매가와 원가를 입력해 이익, 마진율, 원가율을 계산합니다.',
+    'break-even':'고정비, 변동비, 판매가를 기준으로 손익분기점 판매량과 매출을 계산합니다.',
+    estimate:'수량과 단가, 부가세를 반영해 견적 금액과 총 청구 금액을 계산합니다.',
+    'interior-estimate':'공간 면적과 단가를 기준으로 인테리어 공사비를 항목별로 추정합니다.',
+    'freelance-rate':'목표 월수입과 작업 가능 시간을 기준으로 필요한 시간당 단가를 계산합니다.',
+    wage:'월급과 월 근무시간을 입력해 예상 시급과 시간당 보수를 계산합니다.',
+    'work-hours':'출근·퇴근 시간과 휴게 시간을 반영해 실제 근무시간을 계산합니다.',
+    'annual-leave':'입사일과 기준일을 입력해 예상 연차 발생 일수를 참고용으로 확인합니다.',
+    'weekly-holiday-pay':'시급과 주 근무시간을 기준으로 예상 주휴수당을 계산합니다.',
+    'overtime-pay':'통상시급, 연장·야간·휴일 근로 시간을 입력해 예상 추가수당을 계산합니다.',
+    severance:'최근 임금과 근속 기간을 기준으로 예상 퇴직금을 참고용으로 계산합니다.',
+    'four-insurance':'월 급여를 기준으로 국민연금, 건강보험, 고용보험 등 4대보험 공제액을 추정합니다.',
+    'annual-salary':'연봉과 공제 조건을 입력해 월 실수령액과 연간 공제 흐름을 계산합니다.',
+    'ordinary-wage':'기본급과 정기 수당을 기준으로 통상임금을 참고용으로 계산합니다.',
+    'average-wage':'최근 임금과 기간을 바탕으로 평균임금을 참고용으로 계산합니다.',
+    'annual-leave-pay':'미사용 연차 일수와 통상임금을 기준으로 연차수당 예상액을 계산합니다.',
+    'parental-leave':'육아휴직 기간과 급여 기준을 입력해 예상 육아휴직 급여를 계산합니다.',
+    'income-tax':'과세표준과 공제 조건을 바탕으로 근로소득세 예상액을 참고용으로 계산합니다.',
+    'withholding-33':'프리랜서 3.3% 원천징수액과 세후 실수령액을 계산합니다.',
+    'comprehensive-income-tax':'수입, 필요경비, 공제, 기납부세액을 입력해 종합소득세를 참고용으로 계산합니다.',
+    'shipping-split':'배송비와 주문 금액을 기준으로 사람별 또는 항목별 배송비 분담액을 계산합니다.',
+    exchange:'환율과 금액을 입력해 원화와 외화 금액을 빠르게 환산합니다.',
+    'housing-subscription':'무주택 기간, 부양가족, 청약통장 가입 기간을 기준으로 청약 가점을 계산합니다.'
+  };
+  Object.entries(descriptions).forEach(([id,description])=>{
+    if(calculators[id])calculators[id].d=description;
+  });
+  const current=document.body.dataset.calculator;
+  if(current&&calculators[current]){
+    document.querySelector('meta[name="description"]')?.setAttribute('content',calculators[current].d);
+    const lead=document.querySelector('#calculator .lead');
+    if(lead)lead.textContent=calculators[current].d;
+  }
+  if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();}
+  if(document.body.dataset.category&&typeof category==='function')category();
+  if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
+})();
+
 // 단위환산 카테고리와 세부 단위 변환 계산기를 등록합니다.
 (function(){
   if(typeof calculators==='undefined'||typeof cats==='undefined')return;
@@ -908,4 +1033,33 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     if(typeof makeHomeCategoriesExpandable === 'function') makeHomeCategoriesExpandable();
   }
   if(document.body.dataset.category) category();
+})();
+
+// Final description sync after every calculator registration.
+(function(){
+  if(typeof calculators==='undefined')return;
+  const finalDescriptions={
+    'length-conversion':'mm, cm, m, km, inch, ft, yd, mile 등 길이 단위를 서로 변환하고 실생활 기준 길이를 빠르게 비교합니다.',
+    'area-unit-conversion':'제곱미터, 평, 제곱피트, 에이커 등 면적 단위를 입력값 기준으로 변환합니다.',
+    'weight-conversion':'mg, g, kg, ton, lb, oz 등 무게 단위를 물류, 운동, 생활 상황에 맞게 변환합니다.',
+    'temperature-conversion':'섭씨, 화씨, 켈빈 온도를 서로 변환하고 날씨·요리·실험 기준 온도를 확인합니다.',
+    'volume-conversion':'mL, L, m3, 컵, 갤런 등 부피 단위를 요리, 생활, 물류 기준으로 변환합니다.',
+    'speed-conversion':'m/s, km/h, mph, knot 등 속도 단위를 이동, 운동, 운전 상황에 맞게 변환합니다.',
+    electricity:'에어컨 소비전력, 사용 시간, 사용 일수만으로 월 예상 전기요금과 절약 효과를 쉽게 계산합니다.',
+    'fuel-cost':'주행거리, 연비, 유가, 반복 횟수를 입력해 총 주유비와 1인당 교통비를 계산합니다.',
+    'pet-age':'강아지와 고양이 나이를 사람 나이로 환산하고 생애 단계와 관리 포인트를 함께 확인합니다.',
+    'monthly-rent-deduction':'월세, 총급여, 무주택 여부를 바탕으로 연말정산 월세 세액공제 예상액을 계산합니다.'
+  };
+  Object.entries(finalDescriptions).forEach(([id,description])=>{
+    if(calculators[id])calculators[id].d=description;
+  });
+  const current=document.body.dataset.calculator;
+  if(current&&calculators[current]){
+    document.querySelector('meta[name="description"]')?.setAttribute('content',calculators[current].d);
+    const lead=document.querySelector('#calculator .lead');
+    if(lead)lead.textContent=calculators[current].d;
+  }
+  if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();}
+  if(document.body.dataset.category&&typeof category==='function')category();
+  if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
 })();
