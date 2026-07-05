@@ -37,7 +37,7 @@
     'income-tax':'근로소득세 계산기',
     'loan-interest':'대출 이자 계산기',
     'jeonse-loan':'전세대출 이자 계산기',
-    'compound-interest':'복리 계산기',
+    'compound-interest':'적립식 복리 계산기',
     'loan-schedule':'대출 상환 스케줄 계산기',
     'employee-health-insurance':'직장인 건강보험료 계산기',
     'annual-salary':'연봉 계산기',
@@ -224,11 +224,11 @@
 
   if(slug === 'compound-interest'){
     renderShell(
-      '복리 계산기',
-      '초기 원금, 월 추가 납입액, 수익률, 기간을 입력해 복리 투자 결과를 계산합니다.',
-      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ci-start','초기 원금(원)','10000000')}${field('ci-monthly','월 추가 납입액(원)','300000')}${field('ci-rate','연 수익률(%)','6')}${field('ci-years','투자 기간(년)','10','1')}</div><button class="primary-btn" id="ci-calc" type="button">복리 계산하기</button></div><div class="result" id="ci-result" aria-live="polite"></div></section>`,
+      '적립식 복리 계산기',
+      '초기 원금, 월 추가 납입액, 연 수익률, 투자 기간을 입력해 장기 적립식 투자 결과를 계산합니다.',
+      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ci-start','초기 원금(원)','10000000')}${field('ci-monthly','월 추가 납입액(원)','300000')}${field('ci-rate','연 수익률(%)','6')}${field('ci-years','투자 기간(년)','10','1')}</div><button class="primary-btn" id="ci-calc" type="button">적립식 복리 계산하기</button></div><div class="result" id="ci-result" aria-live="polite"></div></section>`,
       '수익률이 매월 동일하게 적용된다고 가정한 단순 시뮬레이션입니다. 실제 투자는 가격 변동, 세금, 수수료, 환율, 중도 입출금에 따라 달라질 수 있습니다.',
-      '<section class="content-block"><h2>복리 결과를 보는 방법</h2><p>최종 금액뿐 아니라 총 납입 원금, 예상 수익, 연도별 잔액을 함께 보면 장기 투자 흐름을 이해하기 쉽습니다.</p></section>'
+      '<section class="content-block"><h2>적립식 복리란?</h2><p>적립식 복리는 처음 넣어둔 원금에 매달 추가 납입액을 더하면서, 이전에 붙은 수익까지 다시 투자된다고 보고 계산하는 방식입니다. 같은 수익률이라도 기간이 길어질수록 원금과 수익이 함께 불어나기 때문에 장기 투자 계획을 세울 때 유용합니다.</p><div class="info-table-wrap"><table class="rate-table"><tbody><tr><th>초기 원금</th><td>처음 투자해 두는 금액입니다. 이미 모아둔 투자금이 없다면 0원으로 입력해도 됩니다.</td></tr><tr><th>월 추가 납입액</th><td>매달 꾸준히 더 넣을 금액입니다. 적립식 투자에서는 이 값이 최종 금액에 큰 영향을 줍니다.</td></tr><tr><th>연 수익률</th><td>1년 동안 기대하는 평균 수익률입니다. 실제 수익률은 매년 달라질 수 있으므로 보수적으로 입력하는 것이 좋습니다.</td></tr><tr><th>투자 기간</th><td>복리 효과는 시간이 길수록 커집니다. 5년, 10년, 20년처럼 여러 기간을 비교해 보세요.</td></tr></tbody></table></div></section><section class="content-block"><h2>결과를 해석하는 방법</h2><p>결과 화면의 총 납입 원금은 직접 넣은 돈의 합계이고, 예상 수익은 최종 금액에서 원금을 뺀 금액입니다. 연도별 표를 보면 언제부터 수익 증가 속도가 커지는지 확인할 수 있습니다.</p><ul><li><strong>저축 목표 점검</strong>: 매달 얼마를 넣어야 목표 금액에 가까워지는지 비교할 수 있습니다.</li><li><strong>수익률 민감도 확인</strong>: 연 수익률을 3%, 5%, 7%처럼 바꿔 보며 기대치 차이를 확인하세요.</li><li><strong>무리한 가정 피하기</strong>: 높은 수익률은 손실 가능성도 커질 수 있으므로 참고용으로만 보세요.</li></ul></section>'
     );
     root.querySelector('#ci-calc').onclick = () => {
       const start = num('ci-start');

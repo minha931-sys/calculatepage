@@ -149,7 +149,7 @@
     if(!slug || !relatedBox || relatedBox.dataset.improvedRelated) return;
     const labels = {
       percent:'퍼센트 계산기',discount:'할인율 계산기',salary:'월급 실수령액 계산기',gpa:'학점 계산기','d-day':'디데이 계산기','dutch-pay':'더치페이 계산기',
-      'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'복리 계산기','loan-interest':'대출 이자 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
+      'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'적립식 복리 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
       'freelance-rate':'프리랜서 단가 계산기','work-hours':'근무시간 계산기',wage:'시급 계산기',date:'날짜 계산기','day-count':'일수 계산기',age:'나이 계산기','international-age':'만나이 계산기',
       'average-score':'평균 점수 계산기','target-gpa':'목표 학점 계산기',retake:'재수강 학점 계산기','school-grade':'내신 등급 계산기','grade-cutoff':'등급컷 계산기','exam-dday':'시험 D-day 계산기','exam-target':'시험 성적 목표 계산기',
       'area-conversion':'평수 계산기',unit:'단위 변환 계산기',scale:'스케일 계산기',cbm:'CBM 계산기','volumetric-weight':'부피무게 계산기','interior-estimate':'인테리어 견적 계산기','real-estate-brokerage':'부동산 중개보수 계산기',
@@ -167,7 +167,8 @@
       'd-day':['date','day-count','exam-dday','age'],
       'dutch-pay':['budget','travel-budget','shipping-split','discount'],
       'savings-interest':['installment','compound-interest','loan-interest','budget'],
-      'loan-interest':['loan-schedule','dsr','prepayment-fee','savings-interest'],
+      'loan-interest':['mortgage-loan','loan-schedule','dsr','prepayment-fee'],
+      'mortgage-loan':['loan-interest','loan-schedule','dsr','prepayment-fee'],
       budget:['salary','dutch-pay','savings-interest','travel-budget'],
       vat:['estimate','margin','freelance-rate','percent'],
       margin:['vat','estimate','discount','freelance-rate'],
@@ -416,7 +417,7 @@
   if(!root)return;
   return;
   const slug=document.body.dataset.calculator||document.body.dataset.customCalculator||document.body.dataset.batch;
-  const targets=['salary','four-insurance','income-tax','loan-interest','jeonse-loan','compound-interest'];
+  const targets=['salary','four-insurance','income-tax','loan-interest','jeonse-loan','compound-interest','mortgage-loan'];
   if(!targets.includes(slug))return;
 
   const money=n=>Math.round(Number(n)||0).toLocaleString('ko-KR')+'원';
@@ -426,17 +427,18 @@
   const field=(id,label,placeholder,step='any')=>`<label><span>${label}</span><input id="${id}" type="number" min="0" step="${step}" inputmode="decimal" placeholder="예: ${placeholder}"></label>`;
   const select=(id,label,items)=>`<label><span>${label}</span><select id="${id}">${items.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select></label>`;
   const card=(label,value,small='')=>`<div><span>${label}</span><b>${value}</b>${small?`<small>${small}</small>`:''}</div>`;
-  const category={salary:['money','금융'], 'four-insurance':['business','업무'], 'income-tax':['business','업무'], 'loan-interest':['money','금융'], 'jeonse-loan':['money','금융'], 'compound-interest':['money','금융']}[slug];
+  const category={salary:['money','금융'], 'four-insurance':['business','업무'], 'income-tax':['business','업무'], 'loan-interest':['money','금융'], 'jeonse-loan':['money','금융'], 'compound-interest':['money','금융'], 'mortgage-loan':['money','금융']}[slug];
   const top=`<a class="calculator-home category-more-link" href="/categories/${category[0]}.html">${category[1]} 카테고리 더보기</a>`;
   const related={
     salary:['four-insurance','income-tax','annual-salary','employee-health-insurance'],
     'four-insurance':['salary','employee-health-insurance','income-tax','annual-salary'],
     'income-tax':['salary','four-insurance','annual-salary','withholding-33'],
-    'loan-interest':['loan-schedule','jeonse-loan','prepayment-fee','dsr'],
+    'loan-interest':['mortgage-loan','loan-schedule','jeonse-loan','prepayment-fee'],
+    'mortgage-loan':['loan-interest','loan-schedule','dsr','prepayment-fee'],
     'jeonse-loan':['loan-interest','loan-schedule','dsr','rent-conversion'],
     'compound-interest':['savings-interest','installment','cagr','roi']
   }[slug]||[];
-  const names={salary:'월급 실수령액 계산기','four-insurance':'4대보험 계산기','income-tax':'근로소득세 계산기','loan-interest':'대출 이자 계산기','jeonse-loan':'전세대출 이자 계산기','compound-interest':'복리 계산기','loan-schedule':'대출 상환 스케줄 계산기','employee-health-insurance':'직장인 건강보험료 계산기','annual-salary':'연봉 계산기','withholding-33':'원천징수 3.3% 계산기','prepayment-fee':'중도상환수수료 계산기',dsr:'DSR 계산기','rent-conversion':'전월세 전환 계산기','savings-interest':'예금 이자 계산기',installment:'적금 계산기',cagr:'CAGR 계산기',roi:'ROI 계산기'};
+  const names={salary:'월급 실수령액 계산기','four-insurance':'4대보험 계산기','income-tax':'근로소득세 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기','jeonse-loan':'전세대출 이자 계산기','compound-interest':'적립식 복리 계산기','loan-schedule':'대출 상환 스케줄 계산기','employee-health-insurance':'직장인 건강보험료 계산기','annual-salary':'연봉 계산기','withholding-33':'원천징수 3.3% 계산기','prepayment-fee':'중도상환수수료 계산기',dsr:'DSR 계산기','rent-conversion':'전월세 전환 계산기','savings-interest':'예금 이자 계산기',installment:'적금 계산기',cagr:'CAGR 계산기',roi:'ROI 계산기'};
   const relatedHtml=related.map(id=>`<a href="/calculators/${id}.html">${names[id]||id}</a>`).join('');
   const renderShell=(title,lead,body,note,guide='')=>{
     root.innerHTML=`${top}<h1>${title}</h1><p class="lead">${lead}</p>${body}<p class="calculator-note">${note}</p>${guide}<section class="content-block"><h2>관련 계산기</h2><div class="related">${relatedHtml}</div></section>`;
@@ -564,30 +566,26 @@
   }
 
   if(slug==='compound-interest'){
-    renderShell('복리 계산기','초기 원금, 월 추가 납입액, 수익률, 기간을 입력해 복리 투자 결과와 목표 달성 기간을 계산합니다.',
-      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ci-start','초기 원금(원)','10000000')}${field('ci-monthly','월 추가 납입액(원)','300000')}${field('ci-rate','연 수익률(%)','6')}${field('ci-years','투자 기간(년)','10','1')}${field('ci-target','목표 금액(원, 선택)','100000000')}<label><span>세금 반영</span><select id="ci-tax"><option value="no">세전 수익률</option><option value="yes">수익에 15.4% 과세</option></select></label></div><button class="primary-btn" id="ci-calc" type="button">복리 계산하기</button></div><div class="result" id="ci-result" aria-live="polite"></div></section>`,
+    renderShell('적립식 복리 계산기','초기 원금, 월 추가 납입액, 수익률, 기간을 입력해 적립식 복리 투자 결과를 계산합니다.',
+      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ci-start','초기 원금(원)','10000000')}${field('ci-monthly','월 추가 납입액(원)','300000')}${field('ci-rate','연 수익률(%)','6')}${field('ci-years','투자 기간(년)','10','1')}</div><button class="primary-btn" id="ci-calc" type="button">적립식 복리 계산하기</button></div><div class="result" id="ci-result" aria-live="polite"></div></section>`,
       '수익률이 매월 동일하게 적용된다고 가정한 단순 시뮬레이션입니다. 실제 투자는 가격 변동, 세금, 수수료, 환율, 중도 입출금에 따라 달라질 수 있습니다.',
       '<section class="content-block"><h2>복리 결과를 보는 방법</h2><p>최종 금액뿐 아니라 총 납입 원금, 예상 수익, 연도별 잔액을 함께 보면 장기 투자 흐름을 이해하기 쉽습니다.</p></section>');
     root.querySelector('#ci-calc').onclick=()=>{
-      const start=num('ci-start'), monthly=num('ci-monthly'), years=Math.round(num('ci-years')), target=num('ci-target'), annual=num('ci-rate')/100;
+      const start=num('ci-start'), monthly=num('ci-monthly'), years=Math.round(num('ci-years')), annual=num('ci-rate')/100;
       if(!years)return invalid('ci-result','투자 기간을 입력해 주세요.');
       const monthlyRate=Math.pow(1+annual,1/12)-1;
-      let balance=start, principal=start, targetMonth=target&&balance>=target?0:null;
+      let balance=start, principal=start;
       const rows=[];
       for(let m=1;m<=years*12;m++){
         balance=balance*(1+monthlyRate)+monthly;
         principal+=monthly;
-        if(target&&targetMonth===null&&balance>=target)targetMonth=m;
         if(m%12===0){
           const y=m/12;
           rows.push(`<tr><td>${y}년</td><td>${money(balance)}</td><td>${money(principal)}</td><td>${money(balance-principal)}</td></tr>`);
         }
       }
-      let gain=balance-principal;
-      let finalBalance=balance;
-      if(val('ci-tax')==='yes'&&gain>0){finalBalance=principal+gain*(1-.154);gain=finalBalance-principal;}
-      const targetText=target?targetMonth===null?'기간 내 목표 미달':targetMonth===0?'이미 목표 달성':`${Math.floor(targetMonth/12)}년 ${targetMonth%12}개월`:'-';
-      show('ci-result',`<div class="savings-result-grid">${card('예상 최종 금액',money(finalBalance))}${card('총 납입 원금',money(principal))}${card('예상 수익',money(gain))}${card('목표 달성 예상',targetText)}</div><div class="loan-schedule-table-wrap"><table class="loan-schedule-table"><thead><tr><th>기간</th><th>예상 잔액</th><th>누적 원금</th><th>누적 수익</th></tr></thead><tbody>${rows}</tbody></table></div>`);
+      const gain=balance-principal;
+      show('ci-result',`<div class="savings-result-grid">${card('예상 최종 금액',money(balance))}${card('총 납입 원금',money(principal))}${card('예상 수익',money(gain))}${card('투자 기간',years+'년')}</div><div class="loan-schedule-table-wrap"><table class="loan-schedule-table"><thead><tr><th>기간</th><th>예상 잔액</th><th>누적 원금</th><th>누적 수익</th></tr></thead><tbody>${rows}</tbody></table></div>`);
     };
   }
 })();
@@ -798,7 +796,7 @@
   if(!slug)return;
 
   const categoryMap={
-    money:['percent','discount','savings-interest','installment','loan-interest','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
+    money:['percent','discount','savings-interest','installment','loan-interest','mortgage-loan','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
     education:['gpa','target-gpa','retake','school-grade','grade-cutoff','average-score','exam-dday','exam-target','expected-value'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age','area-conversion'],
@@ -887,9 +885,9 @@
   const sensitive={
     tax:['vat','income-tax','capital-gains-tax','gift-tax','property-tax','comprehensive-income-tax','comprehensive-real-estate-tax','withholding-33','monthly-rent-deduction','lotto-tax','car-tax','car-acquisition-tax','real-estate-acquisition-tax','youth-leap-account'],
     labor:['salary','annual-salary','employee-health-insurance','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
-    finance:['loan-interest','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
+    finance:['loan-interest','mortgage-loan','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
-    realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
+    realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','mortgage-loan','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
   };
 
   function typeOfSlug(){
@@ -915,6 +913,7 @@
     'annual-salary':['연봉을 비교할 때 확인할 점',['계약 연봉이 상여 포함인지 별도인지 먼저 확인하세요.','12개월, 13개월, 14개월 분할 지급 여부에 따라 월 수령액 체감이 달라집니다.','실수령액 비교는 월 비과세액과 예상 공제율을 함께 넣어 보는 것이 좋습니다.']],
     vat:['부가세 계산에서 자주 헷갈리는 기준',['공급가액 기준이면 부가세를 더하고, 부가세 포함 금액 기준이면 1.1로 나누어 공급가액을 구합니다.','면세, 간이과세, 영세율 거래는 일반 10% 계산과 다를 수 있습니다.','견적서나 세금계산서 작성 전에는 거래 유형과 공급가액 기준을 확인하세요.']],
     'loan-interest':['대출 이자 계산 전 체크리스트',['금리는 연 이자율 기준으로 입력해야 월 납입액이 맞게 계산됩니다.','중도상환수수료, 인지세, 보증료, 거치기간은 별도 비용으로 확인해야 합니다.','원리금균등과 원금균등은 총 이자와 초기 월 납입액이 크게 다릅니다.']],
+    'mortgage-loan':['주택담보대출 계산 전 체크리스트',['LTV와 DSR 기준은 지역, 주택가격, 보유주택 수, 대출 목적, 정책 시점에 따라 달라질 수 있습니다.','주담대는 중도상환수수료, 인지세, 보증료, 우대금리 조건까지 함께 확인해야 실제 부담을 알 수 있습니다.','변동금리 상품은 향후 금리 상승 시 월 상환액이 커질 수 있으므로 여유 현금흐름을 함께 보세요.']],
     'savings-interest':['예금 이자 결과를 해석하는 방법',['표시 금리는 보통 연 이율이므로 예치 기간에 따라 실제 이자는 달라집니다.','세후 금액은 이자소득세 적용 여부에 따라 달라질 수 있습니다.','우대금리 조건을 충족하지 못하면 만기 수령액이 줄어들 수 있습니다.']],
     'area-conversion':['평수 계산에서 확인할 점',['아파트 광고의 평형은 공급면적 기준인 경우가 많고, 실제 생활 공간은 전용면적 기준으로 보는 것이 좋습니다.','1평은 일반적으로 3.305785㎡로 계산합니다.','전용률은 단지와 주택 유형에 따라 달라지므로 분양면적표와 등기 정보를 함께 확인하세요.']],
     bmi:['BMI 결과를 볼 때 주의할 점',['BMI는 키와 몸무게만 반영해 근육량과 체지방 분포를 구분하지 못합니다.','운동선수, 고령자, 임산부, 성장기 청소년은 일반 성인 기준과 다르게 해석해야 합니다.','건강 판단은 허리둘레, 혈압, 혈액검사 등 다른 지표와 함께 보는 것이 좋습니다.']],
@@ -1526,7 +1525,7 @@
 
   const categoryMap = {
     money: [
-      'percent','discount','savings-interest','installment','loan-interest','salary','budget',
+      'percent','discount','savings-interest','installment','loan-interest','mortgage-loan','salary','budget',
       'averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan',
       'car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration',
       'stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment',

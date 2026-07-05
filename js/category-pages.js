@@ -20,8 +20,8 @@
       lead:'대출 이자, 예금 이자, 월급 실수령액, 세금, 투자 계산까지 생활에 필요한 금융 계산기를 한곳에 모았습니다.',
       recommend:['loan-interest','savings-interest','salary','unemployment-benefit','stock-leverage'],
       groups:[
-        {title:'대출 / 이자',desc:'월 이자, 총 상환액, 대출 부담률을 먼저 확인할 때 사용하세요.',ids:['loan-interest','loan-schedule','jeonse-loan','prepayment-fee','dsr']},
-        {title:'예금 / 적금',desc:'저축 만기 금액과 세후 이자를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account']},
+        {title:'대출 / 이자',desc:'월 이자, 총 상환액, 대출 부담률을 먼저 확인할 때 사용하세요.',ids:['mortgage-loan','loan-interest','loan-schedule','jeonse-loan','prepayment-fee','dsr']},
+        {title:'예금 / 적금',desc:'저축 만기 금액, 세후 이자, 월 납입 복리 투자 결과를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account']},
         {title:'월급 / 생활비',desc:'월 실수령액과 건강보험료, 생활 예산, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','employee-health-insurance','budget','unemployment-benefit','daily-proration','rent-conversion']},
         {title:'부동산 / 임대',desc:'복비, 취득세, 종부세, 임대수익률처럼 부동산 거래와 보유 비용을 점검하세요.',ids:['real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield','property-tax']},
         {title:'세금 / 공제',desc:'세금과 공제 예상액을 빠르게 보고 신고 전 체크리스트로 활용하세요.',ids:['capital-gains-tax','gift-tax','monthly-rent-deduction','property-tax','car-acquisition-tax','lotto-tax']},
