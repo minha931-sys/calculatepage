@@ -921,7 +921,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     'comprehensive-income-tax':'수입, 필요경비, 공제, 기납부세액을 입력해 종합소득세를 참고용으로 계산합니다.',
     'shipping-split':'배송비와 주문 금액을 기준으로 사람별 또는 항목별 배송비 분담액을 계산합니다.',
     exchange:'환율과 금액을 입력해 원화와 외화 금액을 빠르게 환산합니다.',
-    'housing-subscription':'무주택 기간, 부양가족, 청약통장 가입 기간을 기준으로 청약 가점을 계산합니다.'
+    'housing-subscription':'무주택기간, 부양가족 수, 청약통장 가입기간을 실제 가점표 구간으로 선택해 84점 만점 기준 청약 가점을 계산합니다.'
   };
   Object.entries(descriptions).forEach(([id,description])=>{
     if(calculators[id])calculators[id].d=description;
