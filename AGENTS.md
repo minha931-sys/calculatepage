@@ -18,6 +18,14 @@ Coding rules for this static calculator website.
 - Add or update related links, category registration, search data, sitemap, and SEO text when adding calculators.
 - If search volume/current facts are requested, verify with web sources before deciding.
 
+Encoding and shared-render safety rules.
+- Never edit or rewrite UTF-8 files with PowerShell `Get-Content | Set-Content`, `Out-File`, shell redirection, or line-number replacement scripts.
+- Use `apply_patch` for manual edits. If a patch does not match because of encoding or text differences, stop and inspect instead of rewriting the file.
+- Treat `js/app.js`, `js/category-pages.js`, shared CSS, and `AGENTS.md` as high-risk shared files because one syntax or encoding error can break the home and category pages.
+- Before editing shared files, identify the exact block to change. After editing, run `git diff --check` and inspect the diff for mojibake, broken Korean text, unclosed quotes, or unexpectedly large rewrites.
+- Prefer standalone calculator page scripts for calculator-specific logic. Add only small isolated registration blocks to shared files when search, category, or home exposure requires it.
+- Do not save files through tools that may change encoding. Korean text must remain readable in the diff before finishing.
+
 When modifying code, answer:
 
 1. 수정 파일

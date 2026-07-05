@@ -1035,6 +1035,45 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.body.dataset.category) category();
 })();
 
+// CPM and JLPT calculator registration.
+(function(){
+  if(typeof calculators === 'undefined' || typeof cats === 'undefined') return;
+  Object.assign(calculators,{
+    cpm:{
+      n:'CPM 계산기',
+      c:'business',
+      d:'광고비, 노출수, CPM 중 필요한 값을 선택해 여러 광고 항목을 한 번에 계산합니다.'
+    },
+    'jlpt-score':{
+      n:'JLPT 점수 계산기',
+      c:'education',
+      d:'JLPT N1~N5 급수별 합격점과 과락 기준을 반영해 종합점수와 합격 여부를 계산합니다.'
+    }
+  });
+  const add=(cat,ids)=>{
+    if(!cats[cat]) return;
+    const set=new Set((cats[cat][3]+' '+ids).trim().split(/\s+/).filter(Boolean));
+    cats[cat][3]=[...set].join(' ');
+  };
+  add('business','cpm');
+  add('education','jlpt-score');
+  if(typeof searchAliases !== 'undefined'){
+    Object.assign(searchAliases,{
+      cpm:'cpm 광고비 노출수 노출당비용 1000회노출 광고효율 매체비 캠페인',
+      'jlpt-score':'jlpt 일본어능력시험 n1 n2 n3 n4 n5 합격점 과락 점수 일본어 시험'
+    });
+  }
+  if(typeof searchBoostIds !== 'undefined'){
+    ['cpm','jlpt-score'].forEach(id=>{ if(!searchBoostIds.includes(id)) searchBoostIds.push(id); });
+  }
+  if(document.querySelector('.popular-list')){
+    home();
+    if(typeof improveCalculatorSearch === 'function') improveCalculatorSearch();
+    if(typeof makeHomeCategoriesExpandable === 'function') makeHomeCategoriesExpandable();
+  }
+  if(document.body.dataset.category && typeof category === 'function') category();
+})();
+
 // Final description sync after every calculator registration.
 (function(){
   if(typeof calculators==='undefined')return;
@@ -1062,4 +1101,143 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();}
   if(document.body.dataset.category&&typeof category==='function')category();
   if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
+})();
+
+// 설명이 짧은 계산기 페이지에 사용 방법과 결과 해석 표를 보강합니다.
+(function(){
+  const root=document.querySelector('#calculator');
+  const key=document.body.dataset.calculator||document.body.dataset.customCalculator||document.body.dataset.advancedCalculator||document.body.dataset.taxCalculator||document.body.dataset.propertyLaborCalculator||document.body.dataset.batch||document.body.dataset.hotCalculator||document.body.dataset.misc||document.body.dataset.level;
+  if(!root||!key||['cpm','jlpt-score'].includes(key))return;
+  const categoryFallback=()=>{
+    if(/tax|vat|salary|wage|leave|severance|insurance|benefit|income|pension|loan|interest|installment|stock|roi|cagr|rent|property|estate|subscription|fee|estimate|margin|break|freelance|withholding/.test(key))return 'money';
+    if(/bmi|bmr|calorie|water|exercise|weight|pace|body|ovulation|menstrual|pregnancy/.test(key))return 'health';
+    if(/gpa|grade|score|exam|jlpt/.test(key))return 'education';
+    if(/conversion|unit|scale|cbm|volume|weight|length|speed|temperature/.test(key))return 'conversion';
+    return 'life';
+  };
+  const category=calculators?.[key]?.c||categoryFallback();
+  const title=()=>root.querySelector('h1')?.textContent?.trim()||calculators?.[key]?.n||'계산기';
+  const description=()=>root.querySelector('.lead')?.textContent?.trim()||calculators?.[key]?.d||'필요한 값을 입력해 결과를 확인하세요.';
+  const templates={
+    money:{
+      intro:'금액 관련 계산은 입력 기준이 조금만 달라도 결과가 달라질 수 있습니다. 세전·세후, 월·연 단위, 포함·제외 조건을 먼저 맞춘 뒤 계산하면 결과를 더 안정적으로 비교할 수 있습니다.',
+      rows:[['입력 기준','금액 단위, 기간, 세율 또는 금리를 같은 기준으로 맞춥니다.','서로 다른 기준을 섞으면 결과 비교가 어려워집니다.'],['결과 해석','월 부담액, 총액, 차액 중 어떤 값을 볼지 정합니다.','대출·세금·급여처럼 실제 지급 시점이 중요한 계산에 도움이 됩니다.'],['확인 사항','계약 조건, 제도 변경, 수수료, 공제 항목을 함께 봅니다.','최종 금액은 기관·상품·신고 기준에 따라 달라질 수 있습니다.']],
+      note:'금융·세금·급여 결과는 참고용 예상값입니다. 실제 계약, 신고, 신청 전에는 금융기관, 세무·노무 기준, 공식 안내를 함께 확인하세요.'
+    },
+    business:{
+      intro:'업무 계산기는 견적, 정산, 판매가, 인건비처럼 반복해서 확인하는 숫자를 빠르게 정리하는 데 유용합니다. 실제 문서에 반영하기 전에는 거래 조건과 포함 항목을 한 번 더 맞춰 보세요.',
+      rows:[['입력 기준','수량, 단가, 세금 포함 여부, 작업 범위를 같은 기준으로 입력합니다.','견적과 정산의 기준이 명확해집니다.'],['결과 해석','공급가액, 부가세, 마진, 인건비 중 핵심 값을 확인합니다.','가격 결정이나 청구 금액 검토에 활용할 수 있습니다.'],['확인 사항','할인, 수수료, 운송비, 수정 범위, 계약 조건을 별도로 점검합니다.','실제 청구액과 계산값의 차이를 줄일 수 있습니다.']],
+      note:'업무용 계산 결과는 내부 검토용입니다. 거래처에 전달하는 견적서나 계약서에는 세부 조건을 별도로 명시하는 것이 좋습니다.'
+    },
+    education:{
+      intro:'성적과 시험 관련 계산은 학교·시험별 기준이 다를 수 있습니다. 계산 결과는 현재 위치를 빠르게 파악하고, 남은 기간의 학습 계획을 세우는 참고값으로 보는 것이 좋습니다.',
+      rows:[['입력 기준','점수, 학점, 석차, 전체 인원처럼 성적 산정에 쓰는 값을 정확히 입력합니다.','기준이 맞아야 예상 등급이나 평균이 흔들리지 않습니다.'],['결과 해석','목표까지 부족한 점수, 평균, 등급 구간을 확인합니다.','어떤 과목이나 영역을 먼저 보완할지 정할 수 있습니다.'],['확인 사항','학교별 반영 비율, 재수강 규정, 동점자 처리, 시험별 과락 기준을 확인합니다.','실제 성적표와 계산 결과의 차이를 이해하는 데 도움이 됩니다.']],
+      note:'교육 계산기는 학습 계획용 참고 도구입니다. 최종 성적, 등급, 합격 여부는 학교·시험 주관기관의 공식 기준을 따릅니다.'
+    },
+    health:{
+      intro:'건강 계산기는 키, 몸무게, 활동량, 날짜처럼 입력한 값으로 일반적인 범위를 추정합니다. 개인의 질환, 복용 약, 임신·수유, 운동 경력에 따라 적절한 기준은 달라질 수 있습니다.',
+      rows:[['입력 기준','키, 체중, 나이, 활동량, 날짜를 현재 상태에 맞게 입력합니다.','오래된 값보다 최근 값을 쓰는 편이 좋습니다.'],['결과 해석','권장 범위, 예상 소모량, 목표값을 확인합니다.','생활 습관을 점검하는 출발점으로 활용할 수 있습니다.'],['확인 사항','통증, 질환, 임신, 급격한 체중 변화가 있으면 전문가 상담을 우선합니다.','계산 결과만으로 건강 상태를 진단하지 않기 위해서입니다.']],
+      note:'건강 관련 결과는 의료 진단이 아닌 일반 참고값입니다. 증상이나 질환이 있으면 의료 전문가의 판단을 우선하세요.'
+    },
+    conversion:{
+      intro:'단위 변환은 숫자보다 기준 단위가 더 중요합니다. 같은 값이라도 mm, cm, m처럼 단위가 바뀌면 결과가 크게 달라질 수 있으므로 입력 단위와 결과 단위를 함께 확인하세요.',
+      rows:[['입력 기준','값과 변환 전 단위를 먼저 확인합니다.','도면, 배송, 요리, 운동 기록에서 단위 혼동을 줄일 수 있습니다.'],['결과 해석','변환된 값의 단위와 반올림 정도를 확인합니다.','실제 주문, 제작, 배송 기준에 맞게 조정할 수 있습니다.'],['확인 사항','업계별 반올림, 운송사 기준, 국가별 표기 차이를 함께 봅니다.','실제 청구 중량이나 규격 판단은 별도 기준이 있을 수 있습니다.']],
+      note:'단위 변환 결과는 일반 환산 기준입니다. 배송비, 제작 규격, 공식 서류에는 해당 기관이나 업체의 기준을 확인하세요.'
+    },
+    life:{
+      intro:'생활 계산기는 날짜, 시간, 나이, 정산처럼 일상에서 자주 헷갈리는 값을 빠르게 정리하는 용도입니다. 기준일, 포함 여부, 인원수처럼 작은 조건을 먼저 맞추면 결과를 더 쉽게 이해할 수 있습니다.',
+      rows:[['입력 기준','날짜, 시간, 인원수, 금액처럼 계산의 기준이 되는 값을 정확히 입력합니다.','기준이 명확해야 결과를 다시 설명하기 쉽습니다.'],['결과 해석','남은 일수, 1인당 금액, 변환값 등 바로 쓸 값을 확인합니다.','일정 계획이나 정산 공유에 활용할 수 있습니다.'],['확인 사항','포함일, 반올림, 시간대, 개인별 예외 금액을 따로 점검합니다.','실제 상황과 계산값의 차이를 줄일 수 있습니다.']],
+      note:'생활 계산 결과는 입력값 기준의 참고값입니다. 중요한 일정, 예약, 결제 전에는 원문 일정이나 결제 내역을 함께 확인하세요.'
+    }
+  };
+  const priorityGuides={
+    'loan-interest':{
+      intro:'대출 이자는 원금, 금리, 기간뿐 아니라 상환 방식에 따라 월 납입액과 총이자가 크게 달라집니다. 같은 금리라도 원리금균등, 원금균등, 만기일시상환 중 어떤 구조를 선택하는지에 따라 초반 부담과 전체 비용이 달라지므로 결과를 나눠 보는 것이 좋습니다.',
+      rows:[['입력 기준','대출 원금, 연 이자율, 상환 기간을 같은 상품 조건 기준으로 입력합니다.','금리와 기간이 조금만 달라도 총이자가 크게 달라집니다.'],['결과 해석','월 납입액과 총이자, 총 상환액을 함께 봅니다.','월 부담이 낮아도 총이자가 커질 수 있어 전체 비용 확인이 필요합니다.'],['확인 사항','중도상환수수료, 거치기간, 인지세, 우대금리 조건을 별도로 확인합니다.','실제 대출 실행 금액은 금융기관 조건에 따라 달라질 수 있습니다.']],
+      note:'대출 계산 결과는 상환 구조를 비교하기 위한 참고용입니다. 실제 약정 전에는 금융기관의 상환표와 수수료 조건을 반드시 확인하세요.'
+    },
+    salary:{
+      intro:'월급 실수령액은 세전 급여에서 국민연금, 건강보험, 고용보험, 소득세, 지방소득세 등 여러 공제 항목을 제외한 금액입니다. 같은 연봉이라도 부양가족, 비과세 수당, 공제 조건에 따라 실제 입금액이 달라질 수 있습니다.',
+      rows:[['입력 기준','세전 월급 또는 연봉 기준을 먼저 맞추고 공제 조건을 확인합니다.','월급 기준과 연봉 기준을 섞으면 실수령액 비교가 어려워집니다.'],['결과 해석','예상 공제액과 실제 입금될 금액을 구분해서 봅니다.','급여 협상이나 예산 계획에서 쓸 수 있는 금액을 파악할 수 있습니다.'],['확인 사항','비과세 식대, 부양가족, 4대보험 보수월액, 소득세 간이세액표 차이를 확인합니다.','회사 급여 시스템과 계산 결과가 달라질 수 있는 주요 원인입니다.']],
+      note:'급여 계산은 참고용 예상값입니다. 실제 급여명세서는 회사의 신고 기준과 공제 조건을 우선합니다.'
+    },
+    vat:{
+      intro:'부가세 계산은 공급가액을 기준으로 10%를 더하는 경우와, 이미 부가세가 포함된 합계 금액에서 공급가액을 역산하는 경우로 나뉩니다. 견적서나 세금계산서를 작성할 때는 어느 금액을 기준으로 말하는지 명확히 하는 것이 중요합니다.',
+      rows:[['공급가액 기준','공급가액에 10%를 더해 부가세와 합계 금액을 계산합니다.','판매자 견적이나 세금계산서 작성에 자주 쓰입니다.'],['포함 금액 기준','최종 결제 금액을 1.1로 나누어 공급가액을 역산합니다.','영수증의 총액에서 세전 금액을 확인할 때 유용합니다.'],['확인 사항','면세, 영세율, 간이과세, 업종별 예외 여부를 확인합니다.','모든 거래에 일반과세 10%가 적용되는 것은 아닙니다.']],
+      note:'이 계산기는 일반적인 부가세 10% 기준 참고용입니다. 실제 신고나 세금계산서 발행 전에는 거래 유형과 과세 기준을 확인하세요.'
+    },
+    severance:{
+      intro:'퇴직금은 계속근로기간과 평균임금을 기준으로 계산합니다. 최근 3개월 임금에 포함되는 항목, 입사일과 퇴사일, 휴직이나 결근 처리 방식에 따라 결과가 달라질 수 있어 입력 기준을 명확히 하는 것이 중요합니다.',
+      rows:[['입력 기준','입사일, 퇴사일, 최근 임금 또는 평균임금 기준을 확인합니다.','근속기간과 평균임금이 퇴직금의 핵심입니다.'],['결과 해석','예상 퇴직금과 근속기간을 함께 봅니다.','1년 이상 계속근로 여부와 금액 규모를 빠르게 확인할 수 있습니다.'],['확인 사항','상여금, 연차수당, 휴직기간, 평균임금 산정 제외 기간을 확인합니다.','실제 지급액과 계산값이 달라지는 대표적인 원인입니다.']],
+      note:'퇴직금 계산은 노무 검토용 예상값입니다. 분쟁이나 지급 확정이 필요한 경우 근로계약서, 임금명세서, 고용노동부 기준을 함께 확인하세요.'
+    },
+    'weekly-holiday-pay':{
+      intro:'주휴수당은 일정한 근로 조건을 충족했을 때 유급휴일에 대해 지급되는 수당입니다. 시급과 주 근무시간만으로 단순 계산할 수 있지만, 실제 지급 여부는 소정근로시간과 개근 여부 등 조건을 함께 봐야 합니다.',
+      rows:[['입력 기준','시급, 주 소정근로시간, 실제 근무 형태를 확인합니다.','주휴수당은 단순 근무시간이 아니라 소정근로 조건과 연결됩니다.'],['결과 해석','예상 주휴수당과 주급 합계를 구분해 봅니다.','아르바이트 급여나 주급 정산을 검토할 때 도움이 됩니다.'],['확인 사항','결근, 지각·조퇴 처리, 15시간 이상 근무 여부, 계약서상 근로일을 확인합니다.','지급 요건 충족 여부에 따라 실제 금액이 달라질 수 있습니다.']],
+      note:'주휴수당 결과는 참고용입니다. 실제 지급 판단은 근로계약과 근로기준법 적용 조건을 함께 확인해야 합니다.'
+    },
+    'monthly-rent-deduction':{
+      intro:'월세 세액공제는 월세를 냈다고 모두 적용되는 것이 아니라 총급여, 무주택 여부, 주택 요건, 전입신고와 임대차계약 조건 등을 함께 충족해야 합니다. 계산 전 본인이 공제 대상에 가까운지 먼저 확인하면 결과를 더 현실적으로 해석할 수 있습니다.',
+      rows:[['입력 기준','월세, 거주 개월, 총급여, 무주택 여부를 실제 연말정산 기준으로 입력합니다.','공제율과 한도 판단에 직접 영향을 줍니다.'],['결과 해석','예상 세액공제액과 적용 공제율을 함께 확인합니다.','환급액 전체가 아니라 세액에서 줄어드는 금액이라는 점을 이해할 수 있습니다.'],['확인 사항','임대차계약서, 주민등록 전입, 월세 이체 증빙, 주택 규모 요건을 확인합니다.','증빙이 부족하면 계산상 가능해도 실제 공제가 어려울 수 있습니다.']],
+      note:'월세 세액공제 계산은 연말정산 준비용 참고값입니다. 최종 적용은 국세청 안내와 회사 연말정산 검토 기준을 따릅니다.'
+    },
+    'youth-account-switch':{
+      intro:'청년도약계좌 유지와 청년미래적금 전환 비교는 단순히 최종 금액만 비교하면 오해가 생길 수 있습니다. 이미 납입한 기간, 해지 유형, 앞으로 남은 기간, 정부기여금 인정 여부를 나눠 봐야 실제 선택에 가까운 판단이 가능합니다.',
+      rows:[['입력 기준','기존 납입액, 유지 기간, 해지 유형, 전환 후 납입 기간을 구분합니다.','유지와 전환의 총 기간과 원금이 다르면 단순 총액 비교가 왜곡됩니다.'],['결과 해석','유지 총액, 전환 총액, 납입 원금, 기간 차이를 함께 봅니다.','금액이 커 보여도 더 긴 기간이나 더 많은 원금 때문일 수 있습니다.'],['확인 사항','특별중도해지 요건, 정부기여금 인정, 상품 출시 조건, 중복 가입 제한을 확인합니다.','실제 전환 가능 여부와 혜택은 정책 기준에 따라 달라질 수 있습니다.']],
+      note:'청년 금융상품 비교 결과는 정책 검토용 예상값입니다. 신청 전에는 은행과 정부의 최신 상품 안내를 반드시 확인하세요.'
+    },
+    electricity:{
+      intro:'에어컨 전기세는 소비전력, 사용 시간, 사용 일수에 따라 달라지지만 실제 고지서에는 누진 구간, 다른 가전 사용량, 계절별 사용 패턴도 함께 반영됩니다. 이 계산기는 에어컨 사용분만 따로 가늠하는 데 초점을 둡니다.',
+      rows:[['입력 기준','소비전력, 하루 사용시간, 월 사용일수를 현실적인 사용 패턴으로 입력합니다.','과도하게 큰 값을 넣으면 실제보다 높은 예상액이 나올 수 있습니다.'],['결과 해석','월 예상 사용량과 전기요금 증가분을 봅니다.','냉방 습관을 바꿨을 때 절약 효과를 비교할 수 있습니다.'],['확인 사항','인버터 여부, 설정온도, 단열, 기존 전기 사용량, 누진 구간을 함께 봅니다.','실제 청구 금액은 전체 가구 사용량에 따라 달라집니다.']],
+      note:'전기세 계산은 입력값 기준의 예상치입니다. 실제 고지 요금은 전력회사 요금제와 누진 구간, 전체 사용량을 기준으로 확인하세요.'
+    },
+    'fuel-cost':{
+      intro:'주유비는 주행거리, 차량 연비, 리터당 유가가 핵심입니다. 여행이나 출퇴근 비용을 계산할 때는 왕복 여부, 반복 횟수, 탑승 인원까지 함께 입력하면 실제 부담액에 더 가까운 값을 확인할 수 있습니다.',
+      rows:[['입력 기준','주행거리, 평균 연비, 유가, 반복 횟수, 인원수를 같은 기준으로 입력합니다.','편도와 왕복, 1회와 월 반복을 섞지 않기 위해서입니다.'],['결과 해석','총 주유비와 1회 비용, 1인당 부담액을 구분합니다.','카풀, 여행 정산, 출퇴근 예산을 나눠 보기 쉽습니다.'],['확인 사항','고속도로 통행료, 주차비, 차량 감가, 실제 도로 연비를 별도로 고려합니다.','주유비만으로 전체 이동 비용을 판단하기 어렵기 때문입니다.']],
+      note:'주유비 계산은 연료비 중심의 예상값입니다. 실제 이동 비용은 차량 상태, 도로 상황, 유가 변동, 부대 비용에 따라 달라질 수 있습니다.'
+    },
+    'grade-cutoff':{
+      intro:'등급컷 계산은 전체 인원수와 상대평가 비율을 기준으로 각 등급의 예상 석차 범위를 보는 도구입니다. 실제 학교 성적 처리에서는 동점자 처리, 과목별 산출 방식, 평가제 기준이 적용될 수 있어 결과 화면의 안내를 함께 확인하는 것이 좋습니다.',
+      rows:[['입력 기준','전체 인원수와 5등급제 또는 9등급제 기준을 선택합니다.','등급 비율이 달라지면 석차 범위도 달라집니다.'],['결과 해석','등급별 예상 인원과 누적 석차 범위를 함께 봅니다.','내 위치가 어느 등급 경계에 가까운지 파악할 수 있습니다.'],['확인 사항','동점자 처리, 과목별 수강자 수, 학교생활기록부 산출 기준을 확인합니다.','실제 등급은 단순 비율 계산과 다를 수 있습니다.']],
+      note:'등급컷 계산은 상대평가 비율을 적용한 참고값입니다. 최종 등급은 학교와 교육과정의 공식 산출 기준을 따릅니다.'
+    }
+  };
+  const pick=()=>priorityGuides[key]||templates[category]||templates[categoryFallback()]||templates.life;
+  const table=rows=>`<table class="guide-table"><thead><tr><th>구분</th><th>확인할 내용</th><th>왜 중요한가요?</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join('')}</tbody></table>`;
+  const add=()=>{
+    if(!root.querySelector('h1'))return;
+    if(root.dataset.guideEnhanced==='true'&&root.querySelector('.calculator-extra-guide'))return;
+    const contentBlocks=[...root.querySelectorAll('.content-block')];
+    const hasGuideTable=contentBlocks.some(block=>block.querySelector('.guide-table,.cpm-guide-table,.jlpt-info-table'));
+    if(contentBlocks.length>=3&&hasGuideTable)return;
+    const data=pick(),name=title(),desc=description();
+    root.insertAdjacentHTML('beforeend',`
+      <section class="content-block calculator-extra-guide">
+        <h2>${name}를 사용할 때 알아두세요</h2>
+        <p>${desc}</p>
+        <p>${data.intro}</p>
+        ${table(data.rows)}
+      </section>
+      <section class="content-block calculator-extra-guide">
+        <h2>결과를 더 잘 활용하는 방법</h2>
+        <p>계산 결과는 하나의 숫자로 끝내기보다 입력값, 조건, 실제 적용 기준을 함께 보면 더 유용합니다. 같은 계산기를 여러 번 사용해 조건을 바꿔 보면 어떤 값이 결과에 크게 영향을 주는지도 파악할 수 있습니다.</p>
+        <ul>
+          <li>입력값의 단위와 기간이 서로 맞는지 확인하세요.</li>
+          <li>결과가 예상과 다르면 가장 큰 금액이나 비율부터 다시 점검하세요.</li>
+          <li>공유나 기록이 필요한 계산은 입력 조건도 함께 남겨두면 나중에 다시 확인하기 쉽습니다.</li>
+        </ul>
+        <p>${data.note}</p>
+      </section>`);
+    root.dataset.guideEnhanced='true';
+  };
+  const ensureStyle=()=>{
+    if(document.querySelector('#calculator-extra-guide-style'))return;
+    document.head.insertAdjacentHTML('beforeend','<style id="calculator-extra-guide-style">.guide-table{width:100%;margin:14px 0;border-collapse:collapse;font-size:14px}.guide-table th,.guide-table td{padding:11px;border:1px solid var(--line);vertical-align:top}.guide-table th{background:#f7f9fc;color:#46556b;text-align:left}.calculator-extra-guide ul{margin:10px 0 0;padding-left:20px}.calculator-extra-guide li{margin:6px 0}@media(max-width:700px){.guide-table{display:block;overflow-x:auto;white-space:nowrap}}</style>');
+  };
+  ensureStyle();
+  setTimeout(add,0);
+  setTimeout(add,120);
+  const observer=new MutationObserver(()=>add());
+  observer.observe(root,{childList:true});
+  setTimeout(()=>observer.disconnect(),1500);
 })();

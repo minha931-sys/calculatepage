@@ -35,7 +35,7 @@
       title:'교육 계산기',
       lead:'학점, 목표 평점, 내신 등급, 평균 점수, 시험 D-day 계산에 필요한 도구를 모았습니다.',
       recommend:['gpa','target-gpa','school-grade','grade-cutoff','average-score'],
-      groups:[{title:'대학교 학점',desc:'이번 학기 평점, 목표 평점, 재수강 후 변화를 확인하세요.',ids:['gpa','target-gpa','retake']},{title:'시험 / 성적',desc:'평균 점수, 목표 점수, 내신 등급과 등급컷을 계산해 학습 계획에 활용하세요.',ids:['average-score','exam-target','school-grade','grade-cutoff']},{title:'일정 관리',desc:'시험까지 남은 날짜를 확인하고 준비 기간을 나눠 보세요.',ids:['exam-dday','d-day','date']},{title:'확률 / 판단',desc:'기댓값처럼 선택지를 비교해야 할 때 참고할 수 있습니다.',ids:['expected-value']}],
+      groups:[{title:'대학교 학점',desc:'이번 학기 평점, 목표 평점, 재수강 후 변화를 확인하세요.',ids:['gpa','target-gpa','retake']},{title:'시험 / 성적',desc:'평균 점수, 목표 점수, 내신 등급, 등급컷, JLPT 합격 기준을 계산해 학습 계획에 활용하세요.',ids:['average-score','exam-target','school-grade','grade-cutoff','jlpt-score']},{title:'일정 관리',desc:'시험까지 남은 날짜를 확인하고 준비 기간을 나눠 보세요.',ids:['exam-dday','d-day','date']},{title:'확률 / 판단',desc:'기댓값처럼 선택지를 비교해야 할 때 참고할 수 있습니다.',ids:['expected-value']}],
       guide:'교육 계산기는 성적을 예측하거나 학습 계획을 세우는 데 유용합니다. 학교별 학점 환산 기준, 내신 산출 방식, 시험 반영 비율은 다를 수 있으므로 최종 성적 판단에는 학교 기준을 함께 확인하세요.',
       faq:[['학점 계산 결과가 학교 성적표와 다를 수 있나요?','학교마다 A+, P/F, 재수강 처리 방식이 다를 수 있어 실제 성적표와 차이가 날 수 있습니다.'],['목표 학점 계산기는 언제 쓰면 좋나요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],['내신 등급은 정확한가요?','일반적인 석차 누적 비율 기준의 예상값입니다. 과목별 반영 방식은 학교 기준을 확인해야 합니다.']]
     },
@@ -62,7 +62,7 @@
       title:'업무 계산기',
       lead:'부가세, 마진율, 견적, 프리랜서 단가, 근무시간, 퇴직금 등 실무에 필요한 계산기를 모았습니다.',
       recommend:['vat','margin','estimate','freelance-rate','severance'],
-      groups:[{title:'사업 / 판매',desc:'판매가, 원가, 세금, 손익분기점과 견적을 함께 확인해 의사결정에 활용하세요.',ids:['vat','margin','break-even','estimate','interior-estimate']},{title:'프리랜서 / 인건비',desc:'시간당 단가, 시급, 근무시간, 연차 등 인건비 관련 계산을 모았습니다.',ids:['freelance-rate','wage','work-hours','annual-leave','weekly-holiday-pay','overtime-pay']},{title:'급여 / 퇴직',desc:'퇴직금, 4대보험, 통상임금, 평균임금처럼 근로 관련 금액을 추정합니다.',ids:['severance','four-insurance','annual-salary','ordinary-wage','average-wage','annual-leave-pay','parental-leave','income-tax','withholding-33']},{title:'배송 / 정산',desc:'배송비 분담과 물류 규격 계산으로 견적·정산을 보조합니다.',ids:['shipping-split','cbm','volumetric-weight']}],
+      groups:[{title:'사업 / 판매',desc:'판매가, 원가, 세금, 광고 효율, 손익분기점과 견적을 함께 확인해 의사결정에 활용하세요.',ids:['vat','margin','cpm','break-even','estimate','interior-estimate']},{title:'프리랜서 / 인건비',desc:'시간당 단가, 시급, 근무시간, 연차 등 인건비 관련 계산을 모았습니다.',ids:['freelance-rate','wage','work-hours','annual-leave','weekly-holiday-pay','overtime-pay']},{title:'급여 / 퇴직',desc:'퇴직금, 4대보험, 통상임금, 평균임금처럼 근로 관련 금액을 추정합니다.',ids:['severance','four-insurance','annual-salary','ordinary-wage','average-wage','annual-leave-pay','parental-leave','income-tax','withholding-33']},{title:'배송 / 정산',desc:'배송비 분담과 물류 규격 계산으로 견적·정산을 보조합니다.',ids:['shipping-split','cbm','volumetric-weight']}],
       guide:'업무 계산기는 견적, 정산, 급여, 판매 전략을 빠르게 검토하는 데 유용합니다. 실제 세금 신고, 근로계약, 거래 조건은 업종과 계약서에 따라 달라질 수 있으므로 중요한 업무에는 세무·노무·계약 기준을 확인하세요.',
       faq:[['부가세와 마진율은 같이 봐야 하나요?','네. 부가세 포함 판매가인지, 공급가액 기준인지에 따라 실제 이익률 판단이 달라질 수 있습니다.'],['프리랜서 단가는 어떻게 정하는 게 좋나요?','목표 순수입뿐 아니라 영업·미팅·수정 시간, 세금, 장비비, 플랫폼 수수료까지 반영하는 것이 좋습니다.'],['퇴직금이나 4대보험 계산은 확정 금액인가요?','근속기간, 평균임금, 보수월액, 요율, 상한액에 따라 실제 금액이 달라질 수 있는 예상값입니다.']]
     }
