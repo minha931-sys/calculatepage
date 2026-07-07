@@ -149,9 +149,10 @@
     if(!slug || !relatedBox || relatedBox.dataset.improvedRelated) return;
     const labels = {
       percent:'퍼센트 계산기',discount:'할인율 계산기',salary:'월급 실수령액 계산기',gpa:'학점 계산기','d-day':'디데이 계산기','dutch-pay':'더치페이 계산기',
-      'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'적립식 복리 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
+      'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'적립식 복리 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기','monthly-average-income':'월평균합산소득 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
       'freelance-rate':'프리랜서 단가 계산기','work-hours':'근무시간 계산기',wage:'시급 계산기',date:'날짜 계산기','day-count':'일수 계산기',age:'나이 계산기','international-age':'만나이 계산기',
       'average-score':'평균 점수 계산기','target-gpa':'목표 학점 계산기',retake:'재수강 학점 계산기','school-grade':'내신 등급 계산기','grade-cutoff':'등급컷 계산기','exam-dday':'시험 D-day 계산기','exam-target':'시험 성적 목표 계산기',
+      'housing-subscription':'청약 가점 계산기','monthly-rent-deduction':'월세 세액공제 계산기','monthly-average-income':'월평균합산소득 계산기',
       'area-conversion':'평수 계산기',unit:'단위 변환 계산기',scale:'스케일 계산기',cbm:'CBM 계산기','volumetric-weight':'부피무게 계산기','interior-estimate':'인테리어 견적 계산기','real-estate-brokerage':'부동산 중개보수 계산기',
       'travel-budget':'여행 경비 계산기','shipping-split':'배송비 분할 계산기','fuel-cost':'유류비 계산기',exchange:'환율 계산기','average-price':'평단가 계산기','stock-return':'주식 수익률 계산기',roi:'ROI 계산기','averaging-down':'물타기 계산기','percent-change':'퍼센트 증가율 계산기',
       'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기'
@@ -169,6 +170,7 @@
       'savings-interest':['installment','compound-interest','loan-interest','budget'],
       'loan-interest':['mortgage-loan','loan-schedule','dsr','prepayment-fee'],
       'mortgage-loan':['loan-interest','loan-schedule','dsr','prepayment-fee'],
+      'monthly-average-income':['housing-subscription','monthly-rent-deduction','salary','mortgage-loan'],
       budget:['salary','dutch-pay','savings-interest','travel-budget'],
       vat:['estimate','margin','freelance-rate','percent'],
       margin:['vat','estimate','discount','freelance-rate'],
@@ -796,7 +798,7 @@
   if(!slug)return;
 
   const categoryMap={
-    money:['percent','discount','savings-interest','installment','loan-interest','mortgage-loan','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
+    money:['percent','discount','savings-interest','installment','loan-interest','mortgage-loan','monthly-average-income','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
     education:['gpa','target-gpa','retake','school-grade','grade-cutoff','average-score','exam-dday','exam-target','expected-value'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
     life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age','area-conversion'],
@@ -885,9 +887,9 @@
   const sensitive={
     tax:['vat','income-tax','capital-gains-tax','gift-tax','property-tax','comprehensive-income-tax','comprehensive-real-estate-tax','withholding-33','monthly-rent-deduction','lotto-tax','car-tax','car-acquisition-tax','real-estate-acquisition-tax','youth-leap-account'],
     labor:['salary','annual-salary','employee-health-insurance','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
-    finance:['loan-interest','mortgage-loan','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
+    finance:['loan-interest','mortgage-loan','monthly-average-income','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
     health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
-    realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','mortgage-loan','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
+    realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','monthly-average-income','mortgage-loan','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
   };
 
   function typeOfSlug(){
@@ -1525,7 +1527,7 @@
 
   const categoryMap = {
     money: [
-      'percent','discount','savings-interest','installment','loan-interest','mortgage-loan','salary','budget',
+      'percent','discount','savings-interest','installment','loan-interest','mortgage-loan','monthly-average-income','salary','budget',
       'averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan',
       'car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration',
       'stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment',
