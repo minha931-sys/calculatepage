@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://calculatepage.com/sitemap.xml
+#DaumWebMasterTool:a675438c52f20374e14dfff98f89dd1d2307404ac7718aba8c5ee036e68471b2:Th0L5+QWCCuxQG6+8IaGrw==
