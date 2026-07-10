@@ -1905,7 +1905,10 @@ function normalizeStaticCopy(html) {
     function(_, level, attributes, prefix) {
       return '<h' + level + attributes + '>' + prefix.trim() + ' 활용 방법</h' + level + '>';
     }
-  ).replaceAll('2026년 7월 10일', '2026년 7월 11일');
+  ).replaceAll('2026년 7월 10일', '2026년 7월 11일')
+    .replaceAll('몸무게, 운동 강도, 시간을 입력해 예상 운동 소모 칼로리를 계산합니다.', '몸무게, 운동 종류, 시간을 입력해 예상 운동 소모 칼로리를 계산합니다.')
+    .replaceAll('실제 소모량은 운동 강도, 체성분, 심박수에 따라 달라집니다.', '선택한 운동 종류 안에서도 실제 속도, 휴식, 체성분과 심박수에 따라 소모량이 달라집니다.')
+    .replace(/\r?\n[ \t]+(?=\r?\n)/g, '\n');
 }
 
 function guardStaticInlineInitializers(html, filename) {

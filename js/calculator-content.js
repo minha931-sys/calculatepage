@@ -241,10 +241,10 @@
       cautions:['기온·운동량·신장 또는 심장 질환·복용 약에 따라 필요한 양이 달라질 수 있습니다.']
     },
     'exercise-calorie':{
-      input:['몸무게, 운동 강도와 운동시간(분)을 입력합니다. 강도 선택은 가벼움 3.5, 보통 6, 격렬함 9의 계수를 사용합니다.'],
-      formula:'예상 소모열량 = 몸무게×강도계수×운동시간÷60입니다.',
-      example:'65kg이 보통 강도로 30분 운동하면 약 195kcal입니다.',
-      result:'운동 종류와 심박수를 세분화하지 않은 평균 추정치입니다.',
+      input:['몸무게, 운동 종류와 운동시간(분)을 입력합니다. 선택한 운동 종류별 MET 값을 사용합니다.'],
+      formula:'예상 소모열량(kcal) = MET×3.5×몸무게(kg)÷200×운동시간(분)입니다.',
+      example:'65kg이 MET 7인 조깅을 30분 하면 약 239kcal입니다.',
+      result:'선택한 운동 종류의 고정 MET를 적용한 참고용 추정치입니다.',
       cautions:['운동기기 표시값과 실제 소모량은 체력·효율·휴식시간에 따라 달라집니다.']
     },
     age:{
@@ -304,21 +304,8 @@
       cautions:['게임·투자·보험·확률 문제의 선택 비교에 쓸 수 있지만 확률 추정이 부정확하면 결과도 달라집니다.','기댓값만으로 변동성, 최대 손실, 손실 발생 빈도와 감당 가능한 위험을 판단할 수 없습니다.']
     }
   };
+  // This file is a build-time editorial catalogue. Public calculator pages
+  // contain the rendered text directly in their source HTML.
   const data=content[slug];
-  if(!data)return;
-  const list=items=>`<ul>${items.map(item=>`<li>${item}</li>`).join('')}</ul>`;
-  const sources=data.sources?.length?`<section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul>${data.sources.map(source=>`<li><a href="${source[1]}" target="_blank" rel="noopener noreferrer">${source[0]}</a></li>`).join('')}</ul></section>`:'';
-  const html=`<div class="calculator-editorial" data-calculator-editorial="${slug}"><section class="content-block"><h2>입력 항목 설명</h2>${list(data.input)}</section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>${data.formula}</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>${data.example}</p></section><section class="content-block"><h2>결과 해석</h2><p>${data.result}</p></section><section class="content-block editorial-caution"><h2>주의사항</h2>${list(data.cautions)}</section>${sources}</div>`;
-  const append=()=>{
-    if(!root.querySelector('h1')||root.querySelector('[data-calculator-editorial]'))return;
-    const related=[...root.querySelectorAll('.content-block')].find(section=>section.querySelector('h2')?.textContent.trim()==='관련 계산기');
-    if(related)related.insertAdjacentHTML('beforebegin',html);
-    else root.insertAdjacentHTML('beforeend',html);
-  };
-  append();
-  setTimeout(append,0);
-  setTimeout(append,350);
-  const observer=new MutationObserver(append);
-  observer.observe(root,{childList:true});
-  setTimeout(()=>observer.disconnect(),1600);
+  void data;
 })();
