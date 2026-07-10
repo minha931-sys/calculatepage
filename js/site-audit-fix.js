@@ -145,17 +145,17 @@
 
   function improveRelatedLinks(){
     const slug = getSlug();
-    const relatedBox = root.querySelector('.related');
-    if(!slug || !relatedBox || relatedBox.dataset.improvedRelated) return;
+    if(!slug) return;
+    let relatedBox = root.querySelector('.related');
     const labels = {
       percent:'퍼센트 계산기',discount:'할인율 계산기',salary:'월급 실수령액 계산기',gpa:'학점 계산기','d-day':'디데이 계산기','dutch-pay':'더치페이 계산기',
       'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'적립식 복리 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기','monthly-average-income':'월평균합산소득 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
       'freelance-rate':'프리랜서 단가 계산기','work-hours':'근무시간 계산기',wage:'시급 계산기',date:'날짜 계산기','day-count':'일수 계산기',age:'나이 계산기','international-age':'만나이 계산기',
-      'average-score':'평균 점수 계산기','target-gpa':'목표 학점 계산기',retake:'재수강 학점 계산기','school-grade':'내신 등급 계산기','grade-cutoff':'등급컷 계산기','exam-dday':'시험 D-day 계산기','exam-target':'시험 성적 목표 계산기',
+      'average-score':'평균 점수 계산기','target-gpa':'목표 학점 계산기',retake:'재수강 학점 계산기','school-grade':'내신 등급 계산기','grade-cutoff':'등급컷 계산기','exam-dday':'시험 D-day 계산기','exam-target':'시험 성적 목표 계산기','expected-value':'기댓값 계산기',
       'housing-subscription':'청약 가점 계산기','monthly-rent-deduction':'월세 세액공제 계산기','monthly-average-income':'월평균합산소득 계산기',
       'area-conversion':'평수 계산기',unit:'단위 변환 계산기',scale:'스케일 계산기',cbm:'CBM 계산기','volumetric-weight':'부피무게 계산기','interior-estimate':'인테리어 견적 계산기','real-estate-brokerage':'부동산 중개보수 계산기',
       'travel-budget':'여행 경비 계산기','shipping-split':'배송비 분할 계산기','fuel-cost':'유류비 계산기',exchange:'환율 계산기','average-price':'평단가 계산기','stock-return':'주식 수익률 계산기',roi:'ROI 계산기','averaging-down':'물타기 계산기','percent-change':'퍼센트 증가율 계산기',
-      'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기'
+      'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기','unemployment-benefit':'실업급여 계산기'
     };
     labels.cagr = 'CAGR 계산기';
     labels['employee-health-insurance'] = '직장인 건강보험료 계산기';
@@ -188,6 +188,7 @@
       'school-grade':['grade-cutoff','average-score','exam-target','gpa'],
       'grade-cutoff':['school-grade','average-score','exam-target','exam-dday'],
       'exam-dday':['d-day','date','day-count','average-score'],
+      'expected-value':['average-score','exam-target','percent','roi'],
       'area-conversion':['scale','unit','interior-estimate','real-estate-brokerage'],
       unit:['area-conversion','scale','cbm','volumetric-weight'],
       scale:['area-conversion','unit','cbm','volumetric-weight'],
@@ -197,10 +198,16 @@
       'shipping-split':['dutch-pay','estimate','cbm','volumetric-weight'],
       'average-price':['stock-return','averaging-down','cagr','roi'],
       cagr:['compound-interest','roi','stock-return','percent-change'],
-      'loan-schedule':['loan-interest','dsr','prepayment-fee','savings-interest']
+      'loan-schedule':['loan-interest','dsr','prepayment-fee','savings-interest'],
+      'unemployment-benefit':['salary','annual-salary','four-insurance','severance']
     };
     const ids = (map[slug] || []).filter(id => id !== slug);
     if(!ids.length) return;
+    if(!relatedBox){
+      root.insertAdjacentHTML('beforeend','<section class="content-block related-generated"><h2>관련 계산기</h2><div class="related"></div></section>');
+      relatedBox = root.querySelector('.related-generated .related');
+    }
+    if(!relatedBox || relatedBox.dataset.improvedRelated) return;
     relatedBox.innerHTML = ids.map(id => `<a href="/calculators/${id}.html">${labels[id] || id}</a>`).join('');
     relatedBox.dataset.improvedRelated = 'true';
   }
@@ -411,6 +418,15 @@
   bindSilentFailGuard();
   window.addEventListener('load', run);
   setTimeout(run, 120);
+})();
+
+(function loadAdSenseContentGuide(){
+  if(!document.querySelector('#calculator')) return;
+  if(document.querySelector('script[src="/js/adsense-content.js"]')) return;
+  const script = document.createElement('script');
+  script.src = '/js/adsense-content.js';
+  script.defer = true;
+  document.head.appendChild(script);
 })();
 
 // Enhanced practical calculators for payroll, loans, and compound interest.
