@@ -95,14 +95,15 @@ bindStandardCalculator();
 function enhancePercentCalculator(){
   if(document.body.dataset.calculator!=='percent')return;
   const root=document.querySelector('#calculator');
-  root.innerHTML=`<h1>퍼센트 계산기</h1><p class="lead">전체의 일정 비율, 비율로 전체 금액 구하기, 전체 대비 비율을 빠르게 계산하세요.</p><section class="calculator-box percent-box"><div class="percent-tabs" role="tablist"><button class="percent-tab active" data-mode="of" role="tab">전체의 몇 %</button><button class="percent-tab" data-mode="whole" role="tab">전체 구하기</button><button class="percent-tab" data-mode="ratio" role="tab">몇 %인지 구하기</button></div><div id="percent-form"></div><div class="result" id="percent-result" aria-live="polite"></div></section><section class="content-block"><h2>퍼센트 계산기 사용 방법</h2><ol><li><strong>전체의 몇 %</strong>: 기준값에서 원하는 비율의 값을 구합니다.</li><li><strong>전체 구하기</strong>: 일부 값과 그 비율을 알고 있을 때 원래 전체값을 구합니다.</li><li><strong>몇 %인지 구하기</strong>: 부분값이 전체에서 차지하는 비율을 구합니다.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/discount.html">할인율 계산기</a><a href="/calculators/vat.html">부가세 계산기</a><a href="/calculators/margin.html">마진율 계산기</a></div></section>`;
+  root.innerHTML=`<h1>퍼센트 계산기</h1><p class="lead">전체의 일정 비율, 부분이 차지하는 비율, 기준값 대비 증가율·감소율을 계산하세요.</p><section class="calculator-box percent-box"><div class="percent-tabs" role="tablist" aria-label="퍼센트 계산 방식"><button class="percent-tab active" data-mode="of" role="tab">전체의 몇 %</button><button class="percent-tab" data-mode="whole" role="tab">전체 구하기</button><button class="percent-tab" data-mode="ratio" role="tab">몇 %인지</button><button class="percent-tab" data-mode="change" role="tab">증가·감소율</button></div><div id="percent-form"></div><div class="result" id="percent-result" aria-live="polite"></div></section><section class="content-block"><h2>퍼센트 계산 유형</h2><ol><li><strong>전체의 몇 %</strong>: 전체값 × 퍼센트 ÷ 100으로 부분값을 구합니다.</li><li><strong>부분이 몇 %인지</strong>: 부분값 ÷ 전체값 × 100으로 비율을 구합니다.</li><li><strong>증가율·감소율</strong>: (변경값 − 기준값) ÷ 기준값 × 100으로 변화를 구합니다.</li><li><strong>전체 구하기</strong>: 부분값 ÷ 퍼센트 × 100으로 원래 전체값을 역산합니다.</li></ol><p>퍼센트포인트(%p)는 두 퍼센트 수치의 단순 차이입니다. 예를 들어 20%에서 25%는 5%p 상승이지만 변화율은 25%입니다.</p></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/discount.html">할인율 계산기</a><a href="/calculators/percent-change.html">퍼센트 증가율 계산기</a><a href="/calculators/vat.html">부가세 계산기</a><a href="/calculators/margin.html">마진율 계산기</a></div></section>`;
   const forms={
-    of:{title:'전체의 몇 % 구하기',hint:'예: 100,000원의 15%는 얼마인가요?',fields:[['전체 값','100000'],['퍼센트(%)','15']],answer:(a,b)=>[a*b/100,`${a.toLocaleString('ko-KR')}의 ${b}%입니다.`]},
-    whole:{title:'부분값과 비율로 전체 구하기',hint:'예: 15,000원이 전체의 15%일 때 전체 금액은 얼마인가요?',fields:[['부분 값','15000'],['퍼센트(%)','15']],answer:(a,b)=>[a/b*100,`${a.toLocaleString('ko-KR')}이 ${b}%일 때의 전체 값입니다.`]},
-    ratio:{title:'부분값은 전체의 몇 %인지 구하기',hint:'예: 15,000원은 100,000원의 몇 %인가요?',fields:[['부분 값','15000'],['전체 값','100000']],answer:(a,b)=>[a/b*100,`${a.toLocaleString('ko-KR')}은 ${b.toLocaleString('ko-KR')}의 비율입니다.`]}
+    of:{title:'전체의 몇 % 구하기',hint:'예: 50,000원의 20%는 10,000입니다.',fields:[['전체 값','50000'],['퍼센트(%)','20']],answer:(a,b)=>[a*b/100,'',`${a.toLocaleString('ko-KR')} × ${b} ÷ 100`]},
+    whole:{title:'부분값과 비율로 전체 구하기',hint:'예: 15,000이 전체의 15%일 때 전체값은 100,000입니다.',fields:[['부분 값','15000'],['퍼센트(%)','15']],answer:(a,b)=>[a/b*100,'',`${a.toLocaleString('ko-KR')} ÷ ${b} × 100`]},
+    ratio:{title:'부분값은 전체의 몇 %인지 구하기',hint:'예: 20은 80의 25%입니다.',fields:[['부분 값','20'],['전체 값','80']],suffix:'%',answer:(a,b)=>[a/b*100,'%',`${a.toLocaleString('ko-KR')} ÷ ${b.toLocaleString('ko-KR')} × 100`]},
+    change:{title:'기준값 대비 증가율·감소율',hint:'예: 100에서 120으로 증가하면 변화율은 20%입니다.',fields:[['기준 값','100'],['변경 값','120']],suffix:'%',allowNegative:true,answer:(a,b)=>[(b-a)/a*100,'%',`${a.toLocaleString('ko-KR')}에서 ${b.toLocaleString('ko-KR')}으로 ${b>=a?'증가':'감소'}`]}
   };
   let mode='of';const form=root.querySelector('#percent-form'),result=root.querySelector('#percent-result');
-  const render=()=>{const data=forms[mode];form.innerHTML=`<h2>${data.title}</h2><p>${data.hint}</p><div class="percent-fields">${data.fields.map((field,i)=>`<label><span>${field[0]}</span><input id="percent-value-${i}" type="number" min="0" step="any" inputmode="decimal" value="${field[1]}"></label>`).join('')}</div><button class="primary-btn" id="calculate-percent" type="button">계산하기</button>`;form.querySelector('#calculate-percent').onclick=()=>{const raw=[form.querySelector('#percent-value-0').value,form.querySelector('#percent-value-1').value],a=Number(raw[0]),b=Number(raw[1]);if(raw.some(value=>value.trim()==='')||!Number.isFinite(a)||!Number.isFinite(b)||a<0||b<0||(mode!=='of'&&b===0)){result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>빈칸 없이 0 이상의 숫자를 입력하세요. 전체값이나 나누는 비율은 0일 수 없습니다.</p>';result.classList.add('show');return}const [value,text]=data.answer(a,b);result.innerHTML=`<strong>${Number(value.toFixed(6)).toLocaleString('ko-KR')}</strong><p>${text}</p>`;result.classList.add('show')}};
+  const render=()=>{const data=forms[mode];form.innerHTML=`<h2>${data.title}</h2><p>${data.hint}</p><div class="percent-fields">${data.fields.map((field,i)=>`<label><span>${field[0]}</span><input id="percent-value-${i}" type="number" ${data.allowNegative?'':'min="0"'} step="any" inputmode="decimal" value="${field[1]}"></label>`).join('')}</div><button class="primary-btn" id="calculate-percent" type="button">계산하기</button>`;form.querySelector('#calculate-percent').onclick=()=>{const raw=[form.querySelector('#percent-value-0').value,form.querySelector('#percent-value-1').value],a=Number(raw[0]),b=Number(raw[1]);const invalid=raw.some(value=>value.trim()==='')||!Number.isFinite(a)||!Number.isFinite(b)||(!data.allowNegative&&(a<0||b<0))||((mode==='whole'||mode==='ratio')&&b===0)||(mode==='change'&&a===0);if(invalid){result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>빈칸과 숫자 범위를 확인하세요. 나누는 전체값·비율 또는 변화율의 기준값은 0일 수 없습니다.</p>';result.classList.add('show');return}const [value,suffix,text]=data.answer(a,b);if(!Number.isFinite(value)){result.innerHTML='<strong>계산할 수 없는 값입니다</strong><p>0으로 나누지 않았는지 입력값을 다시 확인해 주세요.</p>';result.classList.add('show');return}result.innerHTML=`<strong>${Number(value.toFixed(6)).toLocaleString('ko-KR')}${suffix}</strong><p>${text}</p>`;result.classList.add('show')}};
   root.querySelector('.percent-tabs').onclick=e=>{const tab=e.target.closest('.percent-tab');if(!tab)return;mode=tab.dataset.mode;root.querySelectorAll('.percent-tab').forEach(button=>button.classList.toggle('active',button===tab));result.classList.remove('show');render()};
   render();
 }
@@ -114,14 +115,16 @@ function enhanceExamDdayCalculator(){
   root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>시험 D-day 계산기</h1><p class="lead">기준일과 시험일의 날짜 차이를 계산하고 남은 공부 기간을 주·일 단위로 나눠 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>기준일</span><input id="exam-base" type="date"></label><label><span>시험일</span><input id="exam-target" type="date"></label></div><div class="date-options"><label class="tax-option"><input id="exam-include-base" type="checkbox"> 기준일 포함</label><label class="tax-option"><input id="exam-include-target" type="checkbox" checked> 시험일 포함</label></div><button class="primary-btn" id="exam-dday-calc" type="button">시험 D-day 계산하기</button></div><div class="result" id="exam-dday-result" aria-live="polite"></div></section>`;
   const today=new Date(),pad=value=>String(value).padStart(2,'0');
   root.querySelector('#exam-base').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  root.querySelector('#exam-base').dataset.exampleHandled='true';
   root.querySelector('#exam-dday-calc').onclick=()=>{
     const baseValue=root.querySelector('#exam-base').value,targetValue=root.querySelector('#exam-target').value,result=root.querySelector('#exam-dday-result');
-    const base=new Date(baseValue+'T00:00:00'),target=new Date(targetValue+'T00:00:00');
-    if(!baseValue||!targetValue||Number.isNaN(base.getTime())||Number.isNaN(target.getTime())){result.innerHTML='<strong>날짜를 확인해 주세요</strong><p>기준일과 시험일을 모두 선택해야 합니다.</p>';result.classList.add('show');return}
-    const raw=Math.round((target-base)/86400000),future=raw>=0;
+    if(!baseValue||!targetValue){result.innerHTML='<strong>날짜를 확인해 주세요</strong><p>기준일과 시험일을 모두 선택해야 합니다.</p>';result.classList.add('show');return}
+    const [baseYear,baseMonth,baseDay]=baseValue.split('-').map(Number),[targetYear,targetMonth,targetDay]=targetValue.split('-').map(Number);
+    const raw=(Date.UTC(targetYear,targetMonth-1,targetDay)-Date.UTC(baseYear,baseMonth-1,baseDay))/86400000,future=raw>=0;
+    if(!Number.isFinite(raw)){result.innerHTML='<strong>날짜를 확인해 주세요</strong><p>유효한 기준일과 시험일을 선택해 주세요.</p>';result.classList.add('show');return}
     let days=Math.abs(raw)+(root.querySelector('#exam-include-base').checked?1:0)-(root.querySelector('#exam-include-target').checked?0:1);
     days=Math.max(0,days);
-    result.innerHTML=`<div class="utility-result-grid"><div><span>시험 D-day</span><strong>${future?'D-'+days:'D+'+days}</strong></div><div><span>주 단위</span><b>${Math.floor(days/7)}주 ${days%7}일</b></div><div><span>계산 구간</span><b>${baseValue} ~ ${targetValue}</b></div></div><p>${future?'남은 공부 기간':'시험일로부터 지난 기간'}입니다. 자정 전후에는 기준 날짜가 달라질 수 있습니다.</p>`;
+    result.innerHTML=`<div class="utility-result-grid"><div><span>시험 D-day</span><strong>${raw===0?'D-Day':future?'D-'+days:'D+'+days}</strong></div><div><span>주 단위</span><b>${Math.floor(days/7)}주 ${days%7}일</b></div><div><span>계산 구간</span><b>${baseValue} ~ ${targetValue}</b></div></div><p>${raw===0?'기준일과 시험일이 같습니다.':future?'남은 공부 기간입니다.':'시험일로부터 지난 기간입니다.'} 자정 전후에는 기준 날짜가 달라질 수 있습니다.</p>`;
     result.classList.add('show');
   };
 }
@@ -466,28 +469,6 @@ if(document.body.dataset.calculator==='severance'){
   root.querySelector('#sv-calc').onclick=()=>{const s=new Date(root.querySelector('#sv-start').value),e=new Date(root.querySelector('#sv-end').value),w=Number(root.querySelector('#sv-wage').value),r=root.querySelector('#sv-result');if(isNaN(s)||isNaN(e)||!w||e<=s)return;const days=Math.floor((e-s)/864e5),amount=w/90*30*(days/365);r.innerHTML=`<div class="utility-result-grid"><div><span>예상 퇴직금</span><strong>${Math.round(amount).toLocaleString()}원</strong></div><div><span>계속근로기간</span><b>${Math.floor(days/365)}년 ${Math.floor(days%365/30)}개월</b></div><div><span>1일 평균임금</span><b>${Math.round(w/90).toLocaleString()}원</b></div></div>`;r.classList.add('show')};
 }
 
-/* const newTools={
- 'four-insurance':['4대보험 계산기',[['월 급여','3000000'],['근로자 부담률 합계(%)','9.4']],(a,b)=>['예상 공제액',a*b/100,'월 급여에서 공제되는 4대보험의 간단 추정치입니다. 실제 요율·상한액은 공식 기준을 확인하세요.']],
- 'annual-salary':['연봉 계산기',[['연봉(원)','50000000'],['연간 상여금(원)','0']],(a,b)=>['월 평균 급여',(a+b)/12,'연봉과 상여금을 합산한 세전 월 평균입니다.']],
- 'jeonse-loan':['전세대출 이자 계산기',[['대출 원금(원)','100000000'],['연 이자율(%)','3.5']],(a,b)=>['월 이자',a*b/1200,'원금 상환을 제외한 월 이자 기준입니다.']],
- 'parental-leave':['육아휴직 급여 계산기',[['월 통상임금(원)','3000000'],['적용 비율(%)','80']],(a,b)=>['월 예상 급여',a*b/100,'상한·하한 및 기간별 제도 기준은 별도 확인이 필요합니다.']],
- 'car-installment':['자동차 할부 계산기',[['차량 가격(원)','30000000'],['선수금(원)','5000000'],['연 이자율(%)','5'],['할부 기간(개월)','60']],(a,b,c,d)=>{let p=a-b,r=c/1200,m=r?p*r*(1+r)**d/((1+r)**d-1):p/d;return ['월 납입액',m,`총 이자 ${Math.round(m*d-p).toLocaleString()}원`]} };
-function addNewTools(){const type=document.body.dataset.customCalculator,c=newTools[type];if(!c)return;const root=document.querySelector('#calculator');root.innerHTML=`<h1>${c[0]}</h1><p class="lead">필요한 값을 입력해 예상 금액을 빠르게 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${c[1].map((x,i)=>`<label><span>${x[0]}</span><input id="nt${i}" type="number" placeholder="예: ${x[1]}"></label>`).join('')}</div><button class="primary-btn" id="ntcalc">계산하기</button></div><div class="result" id="ntresult"></div></section>`;root.querySelector('#ntcalc').onclick=()=>{let v=c[1].map((_,i)=>Number(root.querySelector('#nt'+i).value));if(v.some(x=>!Number.isFinite(x)))return;let [title,note,text]=c[2](...v),r=root.querySelector('#ntresult');r.innerHTML=`<strong>${Math.round(note).toLocaleString()}원</strong><p>${title} · ${text}</p>`;r.classList.add('show')}}addNewTools();
-Object.entries(newTools).forEach(([key,value])=>calculators[key]={n:value[0],c:['four-insurance','annual-salary','parental-leave'].includes(key)?'business':'money',d:'예상 금액을 계산합니다.'});
-cats.money[3]+=' jeonse-loan car-installment';cats.business[3]+=' four-insurance annual-salary parental-leave';
-if(document.body.dataset.category==='money'||document.body.dataset.category==='business')category();
-
-/* const extraTools={
- 'volumetric-weight':['부피무게 계산기','business',['가로(cm)','세로(cm)','높이(cm)'],v=>v[0]*v[1]*v[2]/6000,'kg'],
- 'compound-interest':['적립식 복리 계산기','money',['초기 투자금(원)','연 수익률(%)','기간(년)'],v=>v[0]*(1+v[1]/100)**v[2],'원'],
- 'body-fat':['체지방률 계산기','health',['키(cm)','허리둘레(cm)','몸무게(kg)'],v=>Math.max(0,(v[1]/v[0]*100-40)+(v[2]/v[0]-0.4)*10),'%'],
- 'fuel-cost':['연료비 계산기','life',['주행 거리(km)','연비(km/L)','유가(원/L)'],v=>v[0]/v[1]*v[2],'원']};
-function addExtraTools(){const t=document.body.dataset.customCalculator,c=extraTools[t];if(!c)return;const root=document.querySelector('#calculator');root.innerHTML=`<h1>${c[0]}</h1><p class="lead">필요한 값을 입력해 빠르게 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${c[2].map((n,i)=>`<label><span>${n}</span><input id="ex${i}" type="number" placeholder="예: ${i?10:100}"></label>`).join('')}</div><button class="primary-btn" id="excalc">계산하기</button></div><div class="result" id="exresult"></div></section>`;root.querySelector('#excalc').onclick=()=>{let v=c[2].map((_,i)=>Number(root.querySelector('#ex'+i).value));if(v.some(x=>!x))return;let r=root.querySelector('#exresult'),x=c[3](v);r.innerHTML=`<strong>${x.toFixed(c[4]==='%'?1:0).toLocaleString()} ${c[4]}</strong>`;r.classList.add('show')}}addExtraTools();
-if(document.body.dataset.customCalculator==='pregnancy-week'){const root=document.querySelector('#calculator');root.innerHTML=`<h1>임신 주수 계산기</h1><p class="lead">마지막 생리 시작일을 기준으로 임신 주수와 예정일을 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><label>마지막 생리 시작일 <input id="pw" type="date"></label><button class="primary-btn" id="pwc">계산하기</button></div><div class="result" id="pwr"></div><p class="calculator-note">의료 진단이 아닌 날짜 기준 참고용입니다.</p></section>`;root.querySelector('#pwc').onclick=()=>{let d=new Date(root.querySelector('#pw').value),now=new Date(),days=Math.floor((now-d)/864e5),due=new Date(d);due.setDate(due.getDate()+280);let r=root.querySelector('#pwr');r.innerHTML=`<strong>임신 ${Math.floor(days/7)}주 ${days%7}일</strong><p>예정일 ${due.toLocaleDateString('ko-KR')}</p>`;r.classList.add('show')}}
-Object.entries(extraTools).forEach(([k,v])=>calculators[k]={n:v[0],c:v[1],d:'생활에 필요한 계산기입니다.'});calculators['pregnancy-week']={n:'임신 주수 계산기',c:'health',d:'임신 주수와 예정일을 계산합니다.'};cats.business[3]+=' volumetric-weight';cats.money[3]+=' compound-interest';cats.health[3]+=' body-fat pregnancy-week';cats.life[3]+=' fuel-cost';if(document.body.dataset.category)category();
-// 모든 계산기 등록이 끝난 뒤 메인 탐색 영역도 최신 목록으로 다시 그립니다.
-if(document.querySelector('.popular-list')){home();improveCalculatorSearch();}
-*/
 
 if(document.body.dataset.customCalculator==='scale'){
   const root=document.querySelector('#calculator');
@@ -500,7 +481,7 @@ calculators.scale={n:'스케일 계산기',c:'life',d:'축척 비율로 실제 �
 cats.life[3]+=' scale';
 if(document.body.dataset.category==='life')category();
 
-// 최근 추가 계산기: 메인과 분리된 공통 실행 구조로 다시 연결합니다.
+// 추가 계산기 검색·카테고리 등록
 const restoredTools={
  'four-insurance':['4대보험 계산기','business',['월 급여(원)','근로자 부담률 합계(%)']],
  'annual-salary':['연봉 계산기','business',['연봉(원)','연간 상여금(원)']],
@@ -512,33 +493,49 @@ const restoredTools={
  'body-fat':['체지방률 계산기','health',['키(cm)','허리둘레(cm)','몸무게(kg)']],
  'fuel-cost':['연료비 계산기','life',['주행 거리(km)','연비(km/L)','유가(원/L)']]
 };
-function restoredResult(type,v){
-  if(type==='four-insurance')return [v[0]*v[1]/100,'예상 월 공제액'];
-  if(type==='annual-salary')return [(v[0]+v[1])/12,'상여금 포함 세전 월 평균'];
-  if(type==='jeonse-loan')return [v[0]*v[1]/1200,'원금 상환 제외 월 이자'];
-  if(type==='parental-leave')return [v[0]*v[1]/100,'월 예상 급여 (제도 상·하한 별도)'];
-  if(type==='car-installment'){const p=v[0]-v[1],r=v[2]/1200,n=v[3],m=r?p*r*(1+r)**n/((1+r)**n-1):p/n;return [m,`월 납입액 · 총 이자 ${Math.round(m*n-p).toLocaleString()}원`];}
-  if(type==='volumetric-weight')return [v[0]*v[1]*v[2]/6000,'항공·택배 기준 부피무게(kg)'];
-  if(type==='compound-interest')return [v[0]*(1+v[1]/100)**v[2],'복리 적용 예상 금액'];
-  if(type==='body-fat')return [Math.max(0,(v[1]/v[0]*100-40)+(v[2]/v[0]-.4)*10),'간편 추정 체지방률(%)'];
-  if(type==='fuel-cost')return [v[0]/v[1]*v[2],'예상 연료비'];
-}
-function renderRestoredTool(){
-  const type=document.body.dataset.customCalculator,tool=restoredTools[type];
-  if(!tool)return;
-  const root=document.querySelector('#calculator');
-  root.innerHTML=`<h1>${tool[0]}</h1><p class="lead">필요한 값을 입력해 예상 결과를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${tool[2].map((label,index)=>`<label><span>${label}</span><input id="restored-${index}" type="number" placeholder="예: ${index?10:1000000}"></label>`).join('')}</div><button class="primary-btn" id="restored-calc">계산하기</button></div><div class="result" id="restored-result"></div><p class="calculator-note">제도·계약 조건과 실제 상품 기준에 따라 결과는 달라질 수 있습니다.</p></section>`;
-  root.querySelector('#restored-calc').onclick=()=>{const values=tool[2].map((_,index)=>Number(root.querySelector(`#restored-${index}`).value));const result=root.querySelector('#restored-result');if(values.some(value=>!Number.isFinite(value)||value<=0)){result.innerHTML='<strong>입력값을 확인해 주세요</strong>';result.classList.add('show');return}const [amount,label]=restoredResult(type,values);result.innerHTML=`<strong>${Math.round(amount).toLocaleString('ko-KR')}${type==='body-fat'?'%':'원'}</strong><p>${label}</p>`;result.classList.add('show')};
-}
-Object.entries(restoredTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:'예상 금액을 계산합니다.'});
+const restoredDescriptions={
+  'four-insurance':'월 보수액을 기준으로 국민연금·건강보험·장기요양·고용보험의 근로자 부담액을 추정합니다.',
+  'annual-salary':'계약 연봉과 별도 상여, 지급 개월 수를 반영해 월 세전·세후 평균을 비교합니다.',
+  'jeonse-loan':'전세대출 원금과 연 금리, 상환 방식을 기준으로 월 이자와 총 부담을 추정합니다.',
+  'parental-leave':'통상임금과 적용 비율·상하한을 직접 입력해 육아휴직 급여 예상액을 계산합니다.',
+  'car-installment':'차량 가격·선수금·부대비용·금리·기간을 반영해 월 할부금과 총 이자를 계산합니다.',
+  'volumetric-weight':'박스 가로·세로·높이와 운송사 분모로 부피무게를 계산합니다.',
+  'compound-interest':'초기 투자금과 월 납입액, 수익률, 기간을 반영한 복리 잔액을 계산합니다.',
+  'body-fat':'성별과 키·목·허리·엉덩이 둘레로 미 해군식 체지방률 참고값을 추정합니다.',
+  'fuel-cost':'거리·연비·유가·반복 횟수로 주유비와 이동 비용을 계산합니다.'
+};
+Object.entries(restoredTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:restoredDescriptions[key]});
 cats.money[3]+=' jeonse-loan car-installment compound-interest';cats.business[3]+=' four-insurance annual-salary parental-leave volumetric-weight';cats.health[3]+=' body-fat';cats.life[3]+=' fuel-cost';
-renderRestoredTool();
 if(document.querySelector('.popular-list')){home();improveCalculatorSearch();}
 if(document.body.dataset.category)category();
 
+if(document.body.dataset.customCalculator==='body-fat'){
+  const root=document.querySelector('#calculator');
+  root.innerHTML=`<a class="calculator-home" href="/categories/health.html">건강 카테고리 더보기</a><h1>체지방률 계산기</h1><p class="lead">성별과 신체 둘레를 입력해 미 해군식 체지방률 참고값을 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>성별</span><select id="bf-sex"><option value="male">남성</option><option value="female">여성</option></select></label><label><span>키(cm)</span><input id="bf-height" type="number" min="1" step="0.1" inputmode="decimal" placeholder="예: 175"></label><label><span>목둘레(cm)</span><input id="bf-neck" type="number" min="1" step="0.1" inputmode="decimal" placeholder="예: 38"></label><label><span>허리둘레(cm)</span><input id="bf-waist" type="number" min="1" step="0.1" inputmode="decimal" placeholder="예: 85"></label><label><span>엉덩이둘레(cm, 여성만)</span><input id="bf-hip" type="number" min="1" step="0.1" inputmode="decimal" placeholder="예: 95"></label></div><button class="primary-btn" id="bf-calc" type="button">체지방률 계산하기</button></div><div class="result" id="bf-result" aria-live="polite"></div><p class="calculator-note">줄자 측정과 공식을 이용한 통계적 추정치이며 의료 진단이나 체성분 검사 결과를 대신하지 않습니다.</p></section><section class="content-block"><h2>입력과 계산 공식</h2><p>남성은 키·목·허리둘레를, 여성은 엉덩이둘레까지 사용합니다. cm를 inch로 바꾼 뒤 남성은 86.010×log10(허리-목)-70.041×log10(키)+36.76, 여성은 163.205×log10(허리+엉덩이-목)-97.684×log10(키)-78.387을 적용합니다.</p></section><section class="content-block"><h2>계산 예시와 해석</h2><p>남성, 키 175cm, 목 38cm, 허리 85cm를 입력하면 약 17.0%입니다. 측정 위치와 줄자 압력만 달라져도 값이 달라질 수 있으므로 같은 조건에서의 변화 추적에 활용하세요.</p></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/bmi.html">BMI 계산기</a><a href="/calculators/target-weight.html">적정 체중 계산기</a><a href="/calculators/bmr.html">기초대사량 계산기</a><a href="/calculators/calorie.html">칼로리 계산기</a></div></section>`;
+  root.querySelector('#bf-calc').onclick=()=>{
+    const sex=root.querySelector('#bf-sex').value,height=Number(root.querySelector('#bf-height').value),neck=Number(root.querySelector('#bf-neck').value),waist=Number(root.querySelector('#bf-waist').value),hip=Number(root.querySelector('#bf-hip').value),result=root.querySelector('#bf-result');
+    const required=[height,neck,waist,...(sex==='female'?[hip]:[])];
+    if(required.some(value=>!Number.isFinite(value)||value<=0)||waist<=neck||(sex==='female'&&waist+hip<=neck)){result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>필수 신체 치수는 0보다 크게 입력하고 허리둘레는 목둘레보다 크게 입력해 주세요.</p>';result.classList.add('show');return}
+    const toInch=value=>value/2.54;
+    const estimate=sex==='male'?86.010*Math.log10(toInch(waist)-toInch(neck))-70.041*Math.log10(toInch(height))+36.76:163.205*Math.log10(toInch(waist)+toInch(hip)-toInch(neck))-97.684*Math.log10(toInch(height))-78.387;
+    if(!Number.isFinite(estimate)||estimate<0||estimate>75){result.innerHTML='<strong>측정값을 다시 확인해 주세요</strong><p>공식으로 해석하기 어려운 결과입니다. 측정 위치와 단위를 확인해 주세요.</p>';result.classList.add('show');return}
+    result.innerHTML=`<strong>${estimate.toFixed(1)}%</strong><p>입력한 둘레를 미 해군식에 적용한 참고값입니다. 같은 위치와 조건에서 반복 측정한 변화량을 중심으로 보세요.</p>`;
+    result.classList.add('show');
+  };
+}
+
 const batchSearchTools={
- 'percent-change':['퍼센트 증가율·감소율 계산기','money'], 'break-even':['손익분기점 계산기','business'], roi:['ROI 계산기','money'], exchange:['환율 계산기','money'], 'shipping-split':['배송비 분할 계산기','business'], electricity:['전기요금 계산기','life'], 'travel-budget':['여행 경비 계산기','life'], 'calorie-deficit':['칼로리 적자 계산기','health'], 'exam-target':['시험 성적 목표 계산기','education'], 'income-tax':['근로소득 세금 간편 계산기','business']};
-Object.entries(batchSearchTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:'생활에 필요한 계산기입니다.'});
+ 'percent-change':['퍼센트 증가율·감소율 계산기','money','이전 값과 이후 값의 차이와 증가율·감소율을 계산합니다.'],
+ 'break-even':['손익분기점 계산기','business','고정비·판매가·변동비로 손익분기 판매량과 목표이익 수량을 계산합니다.'],
+ roi:['ROI 계산기','money','초기 투자금·추가 비용·회수금으로 ROI와 연환산 수익률을 계산합니다.'],
+ exchange:['환율 계산기','money','외화 금액과 환율·수수료·우대율로 실제 원화 환산액을 추정합니다.'],
+ 'shipping-split':['배송비 분할 계산기','business','상품 금액이나 수량에 따라 배송비 분담액을 나눠 계산합니다.'],
+ electricity:['에어컨 전기세 계산기','life','에어컨 소비전력과 사용시간으로 월 전력사용량과 간편 예상 비용을 계산합니다.'],
+ 'travel-budget':['여행 경비 계산기','life','교통·숙박·식비·인원수로 총 여행 예산과 1인당 비용을 계산합니다.'],
+ 'calorie-deficit':['칼로리 적자 계산기','health','유지 열량과 섭취 열량 차이로 일·주간 칼로리 적자를 추정합니다.'],
+ 'exam-target':['시험 성적 목표 계산기','education','현재 반영 점수와 목표 점수로 남은 시험에서 필요한 점수를 역산합니다.'],
+ 'income-tax':['근로소득 세금 간편 계산기','business','연간 총급여와 공제·기납부세액으로 소득세와 지방소득세를 추정합니다.']};
+Object.entries(batchSearchTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:value[2]});
 cats.money[3]+=' percent-change roi exchange';cats.business[3]+=' break-even shipping-split income-tax';cats.life[3]+=' electricity travel-budget';cats.health[3]+=' calorie-deficit';cats.education[3]+=' exam-target';
 if(document.querySelector('.popular-list')){home();improveCalculatorSearch();}if(document.body.dataset.category)category();
 
@@ -548,7 +545,7 @@ function makeHomeCategoriesExpandable(){
   const wrap=grid.parentElement;
   let panel=wrap.querySelector('.category-calculator-panel');
   if(!panel){panel=document.createElement('div');panel.className='category-calculator-panel';grid.insertAdjacentElement('afterend',panel)}
-  const render=(key)=>{const data=cats[key],ids=[...new Set(data[3].trim().split(/\s+/))].filter(id=>calculators[id]).sort((a,b)=>calculators[a].n.localeCompare(calculators[b].n,'ko-KR'));panel.innerHTML=`<div class="category-panel-heading"><div><p>${data[2]}</p><h3>${data[0]}</h3></div><a href="/categories/${key}.html">전체 보기 →</a></div><div class="category-calculator-list">${ids.map(id=>`<a href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'계산기'}</span></a>`).join('')}</div>`;panel.classList.add('show')};
+  const render=(key)=>{const data=cats[key],ids=[...new Set(data[3].trim().split(/\s+/))].filter(id=>calculators[id]).sort((a,b)=>calculators[a].n.localeCompare(calculators[b].n,'ko-KR'));panel.innerHTML=`<div class="category-panel-heading"><div><p>${data[2]}</p><h3>${data[0]}</h3></div><a href="/categories/${key}.html">전체 보기 →</a></div><div class="category-calculator-list">${ids.map(id=>`<a href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`).join('')}</div>`;panel.classList.add('show')};
   grid.innerHTML=Object.entries(cats).map(([key,data])=>`<button type="button" class="home-category" data-category="${key}"><span>${data[1]}</span>${data[0]}</button>`).join('');
   grid.onclick=event=>{const button=event.target.closest('.home-category');if(!button)return;grid.querySelectorAll('.home-category').forEach(item=>item.classList.toggle('active',item===button));render(button.dataset.category)};
   const first=grid.querySelector('.home-category');if(first){first.classList.add('active');render(first.dataset.category)}
@@ -600,7 +597,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
 
   const unique=ids=>[...new Set(String(ids||'').trim().split(/\s+/).filter(Boolean))];
   const safeCard=id=>calculators[id]?card(id):'';
-  const safeLink=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
+  const safeLink=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
   const groupBlock=g=>{
     const links=g.ids.map(safeLink).filter(Boolean).join('');
     if(!links)return '';
@@ -799,7 +796,25 @@ function enhanceLifeDateTools(){
     };
     return;
   }
-  if(key==='d-day')root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>디데이 계산기</h1><p class="lead">기준일과 목표일 사이의 남은 날짜 또는 지난 날짜를 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label>기준일<input id="ld-date" type="date"></label><div class="field-with-option"><label>목표일<input id="ld-target" type="date"></label><label class="field-option"><input id="ld-include" type="checkbox"> 목표일 포함</label></div></div><button class="primary-btn" id="ld-calc">디데이 계산하기</button></div><div class="result" id="ld-result"></div></section>`;
+  if(key==='d-day'){
+    root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>디데이 계산기</h1><p class="lead">기준일과 목표일 사이의 남은 날짜 또는 지난 날짜를 날짜 단위로 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>기준일</span><input id="ld-date" type="date"></label><label><span>목표일</span><input id="ld-target" type="date"></label></div><div class="date-options"><label class="tax-option"><input id="ld-include-base" type="checkbox"> 기준일 포함</label><label class="tax-option"><input id="ld-include-target" type="checkbox" checked> 목표일 포함</label></div><button class="primary-btn" id="ld-calc" type="button">디데이 계산하기</button></div><div class="result" id="ld-result" aria-live="polite"></div><p class="calculator-note">시각은 계산하지 않고 선택한 날짜의 자정 기준으로 비교합니다. 자정 이후에는 기준일이 바뀔 수 있으니 실제 일정의 시간대도 확인하세요.</p></section>`;
+    const today=new Date(),pad=value=>String(value).padStart(2,'0');
+    root.querySelector('#ld-date').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+    root.querySelector('#ld-calc').onclick=()=>{
+      const baseValue=root.querySelector('#ld-date').value,targetValue=root.querySelector('#ld-target').value,result=root.querySelector('#ld-result');
+      if(!baseValue||!targetValue){result.innerHTML='<strong>두 날짜를 모두 선택해 주세요</strong><p>기준일과 목표일이 있어야 남은 날짜를 계산할 수 있습니다.</p>';result.classList.add('show');return}
+      const [baseYear,baseMonth,baseDay]=baseValue.split('-').map(Number),[targetYear,targetMonth,targetDay]=targetValue.split('-').map(Number);
+      const raw=(Date.UTC(targetYear,targetMonth-1,targetDay)-Date.UTC(baseYear,baseMonth-1,baseDay))/86400000;
+      if(!Number.isFinite(raw)){result.innerHTML='<strong>날짜를 확인해 주세요</strong><p>유효한 기준일과 목표일을 선택해 주세요.</p>';result.classList.add('show');return}
+      const includeBase=root.querySelector('#ld-include-base').checked,includeTarget=root.querySelector('#ld-include-target').checked;
+      const days=Math.max(0,Math.abs(raw)+(includeBase?1:0)-(includeTarget?0:1)),weeks=Math.floor(days/7),remain=days%7;
+      const label=raw===0?'D-Day':raw>0?`D-${days}`:`D+${days}`;
+      const direction=raw===0?'기준일과 목표일이 같습니다.':raw>0?`목표일까지 ${days}일 남았습니다.`:`목표일로부터 ${days}일 지났습니다.`;
+      result.innerHTML=`<div class="utility-result-grid"><div><span>디데이</span><strong>${label}</strong></div><div><span>주 단위</span><b>${weeks}주 ${remain}일</b></div><div><span>날짜 차이</span><b>${days.toLocaleString('ko-KR')}일</b></div></div><p>${direction} 기준일 ${includeBase?'포함':'제외'}, 목표일 ${includeTarget?'포함':'제외'} 기준입니다.</p>`;
+      result.classList.add('show');
+    };
+    return;
+  }
   if(key==='time')root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>시간 계산기</h1><p class="lead">자정 넘김과 휴게시간을 반영해 실제 경과 시간을 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label>시작 시간<input id="lt-start" type="time"></label><label>종료 시간<input id="lt-end" type="time"></label><label>제외할 시간(분)<input id="lt-break" type="number" placeholder="예: 60"></label></div><button class="primary-btn" id="lt-calc">시간 계산하기</button></div><div class="result" id="lt-result"></div></section>`;
   const button=root.querySelector('.primary-btn');button.onclick=()=>{const r=root.querySelector('.result');if(key==='time'){let a=root.querySelector('#lt-start').value,b=root.querySelector('#lt-end').value,br=+root.querySelector('#lt-break').value||0;if(!a||!b)return;let m=t=>t.split(':').reduce((s,v)=>s*60+(+v),0),d=m(b)-m(a);if(d<0)d+=1440;d=Math.max(0,d-br);r.innerHTML=`<strong>${Math.floor(d/60)}시간 ${d%60}분</strong><p>휴게시간 ${br}분을 제외한 시간입니다.</p>`}else{const a=new Date(root.querySelector('#ld-date').value);if(isNaN(a))return;if(key==='date'){const days=+root.querySelector('#ld-days').value,dir=+root.querySelector('#ld-direction').value;if(!Number.isFinite(days))return;a.setDate(a.getDate()+days*dir);r.innerHTML=`<strong>${a.toLocaleDateString('ko-KR')}</strong>`}else{const b=new Date(root.querySelector('#ld-target').value);if(isNaN(b))return;let d=Math.round((b-a)/864e5);if(root.querySelector('#ld-include').checked)d+=d>=0?1:-1;r.innerHTML=`<strong>${d>=0?'D-'+d:'D+'+Math.abs(d)}</strong><p>기준일과 목표일의 차이입니다.</p>`}}r.classList.add('show')};
 }
@@ -842,11 +857,22 @@ function addCalculatorHomeLink(){
 addCalculatorHomeLink();
 
 const advancedSearchTools={
-  dsr:['DSR 계산기','money'], 'mortgage-loan':['주택담보대출 계산기','money'], 'monthly-average-income':['월평균합산소득 계산기','money'], 'stock-return':['주식 수익률 계산기','money'], 'prepayment-fee':['중도상환수수료 계산기','money'], 'car-acquisition-tax':['자동차 취득세 계산기','money'],
-  'card-installment':['카드 할부 수수료 계산기','money'], 'housing-subscription':['청약 가점 계산기','money'], 'monthly-rent-deduction':['월세 세액공제 계산기','money'], 'loan-schedule':['대출 상환 스케줄 계산기','money'], 'employee-health-insurance':['직장인 건강보험료 계산기','money'], 'grade-cutoff':['등급컷 계산기','education'],
-  ovulation:['배란일·가임기 계산기','health'], 'menstrual-cycle':['생리 주기 계산기','health']
+  dsr:['DSR 계산기','money','연소득 대비 기존·신규 대출의 연간 원리금 상환 비율을 계산합니다.'],
+  'mortgage-loan':['주택담보대출 계산기','money','주택가격·대출액·금리·상환 방식으로 월 납입액과 LTV를 추정합니다.'],
+  'monthly-average-income':['월평균합산소득 계산기','money','가구원별 세전 소득을 월 단위로 합산해 공공주택 소득기준과 비교합니다.'],
+  'stock-return':['주식 수익률 계산기','money','매수·매도 단가와 수량·왕복 수수료로 손익과 수익률을 계산합니다.'],
+  'prepayment-fee':['중도상환수수료 계산기','money','상환 원금·수수료율·잔존기간으로 예상 중도상환수수료를 계산합니다.'],
+  'car-acquisition-tax':['자동차 취득세 계산기','money','차량 과세표준과 적용 세율로 예상 취득세를 계산합니다.'],
+  'card-installment':['카드 할부 수수료 계산기','money','결제 금액·할부 기간·수수료율로 월 부담액과 총 수수료를 계산합니다.'],
+  'housing-subscription':['청약 가점 계산기','money','무주택기간·부양가족·통장 가입기간으로 민영주택 청약 가점을 계산합니다.'],
+  'monthly-rent-deduction':['월세 세액공제 계산기','money','총급여·월세·거주기간으로 연말정산 월세 세액공제 예상액을 계산합니다.'],
+  'loan-schedule':['대출 상환 스케줄 계산기','money','상환 방식별 월 원금·이자·잔액의 흐름을 표로 계산합니다.'],
+  'employee-health-insurance':['직장인 건강보험료 계산기','money','월 보수액으로 건강보험·장기요양보험 근로자 부담분을 계산합니다.'],
+  'grade-cutoff':['등급컷 계산기','education','수강 인원과 5·9등급 누적 비율로 예상 석차 경계를 계산합니다.'],
+  ovulation:['배란일·가임기 계산기','health','최근 생리 시작일과 평균 주기로 예상 배란일과 가임기를 계산합니다.'],
+  'menstrual-cycle':['생리 주기 계산기','health','최근 생리 시작일과 평균 주기로 다음 시작일을 추정합니다.']
 };
-Object.entries(advancedSearchTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:'생활에 필요한 계산기입니다.'});
+Object.entries(advancedSearchTools).forEach(([key,value])=>calculators[key]={n:value[0],c:value[1],d:value[2]});
 cats.money[3]+=' dsr mortgage-loan monthly-average-income stock-return prepayment-fee car-acquisition-tax card-installment housing-subscription monthly-rent-deduction loan-schedule employee-health-insurance';
 cats.health[3]+=' ovulation menstrual-cycle';
 cats.education[3]+=' grade-cutoff';

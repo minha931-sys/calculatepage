@@ -5,8 +5,8 @@
 
   const href=id=>`/calculators/${id}.html`;
   const unique=ids=>[...new Set(String(ids||'').trim().split(/\s+/).filter(Boolean))];
-  const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
-  const link=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
+  const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
+  const link=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
   const groupBlock=g=>{
     const links=g.ids.map(link).filter(Boolean).join('');
     return links?`<article class="category-purpose-card"><h3>${g.title}</h3><p>${g.desc}</p><div class="category-purpose-links">${links}</div></article>`:'';
@@ -27,7 +27,7 @@
         {title:'세금 / 공제',desc:'세금과 공제 예상액을 빠르게 보고 신고 전 체크리스트로 활용하세요.',ids:['capital-gains-tax','gift-tax','monthly-rent-deduction','property-tax','car-acquisition-tax','lotto-tax']},
         {title:'투자 / 주식',desc:'매수 단가, 수익률, 연평균 성장률, 레버리지 위험을 계산해 투자 판단을 보조합니다.',ids:['average-price','averaging-down','stock-return','stock-leverage','cagr','roi','percent-change']}
       ],
-      comparisons:[['예금과 적금','예금은 목돈을 한 번 맡기고, 적금은 매달 나눠 납입합니다. 같은 금리라도 돈이 맡겨지는 기간이 달라 이자가 다릅니다.'],['원리금균등과 원금균등','원리금균등은 월 납입액이 거의 일정하고, 원금균등은 첫 달 부담이 크지만 시간이 갈수록 줄어 일반적으로 총이자가 적습니다.'],['퍼센트와 할인율','퍼센트 계산기는 비율 자체를 구하고, 할인율 계산기는 정가에서 줄어드는 금액과 최종 가격을 구합니다.']],
+      comparisons:[['예금과 적금','예금은 목돈을 한 번 맡기고, 적금은 매달 나눠 납입합니다. 같은 금리라도 돈이 맡겨지는 기간이 달라 이자가 다릅니다.'],['대출 이자와 상환 스케줄','대출 이자 계산기는 상환 방식별 총 부담을 비교하고, 상환 스케줄은 매월 원금·이자·잔액의 흐름을 회차별 표로 확인할 때 적합합니다.'],['원리금균등과 원금균등','원리금균등은 월 납입액이 거의 일정하고, 원금균등은 첫 달 부담이 크지만 시간이 갈수록 줄어 일반적으로 총이자가 적습니다.'],['ROI와 CAGR','ROI는 전체 투자기간의 수익률이고, CAGR은 시작값과 종료값을 기간에 맞춰 연평균 복리 성장률로 환산합니다.'],['퍼센트와 할인율','퍼센트 계산기는 비율 자체를 구하고, 할인율 계산기는 정가에서 줄어드는 금액과 최종 가격을 구합니다.']],
       guide:'금융 계산기는 실제 계약이나 신청 전에 대략적인 부담과 수익을 빠르게 파악하는 데 도움이 됩니다. 다만 금리, 세율, 수수료, 지원 조건은 금융기관·정부 제도·적용 시점에 따라 달라질 수 있으므로 최종 결정 전 공식 안내를 함께 확인하는 것이 좋습니다.',
       faq:[['계산 결과가 실제 금액과 같나요?','입력값을 기준으로 한 예상 결과입니다. 실제 금액은 상품 조건, 세율, 우대금리, 수수료에 따라 달라질 수 있습니다.'],['금융 계산기는 어떤 순서로 보면 좋나요?','대출은 월 상환액과 총 이자를 먼저 보고, 예금·적금은 세후 이자와 만기 금액을 함께 확인하는 것이 좋습니다.'],['입력한 금융 정보가 저장되나요?','이 사이트의 계산기는 브라우저에서 즉시 계산하는 용도이며, 별도 저장 기능이 없는 입력값은 서버에 저장되지 않습니다.']]
     },
@@ -67,7 +67,7 @@
       lead:'부가세, 마진율, 견적, 프리랜서 단가, 근무시간, 퇴직금 등 실무에 필요한 계산기를 모았습니다.',
       recommend:['vat','margin','estimate','freelance-rate','severance'],
       groups:[{title:'사업 / 판매',desc:'판매가, 원가, 세금, 광고 효율, 손익분기점과 견적을 함께 확인해 의사결정에 활용하세요.',ids:['vat','margin','cpm','break-even','estimate','interior-estimate']},{title:'프리랜서 / 인건비',desc:'시간당 단가, 시급, 근무시간, 연차 등 인건비 관련 계산을 모았습니다.',ids:['freelance-rate','wage','work-hours','annual-leave','weekly-holiday-pay','overtime-pay']},{title:'급여 / 퇴직',desc:'퇴직금, 4대보험, 통상임금, 평균임금처럼 근로 관련 금액을 추정합니다.',ids:['severance','four-insurance','annual-salary','ordinary-wage','average-wage','annual-leave-pay','parental-leave','income-tax','withholding-33']},{title:'배송 / 정산',desc:'배송비 분담과 물류 규격 계산으로 견적·정산을 보조합니다.',ids:['shipping-split','cbm','volumetric-weight']}],
-      comparisons:[['부가세와 마진율','부가세는 거래세를 공급가액에서 분리하고, 마진율은 판매가에서 원가를 뺀 이익 비율을 봅니다.'],['시급과 월급 실수령액','시급 계산은 근무시간당 세전 급여를 보고, 실수령액은 보험료와 세금을 뺀 월 예상액을 봅니다.'],['통상임금과 평균임금','통상임금은 정기·일률적으로 지급되는 임금 기준, 평균임금은 사유 발생 전 일정 기간의 실제 임금 평균으로 쓰임이 다릅니다.']],
+      comparisons:[['부가세와 마진율','부가세는 거래세를 공급가액에서 분리하고, 마진율은 판매가에서 원가를 뺀 이익 비율을 봅니다.'],['시급과 월급 실수령액','시급 계산은 근무시간당 세전 급여를 보고, 실수령액은 보험료와 세금을 뺀 월 예상액을 봅니다.'],['주휴수당과 연장근로수당','주휴수당은 소정근로일 개근과 주 소정근로시간을 바탕으로 유급 주휴시간을 계산하고, 연장근로수당은 법정근로시간을 넘긴 실제 연장시간과 가산율을 봅니다.'],['퇴직금과 퇴직연금','퇴직금 계산기는 평균임금과 계속근로기간으로 예상 일시금을 구합니다. 퇴직연금의 적립·운용수익과 수령 방식은 가입 제도와 금융기관 조건을 별도로 확인해야 합니다.'],['통상임금과 평균임금','통상임금은 정기·일률적으로 지급되는 임금 기준, 평균임금은 사유 발생 전 일정 기간의 실제 임금 평균으로 쓰임이 다릅니다.']],
       guide:'업무 계산기는 견적, 정산, 급여, 판매 전략을 빠르게 검토하는 데 유용합니다. 실제 세금 신고, 근로계약, 거래 조건은 업종과 계약서에 따라 달라질 수 있으므로 중요한 업무에는 세무·노무·계약 기준을 확인하세요.',
       faq:[['부가세와 마진율은 같이 봐야 하나요?','네. 부가세 포함 판매가인지, 공급가액 기준인지에 따라 실제 이익률 판단이 달라질 수 있습니다.'],['프리랜서 단가는 어떻게 정하는 게 좋나요?','목표 순수입뿐 아니라 영업·미팅·수정 시간, 세금, 장비비, 플랫폼 수수료까지 반영하는 것이 좋습니다.'],['퇴직금이나 4대보험 계산은 확정 금액인가요?','근속기간, 평균임금, 보수월액, 요율, 상한액에 따라 실제 금액이 달라질 수 있는 예상값입니다.']]
     }
@@ -105,8 +105,8 @@
   if(key!=='conversion'||!root||typeof calculators==='undefined')return;
 
   const href=id=>`/calculators/${id}.html`;
-  const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
-  const link=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b><span>${calculators[id].d||'필요한 값을 입력해 바로 계산하세요.'}</span></a>`:'';
+  const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
+  const link=id=>calculators[id]?`<a href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
   const groupBlock=group=>{
     const links=group.ids.map(link).filter(Boolean).join('');
     return links?`<article class="category-purpose-card"><h3>${group.title}</h3><p>${group.desc}</p><div class="category-purpose-links">${links}</div></article>`:'';

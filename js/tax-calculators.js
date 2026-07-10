@@ -43,7 +43,6 @@
     root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${title}</h1><p class="lead">${desc}</p>
     <section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${inputs}</div><button class="primary-btn" id="tax-calc" type="button">계산하기</button></div><div class="result" aria-live="polite"></div><p class="calculator-note">${note}</p></section>
     <section class="content-block"><h2>${title} 사용 방법</h2>${guide}</section>
-    <section class="content-block"><h2>계산 전 꼭 확인하세요</h2><p>이 페이지는 사용자가 입력한 값으로 빠르게 확인하는 간편 계산기입니다. 세법, 보험료율, 정책 지원 조건은 적용 시점과 개인 상황에 따라 달라질 수 있으므로 신고·납부·가입 결정 전에는 국세청, 위택스, 국민건강보험공단, 국민연금공단 등 공식 안내를 함께 확인해 주세요.</p></section>
     ${related}`;
   };
 
@@ -259,7 +258,7 @@
             </tbody>
           </table>
         </div>
-        <p class="jlpt-source">참고: <a href="https://www.kinfa.or.kr/financialProduct/youthFutureSavings.do" target="_blank" rel="noopener">서민금융진흥원 청년미래적금 상품 안내</a></p>
+        <p class="jlpt-source">참고: <a href="https://www.kinfa.or.kr/financialProduct/youthFutureSavings.do" target="_blank" rel="noopener noreferrer">서민금융진흥원 청년미래적금 상품 안내</a></p>
       </section>
       <section class="content-block">
         <h2>예시로 보는 만기 예상액</h2>

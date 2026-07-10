@@ -36,24 +36,6 @@
     return;
   }
 
-  if(t==='electricity'){
-    shell('전기요금 계산기','월 사용량과 계약 구분을 입력하면 주택용 누진 구간을 적용해 예상 전기요금을 계산합니다.',
-      field('kwh','월 사용량(kWh)','350') + select('season','계절/구간',[['normal','기타 계절'],['summer','하계 7~8월']]) + field('vat','부가세·기금 등 가산율(%)','13.7'),
-      '주택용 저압의 기본요금·전력량요금 누진 구조를 간편 반영합니다. 실제 고지액은 복지할인, 기후환경요금, 연료비조정액 등에 따라 달라집니다.',
-      '<h2>주택용 전기요금 기준</h2><p>사용량이 늘수록 높은 단가가 적용되는 누진 구조입니다. 하계에는 일부 구간 한도가 완화됩니다.</p>');
-    root.querySelector('#bc').onclick=()=>{
-      const k=num('kwh'), add=(num('vat')||13.7)/100; if(!k) return invalid('월 사용량을 입력해 주세요.');
-      const summer=val('season')==='summer';
-      const limits=summer?[300,450,Infinity]:[200,400,Infinity];
-      const rates=[120,214.6,307.3], basics=summer?(k<=300?910:k<=450?1600:7300):(k<=200?910:k<=400?1600:7300);
-      let remain=k, energy=0, prev=0;
-      limits.forEach((limit,i)=>{const qty=Math.max(0,Math.min(k,limit)-prev); energy+=qty*rates[i]; prev=limit;});
-      const subtotal=basics+energy,total=subtotal*(1+add);
-      result(`<div class="savings-result-grid">${card('예상 전기요금',won(total))}${card('기본요금',won(basics))}${card('전력량요금',won(energy))}${card('가산 추정',won(total-subtotal))}</div><p>${k.toLocaleString()}kWh 사용 기준입니다.</p>`);
-    };
-    return;
-  }
-
   if(t==='travel-budget'){
     shell('여행 경비 계산기','항공·숙박·식비·교통비를 나눠 입력해 총 예산과 1인/1일 예산을 계산합니다.',
       field('people','인원 수','2') + field('days','여행 일수','3') + field('flight','항공·교통 총액(원)','400000') + field('hotel','숙박 총액(원)','300000') + field('food','1인 1일 식비(원)','50000') + field('local','현지 교통·입장료 총액(원)','150000') + field('extra','예비비(%)','10'),
@@ -99,9 +81,13 @@
       field('invest','초기 투자금(원)','10000000') + field('return','최종 회수금(원)','12000000') + field('months','투자 기간(개월)','12') + field('cost','추가 비용(원)','0'),
       '단순 ROI와 기간을 반영한 연환산 수익률을 함께 보여줍니다. 세금, 환율, 배당 재투자 여부는 별도 고려가 필요합니다.',
       '<h2>ROI 해석</h2><p>ROI는 총수익률이고, 연환산 수익률은 기간이 다른 투자안을 비교할 때 더 유용합니다.</p>');
+    ['invest','return','months','cost'].forEach(id=>root.querySelector('#'+id).min='0');
+    root.querySelector('#months').max='1200';
     root.querySelector('#bc').onclick=()=>{
-      const invest=num('invest'), ret=num('return'), months=num('months')||12, cost=num('cost'); if(!invest||!ret) return invalid('투자금과 회수금을 입력해 주세요.');
-      const net=ret-invest-cost, roi=net/(invest+cost)*100, annual=(Math.pow(ret/(invest+cost),12/months)-1)*100;
+      const values=['invest','return','months','cost'].map(val);
+      const invest=Number(values[0]),ret=Number(values[1]),months=Number(values[2]),cost=Number(values[3]);
+      if(values.some(value=>value.trim()==='')||[invest,ret,months,cost].some(value=>!Number.isFinite(value))||invest<=0||ret<0||months<=0||months>1200||cost<0) return invalid('초기 투자금은 0보다 크게, 회수금과 비용은 0 이상, 기간은 1~1,200개월 범위로 입력해 주세요.');
+      const totalInvest=invest+cost,net=ret-totalInvest,roi=net/totalInvest*100,annual=(Math.pow(ret/totalInvest,12/months)-1)*100;
       result(`<div class="savings-result-grid">${card('ROI',roi.toFixed(2)+'%')}${card('연환산 수익률',annual.toFixed(2)+'%')}${card('순이익',won(net))}${card('총 투입액',won(invest+cost))}</div>`);
     };
     return;

@@ -8,6 +8,8 @@
     document.body.dataset.advancedCalculator ||
     document.body.dataset.batch ||
     document.body.dataset.misc ||
+    document.body.dataset.taxCalculator ||
+    document.body.dataset.propertyLaborCalculator ||
     '';
 
   const SITE_ORIGIN = 'https://calculatepage.com';
@@ -105,20 +107,6 @@
     }
   }
 
-  function addUtilityNotes(){
-    if(document.documentElement.dataset.staticCalculatorContent==='true') return;
-    const slug = getSlug();
-    if(!slug || root.querySelector('.audit-usage-note')) return;
-    const leanPages = new Set([
-      'break-even','calorie-deficit','electricity','exam-target','exchange','income-tax',
-      'percent-change','roi','cagr','shipping-split','travel-budget','daily-proration','expected-value'
-    ]);
-    if(!leanPages.has(slug)) return;
-    root.insertAdjacentHTML('beforeend',
-      '<section class="content-block audit-usage-note"><h2>계산 결과를 볼 때 참고할 점</h2><p>이 계산기는 입력한 조건을 기준으로 빠르게 추정값을 보여주는 도구입니다. 실제 금액, 세금, 수수료, 정책 기준은 계약 조건이나 적용 시점에 따라 달라질 수 있으니 중요한 결정 전에는 공식 안내나 실제 명세를 함께 확인해 주세요.</p></section>'
-    );
-  }
-
   function addCalculatorStructuredData(){
     const slug = getSlug();
     if(!slug || document.querySelector('script[data-calculator-schema]')) return;
@@ -153,7 +141,11 @@
   function improveRelatedLinks(){
     const slug = getSlug();
     if(!slug) return;
-    let relatedBox = root.querySelector('.related');
+    const relatedSections = [...root.querySelectorAll('.content-block')].filter(section => {
+      const heading = [...section.children].find(element => element.tagName === 'H2');
+      return heading?.textContent.trim() === '관련 계산기' && section.querySelector('.related');
+    });
+    let relatedBox = relatedSections[0]?.querySelector('.related') || root.querySelector('.related');
     const labels = {
       percent:'퍼센트 계산기',discount:'할인율 계산기',salary:'월급 실수령액 계산기',gpa:'학점 계산기','d-day':'디데이 계산기','dutch-pay':'더치페이 계산기',
       'savings-interest':'예금 이자 계산기',installment:'적금 계산기','compound-interest':'적립식 복리 계산기','loan-interest':'대출 이자 계산기','mortgage-loan':'주택담보대출 계산기','monthly-average-income':'월평균합산소득 계산기',dsr:'DSR 계산기','prepayment-fee':'중도상환수수료 계산기',budget:'생활비 예산 계산기',vat:'부가세 계산기',margin:'마진율 계산기',estimate:'견적 계산기',
@@ -162,7 +154,9 @@
       'housing-subscription':'청약 가점 계산기','monthly-rent-deduction':'월세 세액공제 계산기','monthly-average-income':'월평균합산소득 계산기',
       'area-conversion':'평수 계산기',unit:'단위 변환 계산기',scale:'스케일 계산기',cbm:'CBM 계산기','volumetric-weight':'부피무게 계산기','interior-estimate':'인테리어 견적 계산기','real-estate-brokerage':'부동산 중개보수 계산기',
       'travel-budget':'여행 경비 계산기','shipping-split':'배송비 분할 계산기','fuel-cost':'유류비 계산기',exchange:'환율 계산기','average-price':'평단가 계산기','stock-return':'주식 수익률 계산기',roi:'ROI 계산기','averaging-down':'물타기 계산기','percent-change':'퍼센트 증가율 계산기',
-      'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기','unemployment-benefit':'실업급여 계산기'
+      'loan-schedule':'대출 상환 스케줄 계산기','annual-salary':'연봉 계산기','four-insurance':'4대보험 계산기',severance:'퇴직금 계산기','weekly-holiday-pay':'주휴수당 계산기','overtime-pay':'연장근로수당 계산기','ordinary-wage':'통상임금 계산기','pregnancy-week':'임신 주수 계산기','unemployment-benefit':'실업급여 계산기',
+      'youth-leap-account':'청년미래적금 계산기','youth-account-switch':'청년도약계좌 전환 비교 계산기','capital-gains-tax':'양도소득세 계산기','gift-tax':'증여세 계산기','national-pension':'국민연금 계산기','local-health-insurance':'지역가입자 건강보험료 계산기','property-tax':'재산세 계산기','real-estate-acquisition-tax':'부동산 취득세 계산기','comprehensive-real-estate-tax':'종합부동산세 계산기',
+      'break-even':'손익분기점 계산기','running-pace':'러닝 페이스 계산기','speed-conversion':'속도 변환 계산기','exercise-calorie':'운동 칼로리 계산기',calorie:'칼로리 계산기',bmi:'BMI 계산기',bmr:'기초대사량 계산기','body-fat':'체지방률 계산기','calorie-deficit':'칼로리 적자 계산기','target-weight':'적정 체중 계산기','daily-proration':'일할 계산기','average-wage':'평균임금 계산기','income-tax':'근로소득 세금 계산기',electricity:'에어컨 전기세 계산기'
     };
     labels.cagr = 'CAGR 계산기';
     labels['employee-health-insurance'] = '직장인 건강보험료 계산기';
@@ -175,9 +169,12 @@
       'd-day':['date','day-count','exam-dday','age'],
       'dutch-pay':['budget','travel-budget','shipping-split','discount'],
       'savings-interest':['installment','compound-interest','loan-interest','budget'],
+      installment:['savings-interest','compound-interest','youth-leap-account','budget'],
       'loan-interest':['mortgage-loan','loan-schedule','dsr','prepayment-fee'],
       'mortgage-loan':['loan-interest','loan-schedule','dsr','prepayment-fee'],
       'monthly-average-income':['housing-subscription','monthly-rent-deduction','salary','mortgage-loan'],
+      'housing-subscription':['monthly-average-income','mortgage-loan','real-estate-acquisition-tax','property-tax'],
+      'monthly-rent-deduction':['salary','income-tax','monthly-average-income','housing-subscription'],
       budget:['salary','dutch-pay','savings-interest','travel-budget'],
       vat:['estimate','margin','freelance-rate','percent'],
       margin:['vat','estimate','discount','freelance-rate'],
@@ -185,17 +182,21 @@
       'freelance-rate':['estimate','vat','margin','work-hours'],
       'work-hours':['wage','salary','weekly-holiday-pay','overtime-pay'],
       wage:['work-hours','salary','weekly-holiday-pay','ordinary-wage'],
+      'four-insurance':['salary','employee-health-insurance','national-pension','annual-salary'],
+      severance:['average-wage','ordinary-wage','annual-salary','salary'],
+      'weekly-holiday-pay':['wage','work-hours','ordinary-wage','overtime-pay'],
       date:['d-day','day-count','age','exam-dday'],
       'day-count':['date','d-day','work-hours','exam-dday'],
       age:['international-age','d-day','date','pregnancy-week'],
       'international-age':['age','date','d-day','day-count'],
+      bmi:['target-weight','body-fat','bmr','calorie'],
       'average-score':['gpa','target-gpa','school-grade','grade-cutoff'],
       'target-gpa':['gpa','retake','average-score','school-grade'],
       retake:['gpa','target-gpa','average-score','school-grade'],
       'school-grade':['grade-cutoff','average-score','exam-target','gpa'],
       'grade-cutoff':['school-grade','average-score','exam-target','exam-dday'],
       'exam-dday':['d-day','date','day-count','average-score'],
-      'expected-value':['average-score','exam-target','percent','roi'],
+      'expected-value':['percent','roi','stock-return','break-even'],
       'area-conversion':['scale','unit','interior-estimate','real-estate-brokerage'],
       unit:['area-conversion','scale','cbm','volumetric-weight'],
       scale:['area-conversion','unit','cbm','volumetric-weight'],
@@ -205,7 +206,20 @@
       'shipping-split':['dutch-pay','estimate','cbm','volumetric-weight'],
       'average-price':['stock-return','averaging-down','cagr','roi'],
       cagr:['compound-interest','roi','stock-return','percent-change'],
+      roi:['cagr','stock-return','compound-interest','percent-change'],
+      'stock-return':['roi','cagr','average-price','averaging-down'],
+      'running-pace':['speed-conversion','exercise-calorie','calorie','bmi'],
+      bmr:['calorie','calorie-deficit','bmi','target-weight'],
+      electricity:['budget','percent-change','daily-proration'],
+      'fuel-cost':['travel-budget','dutch-pay','budget','electricity'],
+      'daily-proration':['salary','wage','annual-salary','work-hours'],
       'loan-schedule':['loan-interest','dsr','prepayment-fee','savings-interest'],
+      'youth-leap-account':['installment','savings-interest','compound-interest','youth-account-switch'],
+      'youth-account-switch':['youth-leap-account','installment','savings-interest','compound-interest'],
+      'capital-gains-tax':['property-tax','comprehensive-real-estate-tax','real-estate-acquisition-tax','gift-tax'],
+      'gift-tax':['capital-gains-tax','property-tax','real-estate-acquisition-tax','comprehensive-real-estate-tax'],
+      'national-pension':['four-insurance','salary','employee-health-insurance','annual-salary'],
+      'local-health-insurance':['employee-health-insurance','four-insurance','salary','monthly-average-income'],
       'unemployment-benefit':['salary','annual-salary','four-insurance','severance']
     };
     const ids = (map[slug] || []).filter(id => id !== slug);
@@ -217,6 +231,7 @@
     if(!relatedBox || relatedBox.dataset.improvedRelated) return;
     relatedBox.innerHTML = ids.map(id => `<a href="/calculators/${id}.html">${labels[id] || id}</a>`).join('');
     relatedBox.dataset.improvedRelated = 'true';
+    relatedSections.slice(1).forEach(section => section.remove());
   }
 
   function bindResultShareButtons(){
@@ -415,7 +430,6 @@
     ensureHomeButton();
     normalizeInputs();
     improveStockLeverage();
-    addUtilityNotes();
     addCalculatorStructuredData();
     improveRelatedLinks();
     bindResultShareButtons();
