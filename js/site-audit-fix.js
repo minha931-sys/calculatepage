@@ -106,6 +106,7 @@
   }
 
   function addUtilityNotes(){
+    if(document.documentElement.dataset.staticCalculatorContent==='true') return;
     const slug = getSlug();
     if(!slug || root.querySelector('.audit-usage-note')) return;
     const leanPages = new Set([
@@ -141,6 +142,12 @@
       }
     });
     document.head.appendChild(script);
+  }
+
+  function restoreStaticCalculatorGuide(){
+    const guide = window.__staticCalculatorGuide;
+    if(!guide || root.querySelector('.static-calculator-guide')) return;
+    root.insertAdjacentHTML('beforeend', guide);
   }
 
   function improveRelatedLinks(){
@@ -418,15 +425,8 @@
   bindSilentFailGuard();
   window.addEventListener('load', run);
   setTimeout(run, 120);
-})();
-
-(function loadAdSenseContentGuide(){
-  if(!document.querySelector('#calculator')) return;
-  if(document.querySelector('script[src="/js/adsense-content.js"]')) return;
-  const script = document.createElement('script');
-  script.src = '/js/adsense-content.js';
-  script.defer = true;
-  document.head.appendChild(script);
+  window.addEventListener('load', () => setTimeout(restoreStaticCalculatorGuide, 1800));
+  setTimeout(restoreStaticCalculatorGuide, 1800);
 })();
 
 // Enhanced practical calculators for payroll, loans, and compound interest.
@@ -799,8 +799,11 @@
 
 // 개별 계산기 페이지 공통 SEO 보강: 사용 맥락, 체크포인트, FAQ를 자동 추가합니다.
 (function enhanceCalculatorSeoTemplate(){
+  // 계산기별 정적 안내문을 HTML에 제공하므로 공통 템플릿을 추가하지 않습니다.
+  return;
   const root=document.querySelector('#calculator');
   if(!root)return;
+  if(document.documentElement.dataset.staticCalculatorContent==='true')return;
 
   const slug=
     document.body.dataset.calculator||

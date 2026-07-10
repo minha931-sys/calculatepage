@@ -1,3 +1,9 @@
+const staticCalculatorIntro=document.querySelector('#calculator .static-calculator-intro');
+const staticCalculatorGuide=window.__staticCalculatorGuide || (staticCalculatorIntro
+  ? staticCalculatorIntro.innerHTML.replace(/<h1>[\s\S]*?<\/h1><p class="lead">[\s\S]*?<\/p>/,'')
+  : '');
+if(staticCalculatorGuide)document.documentElement.dataset.staticCalculatorContent='true';
+
 const calculators={
  percent:{n:'퍼센트 계산기',c:'money',d:'금액의 퍼센트와 퍼센트 비율을 간편하게 계산합니다.',f:[['number','기준값','100'],['number','퍼센트(%)','10']],op:'percent',r:['discount','vat']},discount:{n:'할인율 계산기',c:'money',d:'정가와 할인율을 입력해 할인 금액과 최종 가격을 계산합니다.',f:[['number','정가(원)','100000'],['number','할인율(%)','20']],op:'discount',r:['percent','dutch-pay']},'savings-interest':{n:'예금 이자 계산기',c:'money',d:'예금 원금, 금리, 기간으로 세전·세후 이자를 계산합니다.',f:[['number','예금 원금(원)','10000000'],['number','연 이자율(%)','3.5'],['number','예치 기간(개월)','12']],op:'interest',r:['installment','loan-interest']},installment:{n:'적금 계산기',c:'money',d:'매월 납입액과 금리로 적금 만기 예상액을 계산합니다.',f:[['number','월 납입액(원)','300000'],['number','연 이자율(%)','3.5'],['number','가입 기간(개월)','12']],op:'installment',r:['savings-interest','budget']},'loan-interest':{n:'대출 이자 계산기',c:'money',d:'대출금과 금리를 입력해 월 이자와 총 이자를 확인합니다.',f:[['number','대출 원금(원)','10000000'],['number','연 이자율(%)','4.5'],['number','대출 기간(개월)','36']],op:'loan',r:['savings-interest','salary']},salary:{n:'월급 실수령액 계산기',c:'money',d:'월 급여에서 예상 공제액을 뺀 월 실수령액을 계산합니다.',f:[['number','월 세전 급여(원)','3000000'],['number','공제율(%)','9']],op:'salary',r:['budget','freelance-rate']},budget:{n:'생활비 예산 계산기',c:'money',d:'월 수입과 고정·변동 지출을 바탕으로 남는 생활비를 계산합니다.',f:[['number','월 수입(원)','3000000'],['number','고정 지출(원)','1000000'],['number','변동 지출(원)','800000']],op:'budget',r:['dutch-pay','salary']},
  gpa:{n:'학점 계산기',c:'education',d:'과목별 학점과 성적을 입력해 이번 학기 평균 평점을 계산합니다.',op:'gpa',r:['target-gpa','average-score']},'target-gpa':{n:'목표 학점 계산기',c:'education',d:'누적 평점과 목표 평점을 바탕으로 다음 학기에 필요한 평점을 계산합니다.',f:[['number','현재 이수 학점','60'],['number','현재 평균 평점','3.5'],['number','다음 학기 학점','18'],['number','목표 누적 평점','3.8']],op:'targetgpa',r:['gpa','retake']},retake:{n:'재수강 학점 계산기',c:'education',d:'재수강 전후 성적과 학점으로 평균 평점 변화를 계산합니다.',f:[['number','현재 이수 학점','60'],['number','현재 평균 평점','3.2'],['number','재수강 과목 학점','3'],['number','기존 성적 평점','2.0'],['number','새 성적 평점','4.0']],op:'retake',r:['gpa','target-gpa']},'school-grade':{n:'내신 등급 계산기',c:'education',d:'석차와 전체 인원을 입력해 예상 내신 등급을 확인합니다.',f:[['number','내 석차','20'],['number','전체 학생 수','200']],op:'rank',r:['average-score','exam-dday']},'average-score':{n:'평균 점수 계산기',c:'education',d:'여러 과목의 점수를 입력해 평균 점수를 계산합니다.',f:[['text','점수 (쉼표로 구분)','80, 90, 85']],op:'average',r:['gpa','school-grade']},'exam-dday':{n:'시험 D-day 계산기',c:'education',d:'시험 날짜까지 남은 일수를 계산해 학습 계획에 활용하세요.',f:[['date','시험 날짜','']],op:'dday',r:['d-day','average-score']},
@@ -1139,6 +1145,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
 // 설명이 짧은 계산기 페이지에 사용 방법과 결과 해석 표를 보강합니다.
 (function(){
   const root=document.querySelector('#calculator');
+  if(staticCalculatorGuide)return;
   const key=document.body.dataset.calculator||document.body.dataset.customCalculator||document.body.dataset.advancedCalculator||document.body.dataset.taxCalculator||document.body.dataset.propertyLaborCalculator||document.body.dataset.batch||document.body.dataset.hotCalculator||document.body.dataset.misc||document.body.dataset.level;
   if(!root||!key||['cpm','jlpt-score'].includes(key))return;
   const categoryFallback=()=>{
@@ -1273,4 +1280,15 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   const observer=new MutationObserver(()=>add());
   observer.observe(root,{childList:true});
   setTimeout(()=>observer.disconnect(),1500);
+})();
+
+(function restoreStaticCalculatorGuide(){
+  if(!staticCalculatorGuide)return;
+  const append=()=>{
+    const root=document.querySelector('#calculator');
+    if(!root||root.querySelector('.static-calculator-guide'))return;
+    root.insertAdjacentHTML('beforeend',staticCalculatorGuide);
+  };
+  window.addEventListener('load',append);
+  setTimeout(append,1800);
 })();
