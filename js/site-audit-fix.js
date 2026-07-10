@@ -429,6 +429,26 @@
   setTimeout(restoreStaticCalculatorGuide, 1800);
 })();
 
+(function loadCalculatorEditorialContent(){
+  if(!document.querySelector('#calculator')||document.querySelector('script[src="/js/calculator-content.js"]'))return;
+  const script=document.createElement('script');
+  script.src='/js/calculator-content.js';
+  document.head.appendChild(script);
+})();
+
+(function improveNumericInputKeyboards(){
+  const apply=()=>{
+    document.querySelectorAll('input[type="number"]').forEach(input=>{
+      if(input.inputMode)return;
+      input.inputMode=input.step==='1'?'numeric':'decimal';
+    });
+  };
+  apply();
+  const observer=new MutationObserver(apply);
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  setTimeout(()=>observer.disconnect(),2000);
+})();
+
 // Enhanced practical calculators for payroll, loans, and compound interest.
 (function(){
   const root=document.querySelector('#calculator');
@@ -661,7 +681,7 @@
       const end = new Date(val('sv-end'));
       const wage = num('sv-wage');
       const periodDays = num('sv-days') || 92;
-      if(!wage || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) return show('sv-result','<strong>입력값을 확인해 주세요</strong><p>입사일, 퇴사일, 최근 3개월 임금 합계를 입력해 주세요.</p>');
+      if(!wage || wage<0 || periodDays<=0 || num('sv-bonus')<0 || num('sv-leave')<0 || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) return show('sv-result','<strong>입력값을 확인해 주세요</strong><p>입사일, 퇴사일과 0 이상의 임금, 0보다 큰 산정일수를 입력해 주세요.</p>');
       const serviceDays = Math.ceil((end - start) / 86400000);
       const bonusPart = num('sv-bonus') * 3 / 12;
       const leavePart = num('sv-leave') * 3 / 12;
@@ -689,7 +709,6 @@
           <div class="utility-fields">
             ${field('whp-hourly','시급(원)','10030')}
             ${field('whp-weekly','1주 소정근로시간','20')}
-            ${field('whp-days','주 소정근로일수','5')}
             ${select('whp-attend','소정근로일 개근 여부',[['yes','개근했어요'],['no','결근이 있어요']])}
           </div>
           <button class="primary-btn" id="whp-calc" type="button">주휴수당 계산하기</button>
@@ -705,11 +724,9 @@
     root.querySelector('#whp-calc').onclick = () => {
       const hourly = num('whp-hourly');
       const weeklyHours = num('whp-weekly');
-      const days = Math.max(1,num('whp-days') || 5);
-      if(!hourly || !weeklyHours) return show('whp-result','<strong>입력값을 확인해 주세요</strong><p>시급과 1주 소정근로시간을 입력해 주세요.</p>');
+      if(!hourly || !weeklyHours || hourly<0 || weeklyHours<0) return show('whp-result','<strong>입력값을 확인해 주세요</strong><p>0보다 큰 시급과 1주 소정근로시간을 입력해 주세요.</p>');
       const eligible = weeklyHours >= 15 && val('whp-attend') === 'yes';
-      const dailyHours = Math.min(8, weeklyHours / days);
-      const holidayHours = eligible ? dailyHours : 0;
+      const holidayHours = eligible ? Math.min(8, weeklyHours / 40 * 8) : 0;
       const holidayPay = hourly * holidayHours;
       const weeklyBasePay = hourly * weeklyHours;
       const message = eligible ? '입력 조건 기준으로 주휴수당 발생 가능성이 있는 경우로 계산했습니다.' : '주 15시간 미만이거나 개근 조건을 충족하지 않는 것으로 계산했습니다.';
@@ -797,97 +814,7 @@
   }
 })();
 
-// 개별 계산기 페이지 공통 SEO 보강: 사용 맥락, 체크포인트, FAQ를 자동 추가합니다.
-(function enhanceCalculatorSeoTemplate(){
-  // 계산기별 정적 안내문을 HTML에 제공하므로 공통 템플릿을 추가하지 않습니다.
-  return;
-  const root=document.querySelector('#calculator');
-  if(!root)return;
-  if(document.documentElement.dataset.staticCalculatorContent==='true')return;
-
-  const slug=
-    document.body.dataset.calculator||
-    document.body.dataset.customCalculator||
-    document.body.dataset.advancedCalculator||
-    document.body.dataset.batch||
-    document.body.dataset.misc||
-    document.body.dataset.taxCalculator||
-    document.body.dataset.propertyLaborCalculator||
-    '';
-  if(!slug)return;
-
-  const categoryMap={
-    money:['percent','discount','savings-interest','installment','loan-interest','mortgage-loan','monthly-average-income','salary','employee-health-insurance','budget','averaging-down','unemployment-benefit','average-price','rent-conversion','jeonse-loan','car-installment','compound-interest','percent-change','cagr','roi','exchange','daily-proration','stock-leverage','dsr','stock-return','prepayment-fee','car-acquisition-tax','card-installment','monthly-rent-deduction','loan-schedule','capital-gains-tax','gift-tax','national-pension','local-health-insurance','property-tax','youth-leap-account','youth-account-switch','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield'],
-    education:['gpa','target-gpa','retake','school-grade','grade-cutoff','average-score','exam-dday','exam-target','expected-value'],
-    health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
-    life:['date','d-day','age','international-age','time','dutch-pay','unit','day-count','cbm','scale','volumetric-weight','electricity','travel-budget','fuel-cost','car-tax','lotto-tax','pet-age','area-conversion'],
-    business:['vat','margin','wage','work-hours','estimate','freelance-rate','severance','break-even','shipping-split','income-tax','annual-salary','annual-leave','four-insurance','parental-leave','comprehensive-income-tax','withholding-33','weekly-holiday-pay','interior-estimate','annual-leave-pay','ordinary-wage','overtime-pay','average-wage']
-  };
-  const category=Object.entries(categoryMap).find(([,ids])=>ids.includes(slug))?.[0]||'life';
-  const label={money:'금융',education:'교육',health:'건강',life:'생활',business:'업무'}[category];
-  const title=()=>root.querySelector('h1')?.textContent?.trim()||'계산기';
-
-  const notes={
-    money:{
-      when:'금액, 이자, 세금, 공제, 수수료처럼 조건에 따라 결과가 달라지는 금융 판단을 빠르게 비교할 때 사용하세요.',
-      check:'실제 금리, 세율, 수수료, 우대 조건, 신청 자격은 기관·상품·적용 시점에 따라 달라질 수 있습니다.',
-      q1:'계산 결과를 실제 계약에 바로 써도 되나요?',
-      a1:'아니요. 입력값 기준의 예상 결과이므로 계약·신고·신청 전에는 금융기관, 국세청, 고용보험 등 공식 기준을 확인하는 것이 좋습니다.'
-    },
-    education:{
-      when:'학점, 점수, 등급, 시험 일정처럼 학습 계획을 세우기 전에 대략적인 목표와 현재 위치를 확인할 때 사용하세요.',
-      check:'학교별 성적 환산 기준, 반영 비율, 재수강 처리 방식이 다를 수 있어 최종 판단은 학교 기준을 함께 확인해야 합니다.',
-      q1:'학교 성적표와 결과가 다를 수 있나요?',
-      a1:'네. 학교마다 평점 기준, P/F 처리, 과목별 가중치가 다를 수 있어 참고용으로 보는 것이 안전합니다.'
-    },
-    health:{
-      when:'체중, 칼로리, 운동량, 날짜 주기처럼 건강 관리의 기준값을 잡고 생활 계획을 세울 때 사용하세요.',
-      check:'건강 계산 결과는 의료 진단이 아닙니다. 질환, 임신, 통증, 급격한 체중 변화가 있으면 의료 전문가와 상담하세요.',
-      q1:'이 결과로 건강 상태를 판단해도 되나요?',
-      a1:'아니요. 일반 공식 기반의 참고값입니다. 개인의 질환, 약물, 근육량, 생활 습관은 별도로 고려해야 합니다.'
-    },
-    life:{
-      when:'날짜, 시간, 나이, 단위, 비용 나누기처럼 일상에서 반복적으로 필요한 계산을 빠르게 처리할 때 사용하세요.',
-      check:'포함 기준, 반올림 방식, 업체별 규정에 따라 실제 결과가 달라질 수 있으므로 중요한 일정이나 비용은 한 번 더 확인하세요.',
-      q1:'결과가 1일 또는 일부 금액 차이 날 수 있나요?',
-      a1:'네. 시작일 포함 여부, 종료일 포함 여부, 반올림 기준, 업체별 산정 방식에 따라 차이가 날 수 있습니다.'
-    },
-    business:{
-      when:'판매가, 견적, 근무시간, 단가, 세금, 퇴직 관련 금액을 빠르게 검토하고 실무 판단의 초안을 잡을 때 사용하세요.',
-      check:'세무·노무·계약 조건은 사업 형태, 근로계약, 업종, 신고 기준에 따라 달라질 수 있습니다.',
-      q1:'계산 결과를 견적서나 신고서에 그대로 써도 되나요?',
-      a1:'기초 검토용으로는 유용하지만 최종 견적·신고·계약에는 실제 거래 조건과 세무·노무 기준을 반영해야 합니다.'
-    }
-  }[category];
-
-  function append(){
-    if(root.querySelector('.seo-template-block'))return;
-    const h=title();
-    root.insertAdjacentHTML('beforeend',`
-      <section class="content-block seo-template-block">
-        <h2>${h}는 언제 쓰면 좋나요?</h2>
-        <p>${notes.when}</p>
-      </section>
-      <section class="content-block seo-template-block">
-        <h2>${h} 계산 전 확인할 점</h2>
-        <ul>
-          <li>입력값이 비어 있거나 단위가 다르면 결과가 크게 달라질 수 있습니다.</li>
-          <li>예시값은 입력 형식을 보여주기 위한 참고값이며, 실제 상황에 맞게 바꿔 입력해야 합니다.</li>
-          <li>${notes.check}</li>
-        </ul>
-      </section>
-      <section class="content-block seo-template-block seo-faq">
-        <h2>${h} 자주 묻는 질문</h2>
-        <details><summary>${notes.q1}</summary><p>${notes.a1}</p></details>
-        <details><summary>${h} 결과는 저장되나요?</summary><p>별도 저장 기능이 없는 계산기는 입력값을 서버에 저장하지 않고, 브라우저 화면에서 즉시 계산 결과만 보여줍니다.</p></details>
-        <details><summary>다른 ${label} 계산기도 함께 볼 수 있나요?</summary><p>상단의 ${label} 카테고리 더보기 버튼을 누르면 관련 계산기 목록을 한 번에 확인할 수 있습니다.</p></details>
-      </section>`);
-  }
-
-  window.addEventListener('load',append);
-  setTimeout(append,260);
-})();
-
+// 계산기별 정적 안내문을 사용하며, 무관한 공통 SEO 문구는 자동 삽입하지 않습니다.
 // 상위 유입 후보 계산기별 본문을 보강하고, 전체 계산기에 법적·의료·금융 리스크 고지를 일관되게 추가합니다.
 (function enhanceTopCalculatorsAndRiskNotice(){
   const root=document.querySelector('#calculator');
@@ -902,32 +829,6 @@
     document.body.dataset.propertyLaborCalculator||
     '';
   if(!slug)return;
-
-  const sensitive={
-    tax:['vat','income-tax','capital-gains-tax','gift-tax','property-tax','comprehensive-income-tax','comprehensive-real-estate-tax','withholding-33','monthly-rent-deduction','lotto-tax','car-tax','car-acquisition-tax','real-estate-acquisition-tax','youth-leap-account'],
-    labor:['salary','annual-salary','employee-health-insurance','four-insurance','severance','weekly-holiday-pay','wage','work-hours','overtime-pay','ordinary-wage','average-wage','annual-leave','annual-leave-pay','parental-leave','unemployment-benefit'],
-    finance:['loan-interest','mortgage-loan','monthly-average-income','loan-schedule','savings-interest','installment','dsr','jeonse-loan','prepayment-fee','stock-leverage','stock-return','average-price','averaging-down','cagr','roi','compound-interest','national-pension','local-health-insurance','employee-health-insurance','housing-subscription','youth-account-switch','rental-yield','rent-conversion'],
-    health:['bmi','bmr','calorie','water','exercise-calorie','target-weight','running-pace','calorie-deficit','body-fat','ovulation','menstrual-cycle','pregnancy-week'],
-    realEstate:['area-conversion','real-estate-brokerage','real-estate-acquisition-tax','rental-yield','rent-conversion','monthly-average-income','mortgage-loan','jeonse-loan','interior-estimate','comprehensive-real-estate-tax','property-tax']
-  };
-
-  function typeOfSlug(){
-    if(sensitive.tax.includes(slug))return 'tax';
-    if(sensitive.labor.includes(slug))return 'labor';
-    if(sensitive.finance.includes(slug))return 'finance';
-    if(sensitive.health.includes(slug))return 'health';
-    if(sensitive.realEstate.includes(slug))return 'realEstate';
-    return 'general';
-  }
-
-  const riskCopy={
-    tax:['세금·공제 결과 이용 안내','세법, 공제 요건, 신고 방식, 지방세 기준은 적용 시점과 개인 조건에 따라 달라질 수 있습니다. 이 계산기는 신고서 작성이나 세무 자문을 대신하지 않으며, 실제 신고·납부 전에는 국세청, 위택스, 지자체 또는 세무 전문가의 안내를 확인하세요.'],
-    labor:['급여·노무 결과 이용 안내','근로계약, 사업장 규모, 근속기간, 평균임금 산정 방식, 보험료 상한액에 따라 실제 금액이 달라질 수 있습니다. 이 계산기는 노무·법률 자문이 아닌 참고용 계산이며, 분쟁이나 신고 전에는 공식 기관 또는 전문가의 검토가 필요합니다.'],
-    finance:['금융 결과 이용 안내','금리, 수수료, 세금, 상품 약관, 심사 기준은 금융기관과 시점에 따라 달라질 수 있습니다. 이 계산 결과는 투자 권유나 대출 승인 가능성을 의미하지 않으며, 계약 전에는 상품설명서와 공식 약관을 확인하세요.'],
-    health:['건강 계산 결과 이용 안내','건강 관련 계산 결과는 일반적인 공식과 입력값을 바탕으로 한 참고값입니다. 진단, 치료, 약물, 임신, 식단 처방을 대신하지 않으며, 통증·질환·급격한 변화가 있으면 의료 전문가와 상담하세요.'],
-    realEstate:['부동산 계산 결과 이용 안내','부동산 세금, 중개보수, 면적 표기, 대출 조건은 지역, 주택 유형, 계약 조건, 정책 기준에 따라 달라질 수 있습니다. 계약·신고·대출 신청 전에는 계약서, 고지서, 공식 안내를 함께 확인하세요.'],
-    general:['계산 결과 이용 안내','이 계산기는 사용자가 입력한 값을 기준으로 결과를 빠르게 확인하는 참고용 도구입니다. 중요한 일정, 금액, 계약, 신고에 활용할 때는 원자료와 공식 기준을 한 번 더 확인하세요.']
-  };
 
   const topDetails={
     'salary':['월급 실수령액을 볼 때 놓치기 쉬운 항목',['비과세 식대, 차량유지비, 육아수당처럼 과세 제외 항목이 있으면 실수령액이 달라질 수 있습니다.','소득세는 부양가족 수와 간이세액표 적용 방식에 따라 달라집니다.','성과급이나 상여금은 월급과 별도로 계산되는 경우가 많아 급여명세서 기준을 확인해야 합니다.']],
@@ -960,14 +861,8 @@
     root.insertAdjacentHTML('beforeend',`<section class="content-block top-calculator-detail"><h2>${detail[0]}</h2><ul>${detail[1].map(item=>`<li>${item}</li>`).join('')}</ul></section>`);
   }
 
-  function appendRiskNotice(){
-    if(root.querySelector('.legal-risk-notice'))return;
-    const copy=riskCopy[typeOfSlug()];
-    root.insertAdjacentHTML('beforeend',`<section class="content-block legal-risk-notice"><h2>${copy[0]}</h2><p>${copy[1]}</p></section>`);
-  }
-
-  window.addEventListener('load',()=>{appendTopDetail();appendRiskNotice();});
-  setTimeout(()=>{appendTopDetail();appendRiskNotice();},360);
+  window.addEventListener('load',appendTopDetail);
+  setTimeout(appendTopDetail,360);
 })();
 
 // 애드센스 승인 전 핵심 계산기 10개 보강: 실제 예시와 해석 기준을 짧고 유용하게 추가합니다.

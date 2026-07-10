@@ -190,3 +190,17 @@ body:has(.popular-list) .category-grid{grid-template-columns:repeat(6,minmax(0,1
 /* 한국어 문장이 줄바꿈될 때 글자 단위보다 단어 단위가 유지되도록 합니다. */
 body{word-break:keep-all}
 p,li,h1,h2,h3,h4,h5,h6,a,b,strong,small,summary,label,th,td,button{word-break:keep-all;overflow-wrap:break-word}
+
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #8eabff;outline-offset:2px}
+.calculator-box input:not([type="checkbox"]):not([type="radio"]),.calculator-box select{min-height:48px}
+.calculator-editorial .editorial-formula,.calculator-editorial .editorial-example,.calculator-editorial .editorial-caution{margin-top:14px;padding:22px;border-top:0;border-radius:12px}
+.calculator-editorial .editorial-formula{background:#f4f7ff;border:1px solid #dce6ff}
+.calculator-editorial .editorial-example{background:#f6fbf7;border:1px solid #dcefe0}
+.calculator-editorial .editorial-caution{background:#fff9f0;border:1px solid #f2dfbf}
+.calculator-editorial .editorial-formula p,.calculator-editorial .editorial-example p,.calculator-editorial .editorial-caution li{color:#3f4e63}
+.editorial-sources a{color:#2858d7}
+.home-value .category-purpose-grid{margin-top:18px}
+@media(max-width:700px){
+  .calculator-editorial .editorial-formula,.calculator-editorial .editorial-example,.calculator-editorial .editorial-caution{padding:17px}
+  .gpa-table-wrap,.estimate-table-wrap,.loan-schedule-table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}

@@ -122,13 +122,15 @@
       };
       form.querySelector("#pl-calc").onclick = function(){
         var v = num("ac-value");
-        if(!v) return show("<strong>면적을 입력해 주세요</strong>");
+        if(!Number.isFinite(v) || v <= 0) return show("<strong>0보다 큰 면적을 입력해 주세요</strong>");
         var m2 = mode === "p-to-m2" ? v * 3.305785 : v;
         var pyeong = mode === "m2-to-p" ? v / 3.305785 : v;
         var useExclusive = root.querySelector("#ac-use-exclusive").checked;
-        var exclusive = m2 * num("ac-exclusive") / 100;
+        var exclusiveRate = num("ac-exclusive");
+        if(useExclusive && (!Number.isFinite(exclusiveRate) || exclusiveRate <= 0 || exclusiveRate > 100)) return show("<strong>전용률을 확인해 주세요</strong><p>0보다 크고 100 이하인 비율을 입력하세요.</p>");
+        var exclusive = m2 * exclusiveRate / 100;
         var resultCards = card("평", pyeong.toFixed(2) + "평") + card("제곱미터", m2.toFixed(2) + "㎡");
-        if(useExclusive) resultCards += card("전용률 반영", num("ac-exclusive") ? exclusive.toFixed(2) + "㎡" : "-");
+        if(useExclusive) resultCards += card("전용률 반영", exclusive.toFixed(2) + "㎡");
         show('<div class="utility-result-grid">' + resultCards + '</div>');
       };
     }

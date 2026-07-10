@@ -26,9 +26,9 @@
         </div>
         <div class="utility-form">
           <div class="utility-fields">
-            <label><span>에어컨 소비전력(kW)</span><input id="ac-kw" type="number" min="0" step="0.01" placeholder="예: 1.8"></label>
-            <label><span>하루 사용시간</span><input id="ac-hours" type="number" min="0" step="0.1" placeholder="예: 8"></label>
-            <label><span>월 사용일수</span><input id="ac-days" type="number" min="0" step="1" placeholder="예: 30"></label>
+            <label><span>에어컨 소비전력(kW)</span><input id="ac-kw" type="number" min="0" step="0.01" inputmode="decimal" placeholder="예: 1.8"></label>
+            <label><span>하루 사용시간</span><input id="ac-hours" type="number" min="0" max="24" step="0.1" inputmode="decimal" placeholder="예: 8"></label>
+            <label><span>월 사용일수</span><input id="ac-days" type="number" min="0" max="31" step="1" inputmode="numeric" placeholder="예: 30"></label>
           </div>
           <button class="primary-btn" id="ac-calc" type="button">전기세 계산하기</button>
         </div>
@@ -63,7 +63,7 @@
     root.querySelector('#ac-calc').onclick = () => {
       const kw = num('ac-kw'), hours = num('ac-hours'), days = num('ac-days');
       const rate = 200;
-      if(!kw || !hours || !days) return show('<strong>소비전력, 사용시간, 사용일수를 입력해 주세요</strong><p>세 가지만 입력하면 예상 전기세를 계산할 수 있습니다.</p>');
+      if(!Number.isFinite(kw)||!Number.isFinite(hours)||!Number.isFinite(days)||kw<=0||hours<=0||hours>24||days<=0||days>31) return show('<strong>입력값을 확인해 주세요</strong><p>소비전력은 0보다 크게, 하루 사용시간은 24시간 이하, 사용일수는 31일 이하로 입력하세요.</p>');
       const kwh = kw * hours * days;
       const cost = kwh * rate;
       const dailyCost = cost / days;
@@ -112,7 +112,7 @@
       const multiplier = val('fc-trip') === 'round' ? 2 : 1;
       const people = Math.max(1, Math.floor(num('fc-people') || 1));
       const extra = num('fc-extra') || 0;
-      if(!distance || !efficiency || !price) return show('<strong>거리, 연비, 유가를 입력해 주세요</strong><p>반복 횟수와 인원수는 비워두면 1로 계산합니다.</p>');
+      if(!Number.isFinite(distance)||!Number.isFinite(times)||!Number.isFinite(efficiency)||!Number.isFinite(price)||distance<=0||times<=0||efficiency<=0||price<=0||extra<0) return show('<strong>입력값을 확인해 주세요</strong><p>거리·반복 횟수·연비·유가는 0보다 크게, 추가비용은 0 이상으로 입력하세요.</p>');
       const km = distance * multiplier * times;
       const liters = km / efficiency;
       const fuel = liters * price;

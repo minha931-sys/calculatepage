@@ -143,7 +143,7 @@
       const gross = num('ep-gross');
       const nontax = num('ep-nontax');
       const year = val('ep-year');
-      if(!gross) return invalid('ep-result','월 세전 급여를 입력해 주세요.');
+      if(!Number.isFinite(gross)||gross<=0||!Number.isFinite(nontax)||nontax<0||nontax>gross||num('ep-deduct')<0) return invalid('ep-result','세전 급여는 0보다 크게, 비과세액과 추가 공제는 0 이상으로 입력하세요. 비과세액은 급여보다 클 수 없습니다.');
       const ins = calcInsurance(gross,nontax,year);
       const annualTaxable = Math.max(0,ins.base*12 - num('ep-deduct'));
       const tax = calcAnnualTax(annualTaxable,0,0);
@@ -165,7 +165,7 @@
     );
     root.querySelector('#ei-calc').onclick = () => {
       const gross = num('ei-gross');
-      if(!gross) return invalid('ei-result','월 세전 급여를 입력해 주세요.');
+      if(!Number.isFinite(gross)||gross<=0||!Number.isFinite(num('ei-nontax'))||num('ei-nontax')<0||num('ei-nontax')>gross) return invalid('ei-result','세전 급여는 0보다 크게 입력하고 비과세액은 급여 이하의 0 이상 금액으로 입력하세요.');
       const ins = calcInsurance(gross,num('ei-nontax'),val('ei-year'));
       const employerHtml = val('ei-employer') === 'yes' ? card('회사 부담 추정',money(ins.total),'산재보험 제외') : '';
       show('ei-result',`<div class="savings-result-grid">${card('근로자 부담 합계',money(ins.total))}${card('국민연금',money(ins.pension))}${card('건강+장기요양',money(ins.health+ins.care))}${card('고용보험',money(ins.employment))}${employerHtml}</div><table class="rate-table"><tbody><tr><td>보험료 산정 기준</td><td>${money(ins.base)}</td></tr><tr><td>월 급여</td><td>${money(gross)}</td></tr><tr><td>비과세액</td><td>${money(num('ei-nontax'))}</td></tr><tr><td>적용 기준</td><td>${ins.rates.label}</td></tr></tbody></table>`);
@@ -203,7 +203,7 @@
       const rate = num('el-rate');
       const months = Math.round(num('el-months'));
       const method = val('el-method');
-      if(!principal || !months) return invalid('el-result','대출 원금과 상환 기간을 입력해 주세요.');
+      if(!Number.isFinite(principal)||principal<=0||!Number.isFinite(rate)||rate<0||!Number.isFinite(months)||months<=0||months>1200) return invalid('el-result','대출 원금은 0보다 크게, 금리는 0 이상, 기간은 1~1,200개월로 입력하세요.');
       const calc = loanPayment(principal,rate,months,method);
       const ratio = isJeonse && num('el-deposit') ? principal / num('el-deposit') * 100 : 0;
       const extra = isJeonse ? card('보증금 대비 대출비율',ratio ? pct(ratio) : '-') : '';

@@ -199,7 +199,7 @@
       <section class="calculator-box utility-box youth-future-box">
         <div class="content-block youth-intro">
           <h2>청년미래적금이란?</h2>
-          <p>청년미래적금은 청년도약계좌 후속으로 추진되는 청년 자산형성 적금입니다. 기본 구조는 <strong>3년 동안 매달 적금</strong>을 넣고, 조건을 충족하면 은행 이자와 정부기여금을 함께 받는 방식입니다.</p>
+          <p>청년미래적금은 2026년에 출시된 청년 자산형성 적금입니다. 기본 구조는 <strong>3년 동안 매달 적금</strong>을 넣고, 조건을 충족하면 은행 이자와 정부기여금을 함께 받는 방식입니다.</p>
           <a class="youth-switch-cta" href="/calculators/youth-account-switch.html"><span>청년도약계좌 이용 중이라면</span><b>미래적금 전환 비교 계산하기</b></a>
           <ul>
             <li>월 납입 한도는 최대 50만원 기준으로 계산합니다.</li>
@@ -237,6 +237,7 @@
       </section>
       <section class="content-block">
         <h2>청년미래적금 계산 방법</h2>
+        <p>현재 계산 로직은 월 금리를 연 금리÷12로 두고, 은행 이자를 <strong>월 납입액 × (((1+월 금리)<sup>개월 수</sup>-1)÷월 금리) - 납입 원금</strong>으로 추정합니다. 정부기여금은 월 납입액×선택한 기여율×납입 개월 수로 계산합니다.</p>
         <ol>
           <li><strong>상품 유형</strong>을 고르세요. 조건을 잘 모르겠다면 일반형으로 먼저 계산해도 됩니다.</li>
           <li><strong>월 납입액</strong>은 매달 넣을 수 있는 금액을 입력하세요. 현재 계산기는 최대 50만원까지만 반영합니다.</li>
@@ -262,7 +263,7 @@
       </section>
       <section class="content-block">
         <h2>예시로 보는 만기 예상액</h2>
-        <p>월 50만원을 36개월 동안 납입하면 원금은 1,800만원입니다. 여기에 입력한 금리로 계산한 은행 이자와 선택한 상품 유형의 정부기여금을 더해 만기 예상액을 보여줍니다. 예를 들어 같은 월 50만원이라도 일반형과 우대형은 정부기여금 차이 때문에 결과가 달라집니다.</p>
+        <p>월 50만원을 36개월 동안 납입하면 원금은 1,800만원입니다. 연 5%와 일반형 6%를 선택하면 현재 로직의 예상 은행 이자는 약 1,376,668원, 정부기여금은 108만원, 만기 예상액은 약 20,456,668원입니다. 실제 금리 적용 방식과 납입일에 따라 은행 계산값은 달라질 수 있습니다.</p>
         <div class="loan-schedule-table-wrap">
           <table class="loan-schedule-table">
             <thead><tr><th>예시 조건</th><th>원금</th><th>정부기여금 가정</th><th>해석</th></tr></thead>
@@ -284,7 +285,7 @@
       </section>
       <section class="content-block">
         <h2>자주 묻는 질문</h2>
-        <details><summary>청년미래적금은 청년도약계좌와 같은 상품인가요?</summary><p>같은 상품명은 아닙니다. 청년미래적금은 청년도약계좌 후속 성격으로 추진되는 적금으로 알려져 있으며, 세부 가입 조건과 출시 일정은 공식 안내를 확인해야 합니다.</p></details>
+        <details><summary>청년미래적금은 청년도약계좌와 같은 상품인가요?</summary><p>서로 다른 상품입니다. 청년도약계좌 보유자의 연계가입과 해지 혜택에는 별도 조건과 기간이 있으므로 서민금융진흥원 및 취급은행의 공식 안내를 확인해야 합니다.</p></details>
         <details><summary>일반형과 우대형은 무엇이 다른가요?</summary><p>이 계산기에서는 일반형은 납입액의 6%, 우대형은 12%를 정부기여금으로 가정합니다. 우대형은 중소기업 신규 취업 청년 등 우대 지원 대상에 해당하는 경우로 보고 계산합니다.</p></details>
         <details><summary>금리를 모르면 어떻게 입력하나요?</summary><p>아직 가입할 은행을 정하지 않았다면 4~5%처럼 보수적인 금리를 넣어 먼저 비교하고, 실제 상품 금리가 나오면 다시 계산하는 방식이 좋습니다.</p></details>
       </section>`;
@@ -300,7 +301,7 @@
       const annualRate = Math.max(0,N('yf-rate'));
       const monthlyRate = annualRate / 100 / 12;
       const typeValue = V('yf-type');
-      if(!monthly) return invalid('월 납입액을 입력해 주세요. 예: 500000');
+      if(!Number.isFinite(monthlyRaw)||monthlyRaw<=0||!Number.isFinite(annualRate)||annualRate<0||!Number.isFinite(months)||months<=0) return invalid('월 납입액은 0보다 크게, 금리와 가입기간은 올바른 숫자로 입력해 주세요.');
       const contributionRate = typeValue === 'preferential' ? .12 : typeValue === 'general' ? .06 : 0;
       const principal = monthly * months;
       const interest = monthlyRate ? monthly * (((1 + monthlyRate) ** months - 1) / monthlyRate) - principal : 0;

@@ -117,8 +117,8 @@
         </table>
       </div>
       <p>1인 가구와 2인 가구는 일부 임대주택 소득기준에서 각각 20%p, 10%p 가산 기준이 붙는 경우가 있습니다. 계산기에서는 체크박스로 함께 반영할 수 있지만, 실제 적용 여부는 모집공고가 우선입니다.</p>
-      <p>기준일: 2026년 7월 10일. 이 표는 2026년도 적용 도시근로자 가구당 월평균소득 기준을 계산기에 반영한 것입니다. 공고마다 적용 비율, 가구원 인정 범위, 1인·2인 가산 적용 여부가 다를 수 있으므로 최종 판단에는 모집공고의 소득 기준표를 우선해 주세요.</p>
-      <p class="jlpt-source">참고: <a href="https://www.myhome.go.kr/hws/portal/cont/selectHappyHouseView.do" target="_blank" rel="noopener">마이홈포털 행복주택 입주자격 안내</a></p>
+      <p>기준일: 2026년 7월 10일. 이 표는 마이홈포털 국민임대주택 안내의 2026년도 적용 가구원수별 월평균소득 기준을 계산기에 반영한 것입니다. 주택 유형과 공고마다 적용 기준표, 비율, 가구원 인정 범위, 1인·2인 가산 여부가 다를 수 있으므로 계산기의 직접 입력 기능과 실제 모집공고를 우선해 주세요.</p>
+      <p class="jlpt-source">참고: <a href="https://m.myhome.go.kr/hws/portal/cont/selectlongTermLeaseHouseView.do" target="_blank" rel="noopener noreferrer">마이홈포털 국민임대주택 소득기준 안내</a></p>
     </section>
     <section class="content-block">
       <h2>예시로 보는 월평균합산소득</h2>
@@ -185,8 +185,16 @@
     const size = sizeValue === 'custom' ? null : Number(sizeValue);
     const ratio = Number(root.querySelector('#mai-ratio').value);
     const customLimit = num('#mai-custom-limit');
-    const divideMonths = num('#mai-divide-months') || 12;
+    const divideMonthsValue = root.querySelector('#mai-divide-months').value;
+    const divideMonths = divideMonthsValue === '' ? 12 : Number(divideMonthsValue);
     const smallHouseholdAdd = checked('#mai-small-household');
+    const numericInputs=[...root.querySelectorAll('input[type="number"]')];
+    if(numericInputs.some(input=>input.value!==''&&(!Number.isFinite(Number(input.value))||Number(input.value)<0))||!Number.isFinite(divideMonths)||divideMonths<=0){
+      const result=root.querySelector('#mai-result');
+      result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>소득은 0 이상의 숫자, 나눌 개월 수는 1 이상의 숫자로 입력해 주세요.</p>';
+      result.classList.add('show');
+      return;
+    }
     const effectiveRatio = smallHouseholdAdd && size === 1 ? ratio + 20 : smallHouseholdAdd && size === 2 ? ratio + 10 : ratio;
     const base = size ? incomeBase2026[size] : customLimit ? customLimit / (effectiveRatio / 100) : 0;
     const limit = customLimit || base * effectiveRatio / 100;

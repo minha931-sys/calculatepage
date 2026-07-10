@@ -166,10 +166,27 @@
   }
   const quick={
     'card-installment':['카드 할부 수수료 계산기',['결제 금액(원)','할부 개월','연 수수료율(%)'],v=>{const r=v[2]/1200,m=r?v[0]*r*(1+r)**v[1]/((1+r)**v[1]-1):v[0]/v[1];return [m,`총 수수료 ${Math.round(m*v[1]-v[0]).toLocaleString()}원`]}],
-    'housing-subscription':['청약 가점 계산기',['무주택 기간(년)','부양가족 수','청약통장 가입기간(년)'],v=>[Math.min(32,v[0]*2)+Math.min(35,v[1]*5)+Math.min(17,v[2]),'간편 가점 추정치']],
     'monthly-rent-deduction':['월세 세액공제 계산기',['월세(원)','거주 개월','공제율(%)'],v=>[v[0]*v[1]*v[2]/100,'입력한 공제율 기준 예상 공제액']],
     'loan-schedule':['대출 상환 스케줄 계산기',['대출 원금(원)','연 이자율(%)','기간(개월)'],v=>{const r=v[1]/1200,m=r?v[0]*r*(1+r)**v[2]/((1+r)**v[2]-1):v[0]/v[2];return [m,`총 상환액 ${Math.round(m*v[2]).toLocaleString()}원`]}]
   };
+  if(type==='housing-subscription'){
+    root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>청약 가점 계산기</h1><p class="lead">민영주택 가점제의 무주택기간, 부양가족 수, 입주자저축 가입기간 점수를 항목별로 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>무주택기간(년)</span><input id="hs-home" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 10"></label><label><span>부양가족 수(명)</span><input id="hs-family" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 2"></label><label><span>청약통장 가입기간(년)</span><input id="hs-account" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 5"></label></div><button class="primary-btn" id="hs-calc" type="button">청약 가점 계산하기</button></div><div class="result" id="hs-result" aria-live="polite"></div><p class="calculator-note">민영주택 가점제 84점 만점의 참고용 계산입니다. 무주택기간과 부양가족 인정 여부는 세부 요건이 있으므로 청약 신청 전 모집공고와 청약Home의 가점 계산 안내를 확인하세요.</p></section>`;
+    root.querySelector('#hs-calc').onclick=()=>{
+      const values=['hs-home','hs-family','hs-account'].map(id=>root.querySelector('#'+id).value);
+      const result=root.querySelector('#hs-result');
+      if(values.some(value=>value.trim()==='')){result.innerHTML='<strong>세 항목을 모두 입력해 주세요</strong><p>해당 기간이 1년 미만이거나 부양가족이 없으면 0을 입력할 수 있습니다.</p>';result.classList.add('show');return}
+      const [homeRaw,familyRaw,accountRaw]=values.map(Number);
+      if([homeRaw,familyRaw,accountRaw].some(value=>!Number.isFinite(value)||value<0)){result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>0 이상의 숫자만 입력할 수 있습니다.</p>';result.classList.add('show');return}
+      const homeYears=Math.floor(homeRaw),family=Math.floor(familyRaw);
+      const homeScore=Math.min(32,(homeYears+1)*2);
+      const familyScore=Math.min(35,(family+1)*5);
+      const accountScore=accountRaw<.5?1:accountRaw<1?2:Math.min(17,Math.floor(accountRaw)+2);
+      const total=homeScore+familyScore+accountScore;
+      result.innerHTML=`<div class="savings-result-grid"><div><span>총 청약 가점</span><strong>${total}점 / 84점</strong></div><div><span>무주택기간</span><b>${homeScore}점 / 32점</b></div><div><span>부양가족</span><b>${familyScore}점 / 35점</b></div><div><span>통장 가입기간</span><b>${accountScore}점 / 17점</b></div></div><p>가점은 당첨 가능성을 보장하지 않으며 주택 유형과 공급 방식에 따라 가점제가 적용되지 않을 수 있습니다.</p>`;
+      result.classList.add('show');
+    };
+    return;
+  }
   if(quick[type]){const q=quick[type];root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${q[0]}</h1><p class="lead">필요한 값을 입력해 예상 결과를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${q[1].map((x,i)=>field('q'+i,x,i?10:1000000)).join('')}</div><button class="primary-btn" id="quick-calc">계산하기</button></div><div class="result" id="quick-result"></div><p class="calculator-note">개인 조건·상품·해당 연도 제도 기준에 따라 실제 결과는 달라질 수 있습니다.</p></section>`;root.querySelector('#quick-calc').onclick=()=>{const v=q[1].map((_,i)=>+root.querySelector('#q'+i).value),r=root.querySelector('#quick-result');if(v.some(x=>!x))return;const a=q[2](v);r.innerHTML=`<strong>${Math.round(a[0]).toLocaleString()}${type==='housing-subscription'?'점':'원'}</strong><p>${a[1]}</p>`;r.classList.add('show')}}
   if(type==='ovulation'||type==='menstrual-cycle'){const isOvu=type==='ovulation';root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${isOvu?'배란일·가임기 계산기':'생리 주기 계산기'}</h1><p class="lead">최근 생리 시작일과 평소 주기를 기준으로 예상 날짜를 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><label>최근 생리 시작일 <input id="cycle-date" type="date"></label><label>평소 주기(일) <input id="cycle-length" type="number" placeholder="예: 28"></label><button class="primary-btn" id="cycle-calc">계산하기</button></div><div class="result" id="cycle-result"></div><p class="calculator-note">건강 상태를 판단하는 의료 도구가 아닌 날짜 기준 참고용 계산입니다.</p></section>`;root.querySelector('#cycle-calc').onclick=()=>{const d=new Date(root.querySelector('#cycle-date').value),n=+root.querySelector('#cycle-length').value,r=root.querySelector('#cycle-result');if(isNaN(d)||!n)return;const target=new Date(d);target.setDate(target.getDate()+(isOvu?n-14:n));r.innerHTML=`<strong>${target.toLocaleDateString('ko-KR')}</strong><p>${isOvu?'예상 배란일':'예상 다음 생리 시작일'}입니다.</p>`;r.classList.add('show')}}
   const guides={
