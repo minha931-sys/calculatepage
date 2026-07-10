@@ -9,6 +9,7 @@ Object.assign(calculators['exercise-calorie'],{
   d:'몸무게, 운동 종류, 시간을 입력해 예상 운동 소모 칼로리를 계산합니다.',
   f:[['number','몸무게(kg)','65'],['select','운동 종류','걷기|조깅|러닝|자전거|수영|근력 운동'],['number','운동 시간(분)','30']]
 });
+Object.assign(calculators['average-score'],{d:'여러 점수를 입력해 단순 산술평균을 계산합니다.'});
 const popularCalculatorIds=['grade-cutoff','jlpt-score','youth-leap-account','card-installment','average-score','monthly-average-income'];
 const searchBoostIds=['percent','discount','salary','gpa','d-day','dutch-pay','savings-interest','loan-interest','mortgage-loan','monthly-average-income','vat','area-conversion','date','work-hours','pet-age','employee-health-insurance'];
 const searchAliases={percent:'퍼센트 백분율 비율 몇프로',discount:'할인 세일 할인율 최종가격',salary:'월급 급여 실수령액 세후 연봉',gpa:'학점 평점 대학 성적', 'd-day':'디데이 dday 날짜 기념일 시험', 'dutch-pay':'더치페이 n분의1 엔빵 정산 모임', 'savings-interest':'예금 이자 저축 금리 세후', 'loan-interest':'대출 이자 월이자 대출금', 'mortgage-loan':'주택담보대출 주담대 담보대출 아파트담보대출 월상환액 ltv dsr 원리금균등 원금균등', 'monthly-average-income':'월평균소득 월평균 합산 소득 가구소득 도시근로자 소득기준 청약 소득 행복주택 국민임대 공공임대 신혼부부 특별공급', vat:'부가세 공급가액 세금', 'area-conversion':'평수 평 제곱미터 m2 면적 아파트', date:'날짜 일수 며칠 후 며칠 전 두 날짜 사이 차이 기간 계산', 'work-hours':'근무시간 출퇴근 휴게시간', 'pet-age':'반려동물 나이 강아지 나이 고양이 나이 사람나이 환산 개나이 고양이나이', 'employee-health-insurance':'직장인 건강보험료 건보료 직장가입자 장기요양보험료 월급 공제 4대보험', 'grade-cutoff':'등급컷 등급 컷 5등급제 9등급제 내신 석차 비율 몇등까지 상대평가'};
@@ -988,7 +989,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     retake:'재수강 전후 성적을 반영해 누적 평점이 얼마나 바뀌는지 계산합니다.',
     'school-grade':'내 석차와 전체 인원수를 입력해 예상 내신 등급을 참고용으로 확인합니다.',
     'grade-cutoff':'전체 인원수와 5등급제·9등급제 기준으로 등급별 석차 범위와 예상 인원을 계산합니다.',
-    'average-score':'여러 과목 점수를 입력해 단순 평균 또는 가중 평균을 계산합니다.',
+    'average-score':'여러 점수를 입력해 단순 산술평균을 계산합니다.',
     'exam-target':'현재 점수와 목표 평균을 바탕으로 남은 시험에서 필요한 점수를 계산합니다.',
     'exam-dday':'시험 날짜까지 남은 일수를 계산해 학습 계획과 준비 기간을 세우는 데 활용합니다.',
     'expected-value':'가능한 결과값과 각 발생 확률을 입력해 한 확률분포의 1회당 장기 평균을 계산합니다.',
