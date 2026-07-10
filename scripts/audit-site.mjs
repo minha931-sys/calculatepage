@@ -172,6 +172,8 @@ export async function auditSite(root = DEFAULT_ROOT) {
         ['editorial-result', '결과 해석'], ['editorial-caution', '주의사항'], ['related', '관련 계산기']
       ];
       for (const [className, label] of required) if (!new RegExp(`class=["'][^"']*\\b${className}\\b`, 'i').test(html)) issues.push(`${relativePath}: 정적 ${label} 누락`);
+      if (matches(html, /data-calculator-editorial=["'][^"']+["']/gi).length !== 1) issues.push(`${relativePath}: 계산기 본문 중복/누락`);
+      if (matches(html, /<h2>관련 계산기<\/h2>/gi).length !== 1) issues.push(`${relativePath}: 관련 계산기 섹션 중복/누락`);
       if (/__staticCalculatorGuide|restoreStaticCalculatorGuide/.test(html)) issues.push(`${relativePath}: 이전 콘텐츠 복원 코드 잔류`);
     } else if (relativePath === 'index.html' && !schemaTypes.includes('WebSite')) {
       issues.push('index.html: WebSite schema 누락');
@@ -191,7 +193,10 @@ export async function auditSite(root = DEFAULT_ROOT) {
       && !(relativePath === 'index.html' && href === '/'));
     if (selfLinks.length) warnings.push(`${relativePath}: 자기 자신 링크 ${selfLinks.join(', ')}`);
 
-    records.push({ relativePath, canonical, title, description, bodyTokens: tokens(first(html, /<main\b[^>]*>([\s\S]*?)<\/main>/i)) });
+    const category = isCalculator ? first(html, /href=["']\/categories\/([a-z-]+)\.html["']/i) : '';
+    const relatedBlock = isCalculator ? [...html.matchAll(/<div\b[^>]*class=["'][^"']*\brelated\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)].at(-1)?.[1] ?? '' : '';
+    const relatedSlugs = isCalculator ? matches(relatedBlock, /href=["']\/calculators\/([^"']+)\.html["']/gi) : [];
+    records.push({ relativePath, canonical, title, description, category, relatedSlugs, bodyTokens: tokens(first(html, /<main\b[^>]*>([\s\S]*?)<\/main>/i)) });
   }
 
   for (const [key, map] of Object.entries(uniqueness)) {
@@ -213,6 +218,14 @@ export async function auditSite(root = DEFAULT_ROOT) {
   if (!robots.includes(`${SITE_ORIGIN}/sitemap.xml`)) issues.push('robots.txt: sitemap URL 누락/오류');
 
   const calculatorRecords = records.filter(record => record.relativePath.startsWith(`calculators${path.sep}`));
+  const calculatorBySlug = new Map(calculatorRecords.map(record => [path.basename(record.relativePath, '.html'), record]));
+  for (const record of calculatorRecords) {
+    for (const slug of record.relatedSlugs) {
+      const target = calculatorBySlug.get(slug);
+      if (!target) issues.push(`${record.relativePath}: 관련 계산기 대상 없음 (${slug})`);
+      else if (record.category && target.category && record.category !== target.category) issues.push(`${record.relativePath}: 주제 불일치 관련 계산기 (${slug})`);
+    }
+  }
   const similar = [];
   for (let left = 0; left < calculatorRecords.length; left += 1) {
     for (let right = left + 1; right < calculatorRecords.length; right += 1) {

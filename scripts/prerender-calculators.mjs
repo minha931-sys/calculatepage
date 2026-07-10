@@ -1899,6 +1899,19 @@ function ensureStaticRuntimeScript(html) {
   return html.replace(/<\/head>/i, tag + '</head>');
 }
 
+const CALCULATOR_HEADER_NAV = '<nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav>';
+
+function ensureCalculatorHeaderNavigation(html) {
+  const headerPattern = /<header\b(?=[^>]*\bclass=["'][^"']*\bsite-header\b[^"']*["'])[^>]*>[\s\S]*?<\/header>/i;
+  if (!headerPattern.test(html)) {
+    return html.replace(/(<body\b[^>]*>)/i, '$1<header class="site-header"><a class="logo" href="/">계산페이지</a>' + CALCULATOR_HEADER_NAV + '</header>');
+  }
+  return html.replace(headerPattern, function(header) {
+    if (/<nav\b/i.test(header)) return header;
+    return header.replace(/<\/header>$/i, CALCULATOR_HEADER_NAV + '</header>');
+  });
+}
+
 function normalizeStaticCopy(html) {
   return html.replace(
     /<h([2-4])\b([^>]*)>([^<]*?)언제\s*쓰면\s*좋나요\?\s*<\/h\1>/gi,
@@ -2031,6 +2044,7 @@ async function renderArtifact(filePath, kind, catalogue) {
     legacy = removeLegacyScriptReferences(output);
     output = legacy.html;
     output = ensureStaticRuntimeScript(output);
+    output = ensureCalculatorHeaderNavigation(output);
   }
   output = normalizeStaticCopy(output);
   if (hasBom) output = '\uFEFF' + output;

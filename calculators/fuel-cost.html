@@ -108,40 +108,40 @@
   }
   </script>
 </head>
-<body data-custom-calculator="fuel-cost">
+<body data-custom-calculator="fuel-cost"><header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
   <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
-  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> &gt; </span><a href="/categories/life.html">생활 계산기</a><span aria-hidden="true"> &gt; </span><span aria-current="page">주유비 계산기</span></nav>
-  <a class="calculator-home" href="/">계산페이지 홈</a>
-              <h1>주유비 계산기</h1>
-              <p class="lead">주행거리, 연비, 유가, 반복 횟수를 입력해 1회·월간·1인당 예상 주유비를 계산하세요.</p>
-              <section class="calculator-box utility-box readable-calc-box">
-                <div class="readable-intro">
-                  <h2>이번 이동에 기름값이 얼마나 들까요?</h2>
-                  <p>출퇴근, 여행, 모임 이동처럼 반복되는 주행 비용을 계산할 수 있습니다. 톨비와 주차비, 인원수까지 넣으면 실제 부담액을 더 현실적으로 볼 수 있습니다.</p>
-                </div>
-                <div class="utility-form">
-                  <div class="utility-fields">
-                    <label><span>편도 거리(km)</span><input id="fc-distance" type="number" min="0" step="0.1" placeholder="예: 25" inputmode="decimal"></label>
-                    <label><span>이동 방식</span><select id="fc-trip"><option value="round">왕복</option><option value="oneway">편도</option></select></label>
-                    <label><span>반복 횟수</span><input id="fc-times" type="number" min="1" step="1" placeholder="예: 20" inputmode="numeric"></label>
-                    <label><span>차량 연비(km/L)</span><input id="fc-efficiency" type="number" min="0" step="0.1" placeholder="예: 12" inputmode="decimal"></label>
-                    <label><span>유가(원/L)</span><input id="fc-price" type="number" min="0" step="1" placeholder="예: 1700" inputmode="numeric"></label>
-                    <label><span>인원수</span><input id="fc-people" type="number" min="1" step="1" placeholder="예: 4" inputmode="numeric"></label>
-                    <label><span>톨비·주차비(회당)</span><input id="fc-extra" type="number" min="0" step="1" placeholder="예: 5000" inputmode="numeric"></label>
-                  </div>
-                  <button class="primary-btn" id="fc-calc" type="button">주유비 계산하기</button>
-                </div>
-                <div class="result" aria-live="polite"></div>
-                <p class="calculator-note">실제 주유비는 교통 체증, 공회전, 냉난방 사용, 타이어 상태, 실제 주유 단가에 따라 달라질 수 있습니다. 결과는 이동 예산을 잡기 위한 참고값입니다.</p>
-              </section>
-              <section class="content-block">
-                <h2>주유비 계산 방식</h2>
-                <p>총 주행거리 = 편도 거리 × 이동 방식 × 반복 횟수입니다. 필요 연료량은 총 주행거리를 연비로 나눠 계산하고, 유가와 톨비·주차비를 더해 총 이동 비용을 추정합니다.</p>
-              </section>
-              <div class="calculator-editorial" data-calculator-editorial="fuel-cost"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>편도 거리, 편도·왕복 여부, 반복 횟수, 차량 연비, 유가, 인원수와 회당 톨비·주차비를 입력합니다.</li><li>연비는 km/L, 유가는 원/L이며 추가비용은 한 번 이동할 때의 금액입니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>총 거리 = 편도 거리×(왕복이면 2)×횟수, 연료량 = 총 거리÷연비, 총비용 = 연료량×유가+회당 추가비용×횟수입니다. 1회 비용은 횟수, 1인당 비용은 인원수로 나눕니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>편도 25km를 왕복 20회, 연비 12km/L, 유가 1,700원/L, 추가비용 0원으로 계산하면 총 1,000km, 약 83.3L, 총 주유비 약 141,667원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>총비용, 1회 비용, 1인당 부담, 총 거리, 연료량과 순수 주유비를 표시하며 금액은 원 단위로 반올림합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>교통 체증, 공회전, 냉난방, 차량 상태와 실제 주유 단가에 따라 연비와 비용이 달라질 수 있습니다.</li><li>통행료·주차비를 왕복 합계로 넣는지 편도별로 넣는지 입력 기준을 통일해야 합니다.</li></ul></section></div><section class="content-block">
-                <h2>관련 계산기</h2>
-                <div class="related"><a href="/calculators/travel-budget.html">여행 경비 계산기</a><a href="/calculators/dutch-pay.html">더치페이 계산기</a><a href="/calculators/electricity.html">에어컨 전기세 계산기</a></div>
-              </section>
+  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/life.html">생활 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">주유비 계산기</span></nav>
+      <a class="calculator-home" href="/">계산페이지 홈</a>
+                  <h1>주유비 계산기</h1>
+                  <p class="lead">주행거리, 연비, 유가, 반복 횟수를 입력해 1회·월간·1인당 예상 주유비를 계산하세요.</p>
+                  <section class="calculator-box utility-box readable-calc-box">
+                    <div class="readable-intro">
+                      <h2>이번 이동에 기름값이 얼마나 들까요?</h2>
+                      <p>출퇴근, 여행, 모임 이동처럼 반복되는 주행 비용을 계산할 수 있습니다. 톨비와 주차비, 인원수까지 넣으면 실제 부담액을 더 현실적으로 볼 수 있습니다.</p>
+                    </div>
+                    <div class="utility-form">
+                      <div class="utility-fields">
+                        <label><span>편도 거리(km)</span><input id="fc-distance" type="number" min="0" step="0.1" placeholder="예: 25" inputmode="decimal"></label>
+                        <label><span>이동 방식</span><select id="fc-trip"><option value="round">왕복</option><option value="oneway">편도</option></select></label>
+                        <label><span>반복 횟수</span><input id="fc-times" type="number" min="1" step="1" placeholder="예: 20" inputmode="numeric"></label>
+                        <label><span>차량 연비(km/L)</span><input id="fc-efficiency" type="number" min="0" step="0.1" placeholder="예: 12" inputmode="decimal"></label>
+                        <label><span>유가(원/L)</span><input id="fc-price" type="number" min="0" step="1" placeholder="예: 1700" inputmode="numeric"></label>
+                        <label><span>인원수</span><input id="fc-people" type="number" min="1" step="1" placeholder="예: 4" inputmode="numeric"></label>
+                        <label><span>톨비·주차비(회당)</span><input id="fc-extra" type="number" min="0" step="1" placeholder="예: 5000" inputmode="numeric"></label>
+                      </div>
+                      <button class="primary-btn" id="fc-calc" type="button">주유비 계산하기</button>
+                    </div>
+                    <div class="result" aria-live="polite"></div>
+                    <p class="calculator-note">실제 주유비는 교통 체증, 공회전, 냉난방 사용, 타이어 상태, 실제 주유 단가에 따라 달라질 수 있습니다. 결과는 이동 예산을 잡기 위한 참고값입니다.</p>
+                  </section>
+                  <section class="content-block">
+                    <h2>주유비 계산 방식</h2>
+                    <p>총 주행거리 = 편도 거리 × 이동 방식 × 반복 횟수입니다. 필요 연료량은 총 주행거리를 연비로 나눠 계산하고, 유가와 톨비·주차비를 더해 총 이동 비용을 추정합니다.</p>
+                  </section>
+                  <div class="calculator-editorial" data-calculator-editorial="fuel-cost"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>편도 거리, 편도·왕복 여부, 반복 횟수, 차량 연비, 유가, 인원수와 회당 톨비·주차비를 입력합니다.</li><li>연비는 km/L, 유가는 원/L이며 추가비용은 한 번 이동할 때의 금액입니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>총 거리 = 편도 거리×(왕복이면 2)×횟수, 연료량 = 총 거리÷연비, 총비용 = 연료량×유가+회당 추가비용×횟수입니다. 1회 비용은 횟수, 1인당 비용은 인원수로 나눕니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>편도 25km를 왕복 20회, 연비 12km/L, 유가 1,700원/L, 추가비용 0원으로 계산하면 총 1,000km, 약 83.3L, 총 주유비 약 141,667원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>총비용, 1회 비용, 1인당 부담, 총 거리, 연료량과 순수 주유비를 표시하며 금액은 원 단위로 반올림합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>교통 체증, 공회전, 냉난방, 차량 상태와 실제 주유 단가에 따라 연비와 비용이 달라질 수 있습니다.</li><li>통행료·주차비를 왕복 합계로 넣는지 편도별로 넣는지 입력 기준을 통일해야 합니다.</li></ul></section></div><section class="content-block">
+                    <h2>관련 계산기</h2>
+                    <div class="related"><a href="/calculators/travel-budget.html">여행 경비 계산기</a><a href="/calculators/dutch-pay.html">더치페이 계산기</a><a href="/calculators/electricity.html">에어컨 전기세 계산기</a></div>
+                  </section>
 </main>
   <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
 </body>
