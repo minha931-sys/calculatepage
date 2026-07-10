@@ -1623,7 +1623,7 @@ async function loadEditorialCatalogue() {
     }
     for (const entry of Object.entries(entries)) {
       if (catalogue[entry[0]]) overrideCount += 1;
-      catalogue[entry[0]] = entry[1];
+      catalogue[entry[0]] = Object.assign({}, catalogue[entry[0]] || {}, entry[1]);
     }
   }
   return {
@@ -1698,6 +1698,11 @@ function editorialMarkup(slug, data, relatedLinks) {
       relatedLinks.map(function(link) {
         return '<a href="' + escapeAttribute(link[1]) + '">' + escapeText(link[0]) + '</a>';
       }).join('') + '</div></section>' : '';
+  const detail = Array.isArray(data.detail) && data.detail.length ?
+    '<section class="content-block editorial-detail"><h2>' +
+      escapeText(data.detailTitle || '계산 결과를 읽는 방법') + '</h2><ul>' +
+      data.detail.map(function(item) { return '<li>' + escapeText(item) + '</li>'; }).join('') +
+      '</ul></section>' : '';
   return '<div class="calculator-editorial" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
     '<section class="content-block editorial-input"><h2>입력 항목 설명</h2>' +
@@ -1709,7 +1714,7 @@ function editorialMarkup(slug, data, relatedLinks) {
     '<section class="content-block editorial-result"><h2>결과 해석</h2><p>' +
     escapeText(data.result || '') + '</p></section>' +
     '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
-    list(data.cautions || []) + '</section>' + sources + related + '</div>';
+    list(data.cautions || []) + '</section>' + detail + sources + related + '</div>';
 }
 
 function mergeEditorial(root, slug, data) {
