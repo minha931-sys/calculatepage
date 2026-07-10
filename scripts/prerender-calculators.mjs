@@ -1703,6 +1703,11 @@ function editorialMarkup(slug, data, relatedLinks) {
       escapeText(data.detailTitle || '계산 결과를 읽는 방법') + '</h2><ul>' +
       data.detail.map(function(item) { return '<li>' + escapeText(item) + '</li>'; }).join('') +
       '</ul></section>' : '';
+  const faq = Array.isArray(data.faq) && data.faq.length ?
+    '<section class="content-block editorial-faq"><h2>자주 묻는 질문</h2>' +
+      data.faq.map(function(item) {
+        return '<details><summary>' + escapeText(item[0]) + '</summary><p>' + escapeText(item[1]) + '</p></details>';
+      }).join('') + '</section>' : '';
   return '<div class="calculator-editorial" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
     '<section class="content-block editorial-input"><h2>입력 항목 설명</h2>' +
@@ -1714,7 +1719,7 @@ function editorialMarkup(slug, data, relatedLinks) {
     '<section class="content-block editorial-result"><h2>결과 해석</h2><p>' +
     escapeText(data.result || '') + '</p></section>' +
     '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
-    list(data.cautions || []) + '</section>' + detail + sources + related + '</div>';
+    list(data.cautions || []) + '</section>' + detail + faq + sources + related + '</div>';
 }
 
 function mergeEditorial(root, slug, data) {
