@@ -117,6 +117,23 @@
         </table>
       </div>
       <p>1인 가구와 2인 가구는 일부 임대주택 소득기준에서 각각 20%p, 10%p 가산 기준이 붙는 경우가 있습니다. 계산기에서는 체크박스로 함께 반영할 수 있지만, 실제 적용 여부는 모집공고가 우선입니다.</p>
+      <p>기준일: 2026년 7월 10일. 이 표는 2026년도 적용 도시근로자 가구당 월평균소득 기준을 계산기에 반영한 것입니다. 공고마다 적용 비율, 가구원 인정 범위, 1인·2인 가산 적용 여부가 다를 수 있으므로 최종 판단에는 모집공고의 소득 기준표를 우선해 주세요.</p>
+      <p class="jlpt-source">참고: <a href="https://www.myhome.go.kr/hws/portal/cont/selectHappyHouseView.do" target="_blank" rel="noopener">마이홈포털 행복주택 입주자격 안내</a></p>
+    </section>
+    <section class="content-block">
+      <h2>예시로 보는 월평균합산소득</h2>
+      <p>월급과 상여금이 섞여 있으면 연봉을 단순히 12로 나누는 것보다 소득 종류별로 나눠 보는 편이 이해하기 쉽습니다. 예를 들어 본인 세전 월급이 250만원이고 1년 상여금이 240만원이라면, 월평균합산소득은 250만원 + 240만원 ÷ 12개월 = 270만원으로 추정할 수 있습니다.</p>
+      <div class="loan-schedule-table-wrap">
+        <table class="loan-schedule-table">
+          <thead><tr><th>상황</th><th>입력 예시</th><th>월평균 반영</th><th>해석</th></tr></thead>
+          <tbody>
+            <tr><td>월급만 있는 경우</td><td>월급·고정급 250만원</td><td>250만원</td><td>매월 같은 세전 금액을 그대로 반영</td></tr>
+            <tr><td>상여금이 있는 경우</td><td>연 상여금 240만원</td><td>20만원</td><td>비정기 소득 나눌 개월 수 12개월 기준</td></tr>
+            <tr><td>프리랜서 소득이 있는 경우</td><td>연 소득금액 1,200만원</td><td>100만원</td><td>소득금액증명 등 연 단위 자료를 월 단위로 환산</td></tr>
+            <tr><td>부모 소득 포함 여부</td><td>신청 유형에 따라 선택</td><td>포함한 사람만 합산</td><td>최종 범위는 모집공고의 소득 확인 대상 기준 우선</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
     <section class="content-block">
       <h2>월평균합산소득 계산기는 언제 쓰면 좋나요?</h2>

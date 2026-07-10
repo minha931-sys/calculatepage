@@ -245,6 +245,36 @@
         </ol>
       </section>
       <section class="content-block">
+        <h2>기준일과 공식 상품 기준</h2>
+        <p>기준일: 2026년 7월 10일. 서민금융진흥원 상품 안내 기준으로 청년미래적금은 3년 만기 자유적립식이며 월 납입 한도는 최대 50만원입니다. 금리는 취급 금융기관이 자율적으로 정하고, 은행 이자에 더해 일반형 6%, 우대형 12%의 정부기여금과 비과세 혜택이 안내되어 있습니다.</p>
+        <div class="loan-schedule-table-wrap">
+          <table class="loan-schedule-table">
+            <thead><tr><th>항목</th><th>계산기 반영 방식</th><th>확인할 점</th></tr></thead>
+            <tbody>
+              <tr><td>납입 한도</td><td>월 최대 50만원까지만 계산</td><td>50만원 초과 입력 시 계산에서는 50만원으로 제한</td></tr>
+              <tr><td>가입 기간</td><td>3년 만기 36개월 기본</td><td>중도해지나 납입 중단은 실제 수령액에 영향</td></tr>
+              <tr><td>정부기여금</td><td>일반형 6%, 우대형 12% 가정</td><td>자격 요건 충족 여부는 공식 안내와 은행 심사 기준 확인</td></tr>
+              <tr><td>금리</td><td>사용자가 예상 연 금리를 직접 입력</td><td>은행별 기본금리와 우대금리 충족 조건이 다를 수 있음</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="jlpt-source">참고: <a href="https://www.kinfa.or.kr/financialProduct/youthFutureSavings.do" target="_blank" rel="noopener">서민금융진흥원 청년미래적금 상품 안내</a></p>
+      </section>
+      <section class="content-block">
+        <h2>예시로 보는 만기 예상액</h2>
+        <p>월 50만원을 36개월 동안 납입하면 원금은 1,800만원입니다. 여기에 입력한 금리로 계산한 은행 이자와 선택한 상품 유형의 정부기여금을 더해 만기 예상액을 보여줍니다. 예를 들어 같은 월 50만원이라도 일반형과 우대형은 정부기여금 차이 때문에 결과가 달라집니다.</p>
+        <div class="loan-schedule-table-wrap">
+          <table class="loan-schedule-table">
+            <thead><tr><th>예시 조건</th><th>원금</th><th>정부기여금 가정</th><th>해석</th></tr></thead>
+            <tbody>
+              <tr><td>월 50만원 · 일반형</td><td>1,800만원</td><td>월 납입액의 6%</td><td>기본 지원 대상일 때의 보수적 비교에 적합</td></tr>
+              <tr><td>월 50만원 · 우대형</td><td>1,800만원</td><td>월 납입액의 12%</td><td>우대 지원 대상에 해당한다고 볼 때 비교</td></tr>
+              <tr><td>비과세만 적용</td><td>입력 납입액 × 기간</td><td>0원</td><td>정부기여금 대상 여부가 불확실할 때의 낮은 추정</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="content-block">
         <h2>결과를 볼 때 꼭 알아둘 점</h2>
         <ul>
           <li>정부기여금은 상품 유형과 자격 조건을 충족한다는 가정으로 계산합니다.</li>
