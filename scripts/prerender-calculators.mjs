@@ -17,7 +17,6 @@
 
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import process from 'node:process';
 import vm from 'node:vm';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -1482,6 +1481,19 @@ function createRuntime(document, pathname, errors, logs) {
   return { windowObject: windowObject, scheduler: scheduler, reportError: reportError };
 }
 
+function snapshotRuntimeRoot(root) {
+  if (!root) return { markup: '', controls: '' };
+  const markup = root.childNodes.map(function(node) { return serializeNode(node); }).join('');
+  const controls = root.querySelectorAll('input, select, textarea').map(function(control) {
+    const id = control.id || '';
+    const type = control.type || control.tagName.toLowerCase();
+    const value = control.value || '';
+    const checked = control.checked ? '1' : '0';
+    return [control.tagName, id, type, value, checked].join('|');
+  }).join('\n');
+  return { markup: markup, controls: controls };
+}
+
 async function executePageScripts(html, filePath, rootId) {
   const errors = [];
   const logs = [];
@@ -1503,6 +1515,7 @@ async function executePageScripts(html, filePath, rootId) {
   } catch (error) {
     return { document: null, errors: [{ stage: 'DOM seed', message: error.message }], logs: logs, stats: stats };
   }
+  const initialSnapshot = snapshotRuntimeRoot(document.querySelector('#' + rootId));
   const context = vm.createContext(runtime.windowObject, {
     name: 'prerender:' + path.basename(filePath),
     codeGeneration: { strings: true, wasm: false }
@@ -1568,7 +1581,17 @@ async function executePageScripts(html, filePath, rootId) {
   } catch (error) {
     errors.push({ stage: 'timers', message: error.message });
   }
-  return { document: document, errors: errors, logs: logs, stats: stats };
+  const finalSnapshot = snapshotRuntimeRoot(document.querySelector('#' + rootId));
+  stats.runtimeLayoutChanged = initialSnapshot.markup !== finalSnapshot.markup;
+  stats.runtimeControlStateChanged = initialSnapshot.controls !== finalSnapshot.controls;
+  return {
+    document: document,
+    errors: errors,
+    logs: logs,
+    stats: stats,
+    initialSnapshot: initialSnapshot,
+    finalSnapshot: finalSnapshot
+  };
 }
 
 async function loadEditorialCatalogue() {
@@ -1611,7 +1634,53 @@ async function loadEditorialCatalogue() {
   };
 }
 
-function editorialMarkup(slug, data) {
+const CATEGORY_RELATED_LINKS = {
+  money: [
+    ['예금 이자 계산기', '/calculators/savings-interest.html'],
+    ['대출 이자 계산기', '/calculators/loan-interest.html'],
+    ['월급 실수령액 계산기', '/calculators/salary.html']
+  ],
+  education: [
+    ['학점 계산기', '/calculators/gpa.html'],
+    ['내신 등급 계산기', '/calculators/school-grade.html'],
+    ['시험 D-day 계산기', '/calculators/exam-dday.html']
+  ],
+  health: [
+    ['BMI 계산기', '/calculators/bmi.html'],
+    ['기초대사량 계산기', '/calculators/bmr.html'],
+    ['운동 칼로리 계산기', '/calculators/exercise-calorie.html']
+  ],
+  life: [
+    ['날짜 계산기', '/calculators/date.html'],
+    ['디데이 계산기', '/calculators/d-day.html'],
+    ['나이 계산기', '/calculators/age.html']
+  ],
+  business: [
+    ['부가세 계산기', '/calculators/vat.html'],
+    ['마진율 계산기', '/calculators/margin.html'],
+    ['견적 계산기', '/calculators/estimate.html']
+  ],
+  conversion: [
+    ['단위 변환 계산기', '/calculators/unit.html'],
+    ['길이 단위 변환', '/calculators/length-conversion.html'],
+    ['무게 단위 변환', '/calculators/weight-conversion.html']
+  ]
+};
+
+function inferredRelated(root, slug) {
+  const categoryLink = root.querySelectorAll('a').find(function(link) {
+    return /\/categories\/[a-z-]+\.html(?:$|[?#])/i.test(link.getAttribute('href') || '');
+  }) || root.querySelector('.calculator-home');
+  const categoryHref = categoryLink && categoryLink.getAttribute('href') || '';
+  const categoryMatch = categoryHref.match(/\/categories\/([a-z-]+)\.html/i);
+  const category = categoryMatch ? categoryMatch[1] : 'money';
+  const links = CATEGORY_RELATED_LINKS[category] || CATEGORY_RELATED_LINKS.money;
+  return links.filter(function(link) {
+    return !link[1].endsWith('/' + slug + '.html');
+  }).slice(0, 3);
+}
+
+function editorialMarkup(slug, data, relatedLinks) {
   const list = function(items) {
     return '<ul>' + items.map(function(item) {
       return '<li>' + escapeText(item) + '</li>';
@@ -1624,18 +1693,23 @@ function editorialMarkup(slug, data) {
           '" target="_blank" rel="noopener noreferrer">' +
           escapeText(source[0]) + '</a></li>';
       }).join('') + '</ul></section>' : '';
+  const related = relatedLinks && relatedLinks.length ?
+    '<section class="content-block"><h2>관련 계산기</h2><div class="related">' +
+      relatedLinks.map(function(link) {
+        return '<a href="' + escapeAttribute(link[1]) + '">' + escapeText(link[0]) + '</a>';
+      }).join('') + '</div></section>' : '';
   return '<div class="calculator-editorial" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
-    '<section class="content-block"><h2>입력 항목 설명</h2>' +
+    '<section class="content-block editorial-input"><h2>입력 항목 설명</h2>' +
     list(data.input || []) + '</section>' +
     '<section class="content-block editorial-formula"><h2>계산 공식</h2><p>' +
     escapeText(data.formula || '') + '</p></section>' +
     '<section class="content-block editorial-example"><h2>계산 예시</h2><p>' +
     escapeText(data.example || '') + '</p></section>' +
-    '<section class="content-block"><h2>결과 해석</h2><p>' +
+    '<section class="content-block editorial-result"><h2>결과 해석</h2><p>' +
     escapeText(data.result || '') + '</p></section>' +
     '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
-    list(data.cautions || []) + '</section>' + sources + '</div>';
+    list(data.cautions || []) + '</section>' + sources + related + '</div>';
 }
 
 function mergeEditorial(root, slug, data) {
@@ -1643,7 +1717,10 @@ function mergeEditorial(root, slug, data) {
     element.remove();
   });
   if (!data) return false;
-  const markup = editorialMarkup(slug, data);
+  const relatedLinks = Array.isArray(data.related) && data.related.length ?
+    data.related : inferredRelated(root, slug);
+  const markup = editorialMarkup(slug, data,
+    root.querySelector('.related') ? [] : relatedLinks);
   const related = root.querySelectorAll('.content-block').find(function(section) {
     const heading = section.querySelector('h2');
     return heading && heading.textContent.trim() === '관련 계산기';
@@ -1814,6 +1891,23 @@ function removeLegacyScriptReferences(html) {
   return { html: output, removed: removed };
 }
 
+function ensureStaticRuntimeScript(html) {
+  if (/\bsrc=["']\/js\/static-calculator-runtime\.js["']/i.test(html)) return html;
+  const tag = '<script defer src="/js/static-calculator-runtime.js"></script>';
+  const localScript = /<script\b(?=[^>]*\bsrc=["']\/js\/)[^>]*>\s*<\/script>/i;
+  if (localScript.test(html)) return html.replace(localScript, tag + '$&');
+  return html.replace(/<\/head>/i, tag + '</head>');
+}
+
+function normalizeStaticCopy(html) {
+  return html.replace(
+    /<h([2-4])\b([^>]*)>([^<]*?)언제\s*쓰면\s*좋나요\?\s*<\/h\1>/gi,
+    function(_, level, attributes, prefix) {
+      return '<h' + level + attributes + '>' + prefix.trim() + ' 활용 방법</h' + level + '>';
+    }
+  ).replaceAll('2026년 7월 10일', '2026년 7월 11일');
+}
+
 function guardStaticInlineInitializers(html, filename) {
   if (filename !== 'cpm.html') return { html: html, guarded: 0 };
   if (/if\s*\(\s*!tbody\.children\.length\s*\)\s*addRow\(\)/.test(html)) {
@@ -1878,7 +1972,8 @@ async function renderArtifact(filePath, kind, catalogue) {
       changed: false, errors: ['원본 #' + rootId + ' main을 찾을 수 없습니다.'], warnings: []
     };
   }
-  const execution = await executePageScripts(html, filePath, rootId);
+  const executableHtml = kind === 'calculator' ? ensureStaticRuntimeScript(html) : html;
+  const execution = await executePageScripts(executableHtml, filePath, rootId);
   const errors = execution.errors.map(function(item) {
     return item.stage + ': ' + item.message;
   });
@@ -1896,6 +1991,9 @@ async function renderArtifact(filePath, kind, catalogue) {
       filePath: filePath, filename: filename, slug: slug, kind: kind,
       changed: false, errors: errors, warnings: warnings, stats: execution.stats
     };
+  }
+  if (kind === 'calculator' && root.insertAdjacentHTML !== VirtualElement.prototype.insertAdjacentHTML) {
+    root.insertAdjacentHTML = VirtualElement.prototype.insertAdjacentHTML.bind(root);
   }
   let editorial = false;
   if (kind === 'calculator') {
@@ -1929,7 +2027,9 @@ async function renderArtifact(filePath, kind, catalogue) {
     output = initializer.html;
     legacy = removeLegacyScriptReferences(output);
     output = legacy.html;
+    output = ensureStaticRuntimeScript(output);
   }
+  output = normalizeStaticCopy(output);
   if (hasBom) output = '\uFEFF' + output;
   return {
     filePath: filePath,
@@ -1993,19 +2093,19 @@ function printResult(result, options) {
   }
 }
 
-async function main() {
+export async function runPrerender(argv = [], runtimeProcess = null) {
   let options;
   try {
-    options = parseArgs(process.argv.slice(2));
+    options = parseArgs(argv);
   } catch (error) {
     console.error(error.message);
     printHelp();
-    process.exitCode = 1;
-    return;
+    if (runtimeProcess) runtimeProcess.exitCode = 1;
+    return { errors: 1, warnings: 0, changed: 0, results: [] };
   }
   if (options.help) {
     printHelp();
-    return;
+    return { errors: 0, warnings: 0, changed: 0, results: [] };
   }
   const allCalculatorFiles = await listHtmlFiles(CALCULATOR_DIR);
   const allCategoryFiles = await listHtmlFiles(CATEGORY_DIR);
@@ -2064,8 +2164,8 @@ async function main() {
   console.log('  오류: ' + errors + '개');
   if (errors) {
     console.error('오류가 있어 파일을 쓰지 않았습니다.');
-    process.exitCode = 1;
-    return;
+    if (runtimeProcess) runtimeProcess.exitCode = 1;
+    return { errors: errors, warnings: warnings, changed: changed.length, results: results };
   }
   if (options.mode === 'write') {
     for (const result of changed) {
@@ -2074,11 +2174,31 @@ async function main() {
     console.log('UTF-8 파일 ' + changed.length + '개를 갱신했습니다.');
   } else {
     console.log('검사 모드이므로 파일을 변경하지 않았습니다.');
-    if (options.failOnChange && changed.length) process.exitCode = 2;
+    if (options.failOnChange && changed.length && runtimeProcess) runtimeProcess.exitCode = 2;
   }
+  return { errors: errors, warnings: warnings, changed: changed.length, results: results };
 }
 
-main().catch(function(error) {
-  console.error(error && error.stack ? error.stack : error);
-  process.exitCode = 1;
-});
+export async function inspectRuntimeStability(slug) {
+  const filePath = path.join(CALCULATOR_DIR, slug + '.html');
+  const html = await readFile(filePath, 'utf8');
+  const execution = await executePageScripts(ensureStaticRuntimeScript(html), filePath, 'calculator');
+  return {
+    slug: slug,
+    errors: execution.errors,
+    layoutChanged: execution.stats.runtimeLayoutChanged,
+    controlsChanged: execution.stats.runtimeControlStateChanged,
+    initial: execution.initialSnapshot,
+    final: execution.finalSnapshot
+  };
+}
+
+const cliProcess = typeof globalThis.process === 'object' ? globalThis.process : null;
+const invokedAsCli = cliProcess && cliProcess.argv && cliProcess.argv[1] &&
+  path.resolve(cliProcess.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedAsCli) {
+  runPrerender(cliProcess.argv.slice(2), cliProcess).catch(function(error) {
+    console.error(error && error.stack ? error.stack : error);
+    cliProcess.exitCode = 1;
+  });
+}

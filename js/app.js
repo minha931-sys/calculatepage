@@ -1,9 +1,3 @@
-const staticCalculatorIntro=document.querySelector('#calculator .static-calculator-intro');
-const staticCalculatorGuide=window.__staticCalculatorGuide || (staticCalculatorIntro
-  ? staticCalculatorIntro.innerHTML.replace(/<h1>[\s\S]*?<\/h1><p class="lead">[\s\S]*?<\/p>/,'')
-  : '');
-if(staticCalculatorGuide)document.documentElement.dataset.staticCalculatorContent='true';
-
 const calculators={
  percent:{n:'퍼센트 계산기',c:'money',d:'금액의 퍼센트와 퍼센트 비율을 간편하게 계산합니다.',f:[['number','기준값','100'],['number','퍼센트(%)','10']],op:'percent',r:['discount','vat']},discount:{n:'할인율 계산기',c:'money',d:'정가와 할인율을 입력해 할인 금액과 최종 가격을 계산합니다.',f:[['number','정가(원)','100000'],['number','할인율(%)','20']],op:'discount',r:['percent','dutch-pay']},'savings-interest':{n:'예금 이자 계산기',c:'money',d:'예금 원금, 금리, 기간으로 세전·세후 이자를 계산합니다.',f:[['number','예금 원금(원)','10000000'],['number','연 이자율(%)','3.5'],['number','예치 기간(개월)','12']],op:'interest',r:['installment','loan-interest']},installment:{n:'적금 계산기',c:'money',d:'매월 납입액과 금리로 적금 만기 예상액을 계산합니다.',f:[['number','월 납입액(원)','300000'],['number','연 이자율(%)','3.5'],['number','가입 기간(개월)','12']],op:'installment',r:['savings-interest','budget']},'loan-interest':{n:'대출 이자 계산기',c:'money',d:'대출금과 금리를 입력해 월 이자와 총 이자를 확인합니다.',f:[['number','대출 원금(원)','10000000'],['number','연 이자율(%)','4.5'],['number','대출 기간(개월)','36']],op:'loan',r:['savings-interest','salary']},salary:{n:'월급 실수령액 계산기',c:'money',d:'월 급여에서 예상 공제액을 뺀 월 실수령액을 계산합니다.',f:[['number','월 세전 급여(원)','3000000'],['number','공제율(%)','9']],op:'salary',r:['budget','freelance-rate']},budget:{n:'생활비 예산 계산기',c:'money',d:'월 수입과 고정·변동 지출을 바탕으로 남는 생활비를 계산합니다.',f:[['number','월 수입(원)','3000000'],['number','고정 지출(원)','1000000'],['number','변동 지출(원)','800000']],op:'budget',r:['dutch-pay','salary']},
  gpa:{n:'학점 계산기',c:'education',d:'과목별 학점과 성적을 입력해 이번 학기 평균 평점을 계산합니다.',op:'gpa',r:['target-gpa','average-score']},'target-gpa':{n:'목표 학점 계산기',c:'education',d:'누적 평점과 목표 평점을 바탕으로 다음 학기에 필요한 평점을 계산합니다.',f:[['number','현재 이수 학점','60'],['number','현재 평균 평점','3.5'],['number','다음 학기 학점','18'],['number','목표 누적 평점','3.8']],op:'targetgpa',r:['gpa','retake']},retake:{n:'재수강 학점 계산기',c:'education',d:'재수강 전후 성적과 학점으로 평균 평점 변화를 계산합니다.',f:[['number','현재 이수 학점','60'],['number','현재 평균 평점','3.2'],['number','재수강 과목 학점','3'],['number','기존 성적 평점','2.0'],['number','새 성적 평점','4.0']],op:'retake',r:['gpa','target-gpa']},'school-grade':{n:'내신 등급 계산기',c:'education',d:'석차와 전체 인원을 입력해 예상 내신 등급을 확인합니다.',f:[['number','내 석차','20'],['number','전체 학생 수','200']],op:'rank',r:['average-score','exam-dday']},'average-score':{n:'평균 점수 계산기',c:'education',d:'여러 과목의 점수를 입력해 평균 점수를 계산합니다.',f:[['text','점수 (쉼표로 구분)','80, 90, 85']],op:'average',r:['gpa','school-grade']},'exam-dday':{n:'시험 D-day 계산기',c:'education',d:'시험 날짜까지 남은 일수를 계산해 학습 계획에 활용하세요.',f:[['date','시험 날짜','']],op:'dday',r:['d-day','average-score']},
@@ -17,9 +11,48 @@ const searchAliases={percent:'퍼센트 백분율 비율 몇프로',discount:'�
 const href=k=>`/calculators/${k}.html`; const card=k=>calculators[k]?`<a class="calc-card" href="${href(k)}"><b>${calculators[k].n}</b><span>${calculators[k].d}</span></a>`:'';
 function val(i){return i?.value||0} function won(n){return Math.round(n).toLocaleString('ko-KR')+'원'}
 function compute(op,x){let a=+val(x[0]),b=+val(x[1]),c=+val(x[2]),d=+val(x[3]),e=+val(x[4]), today=new Date();switch(op){case'percent':return[`${(a*b/100).toLocaleString()} (기준값의 ${b}%)`,`${a.toLocaleString()}의 ${b}%입니다.`];case'discount':return[won(a*(1-b/100)),`할인 금액 ${won(a*b/100)} · 최종 가격입니다.`];case'interest':let it=a*b/100*c/12;return[won(a+it*.846),`세전 이자 ${won(it)} · 이자소득세 15.4% 반영`];case'installment':let total=a*c,ii=a*b/100*c*(c+1)/24;return[won(total+ii*.846),`원금 ${won(total)} · 예상 세전 이자 ${won(ii)}`];case'loan':return[won(a*b/100/12),`매월 단순 이자 · ${c}개월 총 이자 ${won(a*b/100*c/12)}`];case'salary':return[won(a*(1-b/100)),`예상 공제액 ${won(a*b/100)}입니다.`];case'budget':return[won(a-b-c),`수입에서 고정·변동 지출을 뺀 월 잔액입니다.`];case'targetgpa':return[`${((d*(a+c)-a*b)/c).toFixed(2)} / 4.5`,`목표 누적 평점을 위한 다음 학기 필요 평점입니다.`];case'remaining':return[`${Math.max(a-b,0).toLocaleString()}학점`,`졸업까지 남은 학점입니다.`];case'retake':return[`${((a*b-c*d+c*e)/a).toFixed(2)} / 4.5`,`재수강 후 예상 평균 평점입니다.`];case'rank':let p=a/b*100,grade=p<=4?1:p<=11?2:p<=23?3:p<=40?4:p<=60?5:p<=77?6:p<=89?7:p<=96?8:9;return[`${grade}등급`,`상위 ${p.toFixed(1)}% 기준의 예상 등급입니다.`];case'average':let z=x[0].value.split(',').map(Number).filter(Number.isFinite);return[`${(z.reduce((s,n)=>s+n,0)/z.length).toFixed(1)}점`,`총 ${z.length}개 점수의 산술 평균입니다.`];case'dday':let dt=new Date(x[0].value),days=Math.ceil((dt-today)/864e5);return[days>=0?`D-${days}`:`D+${Math.abs(days)}`,`${dt.toLocaleDateString('ko-KR')} 기준입니다.`];case'bmi':let bmi=b/(a/100)**2;return[`${bmi.toFixed(1)} BMI`,bmi<18.5?'저체중 범위입니다.':bmi<23?'정상 범위입니다.':bmi<25?'과체중 범위입니다.':'비만 범위입니다.'];case'bmr':return[`${Math.round(x[0].value==='남성'?88.362+13.397*d+4.799*c-5.677*b:447.593+9.247*d+3.098*c-4.33*b)} kcal`,`하루 기초대사량 추정치입니다.`];case'calorie':return[`${Math.round(a*({낮음:1.2,보통:1.55,높음:1.725}[x[1].value]))} kcal`,`활동량을 반영한 하루 권장 열량입니다.`];case'water':return[`${Math.round(a*30).toLocaleString()} ml`,`하루 권장 물 섭취량의 일반적인 추정치입니다.`];case'exercise':return[`${Math.round(a*({가벼움:3.5,보통:6,격렬함:9}[x[1].value])*c/60)} kcal`,`운동으로 소모한 예상 칼로리입니다.`];case'targetweight':return[`${(a/100)**2*b.toFixed?((a/100)**2*b).toFixed(1):0} kg`,`키와 목표 BMI 기준의 목표 체중입니다.`];case'pace':let s=Math.floor(b/a),sec=Math.round((b/a-s)*60);return[`${s}' ${String(sec).padStart(2,'0')}" /km`,`1km당 러닝 페이스입니다.`];case'date':let dd=new Date(x[0].value);dd.setDate(dd.getDate()+a);return[dd.toLocaleDateString('ko-KR'),`${a}일 후 날짜입니다.`];case'age':return[`${today.getFullYear()-new Date(x[0].value).getFullYear()+1}세`,`현재 연도 기준 한국식 나이입니다.`];case'internationalage':let born=new Date(x[0].value),age=today.getFullYear()-born.getFullYear()-(today<new Date(today.getFullYear(),born.getMonth(),born.getDate()));return[`만 ${age}세`,`생일 경과 여부를 반영했습니다.`];case'time':let m=t=>{let q=t.value.split(':');return +q[0]*60+(+q[1])};let mins=m(x[1])-m(x[0]);if(mins<0)mins+=1440;return[`${Math.floor(mins/60)}시간 ${mins%60}분`,`시작부터 종료까지의 시간입니다.`];case'dutch':return[won(a/b),`${b}명이 균등하게 나눈 금액입니다.`];case'unit':let map={'km → m':[1000,'m'],'m → cm':[100,'cm'],'kg → g':[1000,'g']}[x[1].value];return[`${(a*map[0]).toLocaleString()} ${map[1]}`,`${x[1].value} 변환 결과입니다.`];case'vat':return[won(a*1.1),`공급가액 ${won(a)} · 부가세 ${won(a*.1)}`];case'margin':return[`${((a-b)/a*100).toFixed(1)}%`,`이익 ${won(a-b)} · 판매가 기준 마진율입니다.`];case'wage':return[won(a/b),`월 급여를 월 근무시간으로 나눈 시급입니다.`];case'work':let st=x[0].value.split(':').reduce((h,v)=>h*60+(+v),0),en=x[1].value.split(':').reduce((h,v)=>h*60+(+v),0),mm=en-st-c;if(mm<0)mm+=1440;return[`${Math.floor(mm/60)}시간 ${mm%60}분`,`휴게 시간을 제외한 실제 근무시간입니다.`];case'estimate':let sum=a*b;return[won(sum*1.1),`공급가액 ${won(sum)} · 부가세 ${won(sum*.1)}`];case'freelance':return[won(a/b),`목표 수입 달성을 위한 시간당 단가입니다.`];case'severance':return[won(a/90*30*(b/365)),`평균임금 기준의 간단한 예상 퇴직금입니다.`]}}
-function page(){let key=document.body.dataset.calculator;if(!key)return;let q=calculators[key];document.title=`${q.n} | 계산페이지`;document.querySelector('meta[name="description"]')?.setAttribute('content',q.d);let fields=q.op==='gpa'?`<div class="field full"><label>과목별 입력 (학점:평점, 쉼표로 구분)</label><input id="gpa-data" value="3:4.5, 3:4.0, 2:3.5" placeholder="예: 3:4.5, 3:4.0"></div>`:q.f.map(z=>`<label class="field"><span>${z[1]}</span>${z[0]==='select'?`<select>${z[2].split('|').map(v=>`<option>${v}</option>`).join('')}</select>`:`<input type="${z[0]}" value="${z[2]}" ${z[0]==='date'?'required':''}>`}</label>`).join('');document.querySelector('#calculator').innerHTML=`<h1>${q.n}</h1><p class="lead">${q.d}</p><section class="calculator-box"><div class="fields">${fields}</div><button class="primary-btn" id="calculate">계산하기</button><div class="result" id="result"></div></section><section class="content-block"><h2>관련 계산기</h2><div class="related">${q.r.map(k=>`<a href="${href(k)}">${calculators[k].n}</a>`).join('')}</div></section>`;document.querySelector('#calculate').onclick=()=>{let ans;if(q.op==='gpa'){let rows=document.querySelector('#gpa-data').value.split(',').map(v=>v.trim().split(':').map(Number)).filter(v=>v.length===2&&v.every(Number.isFinite));let credits=rows.reduce((s,v)=>s+v[0],0),score=rows.reduce((s,v)=>s+v[0]*v[1],0);ans=[`${(score/credits).toFixed(2)} / 4.5`,`총 이수 학점 ${credits}학점 · 입력한 과목 기준`]}else ans=compute(q.op,[...document.querySelectorAll('.fields input,.fields select')]);let r=document.querySelector('#result');r.innerHTML=`<strong>${ans[0]}</strong><p>${ans[1]}</p>`;r.classList.add('show')}}
+function page(){
+  const key=document.body.dataset.calculator;
+  const q=calculators[key];
+  const root=document.querySelector('#calculator');
+  if(!key||!q||!root)return;
+  if(!root.hasAttribute('data-static-rendered')){
+    document.title=`${q.n} | 계산페이지`;
+    document.querySelector('meta[name="description"]')?.setAttribute('content',q.d);
+    const fields=q.op==='gpa'
+      ? '<div class="field full"><label>과목별 입력 (학점:평점, 쉼표로 구분)<input id="gpa-data" type="text" inputmode="decimal" placeholder="예: 3:4.5, 3:4.0"></label></div>'
+      :q.f.map(z=>`<label class="field"><span>${z[1]}</span>${z[0]==='select'?`<select>${z[2].split('|').map(v=>`<option>${v}</option>`).join('')}</select>`:`<input type="${z[0]}" ${z[0]==='number'?'inputmode="decimal" step="any"':''} placeholder="${z[0]==='date'?'':`예: ${z[2]}`}" ${z[0]==='date'?'required':''}>`}</label>`).join('');
+    const related=(q.r||[]).filter(k=>calculators[k]).map(k=>`<a href="${href(k)}">${calculators[k].n}</a>`).join('');
+    root.innerHTML=`<h1>${q.n}</h1><p class="lead">${q.d}</p><section class="calculator-box"><div class="fields">${fields}</div><button class="primary-btn" id="calculate" type="button">계산하기</button><div class="result" id="result" aria-live="polite"></div></section><section class="content-block"><h2>관련 계산기</h2><div class="related">${related}</div></section>`;
+  }
+  const button=root.querySelector('#calculate');
+  const result=root.querySelector('#result');
+  if(!button||!result)return;
+  button.onclick=()=>{
+    let answer;
+    if(q.op==='gpa'){
+      const raw=root.querySelector('#gpa-data')?.value.trim()||'';
+      const rows=raw.split(',').map(v=>v.trim().split(':').map(Number)).filter(v=>v.length===2&&v.every(Number.isFinite)&&v[0]>0&&v[1]>=0&&v[1]<=4.5);
+      const credits=rows.reduce((sum,row)=>sum+row[0],0);
+      const score=rows.reduce((sum,row)=>sum+row[0]*row[1],0);
+      answer=credits>0?[`${(score/credits).toFixed(2)} / 4.5`,`총 이수 학점 ${credits}학점 · 입력한 과목 기준`]:null;
+    }else{
+      const inputs=[...root.querySelectorAll('.fields input,.fields select')];
+      const hasBlank=inputs.some(input=>!['checkbox','radio'].includes(input.type)&&!String(input.value).trim());
+      answer=hasBlank?null:compute(q.op,inputs);
+    }
+    const text=answer?`${answer[0]} ${answer[1]}`:'';
+    if(!answer||/\b(?:undefined|null|NaN|Infinity)\b/.test(text)){
+      result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>필수 항목을 올바른 형식과 범위로 입력해 주세요.</p>';
+      result.classList.add('show');
+      return;
+    }
+    result.innerHTML=`<strong>${answer[0]}</strong><p>${answer[1]}</p>`;
+    result.classList.add('show');
+  };
+}
 function home(){if(!document.querySelector('.popular-list'))return;document.querySelector('.popular-list').innerHTML=popularCalculatorIds.filter(id=>calculators[id]).map(card).join('');document.querySelector('#category-grid').innerHTML=Object.entries(cats).map(([k,v])=>`<a href="/categories/${k}.html"><span>${v[1]}</span>${v[0]}</a>`).join('');let inp=document.querySelector('#calculator-search'),box=document.querySelector('#search-results');inp.oninput=()=>{let s=inp.value.trim();box.innerHTML=s?Object.entries(calculators).filter(([,v])=>v.n.includes(s)).slice(0,7).map(([k,v])=>`<a class="search-result" href="${href(k)}">${v.n}<small>${cats[v.c][0]}</small></a>`).join(''):''}}
-function category(){let key=document.body.dataset.category;if(!key||!cats[key])return;let c=cats[key];document.title=`${c[0]} | 계산페이지`;document.querySelector('#category').innerHTML=`<p class="eyebrow">${c[2]}</p><h1>${c[0]}</h1><p class="lead">${c[0]}에 필요한 무료 계산기를 모았습니다. 원하는 항목을 선택해 바로 계산하세요.</p><div class="card-grid">${c[3].split(' ').map(card).join('')}</div>`}home();category();page();
+function category(){let key=document.body.dataset.category,root=document.querySelector('#category');if(!key||!cats[key]||!root||root.dataset.staticRendered==='true')return;let c=cats[key];document.title=`${c[0]} | 계산페이지`;root.innerHTML=`<p class="eyebrow">${c[2]}</p><h1>${c[0]}</h1><p class="lead">${c[0]}에 필요한 무료 계산기를 모았습니다. 원하는 항목을 선택해 바로 계산하세요.</p><div class="card-grid">${c[3].split(' ').map(card).join('')}</div>`}home();category();page();
 const baseCompute=compute;
 compute=(op,x)=>op==='targetweight'?[`${((+x[0].value/100)**2*(+x[1].value)).toFixed(1)} kg`,'키와 목표 BMI 기준의 목표 체중입니다.']:baseCompute(op,x);
 page();
@@ -30,10 +63,10 @@ function enhanceGpaCalculator(){
   const gradeOptions=['선택','A+','A0','B+','B0','C+','C0','D+','D0','F','P'].map(v=>`<option value="${v}">${v}</option>`).join('');
   const creditOptions=['선택','1','2','3','4','5','6'].map(v=>`<option value="${v}">${v}</option>`).join('');
   const row=()=>`<tr><td><input class="course-name" aria-label="과목명" placeholder="과목명"></td><td><select class="course-grade" aria-label="성적">${gradeOptions}</select></td><td><select class="course-credit" aria-label="학점">${creditOptions}</select></td><td><label class="major-check"><input type="checkbox" aria-label="전공 과목"> <span>전공</span></label></td><td><button class="row-delete" type="button" aria-label="과목 삭제">×</button></td></tr>`;
-  root.innerHTML=`<h1>학점 계산기</h1><p class="lead">과목별 성적과 학점을 입력하면 이번 학기 평균 평점을 바로 계산할 수 있습니다.</p><section class="calculator-box gpa-box"><div class="gpa-toolbar"><div><label for="grade-scale">평점 기준</label><select id="grade-scale"><option value="4.5">4.5 만점</option><option value="4.3">4.3 만점</option></select></div><label class="include-p"><input id="include-p" type="checkbox"> P/F 과목 포함</label><button type="button" class="add-course" id="add-course">+ 과목 추가</button></div><div class="gpa-table-wrap"><table class="gpa-table"><thead><tr><th>과목명</th><th>성적</th><th>학점</th><th>전공</th><th></th></tr></thead><tbody id="course-rows"></tbody></table></div><div class="gpa-actions"><button class="secondary-btn" id="reset-gpa" type="button">↻ 초기화</button><button class="primary-btn" id="calculate-gpa" type="button">평점 계산하기</button></div><div class="result" id="gpa-result" aria-live="polite"></div><p class="calculator-note">P/F 과목은 일반적으로 평점 평균에 포함되지 않습니다. 학교별 성적 환산 기준이 다를 수 있으니 최종 결과는 학칙을 확인해 주세요.</p></section><section class="content-block"><h2>학점 계산기 사용 방법</h2><ol><li>과목명, 받은 성적, 이수 학점을 차례로 입력하세요.</li><li>과목이 더 있으면 <strong>과목 추가</strong>를 눌러 행을 늘리세요.</li><li><strong>평점 계산하기</strong>를 눌러 총 이수 학점과 평균 평점을 확인하세요.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/target-gpa.html">목표 학점 계산기</a><a href="/calculators/retake.html">재수강 학점 계산기</a><a href="/calculators/average-score.html">평균 점수 계산기</a></div></section>`;
+  if(!root.hasAttribute('data-static-rendered'))root.innerHTML=`<h1>학점 계산기</h1><p class="lead">과목별 성적과 학점을 입력하면 이번 학기 평균 평점을 바로 계산할 수 있습니다.</p><section class="calculator-box gpa-box"><div class="gpa-toolbar"><div><label for="grade-scale">평점 기준</label><select id="grade-scale"><option value="4.5">4.5 만점</option><option value="4.3">4.3 만점</option></select></div><label class="include-p"><input id="include-p" type="checkbox"> P/F 과목 포함</label><button type="button" class="add-course" id="add-course">+ 과목 추가</button></div><div class="gpa-table-wrap"><table class="gpa-table"><thead><tr><th>과목명</th><th>성적</th><th>학점</th><th><th>전공</th><th></th></tr></thead><tbody id="course-rows"></tbody></table></div><div class="gpa-actions"><button class="secondary-btn" id="reset-gpa" type="button">↻ 초기화</button><button class="primary-btn" id="calculate-gpa" type="button">평점 계산하기</button></div><div class="result" id="gpa-result" aria-live="polite"></div><p class="calculator-note">P/F 과목은 일반적으로 평점 평균에 포함되지 않습니다. 학교별 성적 환산 기준이 다를 수 있으니 최종 결과는 학칙을 확인해 주세요.</p></section><section class="content-block"><h2>학점 계산기 사용 방법</h2><ol><li>과목명, 받은 성적, 이수 학점을 차례로 입력하세요.</li><li>과목이 더 있으면 <strong>과목 추가</strong>를 눌러 행을 늘리세요.</li><li><strong>평점 계산하기</strong>를 눌러 총 이수 학점과 평균 평점을 확인하세요.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/target-gpa.html">목표 학점 계산기</a><a href="/calculators/retake.html">재수강 학점 계산기</a><a href="/calculators/average-score.html">평균 점수 계산기</a></div></section>`;
   const tbody=root.querySelector('#course-rows');
   const add=(n=1)=>{for(let i=0;i<n;i++)tbody.insertAdjacentHTML('beforeend',row())};
-  add(6);
+  if(!root.hasAttribute('data-static-rendered'))add(6);
   root.querySelector('#add-course').onclick=()=>add();
   tbody.onclick=e=>{if(e.target.closest('.row-delete')&&tbody.children.length>1)e.target.closest('tr').remove()};
   root.querySelector('#reset-gpa').onclick=()=>{tbody.innerHTML='';add(6);root.querySelector('#gpa-result').classList.remove('show')};
@@ -114,8 +147,10 @@ function enhanceExamDdayCalculator(){
   const root=document.querySelector('#calculator');
   root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>시험 D-day 계산기</h1><p class="lead">기준일과 시험일의 날짜 차이를 계산하고 남은 공부 기간을 주·일 단위로 나눠 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>기준일</span><input id="exam-base" type="date"></label><label><span>시험일</span><input id="exam-target" type="date"></label></div><div class="date-options"><label class="tax-option"><input id="exam-include-base" type="checkbox"> 기준일 포함</label><label class="tax-option"><input id="exam-include-target" type="checkbox" checked> 시험일 포함</label></div><button class="primary-btn" id="exam-dday-calc" type="button">시험 D-day 계산하기</button></div><div class="result" id="exam-dday-result" aria-live="polite"></div></section>`;
   const today=new Date(),pad=value=>String(value).padStart(2,'0');
-  root.querySelector('#exam-base').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
-  root.querySelector('#exam-base').dataset.exampleHandled='true';
+  if(!root.hasAttribute('data-static-rendered')){
+    root.querySelector('#exam-base').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+    root.querySelector('#exam-base').dataset.exampleHandled='true';
+  }
   root.querySelector('#exam-dday-calc').onclick=()=>{
     const baseValue=root.querySelector('#exam-base').value,targetValue=root.querySelector('#exam-target').value,result=root.querySelector('#exam-dday-result');
     if(!baseValue||!targetValue){result.innerHTML='<strong>날짜를 확인해 주세요</strong><p>기준일과 시험일을 모두 선택해야 합니다.</p>';result.classList.add('show');return}
@@ -132,7 +167,7 @@ enhanceExamDdayCalculator();
 
 // 실제 값 대신 연한 예시(placeholder)만 보여 주어, 클릭 후 바로 입력할 수 있게 합니다.
 function usePlaceholders(scope=document){
-  scope.querySelectorAll('input:not([type="checkbox"])').forEach(input=>{
+  scope.querySelectorAll('input:not([type="checkbox"]):not([type="radio"])').forEach(input=>{
     if(input.dataset.exampleHandled||!input.value)return;
     input.dataset.exampleHandled='true';
     if(['number','text','search'].includes(input.type))input.placeholder=`예: ${input.value}`;
@@ -145,11 +180,7 @@ function usePlaceholders(scope=document){
     select.prepend(option);
   });
 }
-usePlaceholders();
-if(document.body.dataset.calculator==='percent'){
-  const percentForm=document.querySelector('#percent-form');
-  new MutationObserver(()=>usePlaceholders(percentForm)).observe(percentForm,{childList:true,subtree:true});
-}
+if(!document.querySelector('#calculator[data-static-rendered]'))usePlaceholders();
 
 function enhanceSavingsInterestCalculator(){
   if(document.body.dataset.calculator!=='savings-interest')return;
@@ -197,6 +228,7 @@ if(document.body.dataset.calculator==='savings-interest')new MutationObserver(ad
 function enhanceLoanCalculator(){
   if(document.body.dataset.calculator!=='loan-interest')return;
   const root=document.querySelector('#calculator');
+  if(!root||root.hasAttribute('data-static-rendered'))return;
   root.innerHTML=`<h1>대출 이자 계산기</h1><p class="lead">상환 방법별 월 납입액과 총이자를 비교해 내게 맞는 대출 상환 계획을 세워 보세요.</p><section class="calculator-box loan-box"><div class="loan-tabs" role="tablist"><button class="loan-tab active" data-mode="annuity" role="tab">원리금균등상환</button><button class="loan-tab" data-mode="principal" role="tab">원금균등상환</button><button class="loan-tab" data-mode="bullet" role="tab">만기일시상환</button></div><div id="loan-form"></div><div class="result" id="loan-result" aria-live="polite"></div><p class="calculator-note">중도상환수수료, 인지세, 거치기간 등은 반영하지 않은 단순 예상 결과입니다. 실제 상환 금액은 금융기관의 상품 조건을 확인해 주세요.</p></section><section class="content-block"><h2>상환 방법별 특징</h2><ul><li><strong>원리금균등상환</strong>: 매달 같은 금액을 납부해 월 지출 계획이 쉽습니다.</li><li><strong>원금균등상환</strong>: 초기 납입액은 크지만 시간이 갈수록 줄고, 일반적으로 총이자가 적습니다.</li><li><strong>만기일시상환</strong>: 매달 이자만 내고 원금은 만기에 한 번에 상환합니다.</li></ul></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/savings-interest.html">예금 이자 계산기</a><a href="/calculators/salary.html">월급 실수령액 계산기</a><a href="/calculators/budget.html">생활비 예산 계산기</a></div></section>`;
   const forms={annuity:['원리금균등상환','매달 원금과 이자를 합쳐 같은 금액을 납부합니다.'],principal:['원금균등상환','매달 같은 원금을 갚고, 이자는 남은 원금에 따라 줄어듭니다.'],bullet:['만기일시상환','매달 이자만 납부하고 원금은 만기에 상환합니다.']};
   let mode='annuity';const form=root.querySelector('#loan-form'),result=root.querySelector('#loan-result');
@@ -295,10 +327,11 @@ function enhanceVatCalculator(){
 function enhanceDutchPayCalculator(){
   if(document.body.dataset.calculator!=='dutch-pay')return;
   const root=document.querySelector('#calculator');
+  const isStatic=root.hasAttribute('data-static-rendered');
   const itemRow=()=>`<div class="dutch-item"><label><span>항목명</span><input class="dp-name" type="text" placeholder="예: 저녁 식사"></label><label><span>금액(원)</span><input class="dp-amount" type="number" min="0" placeholder="예: 50000"></label><button class="row-delete" type="button" aria-label="항목 삭제">×</button></div>`;
-  root.innerHTML=`<h1>더치페이 계산기</h1><p class="lead">식사, 카페, 택시비처럼 여러 항목을 추가한 뒤 마지막에 전체 인원수로 1인당 부담액을 계산하세요.</p><section class="calculator-box utility-box dutch-box"><div class="utility-form"><div class="estimate-toolbar dutch-toolbar"><div><h2>정산 항목</h2><p>같이 나눌 비용을 항목별로 입력하세요.</p></div></div><div class="dutch-items" id="dutch-items"></div><button class="add-course dutch-add" type="button" id="add-dutch-item">+ 항목 추가</button><div class="dutch-summary-fields"><label><span>전체 인원수</span><input id="dp-people" type="number" min="1" placeholder="예: 4"></label><label class="round-option">반올림 단위 <select id="dp-round"><option value="1">1원</option><option value="10">10원</option><option value="100">100원</option><option value="1000">1,000원</option></select></label></div><button class="primary-btn" id="calc-dutch" type="button">더치페이 계산하기</button></div><div class="result" id="dutch-result"></div><p class="calculator-note">개인별로 다른 금액을 제외한 공통 비용을 N분의 1로 나눌 때 쓰기 좋은 계산입니다.</p></section>`;
+  if(!isStatic)root.innerHTML=`<h1>더치페이 계산기</h1><p class="lead">식사, 카페, 택시비처럼 여러 항목을 추가한 뒤 마지막에 전체 인원수로 1인당 부담액을 계산하세요.</p><section class="calculator-box utility-box dutch-box"><div class="utility-form"><div class="estimate-toolbar dutch-toolbar"><div><h2>정산 항목</h2><p>같이 나눌 비용을 항목별로 입력하세요.</p></div></div><div class="dutch-items" id="dutch-items"></div><button class="add-course dutch-add" type="button" id="add-dutch-item">+ 항목 추가</button><div class="dutch-summary-fields"><label><span>전체 인원수</span><input id="dp-people" type="number" min="1" placeholder="예: 4"></label><label class="round-option">반올림 단위 <select id="dp-round"><option value="1">1원</option><option value="10">10원</option><option value="100">100원</option><option value="1000">1,000원</option></select></label></div><button class="primary-btn" id="calc-dutch" type="button">더치페이 계산하기</button></div><div class="result" id="dutch-result"></div><p class="calculator-note">개인별로 다른 금액을 제외한 공통 비용을 N분의 1로 나눌 때 쓰기 좋은 계산입니다.</p></section>`;
   const items=root.querySelector('#dutch-items'),result=root.querySelector('#dutch-result'),money=v=>Math.round(v).toLocaleString('ko-KR')+'원',add=(count=1)=>{for(let i=0;i<count;i++)items.insertAdjacentHTML('beforeend',itemRow())};
-  add();
+  if(!isStatic)add();
   root.querySelector('#add-dutch-item').onclick=()=>add();
   items.onclick=e=>{const button=e.target.closest('.row-delete');if(!button)return;if(items.querySelectorAll('.dutch-item').length>1)button.closest('.dutch-item').remove()};
   root.querySelector('#calc-dutch').onclick=()=>{const amounts=[...items.querySelectorAll('.dp-amount')].map(input=>Number(input.value)).filter(value=>Number.isFinite(value)&&value>0),people=Number(root.querySelector('#dp-people').value),unit=Number(root.querySelector('#dp-round').value);if(!amounts.length||!people||people<1){result.innerHTML='<strong>항목 금액과 전체 인원수를 입력해 주세요</strong>';result.classList.add('show');return}const sum=amounts.reduce((total,value)=>total+value,0),exact=sum/people,each=Math.ceil(exact/unit)*unit,diff=each*people-sum;result.innerHTML=`<div class="utility-result-grid"><div><span>1인당 부담액</span><strong>${money(each)}</strong></div><div><span>총 정산 금액</span><b>${money(sum)}</b></div><div><span>정산 항목 수</span><b>${amounts.length.toLocaleString('ko-KR')}개</b></div><div><span>정산 차액</span><b>${money(diff)}</b></div></div><p class="utility-note">${people}명이 ${unit.toLocaleString('ko-KR')}원 단위로 올림 정산한 결과입니다.</p>`;result.classList.add('show')};
@@ -315,9 +348,10 @@ addVatGuide();
 function enhanceEstimateCalculator(){
   if(document.body.dataset.calculator!=='estimate')return;
   const root=document.querySelector('#calculator');
+  const isStatic=root.hasAttribute('data-static-rendered');
   const row=()=>`<tr><td><input class="estimate-name" type="text" placeholder="예: 디자인 작업"></td><td><input class="estimate-qty" type="number" min="0" step="any" placeholder="예: 2"></td><td><input class="estimate-price" type="number" min="0" placeholder="예: 50000"></td><td class="estimate-line">0원</td><td><button type="button" class="row-delete" aria-label="항목 삭제">×</button></td></tr>`;
-  root.innerHTML=`<h1>견적 계산기</h1><p class="lead">품목별 수량과 단가를 입력해 공급가액, 부가세, 최종 견적 금액을 빠르게 정리하세요.</p><section class="calculator-box estimate-box"><div class="estimate-toolbar"><div><h2>견적 항목</h2><p>항목을 추가해 종류별로 수량과 단가를 입력하세요.</p></div><button class="add-course" type="button" id="add-estimate">+ 항목 추가</button></div><div class="estimate-table-wrap"><table class="estimate-table"><thead><tr><th>항목명</th><th>수량</th><th>단가(원)</th><th>금액</th><th></th></tr></thead><tbody id="estimate-rows"></tbody></table></div><div class="estimate-actions"><label class="tax-option"><input id="estimate-tax" type="checkbox" checked> 부가세 10% 포함</label><button class="primary-btn" id="calculate-estimate" type="button">견적 계산하기</button></div><div class="result" id="estimate-result" aria-live="polite"></div><p class="calculator-note">이 계산 결과는 참고용입니다. 실제 견적서 작성 시 할인, 운송비, 원천징수, 계약 조건 등을 별도로 반영해 주세요.</p></section><section class="content-block"><h2>견적 계산기 사용 방법</h2><ol><li>견적 항목마다 이름, 수량, 단가를 입력하세요.</li><li>필요하면 항목 추가 버튼으로 행을 늘리세요.</li><li>부가세 포함 여부를 선택한 뒤 견적 계산하기를 누르세요.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/vat.html">부가세 계산기</a><a href="/calculators/margin.html">마진율 계산기</a><a href="/calculators/freelance-rate.html">프리랜서 단가 계산기</a></div></section>`;
-  const tbody=root.querySelector('#estimate-rows'),add=(amount=1)=>{for(let i=0;i<amount;i++)tbody.insertAdjacentHTML('beforeend',row())};add(3);
+  if(!isStatic)root.innerHTML=`<h1>견적 계산기</h1><p class="lead">품목별 수량과 단가를 입력해 공급가액, 부가세, 최종 견적 금액을 빠르게 정리하세요.</p><section class="calculator-box estimate-box"><div class="estimate-toolbar"><div><h2>견적 항목</h2><p>항목을 추가해 종류별로 수량과 단가를 입력하세요.</p></div><button class="add-course" type="button" id="add-estimate">+ 항목 추가</button></div><div class="estimate-table-wrap"><table class="estimate-table"><thead><tr><th>항목명</th><th>수량</th><th>단가(원)</th><th>금액</th><th></th></tr></thead><tbody id="estimate-rows"></tbody></table></div><div class="estimate-actions"><label class="tax-option"><input id="estimate-tax" type="checkbox" checked> 부가세 10% 포함</label><button class="primary-btn" id="calculate-estimate" type="button">견적 계산하기</button></div><div class="result" id="estimate-result" aria-live="polite"></div><p class="calculator-note">이 계산 결과는 참고용입니다. 실제 견적서 작성 시 할인, 운송비, 원천징수, 계약 조건 등을 별도로 반영해 주세요.</p></section><section class="content-block"><h2>견적 계산기 사용 방법</h2><ol><li>견적 항목마다 이름, 수량, 단가를 입력하세요.</li><li>필요하면 항목 추가 버튼으로 행을 늘리세요.</li><li>부가세 포함 여부를 선택한 뒤 견적 계산하기를 누르세요.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/vat.html">부가세 계산기</a><a href="/calculators/margin.html">마진율 계산기</a><a href="/calculators/freelance-rate.html">프리랜서 단가 계산기</a></div></section>`;
+  const tbody=root.querySelector('#estimate-rows'),add=(amount=1)=>{for(let i=0;i<amount;i++)tbody.insertAdjacentHTML('beforeend',row())};if(!isStatic)add(3);
   root.querySelector('#add-estimate').onclick=()=>add();
   const refreshLines=()=>{[...tbody.querySelectorAll('tr')].forEach(tr=>{const qty=Number(tr.querySelector('.estimate-qty').value)||0,price=Number(tr.querySelector('.estimate-price').value)||0;tr.querySelector('.estimate-line').textContent=Math.round(qty*price).toLocaleString('ko-KR')+'원'})};
   tbody.addEventListener('input',refreshLines);tbody.onclick=e=>{if(e.target.closest('.row-delete')&&tbody.children.length>1)e.target.closest('tr').remove()};
@@ -351,11 +385,12 @@ if(document.body.dataset.calculator==='age'){
 calculators['averaging-down']={n:'물타기 계산기',c:'money',d:'추가 매수 후 평균 매입 단가를 계산합니다.'};
 calculators['unemployment-benefit']={n:'실업급여 계산기',c:'money',d:'입력한 일급과 지급일수로 예상 수령액을 계산합니다.'};
 cats.money[0]='금융 계산기';cats.money[2]='금융 생활에 필요한 계산기';cats.money[3]+=' averaging-down unemployment-benefit';
-document.querySelectorAll('nav a[href="/categories/money.html"]').forEach(link=>link.textContent='금융');
+if(!document.querySelector('[data-static-rendered="true"]'))document.querySelectorAll('nav a[href="/categories/money.html"]').forEach(link=>link.textContent='금융');
 if(document.querySelector('.popular-list'))home();if(document.body.dataset.category==='money')category();
 
 function customFinancialCalculators(){
   const type=document.body.dataset.customCalculator;if(!type)return;const root=document.querySelector('#calculator');
+  if(!root||root.hasAttribute('data-static-rendered'))return;
   if(type==='averaging-down'){root.innerHTML=`<h1>물타기 계산기</h1><p class="lead">현재 보유 수량과 평균 매입가, 추가 매수 조건을 입력해 새 평균 단가를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>현재 보유 수량</span><input id="ad-qty" type="number" placeholder="예: 10"></label><label><span>현재 평균 매입가(원)</span><input id="ad-price" type="number" placeholder="예: 50000"></label><label><span>추가 매수 수량</span><input id="ad-newqty" type="number" placeholder="예: 5"></label><label><span>추가 매수 단가(원)</span><input id="ad-newprice" type="number" placeholder="예: 40000"></label></div><button class="primary-btn" id="calc-ad">계산하기</button></div><div class="result" id="ad-result"></div></section>`;root.querySelector('#calc-ad').onclick=()=>{const v=['ad-qty','ad-price','ad-newqty','ad-newprice'].map(id=>Number(root.querySelector('#'+id).value));if(v.some(n=>!n||n<0))return;const[q,p,nq,np]=v,total=q+nq,avg=(q*p+nq*np)/total,fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원',r=root.querySelector('#ad-result');r.innerHTML=`<strong>${fmt(avg)}</strong><p>총 ${total}개 · 총 매입금액 ${fmt(q*p+nq*np)}</p>`;r.classList.add('show')}}
   else {root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">1일 예상 구직급여액과 소정급여일수로 예상 총 수령액을 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>1일 예상 구직급여액(원)</span><input id="ub-daily" type="number" placeholder="예: 60000"></label><label><span>소정급여일수</span><input id="ub-days" type="number" placeholder="예: 150"></label><label><span>이미 지급받은 일수</span><input id="ub-used" type="number" placeholder="예: 0"></label></div><button class="primary-btn" id="calc-ub">예상 금액 계산하기</button></div><div class="result" id="ub-result"></div><p class="calculator-note">수급 자격, 지급일수, 상한·하한액은 개인의 연령·고용보험 가입기간·퇴직 사유와 해당 연도 기준에 따라 달라집니다. 이 결과는 입력값 기반의 참고용 계산입니다.</p></section>`;root.querySelector('#calc-ub').onclick=()=>{const [daily,days,used]=['ub-daily','ub-days','ub-used'].map(id=>Number(root.querySelector('#'+id).value)||0),remain=Math.max(days-used,0),fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';let r=root.querySelector('#ub-result');r.innerHTML=`<div class="utility-result-grid"><div><span>예상 남은 수령액</span><strong>${fmt(daily*remain)}</strong></div><div><span>남은 지급일수</span><b>${remain}일</b></div><div><span>전체 예상액</span><b>${fmt(daily*days)}</b></div></div>`;r.classList.add('show')}}
 }
@@ -364,6 +399,7 @@ customFinancialCalculators();
 function enhanceUnemploymentBenefitCalculator(){
   if(document.body.dataset.customCalculator!=='unemployment-benefit')return;
   const root=document.querySelector('#calculator');
+  if(!root)return;
   root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">재직 기간과 최근 평균 월급을 기준으로 구직급여 예상액을 간편하게 확인하세요.</p><section class="calculator-box unemployment-box"><div class="unemployment-section"><h2>재직 정보</h2><div class="unemployment-fields"><label><span>입사일</span><input id="ub-start" type="date"></label><label><span>퇴사일</span><input id="ub-end" type="date"></label><label><span>최근 평균 월급(세전)</span><input id="ub-salary" type="number" placeholder="예: 3000000"></label></div></div><div class="unemployment-section"><h2>예상 지급일수</h2><p>소정급여일수는 연령, 고용보험 가입기간, 퇴직 사유 등에 따라 달라집니다. 본인에게 안내된 일수를 선택해 주세요.</p><select id="ub-benefit-days"><option value="">선택</option><option value="120">120일</option><option value="150">150일</option><option value="180">180일</option><option value="210">210일</option><option value="240">240일</option><option value="270">270일</option></select></div><button class="primary-btn" id="calculate-ub" type="button">예상 금액 계산하기</button><div class="result" id="ub-result" aria-live="polite"></div><p class="calculator-note">이 계산기는 평균 월급의 60%를 30일로 나눈 단순 추정입니다. 실제 실업급여는 고용보험 가입 이력, 퇴직 사유, 해당 연도 상·하한액, 인정일 등에 따라 달라지므로 고용24 또는 관할 고용센터에서 반드시 확인해 주세요.</p></section><section class="content-block"><h2>실업급여 계산 전 확인할 내용</h2><ul><li>퇴직 전 18개월 동안 고용보험 피보험 단위기간 등 수급 요건을 충족해야 합니다.</li><li>재직 기간이 길어도 개인 상황에 따라 지급일수는 달라질 수 있습니다.</li><li>이직확인서 처리 여부와 실제 수급 가능 여부는 공식 안내를 확인해야 합니다.</li></ul></section>`;
   root.querySelector('#calculate-ub').onclick=()=>{const start=root.querySelector('#ub-start').value,end=root.querySelector('#ub-end').value,salary=Number(root.querySelector('#ub-salary').value),days=Number(root.querySelector('#ub-benefit-days').value),result=root.querySelector('#ub-result');if(!start||!end||!salary||!days){result.innerHTML='<strong>재직 정보와 지급일수를 입력해 주세요</strong><p>입사일, 퇴사일, 평균 월급, 예상 지급일수가 필요합니다.</p>';result.classList.add('show');return}const startDate=new Date(start),endDate=new Date(end);if(endDate<=startDate){result.innerHTML='<strong>재직 기간을 확인해 주세요</strong><p>퇴사일은 입사일보다 뒤여야 합니다.</p>';result.classList.add('show');return}const employmentDays=Math.floor((endDate-startDate)/86400000)+1,daily=salary/30*.6,total=daily*days,money=v=>Math.round(v).toLocaleString('ko-KR')+'원';result.innerHTML=`<div class="unemployment-result-grid"><div><span>재직 기간</span><strong>${Math.floor(employmentDays/30)}개월</strong><small>${employmentDays.toLocaleString()}일</small></div><div><span>1일 예상액</span><b>${money(daily)}</b></div><div><span>예상 총 수령액</span><b>${money(total)}</b><small>${days}일 기준</small></div></div>`;result.classList.add('show')};
 }
@@ -376,6 +412,7 @@ if(document.body.dataset.category==='business')category();
 function enhanceCbmCalculator(){
   if(document.body.dataset.customCalculator!=='cbm')return;
   const root=document.querySelector('#calculator');
+  if(!root)return;
   root.innerHTML=`<h1>CBM 계산기</h1><p class="lead">박스 또는 상품의 가로·세로·높이와 수량을 입력해 CBM(입방미터)을 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><h2>상품 규격 입력 <small>cm 기준</small></h2><div class="utility-fields three"><label><span>가로(cm)</span><input id="cbm-l" type="number" placeholder="예: 50"></label><label><span>세로(cm)</span><input id="cbm-w" type="number" placeholder="예: 40"></label><label><span>높이(cm)</span><input id="cbm-h" type="number" placeholder="예: 30"></label><label><span>수량</span><input id="cbm-q" type="number" placeholder="예: 10"></label></div><button class="primary-btn" id="calc-cbm">CBM 계산하기</button></div><div class="result" id="cbm-result"></div></section><section class="content-block"><h2>CBM 계산 방법</h2><p>CBM은 가로(m) × 세로(m) × 높이(m)로 계산합니다. cm 단위로 입력한 경우 가로 × 세로 × 높이를 1,000,000으로 나누면 개당 CBM이 됩니다.</p></section>`;
   root.querySelector('#calc-cbm').onclick=()=>{const v=['cbm-l','cbm-w','cbm-h','cbm-q'].map(id=>Number(root.querySelector('#'+id).value));const r=root.querySelector('#cbm-result');if(v.some(n=>!n||n<=0)){r.innerHTML='<strong>규격과 수량을 입력해 주세요</strong>';r.classList.add('show');return}const [l,w,h,q]=v,one=l*w*h/1000000,total=one*q;r.innerHTML=`<div class="utility-result-grid"><div><span>총 CBM</span><strong>${total.toFixed(4)} CBM</strong></div><div><span>개당 CBM</span><b>${one.toFixed(4)} CBM</b></div><div><span>총 부피</span><b>${Math.round(total*1000).toLocaleString()} L</b></div></div>`;r.classList.add('show')};
 }
@@ -427,6 +464,7 @@ if(document.body.dataset.category==='money'||document.body.dataset.category==='l
 
 function addAverageAndDayCalculators(){
   const type=document.body.dataset.customCalculator;if(!type)return;const root=document.querySelector('#calculator');
+  if(!root||root.hasAttribute('data-static-rendered'))return;
   if(type==='average-price'){const row=()=>`<tr><td><input class="ap-qty" type="number" placeholder="예: 10"></td><td><input class="ap-price" type="number" placeholder="예: 50000"></td><td class="ap-total">0원</td></tr>`;root.innerHTML=`<h1>평단가 계산기</h1><p class="lead">여러 번 매수한 수량과 가격을 입력해 평균 매입 단가를 계산하세요.</p><section class="calculator-box estimate-box"><div class="estimate-toolbar"><h2>매수 내역</h2><button class="add-course" id="ap-add" type="button">+ 매수 추가</button></div><div class="estimate-table-wrap"><table class="estimate-table"><thead><tr><th>매수 수량</th><th>매수 단가(원)</th><th>매수 금액</th></tr></thead><tbody id="ap-rows"></tbody></table></div><div class="estimate-actions"><button class="primary-btn" id="ap-calc">평단가 계산하기</button></div><div class="result" id="ap-result"></div></section>`;const body=root.querySelector('#ap-rows'),add=n=>{for(let i=0;i<n;i++)body.insertAdjacentHTML('beforeend',row())};add(3);root.querySelector('#ap-add').onclick=()=>add(1);root.querySelector('#ap-calc').onclick=()=>{let q=0,total=0;body.querySelectorAll('tr').forEach(tr=>{const a=Number(tr.querySelector('.ap-qty').value)||0,b=Number(tr.querySelector('.ap-price').value)||0;q+=a;total+=a*b;tr.querySelector('.ap-total').textContent=Math.round(a*b).toLocaleString()+'원'});let r=root.querySelector('#ap-result');if(!q)return;r.innerHTML=`<div class="utility-result-grid"><div><span>평균 매입 단가</span><strong>${Math.round(total/q).toLocaleString()}원</strong></div><div><span>총 수량</span><b>${q.toLocaleString()}개</b></div><div><span>총 매수 금액</span><b>${Math.round(total).toLocaleString()}원</b></div></div>`;r.classList.add('show')}}
   if(type==='day-count'){root.innerHTML=`<h1>일수 계산기</h1><p class="lead">시작일과 종료일 사이의 기간을 일수와 주 단위로 계산하세요.</p><section class="calculator-box age-box"><div class="age-fields"><label><span>시작일</span><input id="dc-start" type="date"></label><label><span>종료일</span><input id="dc-end" type="date"></label></div><label class="tax-option"><input id="dc-inclusive" type="checkbox"> 시작일과 종료일 포함</label><button class="primary-btn" id="dc-calc">일수 계산하기</button><div class="result" id="dc-result"></div></section>`;root.querySelector('#dc-calc').onclick=()=>{const s=root.querySelector('#dc-start').value,e=root.querySelector('#dc-end').value,r=root.querySelector('#dc-result');if(!s||!e)return;let days=Math.round((new Date(e)-new Date(s))/86400000);if(days<0)return;if(root.querySelector('#dc-inclusive').checked)days++;r.innerHTML=`<div class="utility-result-grid"><div><span>총 기간</span><strong>${days.toLocaleString()}일</strong></div><div><span>주 단위</span><b>${Math.floor(days/7)}주 ${days%7}일</b></div><div><span>개월 환산</span><b>${(days/30.44).toFixed(1)}개월</b></div></div>`;r.classList.add('show')}}
 }
@@ -593,7 +631,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
 (function enhanceCategoryPages(){
   const key=document.body.dataset.category;
   const root=document.querySelector('#category');
-  if(!key||!root||!cats[key])return;
+  if(!key||!root||root.dataset.staticRendered==='true'||!cats[key])return;
 
   const unique=ids=>[...new Set(String(ids||'').trim().split(/\s+/).filter(Boolean))];
   const safeCard=id=>calculators[id]?card(id):'';
@@ -639,7 +677,7 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
       guide:'교육 계산기는 성적을 예측하거나 학습 계획을 세우는 데 유용합니다. 학교별 학점 환산 기준, 내신 산출 방식, 시험 반영 비율은 다를 수 있으므로 최종 성적 판단에는 학교 기준을 함께 확인하세요.',
       faq:[
         ['학점 계산 결과가 학교 성적표와 다를 수 있나요?','학교마다 A+, P/F, 재수강 처리 방식이 다를 수 있어 실제 성적표와 차이가 날 수 있습니다.'],
-        ['목표 학점 계산기는 언제 쓰면 좋나요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],
+        ['목표 학점 계산기의 활용 시점은 무엇인가요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],
         ['내신 등급은 정확한가요?','일반적인 석차 누적 비율 기준의 예상값입니다. 과목별 반영 방식은 학교 기준을 확인해야 합니다.']
       ]
     },
@@ -790,7 +828,7 @@ function enhanceLifeDateTools(){
       const start=parse(root.querySelector('#ld-start').value),end=parse(root.querySelector('#ld-end').value);
       if(!start||!end)return show('<strong>날짜를 선택해 주세요</strong><p>시작일과 종료일을 모두 선택하면 두 날짜 사이의 차이를 계산합니다.</p>');
       const raw=daysBetween(start,end),sign=raw<0?-1:1,includeStart=root.querySelector('#ld-include-start').checked,includeEnd=root.querySelector('#ld-include-end').checked;
-      const days=Math.abs(raw)+(includeStart?1:0)+(includeEnd?1:0),weeks=Math.floor(days/7),remain=days%7,months=days/30.44;
+      const days=Math.abs(raw)+(includeStart&&includeEnd?1:0),weeks=Math.floor(days/7),remain=days%7,months=days/30.44;
       const includeText=includeStart&&includeEnd?'시작일과 종료일을 모두 포함했습니다.':includeStart?'시작일을 포함했습니다.':includeEnd?'종료일을 포함했습니다.':'종료일에서 시작일을 뺀 기본 차이입니다.';
       show(`<div class="utility-result-grid"><div><span>두 날짜 차이</span><strong>${days.toLocaleString('ko-KR')}일</strong></div><div><span>주 단위</span><b>${weeks.toLocaleString('ko-KR')}주 ${remain}일</b></div><div><span>개월 환산</span><b>${months.toFixed(1)}개월</b></div></div><p>${format(start)}부터 ${format(end)}까지의 차이입니다. ${includeText} ${sign<0?'종료일이 시작일보다 앞에 있습니다.':''}</p>`);
     };
@@ -799,7 +837,7 @@ function enhanceLifeDateTools(){
   if(key==='d-day'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>디데이 계산기</h1><p class="lead">기준일과 목표일 사이의 남은 날짜 또는 지난 날짜를 날짜 단위로 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>기준일</span><input id="ld-date" type="date"></label><label><span>목표일</span><input id="ld-target" type="date"></label></div><div class="date-options"><label class="tax-option"><input id="ld-include-base" type="checkbox"> 기준일 포함</label><label class="tax-option"><input id="ld-include-target" type="checkbox" checked> 목표일 포함</label></div><button class="primary-btn" id="ld-calc" type="button">디데이 계산하기</button></div><div class="result" id="ld-result" aria-live="polite"></div><p class="calculator-note">시각은 계산하지 않고 선택한 날짜의 자정 기준으로 비교합니다. 자정 이후에는 기준일이 바뀔 수 있으니 실제 일정의 시간대도 확인하세요.</p></section>`;
     const today=new Date(),pad=value=>String(value).padStart(2,'0');
-    root.querySelector('#ld-date').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+    if(!root.hasAttribute('data-static-rendered'))root.querySelector('#ld-date').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
     root.querySelector('#ld-calc').onclick=()=>{
       const baseValue=root.querySelector('#ld-date').value,targetValue=root.querySelector('#ld-target').value,result=root.querySelector('#ld-result');
       if(!baseValue||!targetValue){result.innerHTML='<strong>두 날짜를 모두 선택해 주세요</strong><p>기준일과 목표일이 있어야 남은 날짜를 계산할 수 있습니다.</p>';result.classList.add('show');return}
@@ -822,6 +860,7 @@ enhanceLifeDateTools();
 
 function enhanceCoreHealthTools(){
   const key=document.body.dataset.calculator;if(!['bmi','bmr','target-weight','running-pace'].includes(key))return;const root=document.querySelector('#calculator');
+  if(!root||(root.hasAttribute('data-static-rendered')&&['target-weight','running-pace'].includes(key)))return;
   const templates={
     bmi:['BMI 계산기','키(cm)|몸무게(kg)','BMI와 일반적인 성인 범위를 참고로 확인합니다.'],
     bmr:['기초대사량 계산기','성별|나이|키(cm)|몸무게(kg)','Mifflin-St Jeor 식을 사용한 추정치입니다.'],
@@ -1186,16 +1225,4 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();}
   if(document.body.dataset.category&&typeof category==='function')category();
   if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
-})();
-
-// 계산기 안내는 계산기별 콘텐츠 데이터에서만 추가합니다.
-(function restoreStaticCalculatorGuide(){
-  if(!staticCalculatorGuide)return;
-  const append=()=>{
-    const root=document.querySelector('#calculator');
-    if(!root||root.querySelector('.static-calculator-guide'))return;
-    root.insertAdjacentHTML('beforeend',staticCalculatorGuide);
-  };
-  window.addEventListener('load',append);
-  setTimeout(append,1800);
 })();

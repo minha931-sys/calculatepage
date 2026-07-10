@@ -18,6 +18,7 @@
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="google-adsense-account" content="ca-pub-5944689754824076">
   <title>CPM 계산기 - 광고비와 노출수 계산 | 계산페이지</title>
   <meta name="description" content="광고비, 노출수, CPM 중 필요한 값을 선택해 여러 줄을 한 번에 계산하고 평균 CPM을 확인하세요.">
   <link rel="canonical" href="https://calculatepage.com/calculators/cpm.html">
@@ -27,7 +28,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="계산페이지">
   <meta property="og:title" content="CPM 계산기 - 광고비와 노출수 계산 | 계산페이지">
-  <meta property="og:description" content="여러 줄의 CPM, 광고비, 노출수를 계산하고 평균 CPM을 비교하세요.">
+  <meta property="og:description" content="광고비, 노출수, CPM 중 필요한 값을 선택해 여러 줄을 한 번에 계산하고 평균 CPM을 확인하세요.">
   <meta property="og:url" content="https://calculatepage.com/calculators/cpm.html">
   <meta property="og:image" content="https://calculatepage.com/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -39,17 +40,81 @@
   <meta name="twitter:image" content="https://calculatepage.com/assets/og-image.png">
   <meta name="twitter:image:alt" content="계산페이지 - 생활·금융·건강 무료 계산기 모음">
   <link rel="stylesheet" href="/css/style.css">
-  <script defer src="/js/app.js"></script>
-  <script defer src="/js/site-audit-fix.js"></script>
-  <script type="application/ld+json" data-primary-image-schema>{"@context":"https://schema.org","@type":"WebPage","name":"CPM 계산기 - 광고비와 노출수 계산 | 계산페이지","url":"https://calculatepage.com/calculators/cpm.html","description":"광고비, 노출수, CPM 중 필요한 값을 선택해 여러 줄을 한 번에 계산하고 평균 CPM을 확인하세요.","image":"https://calculatepage.com/assets/og-image.png","primaryImageOfPage":{"@type":"ImageObject","url":"https://calculatepage.com/assets/og-image.png","contentUrl":"https://calculatepage.com/assets/og-image.png","width":1200,"height":630,"caption":"계산페이지 - 생활·금융·건강 무료 계산기 모음"}}</script>
+  <script defer src="/js/static-calculator-runtime.js"></script><script defer src="/js/app.js"></script>
+  <script type="application/ld+json" data-primary-image-schema data-calculator-schema="true">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://calculatepage.com/calculators/cpm.html#webpage",
+        "image": "https://calculatepage.com/assets/og-image.png",
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://calculatepage.com/assets/og-image.png",
+          "contentUrl": "https://calculatepage.com/assets/og-image.png",
+          "width": 1200,
+          "height": 630,
+          "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
+        },
+        "inLanguage": "ko-KR",
+        "name": "CPM 계산기 - 광고비와 노출수 계산 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/cpm.html",
+        "description": "광고비, 노출수, CPM 중 필요한 값을 선택해 여러 줄을 한 번에 계산하고 평균 CPM을 확인하세요.",
+        "breadcrumb": {
+          "@id": "https://calculatepage.com/calculators/cpm.html#breadcrumb"
+        },
+        "mainEntity": {
+          "@id": "https://calculatepage.com/calculators/cpm.html#application"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://calculatepage.com/calculators/cpm.html#application",
+        "name": "CPM 계산기",
+        "description": "광고비, 노출수, CPM 중 필요한 값을 선택해 여러 줄을 한 번에 계산하고 평균 CPM을 확인하세요.",
+        "url": "https://calculatepage.com/calculators/cpm.html",
+        "applicationCategory": "CalculatorApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "ko-KR",
+        "isAccessibleForFree": true
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://calculatepage.com/calculators/cpm.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "홈",
+            "item": "https://calculatepage.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "업무 계산기",
+            "item": "https://calculatepage.com/categories/business.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "CPM 계산기",
+            "item": "https://calculatepage.com/calculators/cpm.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <style>
     .cpm-box{padding:0;overflow:hidden}.cpm-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px 24px;border-bottom:1px solid var(--line)}.cpm-toolbar h2{margin:0;font-size:19px}.cpm-toolbar p{margin:3px 0 0;color:var(--muted);font-size:13px}.cpm-mode-panel{padding:20px 24px;border-bottom:1px solid var(--line);background:#f8fbff}.cpm-mode-panel h3{margin:0 0 10px;font-size:16px}.cpm-mode-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cpm-mode-option{display:flex;align-items:center;gap:8px;min-height:46px;padding:10px 12px;border:1px solid #d9e4f5;border-radius:8px;background:#fff;font-weight:800;color:#31425a;cursor:pointer}.cpm-mode-option input{accent-color:var(--brand)}.cpm-mode-option:has(input:checked){border-color:var(--brand);background:#eef4ff;color:var(--brand)}.cpm-table-wrap{overflow-x:auto;padding:0 24px}.cpm-table{width:100%;min-width:420px;border-collapse:collapse}.cpm-table th,.cpm-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}.cpm-table th{background:#fafbfd;color:#66738a;font-size:13px;font-weight:700}.cpm-table input{width:100%;min-height:44px;border:1px solid #d9e0e8;border-radius:8px;padding:9px 10px;font:inherit}.cpm-table input::placeholder{color:#9aa5b5;opacity:1}.cpm-table .row-delete{width:36px;height:44px;border:1px solid #dfe6f0;border-radius:8px;background:#fff}.cpm-hidden{display:none}.cpm-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px}.cpm-actions .calculator-note{padding:0;margin:0}.cpm-actions .primary-btn{margin:0}.cpm-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.cpm-summary-grid>div{min-width:0;padding:12px;border-radius:8px;background:#fff}.cpm-summary-grid span{display:block;color:#607087;font-size:13px}.cpm-summary-grid strong,.cpm-summary-grid b{display:block;color:#293c5c;font-size:18px;overflow-wrap:anywhere}.cpm-result-table{width:100%;margin-top:14px;border-collapse:collapse;font-size:13px}.cpm-result-table th,.cpm-result-table td{padding:9px;border-bottom:1px solid #edf1f5;text-align:right}.cpm-result-table th{background:#f7f9fc;color:#46556b}.cpm-guide-table{width:100%;margin:14px 0;border-collapse:collapse;font-size:14px}.cpm-guide-table th,.cpm-guide-table td{padding:11px;border:1px solid var(--line);vertical-align:top}.cpm-guide-table th{background:#f7f9fc;color:#46556b;text-align:left}.cpm-box .result{margin:0 24px 18px}@media(max-width:700px){.cpm-toolbar,.cpm-actions{align-items:stretch;flex-direction:column;padding:16px}.cpm-mode-panel{padding:16px}.cpm-mode-options{grid-template-columns:1fr}.cpm-table-wrap{padding:0 16px}.cpm-actions .add-course,.cpm-actions .primary-btn{width:100%}.cpm-box .result{margin:0 16px 16px}.cpm-summary-grid{grid-template-columns:1fr}.cpm-guide-table{display:block;overflow-x:auto;white-space:nowrap}}@media(max-width:420px){.cpm-table{min-width:360px}}
   </style>
 </head>
 <body>
   <header class="site-header"><a class="logo" href="/">계산<span>페이지</span></a></header>
-  <main class="calculator-page" id="calculator">
-    <a class="calculator-home category-more-link" href="/categories/business.html">업무 카테고리 더보기</a>
+  <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
+  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> &gt; </span><a href="/categories/business.html">업무 계산기</a><span aria-hidden="true"> &gt; </span><span aria-current="page">CPM 계산기</span></nav>
+  <a class="calculator-home category-more-link" href="/categories/business.html">업무 카테고리 더보기</a>
     <h1>CPM 계산기</h1>
     <p class="lead">광고비, 노출수, CPM 중 구하려는 값을 먼저 선택하고 필요한 값만 입력해 계산하세요.</p>
 
@@ -149,6 +214,7 @@
       <p>여러 매체를 비교할 때는 같은 기간, 같은 통화, 같은 세금 기준으로 정리한 뒤 계산하는 것이 중요합니다. 광고 플랫폼마다 리포트 반올림 방식이나 과금 기준이 조금씩 다를 수 있으므로, 이 계산기의 결과는 빠른 비교와 예산 검토용으로 활용해 주세요.</p>
     </section>
 
+    <div class="calculator-editorial" data-calculator-editorial="cpm"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>CPM, 광고비, 노출수 중 구할 값을 선택하고 각 행에 나머지 두 값을 입력합니다. 줄 추가로 여러 캠페인을 함께 계산할 수 있습니다.</li><li>CPM 모드는 광고비·노출수, 광고비 모드는 노출수·목표 CPM, 노출수 모드는 광고비·목표 CPM이 필요합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>CPM = 광고비÷노출수×1,000, 광고비 = CPM×노출수÷1,000, 노출수 = 광고비÷CPM×1,000입니다. CPM 모드의 평균은 광고비 합계÷노출수 합계×1,000인 가중평균입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>광고비 300,000원으로 120,000회 노출됐다면 CPM은 300,000÷120,000×1,000 = 2,500원입니다. 반대로 목표 CPM 2,500원으로 120,000회를 확보하려면 광고비는 300,000원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>행별 광고비·노출수·CPM과 전체 합계를 표시합니다. CPM 모드는 가중평균, 광고비·노출수 모드는 입력한 CPM의 단순평균을 원 단위로 반올림합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>현재는 필요한 값이 모두 유효한 행만 합계에 포함하므로 일부 행이 비어 있으면 누락되지 않았는지 확인해야 합니다.</li><li>CPM은 노출 비용 지표이며 클릭률, 전환율, CPC·CPA와 광고 품질을 설명하지 않습니다.</li></ul></section></div>
     <section class="content-block">
       <h2>관련 계산기</h2>
       <div class="related">

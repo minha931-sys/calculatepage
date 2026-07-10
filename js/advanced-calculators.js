@@ -1,6 +1,21 @@
 (function(){
   const type=document.body.dataset.advancedCalculator;if(!type)return;
-  const root=document.querySelector('#calculator');
+  const calculatorRoot=document.querySelector('#calculator');
+  if(!calculatorRoot)return;
+  const isStaticRendered=calculatorRoot.hasAttribute('data-static-rendered');
+  // Static calculator pages already contain the form and editorial content in HTML.
+  // Keep the original branches for source rendering, but only let them replace the
+  // calculator root when the page was not statically rendered.
+  const root={
+    set innerHTML(markup){
+      if(!isStaticRendered)calculatorRoot.innerHTML=markup;
+    },
+    querySelector:selector=>calculatorRoot.querySelector(selector),
+    querySelectorAll:selector=>calculatorRoot.querySelectorAll(selector),
+    insertAdjacentHTML:(...args)=>{
+      if(!isStaticRendered)calculatorRoot.insertAdjacentHTML(...args);
+    }
+  };
   const field=(id,label,example)=>`<label><span>${label}</span><input id="${id}" type="number" step="any" inputmode="decimal" placeholder="예: ${example}"></label>`;
   if(type==='dsr'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>DSR 계산기</h1><p class="lead">연소득 대비 모든 대출의 연간 원리금 상환 부담 비율을 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('dsr-income','연소득(원)','50000000')}${field('dsr-payment','기존 대출 연간 상환액(원)','6000000')}${field('dsr-new','신규 대출 연간 상환액(원)','3000000')}</div><button class="primary-btn" id="advanced-calc">DSR 계산하기</button></div><div class="result" id="advanced-result"></div><p class="calculator-note">금융기관별 DSR 산정 방식, 스트레스 금리, 적용 대출 범위는 다를 수 있는 참고용 계산입니다.</p></section>`;

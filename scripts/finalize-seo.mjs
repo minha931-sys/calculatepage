@@ -20,6 +20,9 @@ const EXPECTED_CATEGORY_COUNT = 6;
 const VIEWPORT_CONTENT = 'width=device-width,initial-scale=1';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, '..');
+const WRITE_RUN_ID = typeof globalThis.process === 'object' && globalThis.process?.pid
+  ? String(globalThis.process.pid)
+  : 'repl';
 const HTML_DIRECTORIES = ['', 'calculators', 'categories', 'pages'];
 const CATEGORY_ORDER = [
   'categories/money.html',
@@ -304,13 +307,25 @@ function buildCategoryIndex(pages) {
 
   const inverse = new Map();
   for (const page of categoryPages) {
-    const gridMatches = [...page.html.matchAll(
+    const staticGridMatches = [...page.html.matchAll(
       /<div\b(?=[^>]*\bclass\s*=\s*["'][^"']*\bstatic-category-grid\b[^"']*["'])[^>]*>([\s\S]*?)<\/div>/gi
     )];
-    const grid = single(
-      gridMatches,
-      page.relativePath + ': static-category-grid가 정확히 1개여야 합니다.'
-    )[1];
+    let grid = '';
+    if (staticGridMatches.length) {
+      grid = single(
+        staticGridMatches,
+        page.relativePath + ': static-category-grid가 정확히 1개여야 합니다.'
+      )[1];
+    } else {
+      const categoryAll = page.html.match(
+        /<section\b(?=[^>]*\bclass\s*=\s*["'][^"']*\bcategory-all\b[^"']*["'])[^>]*>([\s\S]*?)<\/section>/i
+      );
+      assert(categoryAll, page.relativePath + ': category-all 정적 목록이 없습니다.');
+      const cardGrids = [...categoryAll[1].matchAll(
+        /<div\b(?=[^>]*\bclass\s*=\s*["'][^"']*\bcard-grid\b[^"']*["'])[^>]*>([\s\S]*?)<\/div>/gi
+      )];
+      grid = single(cardGrids, page.relativePath + ': category-all 카드 목록이 정확히 1개여야 합니다.')[1];
+    }
     const anchors = tagMatches(grid, 'a');
     assert(anchors.length > 0, page.relativePath + ': 정적 계산기 카드가 없습니다.');
     const category = {
@@ -432,7 +447,7 @@ function sanitizeSchemaValue(value) {
 
 function primarySchemaMatches(html) {
   return [...html.matchAll(
-    /(^[ \t]*)<script\b(?=[^>]*\bdata-primary-image-schema\b)[^>]*>([\s\S]*?)<\/script>/gim
+    /([ \t]*)<script\b(?=[^>]*\bdata-primary-image-schema\b)[^>]*>([\s\S]*?)<\/script>/gi
   )];
 }
 
@@ -869,7 +884,7 @@ async function validateAdsTxt() {
 async function atomicWrite(relativePath, content, serial) {
   const target = absolutePath(relativePath);
   const fileStat = await stat(target);
-  const temporary = target + '.finalize-seo-' + process.pid + '-' + serial + '.tmp';
+  const temporary = target + '.finalize-seo-' + WRITE_RUN_ID + '-' + serial + '.tmp';
   await writeFile(temporary, content, {
     encoding: 'utf8',
     flag: 'wx',
@@ -918,12 +933,8 @@ function printUsage() {
   console.log('--write는 122개 대상과 모든 불변 조건을 메모리에서 검증한 뒤에만 씁니다.');
 }
 
-async function main() {
-  const mode = parseMode(process.argv.slice(2));
-  if (mode === 'help') {
-    printUsage();
-    return;
-  }
+export async function finalizeSeo(mode = 'check') {
+  assert(mode === 'check' || mode === 'write', 'mode는 check 또는 write여야 합니다.');
   await validateAdsTxt();
   const files = await listHtmlFiles();
   assert(
@@ -950,19 +961,31 @@ async function main() {
   if (mode === 'check') {
     if (changed.length > 0) {
       console.error('검사 결과: 변경이 필요합니다. --write 실행 전 Git 백업 커밋을 확인하세요.');
-      process.exitCode = 1;
     } else {
       console.log('검사 결과: 모든 SEO 정규화 조건을 충족합니다.');
     }
-    return;
+    return { changed: changed.length, plans: plans, valid: true };
   }
 
   console.log('쓰기 전 검증 완료. 변경 파일을 원자적으로 교체합니다.');
   await writePlans(plans);
   console.log('쓰기 및 재읽기 검증 완료: ' + changed.length + '개');
+  return { changed: changed.length, plans: plans, valid: true };
 }
 
-main().catch((error) => {
-  console.error('finalize-seo 실패: ' + error.message);
-  process.exitCode = 1;
-});
+const cliProcess = typeof globalThis.process === 'object' ? globalThis.process : null;
+const invokedAsCli = cliProcess && cliProcess.argv && cliProcess.argv[1] &&
+  path.resolve(cliProcess.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedAsCli) {
+  const cliMode = parseMode(cliProcess.argv.slice(2));
+  if (cliMode === 'help') {
+    printUsage();
+  } else {
+    finalizeSeo(cliMode).then(function(result) {
+      if (cliMode === 'check' && result.changed) cliProcess.exitCode = 1;
+    }).catch((error) => {
+      console.error('finalize-seo 실패: ' + error.message);
+      cliProcess.exitCode = 1;
+    });
+  }
+}

@@ -2,6 +2,8 @@
   const t = document.body.dataset.batch;
   if(!t) return;
   const root = document.querySelector('#calculator');
+  const isStaticRoot = root?.hasAttribute('data-static-rendered');
+  if(isStaticRoot && t === 'income-tax') return;
   const won = n => Math.round(Number(n)||0).toLocaleString('ko-KR') + '원';
   const num = id => Number(root.querySelector('#'+id)?.value || 0);
   const val = id => root.querySelector('#'+id)?.value || '';
@@ -11,6 +13,7 @@
   const select = (id,label,opts) => `<label><span>${label}</span><select id="${id}">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></label>`;
   const card = (label,value) => `<div><span>${label}</span><b>${value}</b></div>`;
   const shell = (title,lead,inputs,note,guide) => {
+    if(isStaticRoot) return;
     root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${title}</h1><p class="lead">${lead}</p>
     <section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${inputs}</div><button class="primary-btn" id="bc" type="button">계산하기</button></div><div class="result" id="br"></div><p class="calculator-note">${note}</p></section>
     <section class="content-block">${guide}</section>`;
@@ -134,7 +137,7 @@
 
   if(t==='exam-target'){
     shell('시험 성적 목표 계산기','현재 점수와 반영비율을 입력해 남은 시험에서 필요한 점수를 계산합니다.',
-      field('current','현재까지 반영 점수','45') + field('currentRate','현재 반영비율(%)','50') + field('remainRate','남은 시험 반영비율(%)','50') + field('target','최종 목표 점수','80'),
+      field('current','현재 시험 점수','45') + field('currentRate','현재 반영비율(%)','50') + field('remainRate','남은 시험 반영비율(%)','50') + field('target','최종 목표 점수','80'),
       '수행평가, 중간고사, 기말고사처럼 반영비율이 나뉜 과목에서 사용할 수 있습니다.',
       '<h2>계산 방식</h2><p>최종 목표 점수에서 현재 기여 점수를 뺀 뒤 남은 반영비율로 나눠 필요한 시험 점수를 구합니다.</p>');
     root.querySelector('#bc').onclick=()=>{

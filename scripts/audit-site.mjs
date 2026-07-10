@@ -165,6 +165,8 @@ export async function auditSite(root = DEFAULT_ROOT) {
       if (!schemaTypes.includes('WebApplication')) issues.push(`${relativePath}: 정적 WebApplication 누락`);
       if (!schemaTypes.includes('BreadcrumbList')) issues.push(`${relativePath}: 정적 BreadcrumbList 누락`);
       if (!/<section\b[^>]*class=["'][^"']*calculator-box/i.test(html)) issues.push(`${relativePath}: 정적 계산 입력 UI 누락`);
+      if (!/\bsrc=["']\/js\/static-calculator-runtime\.js["']/i.test(html)) issues.push(`${relativePath}: 정적 계산 런타임 보호 스크립트 누락`);
+      if (/\bsrc=["']\/js\/(?:site-audit-fix|calculator-content)\.js["']/i.test(html)) issues.push(`${relativePath}: 이전 동적 콘텐츠 스크립트 참조 잔류`);
       const required = [
         ['editorial-input', '입력 설명'], ['editorial-formula', '공식'], ['editorial-example', '숫자 예시'],
         ['editorial-result', '결과 해석'], ['editorial-caution', '주의사항'], ['related', '관련 계산기']
@@ -185,7 +187,8 @@ export async function auditSite(root = DEFAULT_ROOT) {
     }
     const images = [...html.matchAll(/<img\b([^>]*)>/gi)].map(match => match[1]);
     if (images.some(attributes => !/\balt=["'][^"']*["']/i.test(attributes))) issues.push(`${relativePath}: img alt 누락`);
-    const selfLinks = refs.filter(href => localTarget(relativePath, href) === relativePath);
+    const selfLinks = refs.filter(href => localTarget(relativePath, href) === relativePath
+      && !(relativePath === 'index.html' && href === '/'));
     if (selfLinks.length) warnings.push(`${relativePath}: 자기 자신 링크 ${selfLinks.join(', ')}`);
 
     records.push({ relativePath, canonical, title, description, bodyTokens: tokens(first(html, /<main\b[^>]*>([\s\S]*?)<\/main>/i)) });

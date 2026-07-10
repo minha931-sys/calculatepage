@@ -52,6 +52,7 @@
   };
   const relatedHtml = related.map(id => `<a href="/calculators/${id}.html">${names[id] || id}</a>`).join('');
   const renderShell = (title,lead,body,note,guide='') => {
+    if(root.hasAttribute('data-static-rendered')) return;
     root.innerHTML = `${top}<h1>${title}</h1><p class="lead">${lead}</p>${body}<p class="calculator-note">${note}</p>${guide}<section class="content-block"><h2>관련 계산기</h2><div class="related">${relatedHtml}</div></section>`;
   };
   const show = (id,html) => {

@@ -1,7 +1,7 @@
 (function(){
   const key=document.body.dataset.category;
   const root=document.querySelector('#category');
-  if(!key||!root||typeof cats==='undefined'||typeof calculators==='undefined'||!cats[key])return;
+  if(!key||!root||root.dataset.staticRendered==='true'||typeof cats==='undefined'||typeof calculators==='undefined'||!cats[key])return;
 
   const href=id=>`/calculators/${id}.html`;
   const unique=ids=>[...new Set(String(ids||'').trim().split(/\s+/).filter(Boolean))];
@@ -39,7 +39,7 @@
       groups:[{title:'대학교 학점',desc:'이번 학기 평점, 목표 평점, 재수강 후 변화를 확인하세요.',ids:['gpa','target-gpa','retake']},{title:'시험 / 성적',desc:'평균 점수, 목표 점수, 내신 등급, 등급컷, JLPT 합격 기준을 계산해 학습 계획에 활용하세요.',ids:['average-score','exam-target','school-grade','grade-cutoff','jlpt-score']},{title:'일정 관리',desc:'시험까지 남은 날짜를 확인하고 준비 기간을 나눠 보세요.',ids:['exam-dday','d-day','date']},{title:'확률 / 판단',desc:'기댓값처럼 선택지를 비교해야 할 때 참고할 수 있습니다.',ids:['expected-value']}],
       comparisons:[['학점 계산기와 목표 학점','학점 계산기는 이미 받은 과목 성적으로 평균을 구하고, 목표 학점은 앞으로 필요한 평점을 역산합니다.'],['내신 등급과 등급컷','내신 등급 계산기는 내 석차가 어느 구간인지 보고, 등급컷은 전체 인원에서 등급별 예상 경계를 봅니다.'],['시험 D-day와 일반 디데이','시험 D-day는 공부 기간을 주·일로 나누고 포함 기준을 선택하며, 일반 디데이는 기념일 등 다양한 목표일에 씁니다.']],
       guide:'교육 계산기는 성적을 예측하거나 학습 계획을 세우는 데 유용합니다. 학교별 학점 환산 기준, 내신 산출 방식, 시험 반영 비율은 다를 수 있으므로 최종 성적 판단에는 학교 기준을 함께 확인하세요.',
-      faq:[['학점 계산 결과가 학교 성적표와 다를 수 있나요?','학교마다 A+, P/F, 재수강 처리 방식이 다를 수 있어 실제 성적표와 차이가 날 수 있습니다.'],['목표 학점 계산기는 언제 쓰면 좋나요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],['내신 등급은 정확한가요?','일반적인 석차 누적 비율 기준의 예상값입니다. 과목별 반영 방식은 학교 기준을 확인해야 합니다.']]
+      faq:[['학점 계산 결과가 학교 성적표와 다를 수 있나요?','학교마다 A+, P/F, 재수강 처리 방식이 다를 수 있어 실제 성적표와 차이가 날 수 있습니다.'],['목표 학점 계산기의 활용 시점은 무엇인가요?','다음 학기에 몇 점을 받아야 누적 평점을 맞출 수 있는지 확인할 때 유용합니다.'],['내신 등급은 정확한가요?','일반적인 석차 누적 비율 기준의 예상값입니다. 과목별 반영 방식은 학교 기준을 확인해야 합니다.']]
     },
     health:{
       eyebrow:'체중·칼로리·운동',
@@ -102,7 +102,7 @@
 (function(){
   const key=document.body.dataset.category;
   const root=document.querySelector('#category');
-  if(key!=='conversion'||!root||typeof calculators==='undefined')return;
+  if(key!=='conversion'||!root||root.dataset.staticRendered==='true'||typeof calculators==='undefined')return;
 
   const href=id=>`/calculators/${id}.html`;
   const card=id=>calculators[id]?`<a class="calc-card" href="${href(id)}"><b>${calculators[id].n}</b>${calculators[id].d?`<span>${calculators[id].d}</span>`:''}</a>`:'';
