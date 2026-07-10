@@ -79,7 +79,14 @@
               <th></th>
             </tr>
           </thead>
-          <tbody id="cpm-rows"></tbody>
+          <tbody id="cpm-rows">
+            <tr>
+              <td class="cpm-cost-cell"><input class="cpm-cost" type="number" min="0" inputmode="numeric" placeholder="예: 300000"></td>
+              <td class="cpm-impressions-cell"><input class="cpm-impressions" type="number" min="0" inputmode="numeric" placeholder="예: 120000"></td>
+              <td class="cpm-cpm-cell cpm-hidden"><input class="cpm-cpm" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 2500"></td>
+              <td><button class="row-delete" type="button" aria-label="줄 삭제">×</button></td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <div class="cpm-actions">
@@ -273,7 +280,7 @@
         result.classList.add('show');
       });
 
-      addRow();
+      if(!tbody.children.length) addRow();
       syncAllRows();
     })();
   </script>
