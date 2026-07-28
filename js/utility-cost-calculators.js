@@ -15,7 +15,7 @@
   };
 
   function renderElectricity(){
-    root.innerHTML = `
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `
       <a class="calculator-home" href="/">계산페이지 홈</a>
       <h1>에어컨 전기세 계산기</h1>
       <p class="lead">에어컨 소비전력, 하루 사용시간, 사용일수만 입력해 월 예상 전기세와 절약 효과를 간단히 확인하세요.</p>
@@ -74,7 +74,7 @@
   }
 
   function renderFuelCost(){
-    root.innerHTML = `
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `
       <a class="calculator-home" href="/">계산페이지 홈</a>
       <h1>주유비 계산기</h1>
       <p class="lead">주행거리, 연비, 유가, 반복 횟수를 입력해 1회·월간·1인당 예상 주유비를 계산하세요.</p>

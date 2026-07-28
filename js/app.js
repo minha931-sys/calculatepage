@@ -10,7 +10,7 @@ Object.assign(calculators['exercise-calorie'],{
   f:[['number','몸무게(kg)','65'],['select','운동 종류','걷기|조깅|러닝|자전거|수영|근력 운동'],['number','운동 시간(분)','30']]
 });
 Object.assign(calculators['average-score'],{d:'여러 점수를 입력해 단순 산술평균을 계산합니다.'});
-const popularCalculatorIds=['grade-cutoff','jlpt-score','youth-leap-account','card-installment','average-score','monthly-average-income'];
+const popularCalculatorIds=['percent','loan-interest','salary','gpa','d-day','area-conversion'];
 const searchBoostIds=['percent','discount','salary','gpa','d-day','dutch-pay','savings-interest','loan-interest','mortgage-loan','monthly-average-income','vat','area-conversion','date','work-hours','pet-age','employee-health-insurance'];
 const searchAliases={percent:'퍼센트 백분율 비율 몇프로',discount:'할인 세일 할인율 최종가격',salary:'월급 급여 실수령액 세후 연봉',gpa:'학점 평점 대학 성적', 'd-day':'디데이 dday 날짜 기념일 시험', 'dutch-pay':'더치페이 n분의1 엔빵 정산 모임', 'savings-interest':'예금 이자 저축 금리 세후', 'loan-interest':'대출 이자 월이자 대출금', 'mortgage-loan':'주택담보대출 주담대 담보대출 아파트담보대출 월상환액 ltv dsr 원리금균등 원금균등', 'monthly-average-income':'월평균소득 월평균 합산 소득 가구소득 도시근로자 소득기준 청약 소득 행복주택 국민임대 공공임대 신혼부부 특별공급', vat:'부가세 공급가액 세금', 'area-conversion':'평수 평 제곱미터 m2 면적 아파트', date:'날짜 일수 며칠 후 며칠 전 두 날짜 사이 차이 기간 계산', 'work-hours':'근무시간 출퇴근 휴게시간', 'pet-age':'반려동물 나이 강아지 나이 고양이 나이 사람나이 환산 개나이 고양이나이', 'employee-health-insurance':'직장인 건강보험료 건보료 직장가입자 장기요양보험료 월급 공제 4대보험', 'grade-cutoff':'등급컷 등급 컷 5등급제 9등급제 내신 석차 비율 몇등까지 상대평가'};
 const href=k=>`/calculators/${k}.html`; const card=k=>calculators[k]?`<a class="calc-card" href="${href(k)}"><b>${calculators[k].n}</b><span>${calculators[k].d}</span></a>`:'';
@@ -56,10 +56,32 @@ function page(){
     result.classList.add('show');
   };
 }
-function home(){if(!document.querySelector('.popular-list'))return;document.querySelector('.popular-list').innerHTML=popularCalculatorIds.filter(id=>calculators[id]).map(card).join('');document.querySelector('#category-grid').innerHTML=Object.entries(cats).map(([k,v])=>`<a href="/categories/${k}.html"><span>${v[1]}</span>${v[0]}</a>`).join('');let inp=document.querySelector('#calculator-search'),box=document.querySelector('#search-results');inp.oninput=()=>{let s=inp.value.trim();box.innerHTML=s?Object.entries(calculators).filter(([,v])=>v.n.includes(s)).slice(0,7).map(([k,v])=>`<a class="search-result" href="${href(k)}">${v.n}<small>${cats[v.c][0]}</small></a>`).join(''):''}}
+function home(){let popular=document.querySelector('.popular-list');if(!popular)return;if(!popular.children.length)popular.innerHTML=popularCalculatorIds.filter(id=>calculators[id]).map(card).join('');let grid=document.querySelector('#category-grid');if(grid&&!grid.children.length)grid.innerHTML=Object.entries(cats).map(([k,v])=>`<a href="/categories/${k}.html"><span>${v[1]}</span>${v[0]}</a>`).join('');let inp=document.querySelector('#calculator-search'),box=document.querySelector('#search-results');inp.oninput=()=>{let s=inp.value.trim();box.innerHTML=s?Object.entries(calculators).filter(([,v])=>v.n.includes(s)).slice(0,7).map(([k,v])=>`<a class="search-result" href="${href(k)}">${v.n}<small>${cats[v.c][0]}</small></a>`).join(''):''}}
 function category(){let key=document.body.dataset.category,root=document.querySelector('#category');if(!key||!cats[key]||!root||root.dataset.staticRendered==='true')return;let c=cats[key];document.title=`${c[0]} | 계산페이지`;root.innerHTML=`<p class="eyebrow">${c[2]}</p><h1>${c[0]}</h1><p class="lead">${c[0]}에 필요한 무료 계산기를 모았습니다. 원하는 항목을 선택해 바로 계산하세요.</p><div class="card-grid">${c[3].split(' ').map(card).join('')}</div>`}home();category();page();
 const baseCompute=compute;
 compute=(op,x)=>op==='targetweight'?[`${((+x[0].value/100)**2*(+x[1].value)).toFixed(1)} kg`,'키와 목표 BMI 기준의 목표 체중입니다.']:baseCompute(op,x);
+const auditedCompute=compute;
+compute=(op,x)=>{
+  if(op==='bmr'){
+    const age=Number(x[1]?.value),height=Number(x[2]?.value),weight=Number(x[3]?.value);
+    const sexOffset=x[0]?.value==='남성'?5:-161;
+    return [`${Math.round(10*weight+6.25*height-5*age+sexOffset)} kcal`,'Mifflin–St Jeor 식으로 계산한 하루 기초대사량 추정치입니다.'];
+  }
+  if(op==='unit'){
+    const conversions={
+      'km → m':[1000,'m'],'m → km':[.001,'km'],'m → cm':[100,'cm'],'cm → m':[.01,'m'],'cm → mm':[10,'mm'],'mm → cm':[.1,'cm'],
+      'kg → g':[1000,'g'],'g → kg':[.001,'kg'],'g → mg':[1000,'mg'],'mg → g':[.001,'g'],
+      'L → mL':[1000,'mL'],'mL → L':[.001,'L'],'㎡ → 평':[121/400,'평'],'평 → ㎡':[400/121,'㎡'],
+      'km/h → m/s':[1/3.6,'m/s'],'m/s → km/h':[3.6,'km/h']
+    };
+    const conversion=conversions[x[1]?.value];
+    if(!conversion)return null;
+    const value=Number(x[0]?.value)*conversion[0];
+    const formatted=Number(value.toPrecision(12)).toLocaleString('ko-KR',{maximumFractionDigits:8});
+    return [`${formatted} ${conversion[1]}`,`${x[1].value} 변환 결과입니다.`];
+  }
+  return auditedCompute(op,x);
+};
 page();
 
 function enhanceGpaCalculator(){
@@ -388,7 +410,7 @@ if(document.body.dataset.calculator==='age'){
 }
 
 calculators['averaging-down']={n:'물타기 계산기',c:'money',d:'추가 매수 후 평균 매입 단가를 계산합니다.'};
-calculators['unemployment-benefit']={n:'실업급여 계산기',c:'money',d:'입력한 일급과 지급일수로 예상 수령액을 계산합니다.'};
+calculators['unemployment-benefit']={n:'실업급여 계산기',c:'money',d:'평균 월급과 1일 근로시간에 2026년 상·하한액을 적용해 예상액을 계산합니다.'};
 cats.money[0]='금융 계산기';cats.money[2]='금융 생활에 필요한 계산기';cats.money[3]+=' averaging-down unemployment-benefit';
 if(!document.querySelector('[data-static-rendered="true"]'))document.querySelectorAll('nav a[href="/categories/money.html"]').forEach(link=>link.textContent='금융');
 if(document.querySelector('.popular-list'))home();if(document.body.dataset.category==='money')category();
@@ -397,7 +419,7 @@ function customFinancialCalculators(){
   const type=document.body.dataset.customCalculator;if(!type)return;const root=document.querySelector('#calculator');
   if(!root||root.hasAttribute('data-static-rendered'))return;
   if(type==='averaging-down'){root.innerHTML=`<h1>물타기 계산기</h1><p class="lead">현재 보유 수량과 평균 매입가, 추가 매수 조건을 입력해 새 평균 단가를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>현재 보유 수량</span><input id="ad-qty" type="number" placeholder="예: 10"></label><label><span>현재 평균 매입가(원)</span><input id="ad-price" type="number" placeholder="예: 50000"></label><label><span>추가 매수 수량</span><input id="ad-newqty" type="number" placeholder="예: 5"></label><label><span>추가 매수 단가(원)</span><input id="ad-newprice" type="number" placeholder="예: 40000"></label></div><button class="primary-btn" id="calc-ad">계산하기</button></div><div class="result" id="ad-result"></div></section>`;root.querySelector('#calc-ad').onclick=()=>{const v=['ad-qty','ad-price','ad-newqty','ad-newprice'].map(id=>Number(root.querySelector('#'+id).value));if(v.some(n=>!n||n<0))return;const[q,p,nq,np]=v,total=q+nq,avg=(q*p+nq*np)/total,fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원',r=root.querySelector('#ad-result');r.innerHTML=`<strong>${fmt(avg)}</strong><p>총 ${total}개 · 총 매입금액 ${fmt(q*p+nq*np)}</p>`;r.classList.add('show')}}
-  else {root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">1일 예상 구직급여액과 소정급여일수로 예상 총 수령액을 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>1일 예상 구직급여액(원)</span><input id="ub-daily" type="number" placeholder="예: 60000"></label><label><span>소정급여일수</span><input id="ub-days" type="number" placeholder="예: 150"></label><label><span>이미 지급받은 일수</span><input id="ub-used" type="number" placeholder="예: 0"></label></div><button class="primary-btn" id="calc-ub">예상 금액 계산하기</button></div><div class="result" id="ub-result"></div><p class="calculator-note">수급 자격, 지급일수, 상한·하한액은 개인의 연령·고용보험 가입기간·퇴직 사유와 해당 연도 기준에 따라 달라집니다. 이 결과는 입력값 기반의 참고용 계산입니다.</p></section>`;root.querySelector('#calc-ub').onclick=()=>{const [daily,days,used]=['ub-daily','ub-days','ub-used'].map(id=>Number(root.querySelector('#'+id).value)||0),remain=Math.max(days-used,0),fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';let r=root.querySelector('#ub-result');r.innerHTML=`<div class="utility-result-grid"><div><span>예상 남은 수령액</span><strong>${fmt(daily*remain)}</strong></div><div><span>남은 지급일수</span><b>${remain}일</b></div><div><span>전체 예상액</span><b>${fmt(daily*days)}</b></div></div>`;r.classList.add('show')}}
+  else if(type==='unemployment-benefit'&&!root.hasAttribute('data-static-rendered')){root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">1일 예상 구직급여액과 소정급여일수로 예상 총 수령액을 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>1일 예상 구직급여액(원)</span><input id="ub-daily" type="number" placeholder="예: 60000"></label><label><span>소정급여일수</span><input id="ub-days" type="number" placeholder="예: 150"></label><label><span>이미 지급받은 일수</span><input id="ub-used" type="number" placeholder="예: 0"></label></div><button class="primary-btn" id="calc-ub">예상 금액 계산하기</button></div><div class="result" id="ub-result"></div><p class="calculator-note">수급 자격, 지급일수, 상한·하한액은 개인의 연령·고용보험 가입기간·퇴직 사유와 해당 연도 기준에 따라 달라집니다. 이 결과는 입력값 기반의 참고용 계산입니다.</p></section>`;root.querySelector('#calc-ub').onclick=()=>{const [daily,days,used]=['ub-daily','ub-days','ub-used'].map(id=>Number(root.querySelector('#'+id).value)||0),remain=Math.max(days-used,0),fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';let r=root.querySelector('#ub-result');r.innerHTML=`<div class="utility-result-grid"><div><span>예상 남은 수령액</span><strong>${fmt(daily*remain)}</strong></div><div><span>남은 지급일수</span><b>${remain}일</b></div><div><span>전체 예상액</span><b>${fmt(daily*days)}</b></div></div>`;r.classList.add('show')}}
 }
 customFinancialCalculators();
 
@@ -405,8 +427,29 @@ function enhanceUnemploymentBenefitCalculator(){
   if(document.body.dataset.customCalculator!=='unemployment-benefit')return;
   const root=document.querySelector('#calculator');
   if(!root)return;
-  root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">재직 기간과 최근 평균 월급을 기준으로 구직급여 예상액을 간편하게 확인하세요.</p><section class="calculator-box unemployment-box"><div class="unemployment-section"><h2>재직 정보</h2><div class="unemployment-fields"><label><span>입사일</span><input id="ub-start" type="date"></label><label><span>퇴사일</span><input id="ub-end" type="date"></label><label><span>최근 평균 월급(세전)</span><input id="ub-salary" type="number" placeholder="예: 3000000"></label></div></div><div class="unemployment-section"><h2>예상 지급일수</h2><p>소정급여일수는 연령, 고용보험 가입기간, 퇴직 사유 등에 따라 달라집니다. 본인에게 안내된 일수를 선택해 주세요.</p><select id="ub-benefit-days"><option value="">선택</option><option value="120">120일</option><option value="150">150일</option><option value="180">180일</option><option value="210">210일</option><option value="240">240일</option><option value="270">270일</option></select></div><button class="primary-btn" id="calculate-ub" type="button">예상 금액 계산하기</button><div class="result" id="ub-result" aria-live="polite"></div><p class="calculator-note">이 계산기는 평균 월급의 60%를 30일로 나눈 단순 추정입니다. 실제 실업급여는 고용보험 가입 이력, 퇴직 사유, 해당 연도 상·하한액, 인정일 등에 따라 달라지므로 고용24 또는 관할 고용센터에서 반드시 확인해 주세요.</p></section><section class="content-block"><h2>실업급여 계산 전 확인할 내용</h2><ul><li>퇴직 전 18개월 동안 고용보험 피보험 단위기간 등 수급 요건을 충족해야 합니다.</li><li>재직 기간이 길어도 개인 상황에 따라 지급일수는 달라질 수 있습니다.</li><li>이직확인서 처리 여부와 실제 수급 가능 여부는 공식 안내를 확인해야 합니다.</li></ul></section>`;
-  root.querySelector('#calculate-ub').onclick=()=>{const start=root.querySelector('#ub-start').value,end=root.querySelector('#ub-end').value,salary=Number(root.querySelector('#ub-salary').value),days=Number(root.querySelector('#ub-benefit-days').value),result=root.querySelector('#ub-result');if(!start||!end||!salary||!days){result.innerHTML='<strong>재직 정보와 지급일수를 입력해 주세요</strong><p>입사일, 퇴사일, 평균 월급, 예상 지급일수가 필요합니다.</p>';result.classList.add('show');return}const startDate=new Date(start),endDate=new Date(end);if(endDate<=startDate){result.innerHTML='<strong>재직 기간을 확인해 주세요</strong><p>퇴사일은 입사일보다 뒤여야 합니다.</p>';result.classList.add('show');return}const employmentDays=Math.floor((endDate-startDate)/86400000)+1,daily=salary/30*.6,total=daily*days,money=v=>Math.round(v).toLocaleString('ko-KR')+'원';result.innerHTML=`<div class="unemployment-result-grid"><div><span>재직 기간</span><strong>${Math.floor(employmentDays/30)}개월</strong><small>${employmentDays.toLocaleString()}일</small></div><div><span>1일 예상액</span><b>${money(daily)}</b></div><div><span>예상 총 수령액</span><b>${money(total)}</b><small>${days}일 기준</small></div></div>`;result.classList.add('show')};
+  root.innerHTML=`<h1>실업급여 계산기</h1><p class="lead">재직 기간과 최근 평균 월급에 2026년 구직급여 상·하한액을 적용해 예상액을 확인하세요.</p><section class="calculator-box unemployment-box"><div class="unemployment-section"><h2>재직 정보</h2><div class="unemployment-fields"><label><span>입사일</span><input id="ub-start" type="date"></label><label><span>퇴사일</span><input id="ub-end" type="date"></label><label><span>최근 평균 월급(세전)</span><input id="ub-salary" type="number" placeholder="예: 3000000" step="any" inputmode="decimal"></label><label><span>1일 소정근로시간</span><input id="ub-hours" type="number" min="1" max="8" placeholder="예: 8" step="0.5" inputmode="decimal"></label></div></div><div class="unemployment-section"><h2>예상 지급일수</h2><p>소정급여일수는 연령, 고용보험 가입기간, 퇴직 사유 등에 따라 달라집니다. 본인에게 안내된 일수를 선택해 주세요.</p><select id="ub-benefit-days"><option value="">선택</option><option value="120">120일</option><option value="150">150일</option><option value="180">180일</option><option value="210">210일</option><option value="240">240일</option><option value="270">270일</option></select></div><button class="primary-btn" id="calculate-ub" type="button">예상 금액 계산하기</button><div class="result" id="ub-result" aria-live="polite"></div><p class="calculator-note">2026년 1일 상한액 68,100원과 최저임금 연동 하한액(1일 소정근로시간×10,320원×80%)을 적용한 추정치입니다. 수급 자격과 실제 지급액은 고용24 또는 관할 고용센터에서 확인해 주세요.</p></section><section class="content-block"><h2>실업급여 계산 전 확인할 내용</h2><ul><li>퇴직 전 18개월 동안 고용보험 피보험 단위기간 등 수급 요건을 충족해야 합니다.</li><li>재직 기간이 길어도 연령과 가입기간에 따라 지급일수는 달라질 수 있습니다.</li><li>이직확인서 처리 여부와 실제 수급 가능 여부는 공식 안내를 확인해야 합니다.</li></ul></section>`;
+  root.querySelector('#calculate-ub').onclick=()=>{
+    const start=root.querySelector('#ub-start').value,end=root.querySelector('#ub-end').value;
+    const salary=Number(root.querySelector('#ub-salary').value),hours=Number(root.querySelector('#ub-hours').value);
+    const days=Number(root.querySelector('#ub-benefit-days').value),result=root.querySelector('#ub-result');
+    if(!start||!end||!Number.isFinite(salary)||salary<=0||!Number.isFinite(hours)||hours<1||hours>8||!days){
+      result.innerHTML='<strong>재직 정보와 지급일수를 확인해 주세요</strong><p>입사일, 퇴사일, 평균 월급, 1일 소정근로시간(1~8시간), 예상 지급일수가 필요합니다.</p>';
+      result.classList.add('show');
+      return;
+    }
+    const startDate=new Date(`${start}T00:00:00`),endDate=new Date(`${end}T00:00:00`);
+    if(endDate<startDate){
+      result.innerHTML='<strong>재직 기간을 확인해 주세요</strong><p>퇴사일은 입사일과 같거나 뒤여야 합니다.</p>';
+      result.classList.add('show');
+      return;
+    }
+    const employmentDays=Math.round((endDate-startDate)/86400000)+1;
+    const rawDaily=salary/30*.6,lowerDaily=10320*hours*.8,daily=Math.min(68100,Math.max(lowerDaily,rawDaily));
+    const total=daily*days,money=v=>Math.round(v).toLocaleString('ko-KR')+'원';
+    const applied=daily===68100?'2026년 상한 적용':daily===lowerDaily?'2026년 하한 적용':'월급 기준 산정';
+    result.innerHTML=`<div class="unemployment-result-grid"><div><span>재직 기간</span><strong>${Math.floor(employmentDays/30)}개월</strong><small>${employmentDays.toLocaleString()}일</small></div><div><span>1일 예상액</span><b>${money(daily)}</b><small>${applied}</small></div><div><span>예상 총 수령액</span><b>${money(total)}</b><small>${days}일 기준</small></div></div>`;
+    result.classList.add('show');
+  };
 }
 enhanceUnemploymentBenefitCalculator();
 
@@ -501,7 +544,23 @@ function addWorkAndRentCalculators(){
   const type=document.body.dataset.customCalculator;if(!type)return;const root=document.querySelector('#calculator');
   const form=(title,fields)=>`<h1>${title}</h1><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${fields}</div><button class="primary-btn" id="custom-calc">계산하기</button></div><div class="result" id="custom-result"></div></section>`;
   if(type==='annual-leave'){root.innerHTML=form('연차 계산기','<label><span>입사일</span><input id="a-start" type="date"></label><label><span>기준일</span><input id="a-base" type="date"></label>')+'<section class="content-block"><p>근로기준법상 연차 발생은 근로 형태와 출근율 등에 따라 달라질 수 있는 참고용 계산입니다.</p></section>';root.querySelector('#custom-calc').onclick=()=>{const s=new Date(root.querySelector('#a-start').value),b=new Date(root.querySelector('#a-base').value),r=root.querySelector('#custom-result');if(isNaN(s)||isNaN(b)||b<s)return;const months=(b-s)/864e5/30.44,days=months<12?Math.min(11,Math.floor(months)):months<36?15:Math.min(25,15+Math.floor((months-36)/24)+1);r.innerHTML=`<strong>예상 연차 ${days}일</strong><p>근속 약 ${Math.floor(months)}개월 기준입니다.</p>`;r.classList.add('show')}}
-  if(type==='weekly-holiday-pay'){root.innerHTML=form('주휴수당 계산기','<label><span>시급(원)</span><input id="w-rate" type="number" placeholder="예: 10030"></label><label><span>주 근무시간</span><input id="w-hours" type="number" placeholder="예: 40"></label><label><span>주 소정근로일수</span><input id="w-days" type="number" placeholder="예: 5"></label>')+'<section class="content-block"><p>일반적인 주 15시간 이상, 소정근로일 개근 기준의 참고용 계산입니다.</p></section>';root.querySelector('#custom-calc').onclick=()=>{const rate=Number(root.querySelector('#w-rate').value),hours=Number(root.querySelector('#w-hours').value),days=Number(root.querySelector('#w-days').value),r=root.querySelector('#custom-result');if(!rate||!hours||!days)return;const holiday=hours>=15?rate*(hours/40)*8:0;r.innerHTML=`<div class="utility-result-grid"><div><span>주휴수당</span><strong>${Math.round(holiday).toLocaleString()}원</strong></div><div><span>예상 주급</span><b>${Math.round(rate*hours+holiday).toLocaleString()}원</b></div><div><span>주휴 시간</span><b>${(holiday/rate).toFixed(1)}시간</b></div></div>`;r.classList.add('show')}}
+  if(type==='weekly-holiday-pay'){
+    root.innerHTML=form('주휴수당 계산기','<label><span>시급(원)</span><input id="w-rate" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 10320"></label><label><span>주 소정근로시간</span><input id="w-hours" type="number" min="0" max="40" step="any" inputmode="decimal" placeholder="예: 40"></label><label><span>소정근로일 개근 여부</span><select id="w-attended"><option value="yes">개근</option><option value="no">미개근</option></select></label>')+'<section class="content-block"><p>주 15시간 이상이며 소정근로일을 개근한 경우를 기준으로 한 예상액입니다. 시급 입력 예시는 2026년 최저임금 10,320원입니다.</p></section>';
+    root.querySelector('#custom-result').setAttribute('aria-live','polite');
+    root.querySelector('#custom-calc').onclick=()=>{
+      const rate=Number(root.querySelector('#w-rate').value),hours=Number(root.querySelector('#w-hours').value);
+      const attended=root.querySelector('#w-attended').value,r=root.querySelector('#custom-result');
+      if(!Number.isFinite(rate)||rate<=0||!Number.isFinite(hours)||hours<=0||hours>40){
+        r.innerHTML='<strong>입력값을 확인해 주세요</strong><p>0원보다 큰 시급과 0시간 초과 40시간 이하의 주 소정근로시간을 입력해 주세요.</p>';
+        r.classList.add('show');
+        return;
+      }
+      const holidayHours=hours>=15&&attended==='yes'?Math.min(8,hours/40*8):0;
+      const holiday=rate*holidayHours;
+      r.innerHTML=`<div class="utility-result-grid"><div><span>주휴수당</span><strong>${Math.round(holiday).toLocaleString()}원</strong></div><div><span>예상 주급</span><b>${Math.round(rate*hours+holiday).toLocaleString()}원</b></div><div><span>주휴 시간</span><b>${holidayHours.toFixed(1)}시간</b></div></div>`;
+      r.classList.add('show');
+    };
+  }
   if(type==='rent-conversion'){root.innerHTML=form('전월세 전환 계산기','<label><span>전환할 보증금(원)</span><input id="r-deposit" type="number" placeholder="예: 10000000"></label><label><span>연 전환율(%)</span><input id="r-rate" type="number" placeholder="예: 5"></label><label><span>현재 월세(원)</span><input id="r-rent" type="number" placeholder="예: 500000"></label>')+'<section class="content-block"><p>계약상 전환율과 법정 기준은 다를 수 있습니다. 실제 계약 전 최신 기준을 확인하세요.</p></section>';root.querySelector('#custom-calc').onclick=()=>{const d=Number(root.querySelector('#r-deposit').value),rate=Number(root.querySelector('#r-rate').value),rent=Number(root.querySelector('#r-rent').value),r=root.querySelector('#custom-result');if(!d||!rate)return;const change=d*rate/100/12;r.innerHTML=`<div class="utility-result-grid"><div><span>보증금 ${d.toLocaleString()}원 전환 월세</span><strong>${Math.round(change).toLocaleString()}원</strong></div><div><span>기존 월세 포함</span><b>${Math.round(rent+change).toLocaleString()}원</b></div><div><span>연 환산</span><b>${Math.round(change*12).toLocaleString()}원</b></div></div>`;r.classList.add('show')}}
 }
 addWorkAndRentCalculators();
@@ -996,8 +1055,8 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
     date:'기준일에 원하는 일수를 더하거나 빼고, 두 날짜 사이의 총 일수와 기간 차이를 계산합니다.',
     'd-day':'목표 날짜까지 남은 날 또는 지난 날을 기준일 포함 여부와 함께 계산합니다.',
     'day-count':'두 날짜 사이의 총 일수, 주 수, 기간 차이를 빠르게 계산합니다.',
-    age:'생년월일을 기준으로 한국식 나이와 생일 기준 나이를 확인합니다.',
-    'international-age':'출생일과 기준일을 입력해 현재 만나이를 정확히 계산합니다.',
+    age:'생년월일과 선택한 기준일로 한국식 나이·연 나이·만 나이를 비교합니다.',
+    'international-age':'생년월일을 입력해 브라우저의 오늘 날짜 기준 만나이를 계산합니다.',
     time:'시작 시간과 종료 시간, 휴게 시간을 입력해 실제 경과 시간과 근무 시간을 계산합니다.',
     'dutch-pay':'여러 정산 항목을 추가하고 전체 인원수로 나눠 1인당 부담 금액을 계산합니다.',
     'travel-budget':'여행 기간, 인원, 항목별 비용을 입력해 총 예산과 1인당 비용을 정리합니다.',
@@ -1230,4 +1289,37 @@ if(document.querySelector('#category-grid'))makeHomeCategoriesExpandable();
   if(document.querySelector('.popular-list')){home();if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();}
   if(document.body.dataset.category&&typeof category==='function')category();
   if(document.querySelector('#category-grid')&&typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
+})();
+
+// Practical comparison calculators.
+(function(){
+  if(typeof calculators==='undefined'||typeof cats==='undefined')return;
+  Object.assign(calculators,{
+    'loan-refinance':{n:'대출 갈아타기 계산기',c:'money',d:'현재 대출과 새 대출의 총이자, 수수료, 월 납입액을 비교해 실질 절감액과 비용 회수 시점을 계산합니다.'},
+    'subscription-cost':{n:'구독료 계산기',c:'money',d:'여러 구독료를 월·연간 비용으로 환산하고 사용당 비용과 해지 후보 절감액을 계산합니다.'},
+    'ev-fuel-cost':{n:'전기차 유지비 계산기',c:'life',d:'연간 주행거리와 충전 패턴을 반영해 전기차 충전비와 내연기관 유류비, 구매 추가금 회수 기간을 비교합니다.'}
+  });
+  const add=(category,ids)=>{
+    if(!cats[category])return;
+    const set=new Set((cats[category][3]+' '+ids).trim().split(/\s+/).filter(Boolean));
+    cats[category][3]=[...set].join(' ');
+  };
+  add('money','loan-refinance subscription-cost');
+  add('life','ev-fuel-cost');
+  if(typeof searchAliases!=='undefined'){
+    Object.assign(searchAliases,{
+      'loan-refinance':'대출 갈아타기 대환대출 대환 대출비교 금리비교 중도상환수수료 이자절감 손익분기',
+      'subscription-cost':'구독료 정기결제 고정비 ott 넷플릭스 유튜브 음악 클라우드 연간구독 해지 절약',
+      'ev-fuel-cost':'전기차 유지비 충전비 전비 유류비 기름값 전기차 내연기관 비교 완속 급속 손익분기'
+    });
+  }
+  if(typeof searchBoostIds!=='undefined'){
+    ['loan-refinance','subscription-cost','ev-fuel-cost'].forEach(id=>{if(!searchBoostIds.includes(id))searchBoostIds.push(id)});
+  }
+  if(document.querySelector('.popular-list')){
+    home();
+    if(typeof improveCalculatorSearch==='function')improveCalculatorSearch();
+    if(typeof makeHomeCategoriesExpandable==='function')makeHomeCategoriesExpandable();
+  }
+  if(document.body.dataset.category&&typeof category==='function')category();
 })();

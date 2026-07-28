@@ -40,7 +40,7 @@
     </details>`;
   }
 
-  root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
+  if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
     <h1>월평균합산소득 계산기</h1>
     <p class="lead">청년매입임대, 행복주택, 국민임대, 청약 신청 전에 본인·부모·배우자 소득을 월평균으로 합산해 신청서 입력용 추정 금액을 확인합니다.</p>
     <section class="calculator-box utility-box readable-calc-box">

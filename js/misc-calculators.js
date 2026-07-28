@@ -4,7 +4,7 @@
   const root=document.querySelector('#calculator');
 
   if(type==='daily-proration'){
-    root.innerHTML=`
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML=`
       <a class="calculator-home" href="/">← 계산페이지 홈</a>
       <h1>일할 계산기</h1>
       <p class="lead">월 금액을 사용자가 정한 월 기준 일수로 나눈 뒤 실제 적용 일수만큼 계산합니다.</p>
@@ -37,7 +37,7 @@
   }
 
   if(type==='expected-value'){
-    root.innerHTML=`
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML=`
       <a class="calculator-home" href="/">← 계산페이지 홈</a>
       <h1>기댓값 계산기</h1>
       <p class="lead">가능한 결과값과 각 결과의 발생 확률을 입력해 같은 상황을 반복했을 때의 장기 평균을 계산하세요.</p>

@@ -118,7 +118,7 @@
     .join('');
   const exampleHtml = tool.examples.map(item => `<li>${item}</li>`).join('');
 
-  root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/conversion.html">단위환산 카테고리 더보기</a>
+  if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/conversion.html">단위환산 카테고리 더보기</a>
     <h1>${tool.title}</h1>
     <p class="lead">${tool.lead}</p>
     <section class="calculator-box utility-box">

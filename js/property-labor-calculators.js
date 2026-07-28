@@ -47,7 +47,7 @@
   }
   function grid(html){ return '<div class="utility-fields">' + html + '</div>'; }
   function shell(title, lead, body, note, guide){
-    root.innerHTML = '<h1>' + title + '</h1><p class="lead">' + lead + '</p><section class="calculator-box utility-box"><div class="utility-form">' + body + '<button class="primary-btn" id="pl-calc" type="button">계산하기</button></div><div class="result" id="pl-result" aria-live="polite"></div><p class="calculator-note">' + note + '</p></section><section class="content-block">' + guide + '</section>';
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = '<h1>' + title + '</h1><p class="lead">' + lead + '</p><section class="calculator-box utility-box"><div class="utility-form">' + body + '<button class="primary-btn" id="pl-calc" type="button">계산하기</button></div><div class="result" id="pl-result" aria-live="polite"></div><p class="calculator-note">' + note + '</p></section><section class="content-block">' + guide + '</section>';
   }
   function show(html){
     var result = root.querySelector("#pl-result");
@@ -111,7 +111,7 @@
   }
 
   if(slug === "area-conversion"){
-    root.innerHTML = '<h1>평수 계산기</h1><p class="lead">㎡를 평으로, 평을 ㎡로 변환하고 전용면적과 공급면적 차이를 함께 확인합니다.</p><section class="calculator-box utility-box area-conversion-box"><div class="utility-tabs"><button class="utility-tab active" data-mode="m2-to-p" type="button">㎡ → 평</button><button class="utility-tab" data-mode="p-to-m2" type="button">평 → ㎡</button></div><div class="utility-form" id="area-form"></div><div class="result" id="pl-result" aria-live="polite"></div><p class="calculator-note">평과 ㎡ 변환은 일반적으로 1평 = 3.305785㎡ 기준을 사용합니다. 분양 표기와 실제 사용 면적은 다를 수 있습니다.</p></section><section class="content-block"><h2>전용면적과 공급면적</h2><p>전용면적은 실제 거주 공간에 가까운 면적이고, 공급면적은 공용면적 일부가 포함된 면적입니다.</p></section>';
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = '<h1>평수 계산기</h1><p class="lead">㎡를 평으로, 평을 ㎡로 변환하고 전용면적과 공급면적 차이를 함께 확인합니다.</p><section class="calculator-box utility-box area-conversion-box"><div class="utility-tabs"><button class="utility-tab active" data-mode="m2-to-p" type="button">㎡ → 평</button><button class="utility-tab" data-mode="p-to-m2" type="button">평 → ㎡</button></div><div class="utility-form" id="area-form"></div><div class="result" id="pl-result" aria-live="polite"></div><p class="calculator-note">평과 ㎡ 변환은 일반적으로 1평 = 3.305785㎡ 기준을 사용합니다. 분양 표기와 실제 사용 면적은 다를 수 있습니다.</p></section><section class="content-block"><h2>전용면적과 공급면적</h2><p>전용면적은 실제 거주 공간에 가까운 면적이고, 공급면적은 공용면적 일부가 포함된 면적입니다.</p></section>';
     var mode = "m2-to-p", form = root.querySelector("#area-form"), result = root.querySelector("#pl-result");
     function renderArea(){
       form.innerHTML = '<div class="utility-fields area-conversion-fields"><label><span>' + (mode === "m2-to-p" ? "제곱미터(㎡)" : "평") + '</span><input id="ac-value" type="number" min="0" step="any" placeholder="' + (mode === "m2-to-p" ? "예: 84" : "예: 25") + '" inputmode="decimal"></label><div class="area-exclusive-control"><label><span>전용률(%)</span><input id="ac-exclusive" type="number" min="0" step="any" placeholder="예: 75" inputmode="decimal" disabled></label><label class="field-option area-exclusive-check"><input id="ac-use-exclusive" type="checkbox"> 전용률 반영</label></div></div><button class="primary-btn" id="pl-calc" type="button">계산하기</button>';
@@ -169,9 +169,9 @@
   }
 
   if(slug === "ordinary-wage"){
-    shell("통상임금 계산기", "월 고정급과 정기 고정수당을 더해 월 소정근로시간 기준 시간급 통상임금을 계산합니다.",
-      grid(field("ow-base","월 기본급(원)","2500000") + field("ow-allowance","월 고정수당(원)","300000") + field("ow-hours","월 소정근로시간","209")),
-      "통상임금 해당 여부는 정기성·일률성·고정성 등 법적 판단이 필요할 수 있습니다. 이 계산기는 금액 구조 확인용입니다.",
+    shell("통상임금 계산기", "월 기본급과 통상임금에 포함한다고 확인한 수당을 더해 월 소정근로시간 기준 시간급 통상임금을 계산합니다.",
+      grid(field("ow-base","월 기본급(원)","2500000") + field("ow-allowance","포함할 월 수당(원)","300000") + field("ow-hours","월 소정근로시간","209")),
+      "2024년 12월 19일 대법원 전원합의체 판결에 따라 고정성은 통상임금 판단 기준에서 제외됐습니다. 개별 수당은 소정근로 대가성·정기성·일률성과 실제 지급 조건을 확인해야 하며, 이 계산기는 금액 구조 확인용입니다.",
       "<h2>통상임금 계산 기준</h2><p>일반적으로 월 통상임금을 월 소정근로시간으로 나누어 시간급 통상임금을 구합니다. 어떤 수당이 포함되는지는 근로조건에 따라 달라질 수 있습니다.</p>");
     root.querySelector("#pl-calc").onclick = function(){
       var monthly = num("ow-base") + num("ow-allowance"), hourly = monthly / (num("ow-hours") || 209);

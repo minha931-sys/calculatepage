@@ -169,6 +169,11 @@ body:has(.popular-list) .category-grid{grid-template-columns:repeat(6,minmax(0,1
 .calculator-page .calculator-home.category-more-link{display:none!important}
 
 @media(max-width:700px){
+  .site-header{gap:14px}
+  .site-header .logo{flex:0 0 auto;white-space:nowrap}
+  .site-header nav{min-width:0;overflow-x:auto;scrollbar-width:none}
+  .site-header nav::-webkit-scrollbar{display:none}
+  .site-header nav a{white-space:nowrap}
   .search-result small{display:block;margin:2px 0 0}
   .calc-card,.category-calculator-list a,.category-purpose-links a,.related a{min-width:0;overflow-wrap:anywhere}
   .primary-btn{width:100%}

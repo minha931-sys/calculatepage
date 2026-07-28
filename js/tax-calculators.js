@@ -40,7 +40,7 @@
   const invalid = msg => result(`<strong>입력값을 확인해 주세요</strong><p>${msg}</p>`);
   const card = (label,value) => `<div><span>${label}</span><b>${value}</b></div>`;
   const box = (title, desc, inputs, note, guide, related='') => {
-    root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${title}</h1><p class="lead">${desc}</p>
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${title}</h1><p class="lead">${desc}</p>
     <section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${inputs}</div><button class="primary-btn" id="tax-calc" type="button">계산하기</button></div><div class="result" aria-live="polite"></div><p class="calculator-note">${note}</p></section>
     <section class="content-block"><h2>${title} 사용 방법</h2>${guide}</section>
     ${related}`;
@@ -192,7 +192,7 @@
 
   if(type === 'youth-leap-account'){
     const money = value => Math.round(Number(value)||0).toLocaleString('ko-KR') + '원';
-    root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a>
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home" href="/">← 계산페이지 홈</a>
       <h1>청년미래적금 계산기</h1>
       <p class="lead">청년미래적금을 처음 보는 사람도 월 납입액, 상품 유형, 예상 금리를 넣어 3년 만기 수령액과 정부기여금을 쉽게 확인할 수 있습니다.</p>
       <section class="calculator-box utility-box youth-future-box">
@@ -327,7 +327,7 @@
       if(salary <= 60000000) return monthly * .03;
       return 0;
     };
-    root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
       <h1>청년도약계좌 vs 청년미래적금 비교 계산기</h1>
       <p class="lead">청년도약계좌를 계속 유지할지, 청년미래적금으로 갈아탈지 고민하는 사람을 위한 비교 계산기입니다.</p>
       <section class="calculator-box utility-box readable-calc-box youth-switch-box">

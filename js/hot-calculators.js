@@ -14,7 +14,7 @@
 
   function renderPetAge(){
     if(document.body.dataset.hotCalculator !== 'pet-age') return;
-    root.innerHTML = `
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `
       <a class="calculator-home" href="/">계산페이지 홈</a>
       <h1>반려동물 나이 계산기</h1>
       <p class="lead">강아지와 고양이의 실제 나이를 사람 나이로 환산하고 생애 단계와 관리 포인트를 확인하세요.</p>
@@ -106,7 +106,7 @@
 
   function renderMonthlyRentDeduction(){
     if(document.body.dataset.advancedCalculator !== 'monthly-rent-deduction') return;
-    root.innerHTML = `
+    if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `
       <a class="calculator-home" href="/">계산페이지 홈</a>
       <h1>월세 세액공제 계산기</h1>
       <p class="lead">월세, 거주 개월, 총급여와 주택 조건을 입력해 예상 월세 세액공제액과 공제 가능성을 확인하세요.</p>

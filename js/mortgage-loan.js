@@ -9,7 +9,7 @@
   const field = (id,label,placeholder,extra='') => `<label><span>${label}</span><input id="${id}" type="number" min="0" step="any" inputmode="decimal" placeholder="예: ${placeholder}" ${extra}></label>`;
   const card = (label,value,sub='') => `<div><span>${label}</span><b>${value}</b>${sub ? `<small>${sub}</small>` : ''}</div>`;
 
-  root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
+  if(!root.hasAttribute('data-static-rendered')) root.innerHTML = `<a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
     <h1>주택담보대출 계산기</h1>
     <p class="lead">주택가격, 대출희망액, 금리, 상환기간을 입력해 주담대 월 상환액, 총 이자, LTV, 첫해 예상 DSR을 함께 확인합니다.</p>
     <section class="calculator-box utility-box readable-calc-box">
