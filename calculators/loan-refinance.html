@@ -37,7 +37,6 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/practical-calculators.css">
   <script defer src="/js/static-calculator-runtime.js"></script>
-  <script defer src="/js/app.js"></script>
   <script defer src="/js/loan-refinance.js"></script>
   <script type="application/ld+json" data-calculator-schema="true">
   {
@@ -59,7 +58,7 @@
     <h1>대출 갈아타기 계산기</h1>
     <p class="lead">현재 대출과 새 대출의 월 납입액, 남은 총이자, 중도상환수수료와 부대비용을 비교해 대환대출의 실질 절감액을 확인하세요.</p>
     <section class="calculator-box utility-box readable-calc-box practical-box loan-refinance-box">
-      <div class="readable-intro"><h2>낮은 금리보다 중요한 것은 실제로 남는 금액입니다</h2><p>금리가 내려가도 상환 기간이 길어지거나 수수료가 크면 총비용이 늘 수 있습니다. 두 대출의 상환표를 같은 원금 기준으로 계산해 월 부담, 남은 이자, 비용 회수 시점과 기간별 잔액을 함께 비교합니다.</p></div>
+      <div class="readable-intro editorial-input"><h2>낮은 금리보다 중요한 것은 실제로 남는 금액입니다</h2><p>금리가 내려가도 상환 기간이 길어지거나 수수료가 크면 총비용이 늘 수 있습니다. 두 대출의 상환표를 같은 원금 기준으로 계산해 월 부담, 남은 이자, 비용 회수 시점과 기간별 잔액을 함께 비교합니다.</p></div>
       <form class="practical-form" id="refinance-form" novalidate>
         <section class="practical-section">
           <h2>1. 현재 대출</h2><p>대출 약정서나 앱에서 오늘 기준 남은 원금, 금리와 잔여 기간을 확인하세요.</p>
@@ -89,13 +88,15 @@
         <div class="practical-actions"><button class="primary-btn" type="submit">갈아타기 비교하기</button><button class="practical-secondary" id="refinance-reset" type="button">입력 초기화</button></div>
       </form>
       <div class="result" id="refinance-result" aria-live="polite"></div>
-      <p class="calculator-note">이 결과는 입력값을 월 단위로 계산한 예상치입니다. 변동금리, 우대금리 조건, 실제 실행일별 일할 이자, 거치기간, 보증료와 금융기관의 원 단위 처리는 반영되지 않을 수 있습니다.</p>
+      <p class="calculator-note editorial-caution">이 결과는 입력값을 월 단위로 계산한 예상치입니다. 변동금리, 우대금리 조건, 실제 실행일별 일할 이자, 거치기간, 보증료와 금융기관의 원 단위 처리는 반영되지 않을 수 있습니다.</p>
     </section>
-    <section class="content-block"><h2>대출 갈아타기 계산 방법</h2><p>현재 대출은 오늘 남은 원금을 잔여 기간 동안 갚는 것으로, 새 대출은 같은 원금을 새 금리와 기간으로 갚는 것으로 계산합니다. 실질 예상 절감액은 현재 대출의 남은 총이자에서 새 대출의 총이자, 중도상환수수료와 기타 비용을 뺀 값입니다. 비용 회수 시점은 누적 이자 절감액이 갈아타기 비용을 넘어선 뒤 다시 낮아지지 않는 최초 시점으로 표시합니다.</p></section>
-    <section class="content-block"><h2>결과를 볼 때 확인할 세 가지</h2><ul><li><strong>실질 예상 절감액</strong>: 금리 차이만 보지 않고 수수료와 부대비용까지 뺀 최종 비교값입니다.</li><li><strong>첫 달 납입액 변화</strong>: 당장 월 현금흐름이 얼마나 달라지는지 보여주지만, 월 납입액이 낮다고 총비용도 낮은 것은 아닙니다.</li><li><strong>기간별 예상 잔액</strong>: 같은 시점에 어느 대출의 원금이 더 많이 남는지 확인해 기간 연장의 영향을 판단할 수 있습니다.</li></ul></section>
-    <section class="content-block"><h2>대환대출 계산 예시</h2><p>남은 원금 1억 원, 현재 금리 연 5.2%, 잔여 240개월과 새 금리 연 4.1%, 240개월을 같은 원리금균등 방식으로 비교한다고 가정해 보세요. 계산기는 각 조건의 월 상환표를 만든 뒤 남은 총이자 차이에서 중도상환수수료와 기타 비용을 차감합니다. 새 기간을 300개월로 늘리면 월 납입액은 줄 수 있지만 총이자와 원금 잔액 흐름은 별도로 확인해야 합니다.</p></section>
-    <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>금리가 낮으면 무조건 갈아타는 것이 유리한가요?</summary><p>아닙니다. 금리 차이가 작거나 남은 기간이 짧고 중도상환수수료가 크면 비용을 회수하지 못할 수 있습니다. 새 대출 기간이 길어지는 경우도 총이자를 꼭 비교하세요.</p></details><details><summary>대출 기간을 늘리면 왜 총이자가 커질 수 있나요?</summary><p>월 납입액은 낮아질 수 있지만 원금이 더 오래 남아 이자가 붙는 기간이 길어지기 때문입니다. 첫 달 납입액과 총이자를 함께 봐야 합니다.</p></details><details><summary>계산 결과가 실제 은행 금액과 같은가요?</summary><p>입력 조건을 기준으로 한 예상값입니다. 실제 적용 금리, 실행일, 일할 이자, 우대 조건, 수수료 면제와 부대비용은 금융기관 약정서와 실행 화면을 확인하세요.</p></details></section>
-    <section class="content-block"><h2>공식 상품 조건 확인</h2><p>계산 후에는 금융감독원 <a href="https://finlife.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융상품 한눈에</a>와 각 금융기관의 상품설명서에서 실제 금리, 상환 방식, 중도상환수수료와 부대비용을 다시 확인하세요.</p></section>
+    <div class="calculator-editorial" data-calculator-editorial="loan-refinance">
+      <section class="content-block editorial-formula"><h2>대출 갈아타기 계산 방법</h2><p>현재 대출은 오늘 남은 원금을 잔여 기간 동안 갚는 것으로, 새 대출은 같은 원금을 새 금리와 기간으로 갚는 것으로 계산합니다. 실질 예상 절감액은 현재 대출의 남은 총이자에서 새 대출의 총이자, 중도상환수수료와 기타 비용을 뺀 값입니다. 비용 회수 시점은 누적 이자 절감액이 갈아타기 비용을 넘어선 뒤 다시 낮아지지 않는 최초 시점으로 표시합니다.</p></section>
+      <section class="content-block editorial-result"><h2>결과를 볼 때 확인할 세 가지</h2><ul><li><strong>실질 예상 절감액</strong>: 금리 차이만 보지 않고 수수료와 부대비용까지 뺀 최종 비교값입니다.</li><li><strong>첫 달 납입액 변화</strong>: 당장 월 현금흐름이 얼마나 달라지는지 보여주지만, 월 납입액이 낮다고 총비용도 낮은 것은 아닙니다.</li><li><strong>기간별 예상 잔액</strong>: 같은 시점에 어느 대출의 원금이 더 많이 남는지 확인해 기간 연장의 영향을 판단할 수 있습니다.</li></ul></section>
+      <section class="content-block editorial-example"><h2>대환대출 계산 예시</h2><p>남은 원금 1억 원, 현재 금리 연 5.2%, 잔여 240개월과 새 금리 연 4.1%, 240개월을 같은 원리금균등 방식으로 비교한다고 가정해 보세요. 계산기는 각 조건의 월 상환표를 만든 뒤 남은 총이자 차이에서 중도상환수수료와 기타 비용을 차감합니다. 새 기간을 300개월로 늘리면 월 납입액은 줄 수 있지만 총이자와 원금 잔액 흐름은 별도로 확인해야 합니다.</p></section>
+      <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>금리가 낮으면 무조건 갈아타는 것이 유리한가요?</summary><p>아닙니다. 금리 차이가 작거나 남은 기간이 짧고 중도상환수수료가 크면 비용을 회수하지 못할 수 있습니다. 새 대출 기간이 길어지는 경우도 총이자를 꼭 비교하세요.</p></details><details><summary>대출 기간을 늘리면 왜 총이자가 커질 수 있나요?</summary><p>월 납입액은 낮아질 수 있지만 원금이 더 오래 남아 이자가 붙는 기간이 길어지기 때문입니다. 첫 달 납입액과 총이자를 함께 봐야 합니다.</p></details><details><summary>계산 결과가 실제 은행 금액과 같은가요?</summary><p>입력 조건을 기준으로 한 예상값입니다. 실제 적용 금리, 실행일, 일할 이자, 우대 조건, 수수료 면제와 부대비용은 금융기관 약정서와 실행 화면을 확인하세요.</p></details></section>
+      <section class="content-block"><h2>공식 상품 조건 확인</h2><p>계산 후에는 금융감독원 <a href="https://finlife.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융상품 한눈에</a>와 각 금융기관의 상품설명서에서 실제 금리, 상환 방식, 중도상환수수료와 부대비용을 다시 확인하세요.</p></section>
+    </div>
     <section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/loan-interest.html">대출 이자 계산기</a><a href="/calculators/loan-schedule.html">대출 상환 스케줄 계산기</a><a href="/calculators/prepayment-fee.html">중도상환수수료 계산기</a><a href="/calculators/dsr.html">DSR 계산기</a></div></section>
   </main>
   <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>

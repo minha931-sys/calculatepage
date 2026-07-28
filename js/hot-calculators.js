@@ -147,9 +147,12 @@
 
     root.querySelector('#mr-calc').onclick = () => {
       const rent = num('mr-rent');
-      const months = Math.min(12, Math.max(0, num('mr-months')));
+      const months = num('mr-months');
       const salary = num('mr-salary');
-      if(!rent || !months || !salary) return show('<strong>월세, 거주 개월, 연 총급여를 입력해 주세요</strong><p>세 항목을 입력하면 예상 공제액을 계산할 수 있습니다.</p>');
+      if(![rent,months,salary].every(Number.isFinite)||rent<=0||salary<=0
+          ||!Number.isInteger(months)||months<1||months>12){
+        return show('<strong>입력값을 확인해 주세요</strong><p>월세와 연 총급여는 0보다 크게, 거주 개월은 1~12개월의 정수로 입력해 주세요.</p>');
+      }
       const annualRent = rent * months;
       const eligibleRent = Math.min(annualRent, 10000000);
       const conditionOk = val('mr-house') === 'yes' && val('mr-home') === 'yes' && val('mr-proof') === 'yes';

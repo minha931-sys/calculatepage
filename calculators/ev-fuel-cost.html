@@ -37,7 +37,6 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/practical-calculators.css">
   <script defer src="/js/static-calculator-runtime.js"></script>
-  <script defer src="/js/app.js"></script>
   <script defer src="/js/ev-fuel-cost.js"></script>
   <script type="application/ld+json" data-calculator-schema="true">
   {
@@ -59,7 +58,7 @@
     <h1>전기차 유지비 계산기</h1>
     <p class="lead">연간 주행거리와 실제 연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 유지비 차이를 비교하세요.</p>
     <section class="calculator-box utility-box readable-calc-box practical-box ev-cost-box">
-      <div class="readable-intro"><h2>내 주행거리와 충전 패턴으로 비교하세요</h2><p>전기차 유지비는 충전 장소와 급속 충전 비중에 따라 달라집니다. 완속·급속 단가를 가중평균하고 충전 손실까지 반영해 월·연간 에너지 비용, 5년 누적 차이와 차량 구매 추가금 회수 기간을 계산합니다.</p></div>
+      <div class="readable-intro editorial-input"><h2>내 주행거리와 충전 패턴으로 비교하세요</h2><p>전기차 유지비는 충전 장소와 급속 충전 비중에 따라 달라집니다. 완속·급속 단가를 가중평균하고 충전 손실까지 반영해 월·연간 에너지 비용, 5년 누적 차이와 차량 구매 추가금 회수 기간을 계산합니다.</p></div>
       <form class="practical-form" id="ev-cost-form" novalidate>
         <section class="practical-section">
           <h2>1. 공통 주행 조건</h2><p>최근 1년 주행거리나 예상 연간 주행거리를 입력하세요.</p>
@@ -92,12 +91,14 @@
         <div class="practical-actions"><button class="primary-btn" type="submit">유지비 비교하기</button><button class="practical-secondary" id="ev-cost-reset" type="button">입력 초기화</button></div>
       </form>
       <div class="result" id="ev-cost-result" aria-live="polite"></div>
-      <p class="calculator-note">결과는 입력 단가가 계속 유지된다는 가정의 예상치입니다. 차량 가격, 보조금, 감가상각, 보험료, 자동차세, 충전 기본요금, 타이어와 실제 정비비는 별도로 비교하세요.</p>
+      <p class="calculator-note editorial-caution">결과는 입력 단가가 계속 유지된다는 가정의 예상치입니다. 차량 가격, 보조금, 감가상각, 보험료, 자동차세, 충전 기본요금, 타이어와 실제 정비비는 별도로 비교하세요.</p>
     </section>
-    <section class="content-block"><h2>전기차 충전비와 유류비 계산 방법</h2><p>내연기관차의 연간 유류비는 연간 주행거리를 실연비로 나눠 필요한 연료량을 구한 뒤 유류 단가를 곱합니다. 전기차는 주행거리를 실전비로 나눈 전력량에 충전 손실을 반영하고, 완속·급속 단가를 사용 비중으로 가중평균해 연간 충전비를 계산합니다.</p></section>
-    <section class="content-block"><h2>구매 추가금 손익분기 계산</h2><p>연간 총 절감액은 내연기관 유류비에서 전기차 충전비를 뺀 에너지 절감액에 사용자가 입력한 연간 기타 절감액을 더한 값입니다. 구매 추가금 회수 기간은 전기차 구매 추가금을 연간 총 절감액으로 나눕니다. 연간 총 절감액이 0원 이하라면 입력 조건에서는 추가금 회수가 어려운 것으로 표시합니다.</p></section>
-    <section class="content-block"><h2>전기차 유지비 비교 예시</h2><p>연 15,000km 주행, 내연기관 실연비 12.5km/L와 유류 단가 1,700원/L, 전기차 실전비 5.5km/kWh를 가정할 수 있습니다. 완속 220원/kWh, 급속 350원/kWh를 급속 비중 30%로 사용하고 충전 손실 10%를 입력하면 각 차량의 연간 에너지 사용량과 비용을 같은 거리 기준으로 비교합니다. 이 숫자는 예시이므로 실제 주유·충전 내역의 평균 단가를 입력하세요.</p></section>
-    <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>공인 연비와 전비를 입력하면 되나요?</summary><p>차량을 이미 운행 중이라면 계기판 또는 주유·충전 기록에서 확인한 실연비와 실전비를 넣는 편이 현실적입니다. 계절, 주행 속도, 냉난방, 적재량에 따라 효율이 달라질 수 있습니다.</p></details><details><summary>완속과 급속 충전 비중은 왜 필요한가요?</summary><p>충전 방식과 사업자에 따라 단가가 다르기 때문입니다. 급속 충전을 자주 이용할수록 혼합 단가가 높아질 수 있으므로 실제 충전 내역의 비중을 참고하세요.</p></details><details><summary>구매 추가금 회수 기간은 정확한가요?</summary><p>현재 입력한 단가와 주행 패턴이 유지된다는 가정의 예상값입니다. 감가상각, 보험, 세금, 보조금, 금융비용과 예상 밖 수리비는 별도로 비교해야 합니다.</p></details></section>
+    <div class="calculator-editorial" data-calculator-editorial="ev-fuel-cost">
+      <section class="content-block editorial-formula"><h2>전기차 충전비와 유류비 계산 방법</h2><p>내연기관차의 연간 유류비는 연간 주행거리를 실연비로 나눠 필요한 연료량을 구한 뒤 유류 단가를 곱합니다. 전기차는 주행거리를 실전비로 나눈 전력량에 충전 손실을 반영하고, 완속·급속 단가를 사용 비중으로 가중평균해 연간 충전비를 계산합니다.</p></section>
+      <section class="content-block editorial-result"><h2>구매 추가금 손익분기 계산</h2><p>연간 총 절감액은 내연기관 유류비에서 전기차 충전비를 뺀 에너지 절감액에 사용자가 입력한 연간 기타 절감액을 더한 값입니다. 구매 추가금 회수 기간은 전기차 구매 추가금을 연간 총 절감액으로 나눕니다. 연간 총 절감액이 0원 이하라면 입력 조건에서는 추가금 회수가 어려운 것으로 표시합니다.</p></section>
+      <section class="content-block editorial-example"><h2>전기차 유지비 비교 예시</h2><p>연 15,000km 주행, 내연기관 실연비 12.5km/L와 유류 단가 1,700원/L, 전기차 실전비 5.5km/kWh를 가정할 수 있습니다. 완속 220원/kWh, 급속 350원/kWh를 급속 비중 30%로 사용하고 충전 손실 10%를 입력하면 각 차량의 연간 에너지 사용량과 비용을 같은 거리 기준으로 비교합니다. 이 숫자는 예시이므로 실제 주유·충전 내역의 평균 단가를 입력하세요.</p></section>
+      <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>공인 연비와 전비를 입력하면 되나요?</summary><p>차량을 이미 운행 중이라면 계기판 또는 주유·충전 기록에서 확인한 실연비와 실전비를 넣는 편이 현실적입니다. 계절, 주행 속도, 냉난방, 적재량에 따라 효율이 달라질 수 있습니다.</p></details><details><summary>완속과 급속 충전 비중은 왜 필요한가요?</summary><p>충전 방식과 사업자에 따라 단가가 다르기 때문입니다. 급속 충전을 자주 이용할수록 혼합 단가가 높아질 수 있으므로 실제 충전 내역의 비중을 참고하세요.</p></details><details><summary>구매 추가금 회수 기간은 정확한가요?</summary><p>현재 입력한 단가와 주행 패턴이 유지된다는 가정의 예상값입니다. 감가상각, 보험, 세금, 보조금, 금융비용과 예상 밖 수리비는 별도로 비교해야 합니다.</p></details></section>
+    </div>
     <section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/fuel-cost.html">주유비 계산기</a><a href="/calculators/car-installment.html">자동차 할부 계산기</a><a href="/calculators/car-tax.html">자동차세 계산기</a><a href="/calculators/electricity.html">전기요금 계산기</a></div></section>
   </main>
   <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>

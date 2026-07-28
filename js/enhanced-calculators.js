@@ -63,17 +63,28 @@
   const invalid = (id,msg) => show(id,`<strong>입력값을 확인해 주세요</strong><p>${msg}</p>`);
 
   const insuranceRates = {
-    2026:{pension:.0475,health:.03595,care:.1314,employment:.009,label:'2026년 기준'},
-    2025:{pension:.045,health:.03545,care:.1295,employment:.009,label:'2025년 기준'}
+    '2026-h2':{pension:.0475,pensionMin:410000,pensionMax:6590000,healthTotal:.0719,healthMin:20160,healthMax:9183480,care:.009448/.0719,employment:.009,label:'2026년 7~12월',simple:false},
+    '2026-h1':{pension:.0475,pensionMin:400000,pensionMax:6370000,healthTotal:.0719,healthMin:20160,healthMax:9183480,care:.009448/.0719,employment:.009,label:'2026년 1~6월',simple:false},
+    2025:{pension:.045,health:.03545,care:.1295,employment:.009,label:'2025년 단순 요율',simple:true}
   };
-  const calcInsurance = (gross,nontax,year='2026') => {
-    const rates = insuranceRates[year] || insuranceRates[2026];
+  const calcInsurance = (gross,nontax,period='2026-h2') => {
+    const rates = insuranceRates[period] || insuranceRates['2026-h2'];
     const base = Math.max(0,gross - nontax);
-    const pension = base * rates.pension;
-    const health = base * rates.health;
-    const care = health * rates.care;
-    const employment = base * rates.employment;
-    return {rates,base,pension,health,care,employment,total:pension+health+care+employment};
+    let pensionBase = base;
+    let pension = 0;
+    let health = 0;
+    if(rates.simple){
+      pension = Math.round(base * rates.pension);
+      health = Math.round(base * rates.health);
+    }else if(base > 0){
+      pensionBase = Math.min(rates.pensionMax,Math.max(rates.pensionMin,Math.floor(base/1000)*1000));
+      pension = Math.round(pensionBase * rates.pension);
+      const healthTotal = Math.min(rates.healthMax,Math.max(rates.healthMin,base * rates.healthTotal));
+      health = Math.round(healthTotal / 2);
+    }
+    const care = Math.round(health * rates.care);
+    const employment = Math.round(base * rates.employment);
+    return {rates,base,pensionBase,pension,health,care,employment,total:pension+health+care+employment};
   };
   const taxBrackets = [
     [14000000,.06,0],[50000000,.15,1260000],[88000000,.24,5760000],[150000000,.35,15440000],
@@ -135,24 +146,26 @@
   if(slug === 'salary'){
     renderShell(
       '월급 실수령액 계산기',
-      '월 세전 급여와 비과세액만 입력하면 4대보험, 소득세, 지방소득세를 나눠 예상 실수령액을 계산합니다.',
-      `<section class="calculator-box utility-box salary-simple-box"><div class="salary-quick"><h2>급여 정보</h2><p>기본값은 2026년 직장가입자 기준으로 계산합니다.</p><div class="utility-fields">${field('ep-gross','월 세전 급여(원)','3000000')}${field('ep-nontax','월 비과세액(원)','200000')}<label><span>계산 기준</span><select id="ep-year"><option value="2026">2026년 기준</option><option value="2025">2025년 기준</option></select></label>${field('ep-deduct','연 환산 추가 소득공제(원)','1500000')}</div></div><div class="salary-actions"><button class="primary-btn" id="ep-calc" type="button">실수령액 계산하기</button></div><div class="result" id="ep-result" aria-live="polite"></div></section>`,
-      '급여 계산 결과는 입력값 기준의 참고용입니다. 실제 소득세는 간이세액표, 부양가족 수, 회사 급여 규정, 비과세 항목에 따라 달라질 수 있습니다.',
-      '<section class="content-block"><h2>소득공제 예시</h2><p>소득공제에는 근로소득공제, 인적공제, 국민연금 등 공적연금 보험료, 건강보험료·고용보험료, 주택자금 공제, 신용카드 등 사용금액 공제 등이 포함될 수 있습니다. 정확한 적용 여부는 개인 조건과 연말정산 자료에 따라 달라집니다.</p></section>'
+      '월 세전 급여와 비과세액으로 4대보험을 계산하고, 확인한 월 소득세를 선택 입력해 예상 실수령액을 확인합니다.',
+      `<section class="calculator-box utility-box salary-simple-box"><div class="salary-quick"><h2>급여 정보</h2><p>기본값은 2026년 7~12월 직장가입자 기준입니다.</p><div class="utility-fields">${field('ep-gross','월 세전 급여(원)','3000000')}${field('ep-nontax','월 비과세액(원)','200000')}<label><span>보험 계산 기간</span><select id="ep-year"><option value="2026-h2">2026년 7~12월</option><option value="2026-h1">2026년 1~6월</option><option value="2025">2025년 단순 요율</option></select></label>${field('ep-income-tax','월 소득세(국세만, 선택)','127220','1')}</div></div><div class="salary-actions"><button class="primary-btn" id="ep-calc" type="button">실수령액 계산하기</button></div><div class="result" id="ep-result" aria-live="polite"></div></section>`,
+      '소득세를 비워 두면 소득세·지방소득세를 제외한 4대보험 후 금액을 표시합니다. 결과는 신고 보수월액, 정산, 감면과 회사 처리에 따라 달라질 수 있는 참고용입니다.',
+      '<section class="content-block"><h2>월 소득세 입력 방법</h2><p>급여명세서의 소득세(국세) 또는 국세청 근로소득 간이세액표 조회 결과를 입력하세요. 지방소득세는 입력한 소득세의 10%를 10원 단위로 내려 간편 계산합니다. 부양가족 수, 8~20세 자녀 수와 원천징수 비율 80%·100%·120%에 따라 소득세가 달라지므로 확인액을 모르면 비워 두는 편이 안전합니다.</p></section>'
     );
     root.querySelector('#ep-calc').onclick = () => {
       const gross = num('ep-gross');
       const nontax = num('ep-nontax');
       const year = val('ep-year');
-      if(!Number.isFinite(gross)||gross<=0||!Number.isFinite(nontax)||nontax<0||nontax>gross||num('ep-deduct')<0) return invalid('ep-result','세전 급여는 0보다 크게, 비과세액과 추가 공제는 0 이상으로 입력하세요. 비과세액은 급여보다 클 수 없습니다.');
+      const incomeTaxRaw = root.querySelector('#ep-income-tax').value.trim();
+      const hasIncomeTax = incomeTaxRaw !== '';
+      const monthlyIncomeTax = hasIncomeTax ? Number(incomeTaxRaw) : 0;
+      if(!Number.isFinite(gross)||gross<=0||!Number.isFinite(nontax)||nontax<0||nontax>gross||!Number.isFinite(monthlyIncomeTax)||monthlyIncomeTax<0) return invalid('ep-result','세전 급여는 0보다 크게, 비과세액과 월 소득세는 0 이상으로 입력하세요. 비과세액은 급여보다 클 수 없습니다.');
       const ins = calcInsurance(gross,nontax,year);
-      const annualTaxable = Math.max(0,ins.base*12 - num('ep-deduct'));
-      const tax = calcAnnualTax(annualTaxable,0,0);
-      const monthlyIncomeTax = tax.income / 12;
-      const monthlyLocal = tax.local / 12;
+      const monthlyLocal = hasIncomeTax ? Math.floor(monthlyIncomeTax*.1/10)*10 : 0;
       const totalDeduct = ins.total + monthlyIncomeTax + monthlyLocal;
       const net = gross - totalDeduct;
-      show('ep-result',`<div class="savings-result-grid salary-result-grid">${card('예상 월 실수령액',money(net))}${card('월 총 공제액',money(totalDeduct))}${card('공제 후 비율',pct(net/gross*100))}${card('과세 기준 월급',money(ins.base))}</div><details class="salary-deduction-detail" open><summary>공제 항목 자세히 보기</summary><table class="rate-table"><tbody><tr><td>국민연금</td><td>${money(ins.pension)}</td></tr><tr><td>건강보험</td><td>${money(ins.health)}</td></tr><tr><td>장기요양보험</td><td>${money(ins.care)}</td></tr><tr><td>고용보험</td><td>${money(ins.employment)}</td></tr><tr><td>간편 소득세</td><td>${money(monthlyIncomeTax)}</td></tr><tr><td>지방소득세</td><td>${money(monthlyLocal)}</td></tr></tbody></table></details><p>${ins.rates.label} 요율과 연 환산 과세표준 ${money(annualTaxable)} 기준으로 계산했습니다.</p>`);
+      const taxNotice = hasIncomeTax ? `입력한 월 소득세 ${money(monthlyIncomeTax)}과 지방소득세 간편 추정액을 반영했습니다.` : '<strong>소득세·지방소득세 미반영:</strong> 급여명세서나 국세청 간이세액표에서 확인한 월 소득세를 입력하면 세금까지 반영할 수 있습니다.';
+      const pensionBaseText = ins.rates.simple ? `${money(ins.pensionBase)} (상·하한 미반영)` : money(ins.pensionBase);
+      show('ep-result',`<div class="savings-result-grid salary-result-grid">${card(hasIncomeTax?'예상 월 실수령액':'소득세 미반영 4대보험 후 금액',money(net))}${card(hasIncomeTax?'월 총 공제액':'월 4대보험 합계',money(totalDeduct))}${card('공제 후 비율',pct(net/gross*100))}${card('보험료 간편 기준 보수',money(ins.base))}</div><details class="salary-deduction-detail" open><summary>공제 항목 자세히 보기</summary><table class="rate-table"><tbody><tr><td>국민연금</td><td>${money(ins.pension)}</td></tr><tr><td>건강보험</td><td>${money(ins.health)}</td></tr><tr><td>장기요양보험</td><td>${money(ins.care)}</td></tr><tr><td>고용보험</td><td>${money(ins.employment)}</td></tr><tr><td>월 소득세(국세)</td><td>${hasIncomeTax?money(monthlyIncomeTax):'미반영'}</td></tr><tr><td>지방소득세</td><td>${hasIncomeTax?money(monthlyLocal):'미반영'}</td></tr><tr><td>국민연금 기준소득월액</td><td>${pensionBaseText}</td></tr></tbody></table></details><p>${taxNotice}</p><p>${ins.rates.label} 보험료 기준으로 계산했습니다.</p>`);
     };
   }
 
@@ -160,16 +173,17 @@
     renderShell(
       '4대보험 계산기',
       '월 급여와 비과세액을 입력해 국민연금, 건강보험, 장기요양보험, 고용보험을 근로자 부담과 회사 부담으로 나눠 계산합니다.',
-      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ei-gross','월 세전 급여(원)','3000000')}${field('ei-nontax','월 비과세액(원)','200000')}<label><span>계산 기준</span><select id="ei-year"><option value="2026">2026년 기준</option><option value="2025">2025년 기준</option></select></label><label><span>회사 부담분</span><select id="ei-employer"><option value="yes">함께 보기</option><option value="no">근로자 부담만 보기</option></select></label></div><button class="primary-btn" id="ei-calc" type="button">4대보험 계산하기</button></div><div class="result" id="ei-result" aria-live="polite"></div></section>`,
-      '산재보험은 업종별로 다르고 사업주 부담이므로 이 계산기에는 포함하지 않았습니다. 국민연금 상·하한액, 정산, 감면 조건에 따라 실제 공제액은 달라질 수 있습니다.',
-      '<section class="content-block"><h2>기본 요율</h2><p>2026년 기준 국민연금 근로자 부담 4.75%, 건강보험 근로자 부담 3.595%, 장기요양보험은 건강보험료의 13.14%, 고용보험 근로자 부담 0.9%로 계산합니다.</p></section>'
+      `<section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('ei-gross','월 세전 급여(원)','3000000')}${field('ei-nontax','월 비과세액(원)','200000')}<label><span>보험 계산 기간</span><select id="ei-year"><option value="2026-h2">2026년 7~12월</option><option value="2026-h1">2026년 1~6월</option><option value="2025">2025년 단순 요율</option></select></label><label><span>회사 부담분</span><select id="ei-employer"><option value="yes">함께 보기</option><option value="no">근로자 부담만 보기</option></select></label></div><button class="primary-btn" id="ei-calc" type="button">4대보험 계산하기</button></div><div class="result" id="ei-result" aria-live="polite"></div></section>`,
+      '2026년 국민연금 기준소득월액 상·하한과 건강보험료 상·하한을 반영합니다. 실제 신고 보수월액, 정산, 감면에 따라 고지액은 달라질 수 있으며 산재보험은 포함하지 않습니다.',
+      '<section class="content-block"><h2>2026년 적용 기준</h2><p>근로자 부담은 국민연금 4.75%, 건강보험 3.595%, 장기요양보험은 건강보험료의 약 13.1405%, 고용보험 0.9%입니다. 국민연금 기준소득월액은 1~6월 40만~637만원, 7~12월 41만~659만원을 적용하고 천원 미만을 버립니다.</p></section>'
     );
     root.querySelector('#ei-calc').onclick = () => {
       const gross = num('ei-gross');
       if(!Number.isFinite(gross)||gross<=0||!Number.isFinite(num('ei-nontax'))||num('ei-nontax')<0||num('ei-nontax')>gross) return invalid('ei-result','세전 급여는 0보다 크게 입력하고 비과세액은 급여 이하의 0 이상 금액으로 입력하세요.');
       const ins = calcInsurance(gross,num('ei-nontax'),val('ei-year'));
-      const employerHtml = val('ei-employer') === 'yes' ? card('회사 부담 추정',money(ins.total),'산재보험 제외') : '';
-      show('ei-result',`<div class="savings-result-grid">${card('근로자 부담 합계',money(ins.total))}${card('국민연금',money(ins.pension))}${card('건강+장기요양',money(ins.health+ins.care))}${card('고용보험',money(ins.employment))}${employerHtml}</div><table class="rate-table"><tbody><tr><td>보험료 산정 기준</td><td>${money(ins.base)}</td></tr><tr><td>월 급여</td><td>${money(gross)}</td></tr><tr><td>비과세액</td><td>${money(num('ei-nontax'))}</td></tr><tr><td>적용 기준</td><td>${ins.rates.label}</td></tr></tbody></table>`);
+      const employerHtml = val('ei-employer') === 'yes' ? card('회사 기본 부담 추정',money(ins.total),'고용안정·직능보험과 산재보험 제외') : '';
+      const pensionBaseText = ins.rates.simple ? `${money(ins.pensionBase)} (상·하한 미반영)` : money(ins.pensionBase);
+      show('ei-result',`<div class="savings-result-grid">${card('근로자 부담 합계',money(ins.total))}${card('국민연금',money(ins.pension))}${card('건강+장기요양',money(ins.health+ins.care))}${card('고용보험',money(ins.employment))}${employerHtml}</div><table class="rate-table"><tbody><tr><td>국민연금 근로자분</td><td>${money(ins.pension)}</td></tr><tr><td>건강보험 근로자분</td><td>${money(ins.health)}</td></tr><tr><td>장기요양보험 근로자분</td><td>${money(ins.care)}</td></tr><tr><td>고용보험 근로자분</td><td>${money(ins.employment)}</td></tr><tr><td>보험료 간편 기준 보수</td><td>${money(ins.base)}</td></tr><tr><td>국민연금 기준소득월액</td><td>${pensionBaseText}</td></tr><tr><td>월 급여</td><td>${money(gross)}</td></tr><tr><td>비과세액</td><td>${money(num('ei-nontax'))}</td></tr><tr><td>적용 기준</td><td>${ins.rates.label}</td></tr></tbody></table>`);
     };
   }
 
@@ -234,16 +248,23 @@
     root.querySelector('#ci-calc').onclick = () => {
       const start = num('ci-start');
       const monthly = num('ci-monthly');
-      const years = Math.round(num('ci-years'));
-      const annual = num('ci-rate') / 100;
-      if(!years) return invalid('ci-result','투자 기간을 입력해 주세요.');
+      const years = num('ci-years');
+      const annualPercent = num('ci-rate');
+      if(![start,monthly,years,annualPercent].every(Number.isFinite)
+          || start<0 || monthly<0 || (start===0&&monthly===0)
+          || annualPercent<=-100 || !Number.isInteger(years) || years<1 || years>100){
+        return invalid('ci-result','초기 원금과 월 납입액은 0 이상으로 하나 이상 입력하고, 수익률은 -100%보다 크게, 기간은 1~100년의 정수로 입력해 주세요.');
+      }
+      const annual = annualPercent / 100;
       const monthlyRate = Math.pow(1+annual,1/12) - 1;
+      if(!Number.isFinite(monthlyRate)) return invalid('ci-result','계산 가능한 수익률 범위를 벗어났습니다.');
       let balance = start;
       let principal = start;
       const rows = [];
       for(let m=1;m<=years*12;m++){
         balance = balance * (1+monthlyRate) + monthly;
         principal += monthly;
+        if(!Number.isFinite(balance)||!Number.isFinite(principal)) return invalid('ci-result','계산 범위를 벗어났습니다. 입력 금액이나 수익률을 줄여 주세요.');
         if(m % 12 === 0){
           const y = m / 12;
           rows.push(`<tr><td>${y}년</td><td>${money(balance)}</td><td>${money(principal)}</td><td>${money(balance-principal)}</td></tr>`);

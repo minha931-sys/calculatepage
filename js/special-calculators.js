@@ -219,13 +219,15 @@
         error('판매가는 0보다 크게, 비용은 0 이상으로 입력하고 수수료율 합계는 100% 미만으로 설정해 주세요.');
         return;
       }
-      const revenue = root.querySelector('#mg-vat').value === 'included' ? price / 1.1 : price;
+      const revenueFactor = root.querySelector('#mg-vat').value === 'included' ? 1 / 1.1 : 1;
+      const revenue = price * revenueFactor;
       const fees = price * rate;
       const profit = revenue - cost - fees - shipping - advertising;
       const marginRate = profit / revenue * 100;
       const markupRate = cost > 0 ? profit / cost * 100 : null;
-      const breakEven = (cost + shipping + advertising) / (1 - rate);
-      show(`<div class="utility-result-grid"><div><span>건당 예상 이익</span><strong>${won(profit)}</strong></div><div><span>실질 마진율</span><b>${marginRate.toFixed(2)}%</b></div><div><span>원가 대비 이익률</span><b>${markupRate === null ? '원가 0원' : `${markupRate.toFixed(2)}%`}</b></div><div><span>수수료 합계</span><b>${won(fees)}</b></div><div><span>매출 기준액</span><b>${won(revenue)}</b></div><div><span>손익분기 판매가 참고</span><b>${won(breakEven)}</b></div></div>`);
+      const breakEvenDenominator = revenueFactor - rate;
+      const breakEven = breakEvenDenominator > 0 ? (cost + shipping + advertising) / breakEvenDenominator : null;
+      show(`<div class="utility-result-grid"><div><span>건당 예상 이익</span><strong>${won(profit)}</strong></div><div><span>실질 마진율</span><b>${marginRate.toFixed(2)}%</b></div><div><span>원가 대비 이익률</span><b>${markupRate === null ? '원가 0원' : `${markupRate.toFixed(2)}%`}</b></div><div><span>수수료 합계</span><b>${won(fees)}</b></div><div><span>매출 기준액</span><b>${won(revenue)}</b></div><div><span>손익분기 판매가 참고</span><b>${breakEven === null ? '산정 불가' : won(breakEven)}</b></div></div>`);
     });
     return;
   }

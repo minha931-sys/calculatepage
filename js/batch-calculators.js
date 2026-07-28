@@ -58,10 +58,17 @@
       '공동구매, 합배송 정산용 계산입니다. 무게·부피 기준 배송비라면 금액 기준보다 수량 또는 별도 무게 기준이 더 적절할 수 있습니다.',
       '<h2>분배 기준 선택</h2><p>상품 가격 차이가 크면 금액 비례, 비슷한 상품 여러 개라면 수량 비례가 이해하기 쉽습니다.</p>');
     root.querySelector('#bc').onclick=()=>{
-      const ship=num('shipping'); if(!ship) return invalid('총 배송비를 입력해 주세요.');
-      const ratio=val('mode')==='amount' ? num('itemAmount')/num('totalAmount') : num('itemQty')/num('totalQty');
-      if(!Number.isFinite(ratio)||ratio<0) return invalid('전체 기준값과 해당 상품 값을 올바르게 입력해 주세요.');
-      result(`<div class="savings-result-grid">${card('해당 상품 배송비',won(ship*ratio))}${card('분배 비율',(ratio*100).toFixed(1)+'%')}${card('상품당 배송비',won(ship*ratio/(num('itemQty')||1)))}${card('남은 배송비',won(ship*(1-ratio)))}</div>`);
+      const ship=num('shipping'), mode=val('mode'), itemQty=num('itemQty');
+      const total=mode==='amount' ? num('totalAmount') : num('totalQty');
+      const item=mode==='amount' ? num('itemAmount') : itemQty;
+      if(!Number.isFinite(ship)||ship<=0||!Number.isFinite(total)||total<=0
+          ||!Number.isFinite(item)||item<0||item>total
+          ||!Number.isInteger(itemQty)||itemQty<=0
+          ||(mode==='qty'&&(!Number.isInteger(total)||!Number.isInteger(item)))){
+        return invalid('총 배송비는 0보다 크게 입력하고, 해당 상품의 금액·수량은 전체 값 이하로 입력해 주세요. 수량은 1 이상의 정수여야 합니다.');
+      }
+      const ratio=item/total;
+      result(`<div class="savings-result-grid">${card('해당 상품 배송비',won(ship*ratio))}${card('분배 비율',(ratio*100).toFixed(1)+'%')}${card('상품당 배송비',won(ship*ratio/itemQty))}${card('남은 배송비',won(ship*(1-ratio)))}</div>`);
     };
     return;
   }

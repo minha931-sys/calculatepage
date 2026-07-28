@@ -163,7 +163,15 @@
       "연차 발생일수, 미사용 사유, 퇴직 정산, 통상임금 범위는 근로계약과 법령 해석에 따라 달라질 수 있습니다.",
       "<h2>연차수당 계산식</h2><p>일 통상임금 = 시간급 통상임금 × 1일 소정근로시간, 연차수당 = 일 통상임금 × 미사용 연차일수로 계산합니다.</p>");
     root.querySelector("#pl-calc").onclick = function(){
-      var daily = num("alp-hourly") * num("alp-hours"), total = daily * num("alp-days");
+      var raw = ["alp-hourly","alp-hours","alp-days"].map(function(id){ return val(id).trim(); });
+      var hourly = num("alp-hourly"), hours = num("alp-hours"), days = num("alp-days");
+      if(raw.some(function(value){ return value === ""; })
+          || ![hourly,hours,days].every(Number.isFinite)
+          || hourly<=0 || hours<=0 || hours>24 || days<0){
+        show('<strong>입력값을 확인해 주세요</strong><p>시간급은 0보다 크게, 1일 근로시간은 24시간 이하로, 미사용 연차는 0일 이상으로 입력해 주세요.</p>');
+        return;
+      }
+      var daily = hourly * hours, total = daily * days;
       show('<div class="utility-result-grid">' + card("예상 연차수당", won(total)) + card("1일 통상임금", won(daily)) + card("미사용 연차", num("alp-days") + "일") + '</div>');
     };
   }

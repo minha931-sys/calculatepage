@@ -18,14 +18,22 @@
     });
   }
 
+  function resetRow(row){
+    row.querySelectorAll('input').forEach(input=>{
+      input.value='';
+      if(input.type==='checkbox')input.checked=false;
+    });
+    row.querySelectorAll('select').forEach(select=>{select.selectedIndex=0});
+  }
+
   function addRow(){
     if(list.children.length>=20)return;
     rowNumber+=1;
     const row=document.createElement('article');
     row.className='subscription-row';
-    row.innerHTML=`<div class="subscription-row-head"><span class="subscription-row-title"></span><button class="subscription-remove" type="button" aria-label="이 구독 항목 삭제">삭제</button></div><div class="subscription-row-fields"><label class="subscription-field"><span>서비스명</span><input class="subscription-name" type="text" maxlength="40" placeholder="예: 동영상 서비스" autocomplete="off"></label><label class="subscription-field"><span>결제 금액(원)</span><input class="subscription-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 14900"></label><label class="subscription-field"><span>결제 주기</span><select class="subscription-cycle"><option value="monthly">매월</option><option value="annual">매년</option><option value="weekly">매주</option><option value="quarterly">3개월마다</option></select></label><label class="subscription-field"><span>월 사용 횟수</span><input class="subscription-uses" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8"><small class="practical-field-help">모르면 비워두세요.</small></label></div><label class="subscription-toggle"><input class="subscription-cancel" type="checkbox"> 해지 후보로 표시</label>`;
+    row.innerHTML=`<div class="subscription-row-head"><span class="subscription-row-title"></span><div class="subscription-row-actions"><label class="subscription-toggle"><input class="subscription-cancel" type="checkbox"><span>해지 후보</span></label><button class="subscription-remove" type="button" aria-label="이 구독 항목 삭제">삭제</button></div></div><div class="subscription-row-fields"><label class="subscription-field"><span>서비스명</span><input class="subscription-name" type="text" maxlength="40" placeholder="예: 동영상 서비스" autocomplete="off"></label><label class="subscription-field"><span>결제 금액(원)</span><input class="subscription-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 14900"></label><label class="subscription-field"><span>결제 주기</span><select class="subscription-cycle"><option value="monthly">매월</option><option value="annual">매년</option><option value="weekly">매주</option><option value="quarterly">3개월마다</option></select></label><label class="subscription-field"><span>월 사용 횟수</span><input class="subscription-uses" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8"><small class="practical-field-help">모르면 비워두세요.</small></label></div>`;
     row.querySelector('.subscription-remove').addEventListener('click',()=>{
-      if(list.children.length===1){row.querySelectorAll('input').forEach(input=>{input.value='';if(input.type==='checkbox')input.checked=false});return}
+      if(list.children.length===1){resetRow(row);row.querySelector('.subscription-name')?.focus();return}
       row.remove();updateRowTitles();
     });
     list.appendChild(row);
@@ -45,7 +53,7 @@
   }
 
   document.querySelector('#subscription-add')?.addEventListener('click',()=>{addRow();list.lastElementChild?.querySelector('.subscription-name')?.focus()});
-  for(let index=0;index<3;index+=1)addRow();
+  for(let index=0;index<2;index+=1)addRow();
 
   form.addEventListener('submit',event=>{
     event.preventDefault();
@@ -98,7 +106,7 @@
   document.querySelector('#subscription-reset')?.addEventListener('click',()=>{
     form.reset();
     list.innerHTML='';
-    for(let index=0;index<3;index+=1)addRow();
+    for(let index=0;index<2;index+=1)addRow();
     result.innerHTML='';
     result.classList.remove('show');
     list.querySelector('.subscription-name')?.focus();

@@ -146,9 +146,9 @@
           </thead>
           <tbody id="cpm-rows">
             <tr>
-              <td class="cpm-cost-cell"><input class="cpm-cost" type="number" min="0" inputmode="numeric" placeholder="예: 300000"></td>
-              <td class="cpm-impressions-cell"><input class="cpm-impressions" type="number" min="0" inputmode="numeric" placeholder="예: 120000"></td>
-              <td class="cpm-cpm-cell cpm-hidden"><input class="cpm-cpm" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 2500"></td>
+              <td class="cpm-cost-cell"><input class="cpm-cost" type="number" min="0" inputmode="numeric" aria-label="광고비" placeholder="예: 300000"></td>
+              <td class="cpm-impressions-cell"><input class="cpm-impressions" type="number" min="0" inputmode="numeric" aria-label="노출수" placeholder="예: 120000"></td>
+              <td class="cpm-cpm-cell cpm-hidden"><input class="cpm-cpm" type="number" min="0" step="any" inputmode="decimal" aria-label="CPM" placeholder="예: 2500"></td>
               <td><button class="row-delete" type="button" aria-label="줄 삭제">×</button></td>
             </tr>
           </tbody>
@@ -265,9 +265,9 @@
       function addRow(){
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td class="cpm-cost-cell"><input class="cpm-cost" type="number" min="0" inputmode="numeric" placeholder="예: 300000"></td>
-          <td class="cpm-impressions-cell"><input class="cpm-impressions" type="number" min="0" inputmode="numeric" placeholder="예: 120000"></td>
-          <td class="cpm-cpm-cell"><input class="cpm-cpm" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 2500"></td>
+          <td class="cpm-cost-cell"><input class="cpm-cost" type="number" min="0" inputmode="numeric" aria-label="광고비" placeholder="예: 300000"></td>
+          <td class="cpm-impressions-cell"><input class="cpm-impressions" type="number" min="0" inputmode="numeric" aria-label="노출수" placeholder="예: 120000"></td>
+          <td class="cpm-cpm-cell"><input class="cpm-cpm" type="number" min="0" step="any" inputmode="decimal" aria-label="CPM" placeholder="예: 2500"></td>
           <td><button class="row-delete" type="button" aria-label="줄 삭제">×</button></td>
         `;
         tbody.appendChild(row);

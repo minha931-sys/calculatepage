@@ -94,7 +94,9 @@
       '<ol><li>승용차 기준으로 차량 구분과 배기량을 입력하세요.</li><li>최초등록연도를 입력하면 3년 차부터의 차령 경감을 반영합니다.</li><li>연납 신청월을 선택하면 예상 할인 후 금액을 함께 보여줍니다.</li></ol>');
     root.querySelector('#tax-calc').onclick = () => {
       const kind=V('kind'), cc=N('cc'), year=N('year'), now=new Date().getFullYear();
-      if(kind!=='electric' && !cc) return invalid('배기량을 입력해 주세요.');
+      const yearRaw=root.querySelector('#year')?.value.trim() || '';
+      if(kind!=='electric' && (!Number.isFinite(cc)||cc<=0)) return invalid('배기량은 0보다 큰 숫자로 입력해 주세요.');
+      if(yearRaw && (!Number.isInteger(year)||year<1900||year>now)) return invalid(`최초등록연도는 1900년부터 ${now}년 사이의 정수로 입력해 주세요.`);
       let base = 0;
       if(kind==='electric') base = 100000;
       else {

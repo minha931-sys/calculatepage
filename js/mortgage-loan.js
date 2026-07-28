@@ -113,12 +113,15 @@
     const loan = num('ml-loan');
     const income = num('ml-income');
     const rate = num('ml-rate');
-    const years = Math.round(num('ml-years'));
-    const grace = Math.min(Math.round(num('ml-grace')), Math.max(years * 12 - 1, 0));
+    const years = num('ml-years');
+    const grace = num('ml-grace');
     const method = val('ml-method');
     const result = root.querySelector('#ml-result');
-    if(!house || !loan || !years){
-      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>주택가격, 대출희망액, 상환기간은 필수입니다.</p>';
+    if(![house,loan,income,rate,years,grace].every(Number.isFinite)
+        || house<=0 || loan<=0 || income<0 || rate<0
+        || !Number.isInteger(years) || years<1 || years>100
+        || !Number.isInteger(grace) || grace<0 || grace>=years*12){
+      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>주택가격·대출금은 0보다 크게, 금리·소득은 0 이상으로 입력하세요. 상환기간은 1~100년의 정수이고 거치기간은 전체 상환기간보다 짧아야 합니다.</p>';
       result.classList.add('show');
       return;
     }
@@ -135,12 +138,13 @@
     const visible = 12;
 
     result.innerHTML = `<div class="savings-result-grid">
-        ${card(method === 'principal' ? '첫 상환월 납입액' : '예상 월 납입액', money(firstAfterGrace.pay), methodLabel)}
+        ${grace ? card('거치 중 월 이자', money(data.rows[0].pay), `${grace}개월 동안`) : ''}
+        ${card(grace ? '거치 종료 후 첫 상환액' : method === 'principal' ? '첫 상환월 납입액' : '예상 월 납입액', money(firstAfterGrace.pay), methodLabel)}
         ${card('마지막 달 납입액', money(last.pay), grace ? `거치 ${grace}개월 반영` : '')}
         ${card('총 이자', money(data.totalInterest), `${years}년 기준`)}
         ${card('총 상환액', money(data.totalPay), '원금 + 이자')}
         ${card('현재 LTV', pct(ltv), `자기자금 ${money(ownMoney)}`)}
-        ${card('첫해 예상 DSR', dsr === null ? '연소득 입력 필요' : pct(dsr), '주담대만 단순 반영')}
+        ${card('첫해 예상 DSR', dsr === null ? '연소득 입력 필요' : pct(dsr), '첫 12개월·주담대만 단순 반영')}
       </div>
       <div class="switch-verdict"><b>LTV ${pct(ltv)}</b><p>주택가격 ${money(house)} 대비 대출희망액 ${money(loan)} 기준입니다. 실제 대출 가능 한도는 규제지역, 주택 보유 여부, 소득, 금융기관 심사에 따라 달라질 수 있습니다.</p></div>
       <div class="loan-schedule-table-wrap"><table class="loan-schedule-table"><thead><tr><th>회차</th><th>납입액</th><th>원금</th><th>이자</th><th>잔액</th></tr></thead><tbody id="ml-schedule-body">${renderRows(data.rows, visible)}</tbody></table></div>
@@ -148,9 +152,12 @@
       <p class="loan-schedule-note">상환표는 월 단위 단순 계산입니다. 실제 납입일, 일할 이자, 금리 변동, 중도상환은 반영하지 않습니다.</p>`;
     const button = root.querySelector('#ml-show-all');
     if(button){
+      let shown = visible;
       button.onclick = () => {
-        root.querySelector('#ml-schedule-body').innerHTML = renderRows(data.rows, data.rows.length);
-        button.remove();
+        shown = Math.min(shown + 60, data.rows.length);
+        root.querySelector('#ml-schedule-body').innerHTML = renderRows(data.rows, shown);
+        if(shown >= data.rows.length)button.remove();
+        else button.textContent = `다음 ${Math.min(60,data.rows.length-shown)}개월 보기`;
       };
     }
     result.classList.add('show');

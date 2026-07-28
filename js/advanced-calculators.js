@@ -127,7 +127,19 @@
   }
   if(type==='prepayment-fee'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>중도상환수수료 계산기</h1><p class="lead">상환 예정 원금과 약정 수수료율로 예상 중도상환수수료를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('pf-principal','상환 예정 원금(원)','10000000')}${field('pf-rate','약정 수수료율(%)','1.2')}${field('pf-remain','수수료 부과 잔여 기간(개월)','12')}</div><button class="primary-btn" id="advanced-calc">수수료 계산하기</button></div><div class="result" id="advanced-result"></div><p class="calculator-note">은행별 면제 조건, 수수료 부과 기간, 일할 계산 방식은 다를 수 있습니다.</p></section>`;
-    root.querySelector('#advanced-calc').onclick=()=>{const p=+root.querySelector('#pf-principal').value,r=+root.querySelector('#pf-rate').value,m=+root.querySelector('#pf-remain').value,result=root.querySelector('#advanced-result');if(!p||!r||!m)return;const fee=p*r/100*m/36;result.innerHTML=`<strong>${Math.round(fee).toLocaleString()}원</strong><p>3년 부과 기간을 기준으로 잔여 기간을 일할 반영한 단순 추정입니다.</p>`;result.classList.add('show')};
+    root.querySelector('#advanced-calc').onclick=()=>{
+      const result=root.querySelector('#advanced-result');
+      const raw=['pf-principal','pf-rate','pf-remain'].map(id=>root.querySelector('#'+id).value.trim());
+      const [p,r,m]=raw.map(Number);
+      if(raw.some(value=>value==='')||![p,r,m].every(Number.isFinite)||p<=0||r<0||r>100||m<0||m>36){
+        result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>상환 원금은 0보다 크게, 수수료율은 0~100%, 잔여 기간은 0~36개월로 입력해 주세요.</p>';
+        result.classList.add('show');
+        return;
+      }
+      const fee=p*r/100*m/36;
+      result.innerHTML=`<strong>${Math.round(fee).toLocaleString()}원</strong><p>3년 부과 기간을 기준으로 잔여 기간을 일할 반영한 단순 추정입니다.</p>`;
+      result.classList.add('show');
+    };
   }
   if(type==='car-acquisition-tax'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>자동차 취득세 계산기</h1><p class="lead">차량 가격과 적용 세율을 입력해 예상 취득세를 계산하세요.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('cat-price','차량 과세표준(원)','30000000')}${field('cat-rate','적용 취득세율(%)','7')}</div><button class="primary-btn" id="advanced-calc">취득세 계산하기</button></div><div class="result" id="advanced-result"></div><p class="calculator-note">차종, 친환경차 감면, 등록 지역, 공채 등은 별도로 적용될 수 있습니다.</p></section>`;

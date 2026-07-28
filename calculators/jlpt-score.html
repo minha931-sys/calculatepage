@@ -288,7 +288,13 @@
 
       document.querySelector('#calculate-jlpt').addEventListener('click', () => {
         const data = standards[current];
-        const values = [...document.querySelectorAll('.jlpt-score')].map(input => Number(input.value));
+        const rawValues = [...document.querySelectorAll('.jlpt-score')].map(input => input.value.trim());
+        if(rawValues.some(value => value === '')){
+          result.innerHTML = '<strong>모든 점수를 입력해 주세요</strong><p>실제 0점과 빈칸을 구분하려면 각 득점 구분의 점수를 모두 입력해야 합니다.</p>';
+          result.classList.add('show');
+          return;
+        }
+        const values = rawValues.map(Number);
         if(values.some(value => !Number.isFinite(value))){
           result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>각 득점 구분의 점수를 숫자로 입력해 주세요.</p>';
           result.classList.add('show');

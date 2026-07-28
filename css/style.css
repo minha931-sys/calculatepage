@@ -211,3 +211,28 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
   .calculator-editorial .editorial-formula,.calculator-editorial .editorial-example,.calculator-editorial .editorial-caution{padding:17px}
   .gpa-table-wrap,.estimate-table-wrap,.loan-schedule-table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
+
+/* 계산기 공통 모바일 입력·터치 접근성 */
+.add-course,.row-delete,.result-share-btn{min-height:44px}
+.row-delete,.result-share-btn{min-width:44px}
+.calculator-box label:has(> input[type="checkbox"]),
+.calculator-box label:has(> input[type="radio"]){min-height:44px}
+.calculator-box label:not(.field):has(> input[type="checkbox"]),
+.calculator-box label:not(.field):has(> input[type="radio"]){display:flex;align-items:center}
+.dutch-item{grid-template-columns:1.1fr 1fr 44px}
+.dutch-item .row-delete{width:44px}
+@media(max-width:700px){
+  .calculator-box input:not([type="checkbox"]):not([type="radio"]),
+  .calculator-box select,
+  .calculator-box textarea{font-size:16px}
+  .dutch-item{grid-template-columns:1fr 1fr 44px}
+}
+@media(max-width:420px){
+  .dutch-item{grid-template-columns:1fr 44px}
+}
+
+/* 월평균소득: 펼침 상태와 계산 포함 여부를 분리합니다. */
+.income-member-include-control{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;cursor:pointer}
+.income-member-include-control input{margin:0;accent-color:#fff}
+.income-member-card.income-included .income-member-action{background:#2563eb;border-color:#2563eb;color:#fff}
+.income-member-card:not(.income-included) .income-member-action{background:#fff;border-color:#c9d8f4;color:#2563eb}

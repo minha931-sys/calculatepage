@@ -25,10 +25,10 @@
   ];
 
   function personCard(id,label,checkedByDefault){
-    return `<details class="income-member-card" data-person="${id}" ${checkedByDefault ? 'open' : ''}>
+    return `<details class="income-member-card${checkedByDefault ? ' income-included' : ''}" data-person="${id}" ${checkedByDefault ? 'open' : ''}>
       <summary class="income-member-head">
-        <span><b>${label}</b><small>소득을 포함하려면 펼쳐서 입력하세요</small></span>
-        <span class="income-member-action" aria-hidden="true"><span class="status-open">포함 중</span><span class="status-closed">소득 추가</span></span>
+        <span><b>${label}</b><small>펼쳐서 입력하고 포함 여부를 따로 선택하세요</small></span>
+        <label class="income-member-action income-member-include-control"><input class="income-member-include" type="checkbox" ${checkedByDefault ? 'checked' : ''}> 소득 포함</label>
       </summary>
       <div class="utility-fields">
         ${input('monthly-salary','월급·고정급(세전)','2500000')}
@@ -150,6 +150,22 @@
       <div class="related"><a href="/calculators/housing-subscription.html">청약 가점 계산기</a><a href="/calculators/monthly-rent-deduction.html">월세 세액공제 계산기</a><a href="/calculators/salary.html">월급 실수령액 계산기</a><a href="/calculators/mortgage-loan.html">주택담보대출 계산기</a></div>
     </section>`;
 
+  root.querySelectorAll('.income-member-card').forEach((area,index) => {
+    const action=area.querySelector('.income-member-action');
+    let toggle=area.querySelector('.income-member-include');
+    if(!toggle&&action){
+      action.removeAttribute('aria-hidden');
+      action.innerHTML=`<input class="income-member-include" type="checkbox" ${index===0?'checked':''}> 소득 포함`;
+      action.classList.add('income-member-include-control');
+      toggle=area.querySelector('.income-member-include');
+    }
+    const sync=()=>area.classList.toggle('income-included',!!toggle?.checked);
+    action?.addEventListener('click',event=>event.stopPropagation());
+    action?.addEventListener('keydown',event=>event.stopPropagation());
+    toggle?.addEventListener('change',sync);
+    sync();
+  });
+
   function applyMode(mode){
     const includes = {
       'youth-rank-2':['self','parent1','parent2'],
@@ -161,7 +177,12 @@
     if(includes){
       people.forEach(([id]) => {
         const box = root.querySelector(`[data-person="${id}"]`);
-        if(box) box.open = includes.includes(id);
+        if(!box)return;
+        const included=includes.includes(id);
+        const toggle=box.querySelector('.income-member-include');
+        if(toggle)toggle.checked=included;
+        box.classList.toggle('income-included',included);
+        box.open=included;
       });
     }
     if(mode === 'youth-rank-3'){
@@ -188,11 +209,15 @@
     const divideMonthsValue = root.querySelector('#mai-divide-months').value;
     const divideMonths = divideMonthsValue === '' ? 12 : Number(divideMonthsValue);
     const smallHouseholdAdd = checked('#mai-small-household');
-    const numericInputs=[...root.querySelectorAll('input[type="number"]')];
-    if(numericInputs.some(input=>input.value!==''&&(!Number.isFinite(Number(input.value))||Number(input.value)<0))||!Number.isFinite(divideMonths)||divideMonths<=0){
+    const includedAreas=people.map(([id])=>root.querySelector(`[data-person="${id}"]`)).filter(area=>area?.querySelector('.income-member-include')?.checked);
+    const numericInputs=[root.querySelector('#mai-custom-limit'),root.querySelector('#mai-divide-months'),...includedAreas.flatMap(area=>[...area.querySelectorAll('input[type="number"]')])].filter(Boolean);
+    const invalidInput=numericInputs.find(input=>input.value!==''&&(!Number.isFinite(Number(input.value))||Number(input.value)<0));
+    if(invalidInput||!Number.isInteger(divideMonths)||divideMonths<=0){
       const result=root.querySelector('#mai-result');
-      result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>소득은 0 이상의 숫자, 나눌 개월 수는 1 이상의 숫자로 입력해 주세요.</p>';
+      result.innerHTML='<strong>입력값을 확인해 주세요</strong><p>포함한 사람의 소득은 0 이상의 숫자, 나눌 개월 수는 1 이상의 정수로 입력해 주세요.</p>';
       result.classList.add('show');
+      invalidInput?.closest('details')?.setAttribute('open','');
+      (invalidInput||root.querySelector('#mai-divide-months'))?.focus();
       return;
     }
     const effectiveRatio = smallHouseholdAdd && size === 1 ? ratio + 20 : smallHouseholdAdd && size === 2 ? ratio + 10 : ratio;
@@ -204,7 +229,7 @@
 
     people.forEach(([id,label]) => {
       const area = root.querySelector(`[data-person="${id}"]`);
-      if(!area?.open) return;
+      if(!area?.querySelector('.income-member-include')?.checked) return;
       includedCount += 1;
       const monthlySalary = Number(area.querySelector('.monthly-salary').value || 0);
       const parttime = Number(area.querySelector('.parttime-income').value || 0);
@@ -217,8 +242,8 @@
     });
 
     const result = root.querySelector('#mai-result');
-    if(!includedCount || !total || !limit){
-      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>포함할 사람을 선택하고 소득 금액을 입력해 주세요. 7인 이상/직접 입력 기준은 공고문 기준액도 함께 입력해야 합니다.</p>';
+    if(!includedCount || !limit){
+      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>소득에 포함할 사람을 한 명 이상 선택해 주세요. 소득이 없다면 0원인 상태로 계산할 수 있습니다. 7인 이상/직접 입력 기준은 공고문 기준액도 함께 입력해야 합니다.</p>';
       result.classList.add('show');
       return;
     }
