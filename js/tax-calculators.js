@@ -182,13 +182,20 @@
       '<ol><li>주택 공시가격을 입력하세요.</li><li>1세대 1주택 여부를 선택하세요.</li><li>도시지역분은 고지서에 별도 표시되는 항목으로 필요 시 체크하세요.</li></ol>');
     root.querySelector('#tax-calc').onclick = () => {
       const official=N('official'); if(!official) return invalid('공시가격을 입력해 주세요.');
+      const oneHome = V('owner')==='one';
       let ratio = .6;
-      if(V('owner')==='one') ratio = official <= 300000000 ? .43 : official <= 600000000 ? .44 : .45;
+      if(oneHome) ratio = official <= 300000000 ? .43 : official <= 600000000 ? .44 : .45;
       const base = official * ratio;
-      let tax = base<=60000000 ? base*.001 : base<=150000000 ? 60000+(base-60000000)*.0015 : base<=300000000 ? 195000+(base-150000000)*.0025 : 570000+(base-300000000)*.004;
+      const specialRate = oneHome && official<=900000000;
+      let tax;
+      if(specialRate){
+        tax = base<=60000000 ? base*.0005 : base<=150000000 ? 30000+(base-60000000)*.001 : base<=300000000 ? 120000+(base-150000000)*.002 : 420000+(base-300000000)*.0035;
+      }else{
+        tax = base<=60000000 ? base*.001 : base<=150000000 ? 60000+(base-60000000)*.0015 : base<=300000000 ? 195000+(base-150000000)*.0025 : 570000+(base-300000000)*.004;
+      }
       const edu = tax * .2;
       const urban = C('urban') ? base * .0014 : 0;
-      result(`<div class="savings-result-grid">${card('예상 재산세 합계',W(tax+edu+urban))}${card('과세표준',W(base))}${card('재산세',W(tax))}${card('지방교육세·도시지역분',W(edu+urban))}</div><p>공정시장가액비율 ${Math.round(ratio*100)}%를 적용했습니다.</p>`);
+      result(`<div class="savings-result-grid">${card('예상 재산세 합계',W(tax+edu+urban))}${card('과세표준',W(base))}${card('재산세',W(tax))}${card('지방교육세·도시지역분',W(edu+urban))}</div><p>공정시장가액비율 ${Math.round(ratio*100)}%와 ${specialRate?'1세대 1주택 특례세율':'일반 주택 세율'}을 적용했습니다.</p>`);
     };
   }
 
