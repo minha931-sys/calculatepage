@@ -115,6 +115,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
   const uniqueness = {
     title: new Map(), description: new Map(), h1: new Map(), canonical: new Map()
   };
+  if (files.length !== 126) issues.push(`HTML 수 불일치 (${files.length}개, 기대 126개)`);
 
   for (const relativePath of files) {
     const html = await readFile(path.join(root, relativePath), 'utf8');
@@ -169,15 +170,42 @@ export async function auditSite(root = DEFAULT_ROOT) {
       if (/\bsrc=["']\/js\/(?:site-audit-fix|calculator-content)\.js["']/i.test(html)) issues.push(`${relativePath}: 이전 동적 콘텐츠 스크립트 참조 잔류`);
       const required = [
         ['editorial-input', '입력 설명'], ['editorial-formula', '공식'], ['editorial-example', '숫자 예시'],
-        ['editorial-result', '결과 해석'], ['editorial-caution', '주의사항'], ['related', '관련 계산기']
+        ['editorial-result', '결과 해석'], ['editorial-caution', '주의사항'],
+        ['editorial-use-cases', '구체적 활용 상황'], ['editorial-checks', '검산 체크리스트'],
+        ['editorial-faq', '고유 FAQ'], ['editorial-review', '검수 정보'], ['related', '관련 계산기']
       ];
       for (const [className, label] of required) if (!new RegExp(`class=["'][^"']*\\b${className}\\b`, 'i').test(html)) issues.push(`${relativePath}: 정적 ${label} 누락`);
+      const main = first(html, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
+      const mainTextLength = textOnly(main).length;
+      if (mainTextLength < 1400) issues.push(`${relativePath}: 고유 본문 부족 (${mainTextLength}자, 최소 1400자)`);
+      const editorialBlock = first(main, /<div\b[^>]*data-calculator-editorial=["'][^"']+["'][^>]*>([\s\S]*?)<\/div>/i);
+      for (const [className, label, minimum] of [
+        ['editorial-input', '입력 설명', 40],
+        ['editorial-formula', '공식', 40],
+        ['editorial-example', '숫자 예시', 40],
+        ['editorial-result', '결과 해석', 30]
+      ]) {
+        const block = first(editorialBlock, new RegExp(`<section\\b[^>]*class=["'][^"']*\\b${className}\\b[^"']*["'][^>]*>([\\s\\S]*?)<\\/section>`, 'i'));
+        const length = textOnly(block).length;
+        if (length < minimum) issues.push(`${relativePath}: ${label} 내용 부족 (${length}자, 최소 ${minimum}자)`);
+      }
+      const faqBlock = first(main, /<section\b[^>]*class=["'][^"']*\beditorial-faq\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
+      if (matches(faqBlock, /<details\b/gi).length < 3) issues.push(`${relativePath}: FAQ 3개 미만`);
+      const useCaseBlock = first(main, /<section\b[^>]*class=["'][^"']*\beditorial-use-cases\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
+      if (matches(useCaseBlock, /<li\b/gi).length < 2) issues.push(`${relativePath}: 활용 상황 2개 미만`);
+      const checkBlock = first(main, /<section\b[^>]*class=["'][^"']*\beditorial-checks\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
+      if (matches(checkBlock, /<li\b/gi).length < 3) issues.push(`${relativePath}: 검산 체크리스트 3개 미만`);
+      const cautionBlock = first(main, /<section\b[^>]*class=["'][^"']*\beditorial-caution\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
+      if (matches(cautionBlock, /<li\b/gi).length < 2) issues.push(`${relativePath}: 주의사항 2개 미만`);
+      const reviewBlock = first(main, /<aside\b[^>]*class=["'][^"']*\beditorial-review\b[^"']*["'][^>]*>([\s\S]*?)<\/aside>/i);
+      if (!reviewBlock.includes('2026-08-17')) issues.push(`${relativePath}: 최신 검수일 누락`);
       if (matches(html, /data-calculator-editorial=["'][^"']+["']/gi).length !== 1) issues.push(`${relativePath}: 계산기 본문 중복/누락`);
       if (matches(html, /<h2>관련 계산기<\/h2>/gi).length !== 1) issues.push(`${relativePath}: 관련 계산기 섹션 중복/누락`);
       if (/__staticCalculatorGuide|restoreStaticCalculatorGuide/.test(html)) issues.push(`${relativePath}: 이전 콘텐츠 복원 코드 잔류`);
     } else if (relativePath === 'index.html' && !schemaTypes.includes('WebSite')) {
       issues.push('index.html: WebSite schema 누락');
     }
+    if (!/href=["']\/pages\/methodology\.html["']/i.test(html)) issues.push(`${relativePath}: 검수 기준 링크 누락`);
 
     for (const phrase of FORBIDDEN_COPY) if (visible.includes(phrase)) warnings.push(`${relativePath}: 범용 문구 "${phrase}"`);
     if (/\b(?:undefined|null|NaN|Infinity|TODO)\b/.test(visible)) issues.push(`${relativePath}: 임시/오류 문구 노출 위험`);
@@ -205,6 +233,28 @@ export async function auditSite(root = DEFAULT_ROOT) {
 
   const sitemap = await readFile(path.join(root, 'sitemap.xml'), 'utf8');
   const sitemapUrls = new Set(matches(sitemap, /<loc>([^<]+)<\/loc>/gi));
+  const sitemapEntries = [...sitemap.matchAll(
+    /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/gi
+  )].map(match => ({ url: match[1], lastmod: match[2] }));
+  const unchangedPolicyDates = new Map([
+    [`${SITE_ORIGIN}/pages/contact.html`, '2026-07-31'],
+    [`${SITE_ORIGIN}/pages/privacy.html`, '2026-07-31'],
+    [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
+  ]);
+  if (sitemapEntries.length !== files.length) {
+    issues.push(`sitemap: lastmod 누락 (${sitemapEntries.length}개, 기대 ${files.length}개)`);
+  }
+  for (const entry of sitemapEntries) {
+    const changedInReview = entry.url === `${SITE_ORIGIN}/`
+      || entry.url.startsWith(`${SITE_ORIGIN}/calculators/`)
+      || entry.url.startsWith(`${SITE_ORIGIN}/categories/`)
+      || entry.url === `${SITE_ORIGIN}/pages/about.html`
+      || entry.url === `${SITE_ORIGIN}/pages/methodology.html`;
+    const expectedLastmod = changedInReview ? '2026-08-17' : unchangedPolicyDates.get(entry.url);
+    if (!expectedLastmod || entry.lastmod !== expectedLastmod) {
+      issues.push(`sitemap: ${entry.url} lastmod 불일치 (${entry.lastmod})`);
+    }
+  }
   const publicCanonicals = new Set(records.map(record => record.canonical).filter(Boolean));
   for (const url of sitemapUrls) {
     const relativePath = url === `${SITE_ORIGIN}/` ? 'index.html' : url.replace(`${SITE_ORIGIN}/`, '');
@@ -218,6 +268,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
   if (!robots.includes(`${SITE_ORIGIN}/sitemap.xml`)) issues.push('robots.txt: sitemap URL 누락/오류');
 
   const calculatorRecords = records.filter(record => record.relativePath.startsWith(`calculators${path.sep}`));
+  if (calculatorRecords.length !== 114) issues.push(`계산기 수 불일치 (${calculatorRecords.length}개, 기대 114개)`);
   const calculatorBySlug = new Map(calculatorRecords.map(record => [path.basename(record.relativePath, '.html'), record]));
   for (const record of calculatorRecords) {
     for (const slug of record.relatedSlugs) {

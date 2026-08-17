@@ -52,7 +52,9 @@
       '국세청 계산 흐름인 양도차익 − 장기보유특별공제 − 기본공제 구조를 간편 반영합니다. 1세대 1주택 비과세, 다주택 중과, 조정대상지역, 감면·특례는 별도 판단이 필요합니다.',
       '<ol><li>실제 양도가액과 취득가액을 입력하세요.</li><li>중개수수료, 취득세 등 필요경비를 입력하세요.</li><li>특례 판단이 어렵다면 장기보유특별공제율은 0으로 두고 보수적으로 확인하세요.</li></ol>');
     root.querySelector('#tax-calc').onclick = () => {
-      const sale=N('sale'), buy=N('buy'), cost=N('cost'), lt=N('lt'), basic=N('basic') || 2500000;
+      const sale=N('sale'), buy=N('buy'), cost=N('cost'), lt=N('lt');
+      const basicRaw = root.querySelector('#basic')?.value.trim() ?? '';
+      const basic = basicRaw === '' ? 2500000 : N('basic');
       if(!sale || !buy || sale <= buy) return invalid('양도가액은 취득가액보다 커야 계산할 수 있습니다.');
       const gain = Math.max(0, sale - buy - cost);
       const longDed = gain * Math.min(Math.max(lt,0),80) / 100;
@@ -499,17 +501,17 @@
   }
 
   if(type === 'lotto-tax'){
-    box('로또 세금 계산기','복권 당첨금의 비과세 구간과 원천징수세율을 반영해 실수령액을 계산합니다.',
+    box('로또 세금 계산기','복권 당첨금의 건별 과세최저한과 원천징수세율을 반영해 실수령액을 계산합니다.',
       field('prize','당첨금(원)','1000000000'),
-      '복권 당첨금의 비과세 구간과 원천징수 세율을 간편 반영합니다. 세율과 과세 기준은 적용 시점의 공식 안내를 확인하세요.',
+      '복권 당첨금의 건별 과세최저한과 원천징수 세율을 간편 반영합니다. 세율과 과세 기준은 적용 시점의 공식 안내를 확인하세요.',
       '<ol><li>세전 당첨금을 입력하세요.</li><li>200만원 이하는 세금이 없는 것으로 계산합니다.</li><li>3억원 초과 당첨금은 구간별 누진 방식으로 계산합니다.</li></ol>');
     root.querySelector('#tax-calc').onclick = () => {
       const prize=N('prize'); if(!prize) return invalid('당첨금을 입력해 주세요.');
-      const taxable = Math.max(0, prize - 2000000);
-      const first = Math.min(taxable, 300000000 - 2000000) * .22;
-      const second = Math.max(0, prize - 300000000) * .33;
+      const taxable = prize > 2000000 ? prize : 0;
+      const first = Math.min(taxable, 300000000) * .22;
+      const second = Math.max(0, taxable - 300000000) * .33;
       const tax = first + second;
-      result(`<div class="savings-result-grid">${card('예상 실수령액',W(prize-tax))}${card('원천징수세액',W(tax))}${card('비과세 금액',W(Math.min(prize,2000000)))}${card('세전 당첨금',W(prize))}</div><p>복권 당첨금은 분리과세 원천징수 기준의 간편 계산입니다.</p>`);
+      result(`<div class="savings-result-grid">${card('예상 실수령액',W(prize-tax))}${card('원천징수세액',W(tax))}${card('과세 대상액',W(taxable))}${card('세전 당첨금',W(prize))}</div><p>건별 당첨금이 200만원 이하이면 과세최저한으로 세금이 없고, 이를 초과하면 200만원을 공제하지 않고 당첨금 전체에 구간별 세율을 적용합니다.</p>`);
     };
   }
 })();

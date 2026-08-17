@@ -39,6 +39,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/daily-proration.html#webpage",
+        "name": "일할 계산기 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/daily-proration.html",
+        "description": "월 금액과 적용 일수를 입력해 급여, 월세, 구독료 등 기간별 일할 금액을 계산하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -48,10 +58,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "일할 계산기 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/daily-proration.html",
-        "description": "월 금액과 적용 일수를 입력해 급여, 월세, 구독료 등 기간별 일할 금액을 계산하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/daily-proration.html#breadcrumb"
         },
@@ -99,25 +105,21 @@
   </script>
 </head><body data-misc="daily-proration"><header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header><main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
   <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/money.html">금융 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">일할 계산기</span></nav>
-        <a class="calculator-home" href="/">← 계산페이지 홈</a>
-                    <h1>일할 계산기</h1>
-                    <p class="lead">월 금액을 사용자가 정한 월 기준 일수로 나눈 뒤 실제 적용 일수만큼 계산합니다.</p>
-                    <section class="calculator-box utility-box">
-                      <div class="utility-form">
-                        <div class="utility-fields">
-                          <label><span>월 금액(원)</span><input id="dp-amount" type="text" inputmode="decimal" placeholder="예: 3000000"></label>
-                          <label><span>월 기준 일수</span><input id="dp-days" type="number" min="1" max="31" step="1" inputmode="numeric" placeholder="예: 30"></label>
-                          <label><span>적용 일수</span><input id="dp-used" type="number" min="0" max="31" step="any" inputmode="decimal" placeholder="예: 15"></label>
-                        </div>
-                        <button class="primary-btn" id="misc-calc" type="button">일할 계산하기</button>
-                      </div>
-                      <div class="result" id="misc-result" aria-live="polite"></div>
-                      <p class="calculator-note">달력일 기준의 단순 배분 결과입니다. 급여는 근로계약·취업규칙, 월세와 구독료는 계약서의 일할 기준 및 시작·종료일 포함 여부를 먼저 확인하세요.</p>
-                    </section>
+  <a class="calculator-home" href="/">← 계산페이지 홈</a>
+                        <h1>일할 계산기</h1>
+                        <p class="lead">월 금액을 사용자가 정한 월 기준 일수로 나눈 뒤 실제 적용 일수만큼 계산합니다.</p>
+                        <section class="calculator-box utility-box">
+                          <div class="utility-form">
+                            <div class="utility-fields">
+                              <label><span>월 금액(원)</span><input id="dp-amount" type="text" inputmode="decimal" placeholder="예: 3000000"></label>
+                              <label><span>월 기준 일수</span><input id="dp-days" type="number" min="1" max="31" step="1" inputmode="numeric" placeholder="예: 30"></label>
+                              <label><span>적용 일수</span><input id="dp-used" type="number" min="0" max="31" step="any" inputmode="decimal" placeholder="예: 15"></label>
+                            </div>
+                            <button class="primary-btn" id="misc-calc" type="button">일할 계산하기</button>
+                          </div>
+                          <div class="result" id="misc-result" aria-live="polite" aria-atomic="true"></div>
+                          <p class="calculator-note">달력일 기준의 단순 배분 결과입니다. 급여는 근로계약·취업규칙, 월세와 구독료는 계약서의 일할 기준 및 시작·종료일 포함 여부를 먼저 확인하세요.</p>
+                        </section>
 
-
-
-
-
-  <div class="calculator-editorial" data-calculator-editorial="daily-proration"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>월 금액은 급여·월세·구독료처럼 한 달 전체에 해당하는 금액이며 쉼표를 포함해 입력할 수 있습니다.</li><li>월 기준 일수는 1~31의 정수, 적용 일수는 0부터 월 기준 일수까지 입력합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>1일 금액 = 월 금액 ÷ 월 기준 일수, 일할 금액 = 1일 금액 × 적용 일수입니다. 두 금액은 각각 원 단위로 반올림해 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>월 3,000,000원을 30일 기준으로 15일 적용하면 1일 금액은 100,000원이고 일할 금액은 1,500,000원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>사용자가 정한 분모와 적용 일수를 그대로 사용한 달력일 기준 배분값입니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>입사일·퇴사일이나 서비스 시작일·종료일을 포함할지는 계약 또는 지급 기준에 맞춰 직접 센 일수를 입력해야 합니다.</li><li>급여·월세·구독료는 30일 고정, 실제 달력일, 소정근로일 등 적용 기준과 원 단위 처리 방식이 다를 수 있습니다.</li></ul></section><section class="content-block editorial-detail"><h2>일할 금액의 분모 선택</h2><ul><li>월 금액을 사용자가 입력한 월 기준 일수로 나눈 뒤 적용 일수를 곱합니다. 300,000원·30일·15일이면 일할 금액은 150,000원입니다.</li><li>월 기준 일수를 28·30·31 중 무엇으로 둘지는 계약·급여 규칙에 따라 달라집니다. 시작일과 종료일 포함 여부를 먼저 계산해 적용 일수를 정하세요.</li><li>원 단위 반올림과 실제 청구일 계산은 사업자·고용주 규정과 다를 수 있어 청구서의 최종 금액을 대체하지 않습니다.</li></ul></section><section class="content-block editorial-sources"><h2>기준 확인과 검수일</h2><p>급여·월세·구독료에 공통으로 적용되는 하나의 법정 일할 공식은 없습니다. 이 계산기는 사용자가 정한 분모를 적용하는 산술 도구입니다. 급여에 사용할 때는 근로계약서와 취업규칙의 임금 구성·계산방법을, 월세와 구독료는 해당 계약의 시작·종료일 및 환불 조건을 우선 확인하세요.</p><ul><li><a href="https://www.law.go.kr/법령/근로기준법" target="_blank" rel="noopener noreferrer">국가법령정보센터 근로기준법 제17조</a> — 급여 계산방법 확인용</li></ul><p>관련 기준 최종 검수일: 2026-07-31</p></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/subscription-cost.html">구독료 계산기</a><a href="/calculators/salary.html">월급 실수령액 계산기</a><a href="/calculators/rent-conversion.html">전월세 전환 계산기</a><a href="/calculators/date.html">날짜 계산기</a></div></section></div>
-</main><footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>
+  <div class="calculator-editorial" data-calculator-editorial="daily-proration"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>월 금액은 급여·월세·구독료처럼 한 달 전체에 해당하는 금액이며 쉼표를 포함해 입력할 수 있습니다.</li><li>월 기준 일수는 1~31의 정수, 적용 일수는 0부터 월 기준 일수까지 입력합니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>월세·구독료를 월 중간 입주나 해지 일수에 맞춰 간편하게 나눌 수 있습니다.</li><li>월 급여를 회사가 정한 월 기준 일수와 실제 적용 일수로 배분해 참고액을 구할 수 있습니다.</li><li>30일 고정 기준과 실제 달력일수 기준을 각각 넣어 계약 방식별 차이를 비교할 수 있습니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>1일 금액 = 월 금액 ÷ 월 기준 일수, 일할 금액 = 1일 금액 × 적용 일수입니다. 두 금액은 각각 원 단위로 반올림해 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>월 3,000,000원을 30일 기준으로 15일 적용하면 1일 금액은 100,000원이고 일할 금액은 1,500,000원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>사용자가 정한 분모와 적용 일수를 그대로 사용한 달력일 기준 배분값입니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>월 금액이 세금·할인 포함인지 정하고 계약서와 같은 금액 기준을 사용하세요.</li><li>월 기준 일수가 30일 고정인지 해당 월 달력일수인지 계약·사내 규정에서 확인하세요.</li><li>적용 일수를 시작일·종료일 포함 규칙에 맞춰 직접 세고 월 기준 일수를 넘지 않는지 점검하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>입사일·퇴사일이나 서비스 시작일·종료일을 포함할지는 계약 또는 지급 기준에 맞춰 직접 센 일수를 입력해야 합니다.</li><li>급여·월세·구독료는 30일 고정, 실제 달력일, 소정근로일 등 적용 기준과 원 단위 처리 방식이 다를 수 있습니다.</li></ul></section><section class="content-block editorial-detail"><h2>일할 금액의 분모 선택</h2><ul><li>월 금액을 사용자가 입력한 월 기준 일수로 나눈 뒤 적용 일수를 곱합니다. 300,000원·30일·15일이면 일할 금액은 150,000원입니다.</li><li>월 기준 일수를 28·30·31 중 무엇으로 둘지는 계약·급여 규칙에 따라 달라집니다. 시작일과 종료일 포함 여부를 먼저 계산해 적용 일수를 정하세요.</li><li>원 단위 반올림과 실제 청구일 계산은 사업자·고용주 규정과 다를 수 있어 청구서의 최종 금액을 대체하지 않습니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>2월에도 월 기준 일수를 30으로 넣어야 하나요?</summary><p>자동 결정되지 않습니다. 30일 고정 또는 실제 달력일수 중 계약에서 정한 분모를 직접 입력하세요.</p></details><details><summary>시작일과 종료일을 넣으면 적용 일수를 세어 주나요?</summary><p>아니요. 이 화면은 날짜가 아니라 적용 일수를 직접 입력하므로 포함 규칙에 맞춰 먼저 일수를 계산해야 합니다.</p></details><details><summary>세금이나 공제도 일할 계산되나요?</summary><p>입력한 월 금액 자체만 비례 배분합니다. 세금·보험·위약금 등 다른 항목의 일할 여부는 별도 기준을 확인하세요.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/savings-interest.html">예금 이자 계산기</a><a href="/calculators/loan-interest.html">대출 이자 계산기</a><a href="/calculators/salary.html">월급 실수령액 계산기</a></div></section></div>
+</main><footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>

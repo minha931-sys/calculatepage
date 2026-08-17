@@ -39,6 +39,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/expected-value.html#webpage",
+        "name": "기댓값 계산기 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/expected-value.html",
+        "description": "가능한 결과값과 각 발생 확률을 입력해 한 확률분포의 1회당 장기 평균인 기댓값을 계산하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -48,10 +58,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "기댓값 계산기 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/expected-value.html",
-        "description": "가능한 결과값과 각 발생 확률을 입력해 한 확률분포의 1회당 장기 평균인 기댓값을 계산하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/expected-value.html#breadcrumb"
         },
@@ -99,19 +105,16 @@
   </script>
 </head><body data-misc="expected-value"><header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header><main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
   <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/education.html">교육 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">기댓값 계산기</span></nav>
-      <a class="calculator-home" href="/">← 계산페이지 홈</a>
-                  <h1>기댓값 계산기</h1>
-                  <p class="lead">가능한 결과값과 각 결과의 발생 확률을 입력해 같은 상황을 반복했을 때의 장기 평균을 계산하세요.</p>
-                  <section class="calculator-box estimate-box">
-                    <div class="estimate-toolbar"><div><h2>결과 시나리오</h2><p>각 확률은 백분율(%)로 입력하고 합계를 100%로 맞추세요.</p></div><button class="add-course" id="ev-add" type="button">+ 결과 추가</button></div>
-                    <div class="estimate-table-wrap"><table class="estimate-table"><thead><tr><th>결과 이름</th><th>발생 확률(%)</th><th>결과값</th><th aria-label="행 삭제"></th></tr></thead><tbody id="ev-rows"><tr><td><input class="ev-name" aria-label="결과 이름" placeholder="예: 이익"></td><td><input class="ev-prob" aria-label="발생 확률" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="예: 50"></td><td><input class="ev-value" aria-label="결과값" type="number" step="any" inputmode="decimal" placeholder="예: 10000"></td><td><button class="row-delete" type="button" aria-label="이 결과 행 삭제">×</button></td></tr><tr><td><input class="ev-name" aria-label="결과 이름" placeholder="예: 이익"></td><td><input class="ev-prob" aria-label="발생 확률" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="예: 50"></td><td><input class="ev-value" aria-label="결과값" type="number" step="any" inputmode="decimal" placeholder="예: 10000"></td><td><button class="row-delete" type="button" aria-label="이 결과 행 삭제">×</button></td></tr></tbody></table></div>
-                    <div class="estimate-actions"><button class="primary-btn" id="misc-calc" type="button">기댓값 계산하기</button></div>
-                    <div class="result" id="misc-result" aria-live="polite"></div>
-                    <p class="calculator-note">기댓값은 한 번의 실제 결과를 예측하거나 이익을 보장하는 값이 아닙니다. 결과의 변동 폭과 최악의 손실 가능성은 별도로 판단하세요.</p>
-                  </section>
+  <a class="calculator-home" href="/">← 계산페이지 홈</a>
+                      <h1>기댓값 계산기</h1>
+                      <p class="lead">가능한 결과값과 각 결과의 발생 확률을 입력해 같은 상황을 반복했을 때의 장기 평균을 계산하세요.</p>
+                      <section class="calculator-box estimate-box">
+                        <div class="estimate-toolbar"><div><h2>결과 시나리오</h2><p>각 확률은 백분율(%)로 입력하고 합계를 100%로 맞추세요.</p></div><button class="add-course" id="ev-add" type="button">+ 결과 추가</button></div>
+                        <div class="estimate-table-wrap"><table class="estimate-table" aria-label="기댓값 계산기 계산표"><thead><tr><th scope="col">결과 이름</th><th scope="col">발생 확률(%)</th><th scope="col">결과값</th><th aria-label="행 삭제" scope="col"></th></tr></thead><tbody id="ev-rows"><tr><td><input class="ev-name" aria-label="결과 이름" placeholder="예: 이익"></td><td><input class="ev-prob" aria-label="발생 확률" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="예: 50"></td><td><input class="ev-value" aria-label="결과값" type="number" step="any" inputmode="decimal" placeholder="예: 10000"></td><td><button class="row-delete" type="button" aria-label="이 결과 행 삭제">×</button></td></tr><tr><td><input class="ev-name" aria-label="결과 이름" placeholder="예: 이익"></td><td><input class="ev-prob" aria-label="발생 확률" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="예: 50"></td><td><input class="ev-value" aria-label="결과값" type="number" step="any" inputmode="decimal" placeholder="예: 10000"></td><td><button class="row-delete" type="button" aria-label="이 결과 행 삭제">×</button></td></tr></tbody></table></div>
+                        <div class="estimate-actions"><button class="primary-btn" id="misc-calc" type="button">기댓값 계산하기</button></div>
+                        <div class="result" id="misc-result" aria-live="polite" aria-atomic="true"></div>
+                        <p class="calculator-note">기댓값은 한 번의 실제 결과를 예측하거나 이익을 보장하는 값이 아닙니다. 결과의 변동 폭과 최악의 손실 가능성은 별도로 판단하세요.</p>
+                      </section>
 
-
-
-
-  <div class="calculator-editorial" data-calculator-editorial="expected-value"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>각 행에 결과 이름, 발생 확률(%), 결과값을 입력합니다. 손실이나 비용은 결과값에 음수로 넣을 수 있습니다.</li><li>모든 행의 확률 합계가 100%여야 계산되며, 결과 이름은 계산값에 영향을 주지 않습니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>기댓값 = Σ(각 결과값 × 발생 확률 ÷ 100)입니다. 현재 계산기는 확률 합계와 각 행의 유효성을 확인한 뒤 기댓값을 가장 가까운 정수로 반올림해 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>50% 확률로 10,000을 얻고 50% 확률로 4,000을 잃어 결과값을 -4,000으로 입력하면 기댓값은 10,000×0.5 + (-4,000)×0.5 = 3,000입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>표시값은 같은 조건을 여러 번 반복했을 때의 1회당 장기 평균입니다. 한 번의 실제 결과나 여러 선택지를 자동으로 비교하는 값은 아닙니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>확률 합계는 부동소수점 오차를 고려해 100%와 0.01% 이내인 경우 계산됩니다.</li><li>양의 기댓값도 이익을 보장하지 않으며 변동성, 최대 손실, 손실 빈도는 별도로 판단해야 합니다.</li></ul></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/percent.html">퍼센트 계산기</a><a href="/calculators/average-score.html">평균 점수 계산기</a><a href="/calculators/roi.html">ROI 계산기</a></div></section></div>
-</main><footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>
+  <div class="calculator-editorial" data-calculator-editorial="expected-value"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>각 행에 결과 이름, 발생 확률(%), 결과값을 입력합니다. 손실이나 비용은 결과값에 음수로 넣을 수 있습니다.</li><li>모든 행의 확률 합계가 100%여야 계산되며, 결과 이름은 계산값에 영향을 주지 않습니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>성공·실패 확률과 각 손익을 넣어 마케팅 실험이나 판매 제안의 장기 평균 가치를 비교할 때 사용할 수 있습니다.</li><li>보증 연장, 입찰, 이벤트처럼 여러 결과와 비용이 있는 선택지를 동일한 금액 단위의 기댓값으로 정리할 때 유용합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>기댓값 = Σ(각 결과값 × 발생 확률 ÷ 100)입니다. 현재 계산기는 확률 합계와 각 행의 유효성을 확인한 뒤 기댓값을 가장 가까운 정수로 반올림해 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>50% 확률로 10,000을 얻고 50% 확률로 4,000을 잃어 결과값을 -4,000으로 입력하면 기댓값은 10,000×0.5 + (-4,000)×0.5 = 3,000입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>표시값은 같은 조건을 여러 번 반복했을 때의 1회당 장기 평균입니다. 한 번의 실제 결과나 여러 선택지를 자동으로 비교하는 값은 아닙니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>서로 겹치지 않는 모든 결과를 행으로 만들고 발생 확률 합계가 100%인지 확인하세요.</li><li>이익은 양수, 손실·비용은 음수로 입력했으며 모든 결과값의 단위가 같은지 대조하세요.</li><li>기댓값만 비교하지 말고 최대 손실, 손실 확률과 실제로 반복 가능한 횟수를 별도로 확인하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>확률 합계는 부동소수점 오차를 고려해 100%와 0.01% 이내인 경우 계산됩니다.</li><li>양의 기댓값도 이익을 보장하지 않으며 변동성, 최대 손실, 손실 빈도는 별도로 판단해야 합니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>확률 합계가 100%가 아니면 왜 계산되지 않나요?</summary><p>빠진 결과나 중복된 결과가 있는 상태에서는 전체 가능성을 대표하는 가중평균이 아니기 때문입니다.</p></details><details><summary>기댓값이 3,000이면 한 번 참여해도 3,000을 얻나요?</summary><p>아니요. 3,000은 같은 조건을 많이 반복했을 때의 1회당 장기 평균이며 한 번의 실제 결과와 다를 수 있습니다.</p></details><details><summary>서로 다른 통화나 점수를 한 표에 넣어도 되나요?</summary><p>직접 합산할 수 없는 단위는 같은 기준으로 환산한 뒤 입력해야 합니다. 그렇지 않으면 계산된 기댓값의 의미가 없습니다.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/gpa.html">학점 계산기</a><a href="/calculators/school-grade.html">내신 등급 계산기</a><a href="/calculators/exam-dday.html">시험 D-day 계산기</a></div></section></div>
+</main><footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>

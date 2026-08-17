@@ -39,6 +39,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/annual-leave.html#webpage",
+        "name": "연차 계산기 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/annual-leave.html",
+        "description": "입사일과 기준일을 입력해 발생 연차, 사용 가능 연차, 근속기간 기준을 간편하게 확인하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -48,10 +58,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "연차 계산기 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/annual-leave.html",
-        "description": "입사일과 기준일을 입력해 발생 연차, 사용 가능 연차, 근속기간 기준을 간편하게 확인하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/annual-leave.html#breadcrumb"
         },
@@ -99,11 +105,7 @@
   </script>
 </head><body data-custom-calculator="annual-leave"><header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header><main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
   <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/business.html">업무 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">연차 계산기</span></nav>
-        <a class="calculator-home" href="/">← 계산페이지 홈</a><h1>연차 계산기</h1><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>입사일</span><input id="a-start" type="date"></label><label><span>기준일</span><input id="a-base" type="date"></label></div><button class="primary-btn" id="custom-calc">계산하기</button></div><div class="result" id="custom-result"></div></section><section class="content-block"><p>근로기준법상 연차 발생은 근로 형태와 출근율 등에 따라 달라질 수 있는 참고용 계산입니다.</p></section>
+  <a class="calculator-home" href="/">← 계산페이지 홈</a><h1>연차 계산기</h1><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields"><label><span>입사일</span><input id="a-start" type="date"></label><label><span>기준일</span><input id="a-base" type="date"></label></div><button class="primary-btn" id="custom-calc">계산하기</button></div><div class="result" id="custom-result" aria-live="polite" aria-atomic="true"></div></section><section class="content-block"><p>근로기준법상 연차 발생은 근로 형태와 출근율 등에 따라 달라질 수 있는 참고용 계산입니다.</p></section>
 
-
-
-
-
-  <div class="calculator-editorial" data-calculator-editorial="annual-leave"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>입사일과 연차를 확인할 기준일을 선택합니다. 기준일은 입사일보다 빠를 수 없습니다.</li><li>출근율, 휴직기간, 단시간근로 비례 계산과 이미 사용한 연차 일수는 별도로 입력하거나 차감하지 않습니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>현재 로직은 두 날짜 차이를 30.44일로 나눈 근속 개월 수로 환산합니다. 12개월 미만은 floor(근속개월)일을 최대 11일까지, 12~35개월은 15일, 36개월 이후는 15+floor((근속개월-36)÷24)+1일을 최대 25일까지 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>입사일이 2025년 1월 1일이고 기준일이 2025년 12월 1일이면 약 10개월으로 환산되어 예상 연차 10일이 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>근속 약 개월 수와 현재 로직으로 계산한 예상 연차 발생 일수를 표시합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>이는 달력·출근율·입사일 기준을 단순화한 참고값입니다. 실제 연차는 1년 미만 근로자의 개근, 1년간 출근율, 회계연도 운영, 휴직 및 단시간근로 여부에 따라 달라질 수 있습니다.</li><li>연차 잔여일수는 발생일수에서 사용일수와 회사별 선부여·이월 처리를 확인한 뒤 판단해야 합니다.</li></ul></section><section class="content-block editorial-detail"><h2>연차 발생 추정값의 한계</h2><ul><li>입사일과 기준일 사이를 약 30.44일 단위로 환산해 근속 개월 수와 예상 발생일수를 계산합니다. 입사 6개월이면 단순 모델에서 약 6일입니다.</li><li>출근율·개근 여부·회계연도 운영·휴직·단시간 근로·이미 사용한 연차는 화면에 없는 입력값입니다. 실제 연차 잔여일수와 동일하지 않습니다.</li><li>퇴사·연차수당·사용촉진 여부는 회사의 취업규칙과 근로기준법 적용을 확인해야 합니다.</li></ul></section><section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul><li><a href="https://www.law.go.kr/법령/근로기준법" target="_blank" rel="noopener noreferrer">국가법령정보센터 근로기준법</a></li></ul></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/annual-leave-pay.html">연차수당 계산기</a><a href="/calculators/average-wage.html">평균임금 계산기</a><a href="/calculators/severance.html">퇴직금 계산기</a><a href="/calculators/work-hours.html">근무시간 계산기</a></div></section></div>
-</main><footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>
+  <div class="calculator-editorial" data-calculator-editorial="annual-leave"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>입사일과 연차를 확인할 기준일을 선택합니다. 기준일은 입사일보다 빠를 수 없습니다.</li><li>출근율, 휴직기간, 단시간근로 비례 계산과 이미 사용한 연차 일수는 별도로 입력하거나 차감하지 않습니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>입사 1년 전 직원이 특정 기준일까지 쌓인 연차의 대략적인 규모를 일정 계획 전에 확인할 수 있습니다.</li><li>입사일은 그대로 두고 기준일만 옮겨 보며 근속 구간에 따른 예상 연차 변화를 비교할 수 있습니다.</li><li>사내 연차대장의 발생일수와 간편 계산 결과가 크게 다른지 1차로 점검할 수 있습니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>현재 로직은 두 날짜 차이를 30.44일로 나눈 근속 개월 수로 환산합니다. 12개월 미만은 floor(근속개월)일을 최대 11일까지, 12~35개월은 15일, 36개월 이후는 15+floor((근속개월-36)÷24)+1일을 최대 25일까지 표시합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>입사일이 2025년 1월 1일이고 기준일이 2025년 12월 1일이면 약 10개월으로 환산되어 예상 연차 10일이 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>근속 약 개월 수와 현재 로직으로 계산한 예상 연차 발생 일수를 표시합니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>입사일과 기준일을 근로계약서·인사시스템 기록에 맞추고 기준일이 입사일 이후인지 확인하세요.</li><li>계산값은 출근율·휴직·회계연도 운영을 반영하지 않은 단순 추정이므로 회사 산정내역과 대조하세요.</li><li>남은 연차가 필요하다면 표시된 발생 예상일수에서 이미 사용했거나 선사용한 일수를 별도로 정리하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>이는 달력·출근율·입사일 기준을 단순화한 참고값입니다. 실제 연차는 1년 미만 근로자의 개근, 1년간 출근율, 회계연도 운영, 휴직 및 단시간근로 여부에 따라 달라질 수 있습니다.</li><li>연차 잔여일수는 발생일수에서 사용일수와 회사별 선부여·이월 처리를 확인한 뒤 판단해야 합니다.</li></ul></section><section class="content-block editorial-detail"><h2>연차 발생 추정값의 한계</h2><ul><li>입사일과 기준일 사이를 약 30.44일 단위로 환산해 근속 개월 수와 예상 발생일수를 계산합니다. 입사 6개월이면 단순 모델에서 약 6일입니다.</li><li>출근율·개근 여부·회계연도 운영·휴직·단시간 근로·이미 사용한 연차는 화면에 없는 입력값입니다. 실제 연차 잔여일수와 동일하지 않습니다.</li><li>퇴사·연차수당·사용촉진 여부는 회사의 취업규칙과 근로기준법 적용을 확인해야 합니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>1년 미만 근무자의 개근 여부도 반영하나요?</summary><p>아니요. 현재 계산은 날짜 차이를 근속 개월로 단순 환산하며 월별 개근 여부를 입력받지 않습니다.</p></details><details><summary>표시된 일수가 곧 남은 연차인가요?</summary><p>아닙니다. 사용일수, 이월·선부여와 회사의 연차 운영 방식은 반영하지 않으므로 잔여일수와는 다를 수 있습니다.</p></details><details><summary>회계연도 기준으로 부여하는 회사에도 그대로 적용되나요?</summary><p>회계연도 일괄 부여와 입사일 기준 정산은 별도 조정이 필요하므로 회사 연차대장의 산정 기준을 우선 확인하세요.</p></details></section><section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul><li><a href="https://www.law.go.kr/법령/근로기준법" target="_blank" rel="noopener noreferrer">국가법령정보센터 근로기준법</a></li></ul></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/vat.html">부가세 계산기</a><a href="/calculators/margin.html">마진율 계산기</a><a href="/calculators/estimate.html">견적 계산기</a></div></section></div>
+</main><footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>

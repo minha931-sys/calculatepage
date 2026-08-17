@@ -23,8 +23,8 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="계산페이지">
-  <meta property="og:title" content="구독료 계산기 | 월·연간 구독비와 해지 절감액">
-  <meta property="og:description" content="여러 구독료를 월 기준으로 환산하고 사용당 비용과 해지 시 절감액을 한눈에 비교하세요.">
+  <meta property="og:title" content="구독료 계산기 | 월·연간 구독비와 해지 절감액 | 계산페이지">
+  <meta property="og:description" content="OTT, 음악, 클라우드, 앱 등 구독 서비스를 추가해 월·연간 구독료, 1회 사용당 비용, 해지 후보 절감액과 가격 인상 후 예상 비용을 계산하세요.">
   <meta property="og:url" content="https://calculatepage.com/calculators/subscription-cost.html">
   <meta property="og:image" content="https://calculatepage.com/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -38,14 +38,74 @@
   <link rel="stylesheet" href="/css/practical-calculators.css">
   <script defer src="/js/static-calculator-runtime.js"></script>
   <script defer src="/js/subscription-cost.js"></script>
-  <script type="application/ld+json" data-calculator-schema="true">
+  <script type="application/ld+json" data-primary-image-schema data-calculator-schema="true">
   {
-    "@context":"https://schema.org",
-    "@graph":[
-      {"@type":"WebPage","@id":"https://calculatepage.com/calculators/subscription-cost.html#webpage","name":"구독료 계산기 | 월·연간 구독비와 해지 절감액","url":"https://calculatepage.com/calculators/subscription-cost.html","description":"여러 구독 서비스를 월 기준으로 환산해 연간 비용, 사용당 비용과 해지 절감액을 계산합니다.","inLanguage":"ko-KR","breadcrumb":{"@id":"https://calculatepage.com/calculators/subscription-cost.html#breadcrumb"},"mainEntity":{"@id":"https://calculatepage.com/calculators/subscription-cost.html#application"}},
-      {"@type":"WebApplication","@id":"https://calculatepage.com/calculators/subscription-cost.html#application","name":"구독료 계산기","url":"https://calculatepage.com/calculators/subscription-cost.html","description":"월간, 연간, 주간 구독료를 월 비용으로 환산하고 해지 시 절감액을 비교하는 무료 계산기입니다.","applicationCategory":"CalculatorApplication","operatingSystem":"Any","inLanguage":"ko-KR","isAccessibleForFree":true},
-      {"@type":"BreadcrumbList","@id":"https://calculatepage.com/calculators/subscription-cost.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://calculatepage.com/"},{"@type":"ListItem","position":2,"name":"금융 계산기","item":"https://calculatepage.com/categories/money.html"},{"@type":"ListItem","position":3,"name":"구독료 계산기","item":"https://calculatepage.com/calculators/subscription-cost.html"}]},
-      {"@type":"FAQPage","@id":"https://calculatepage.com/calculators/subscription-cost.html#faq","mainEntity":[{"@type":"Question","name":"연간 구독료는 월 비용으로 어떻게 환산하나요?","acceptedAnswer":{"@type":"Answer","text":"연간 결제 금액을 12개월로 나눠 월 환산액을 계산합니다. 주간 결제는 1년 52주를 기준으로 월평균을 계산합니다."}},{"@type":"Question","name":"무료 체험 구독도 입력해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"현재 비용이 0원이라면 합계에는 포함할 필요가 없습니다. 다만 유료 전환 예정일은 별도로 기록해 두는 것이 좋습니다."}},{"@type":"Question","name":"1회 사용당 비용은 어떻게 보나요?","acceptedAnswer":{"@type":"Answer","text":"월 환산 구독료를 한 달 사용 횟수로 나눈 값입니다. 사용하지 않았다면 미사용으로 표시합니다."}}]}
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://calculatepage.com/calculators/subscription-cost.html#webpage",
+        "name": "구독료 계산기 | 월·연간 구독비와 해지 절감액 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/subscription-cost.html",
+        "description": "OTT, 음악, 클라우드, 앱 등 구독 서비스를 추가해 월·연간 구독료, 1회 사용당 비용, 해지 후보 절감액과 가격 인상 후 예상 비용을 계산하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
+        "image": "https://calculatepage.com/assets/og-image.png",
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://calculatepage.com/assets/og-image.png",
+          "contentUrl": "https://calculatepage.com/assets/og-image.png",
+          "width": 1200,
+          "height": 630,
+          "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
+        },
+        "breadcrumb": {
+          "@id": "https://calculatepage.com/calculators/subscription-cost.html#breadcrumb"
+        },
+        "mainEntity": {
+          "@id": "https://calculatepage.com/calculators/subscription-cost.html#application"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://calculatepage.com/calculators/subscription-cost.html#application",
+        "name": "구독료 계산기",
+        "description": "OTT, 음악, 클라우드, 앱 등 구독 서비스를 추가해 월·연간 구독료, 1회 사용당 비용, 해지 후보 절감액과 가격 인상 후 예상 비용을 계산하세요.",
+        "url": "https://calculatepage.com/calculators/subscription-cost.html",
+        "applicationCategory": "CalculatorApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "ko-KR",
+        "isAccessibleForFree": true
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://calculatepage.com/calculators/subscription-cost.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "홈",
+            "item": "https://calculatepage.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "금융 계산기",
+            "item": "https://calculatepage.com/categories/money.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "구독료 계산기",
+            "item": "https://calculatepage.com/calculators/subscription-cost.html"
+          }
+        ]
+      }
     ]
   }
   </script>
@@ -53,37 +113,32 @@
 <body data-practical-calculator="subscription-cost">
   <header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
   <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
-    <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> &gt; </span><a href="/categories/money.html">금융 계산기</a><span aria-hidden="true"> &gt; </span><span aria-current="page">구독료 계산기</span></nav>
-    <a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
-    <h1>구독료 계산기</h1>
-    <p class="lead">OTT, 음악, 클라우드, 앱 등 여러 구독료를 월·연간 비용으로 환산하고 사용당 비용과 해지 후보 절감액을 확인하세요.</p>
-    <section class="calculator-box utility-box readable-calc-box practical-box subscription-box">
-      <div class="readable-intro editorial-input"><h2>작은 정기결제도 1년치로 보면 달라집니다</h2><p>월간, 연간, 주간처럼 결제 주기가 다른 구독을 월 기준으로 통일해 비교합니다. 사용 횟수를 함께 넣으면 1회 사용할 때 실제로 얼마를 내는지, 해지 후보를 선택하면 한 달과 1년에 얼마나 줄어드는지 바로 볼 수 있습니다.</p></div>
-      <form class="practical-form" id="subscription-form" novalidate>
-        <div class="subscription-toolbar"><div><h2>구독 서비스 입력</h2><p>필요한 만큼 항목을 추가하고 사용하지 않는 행은 비워두세요.</p></div><button class="subscription-add" id="subscription-add" type="button">+ 구독 추가</button></div>
-        <div class="subscription-list" id="subscription-list"></div>
-        <div class="subscription-options">
-          <section class="practical-section">
-            <h2>예산과 다음 해 예상</h2><p>선택 입력입니다. 비워두면 현재 구독료와 해지 절감액만 계산합니다.</p>
-            <div class="practical-fields">
-              <label><span>월 구독 예산(원)</span><input id="subscription-budget" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 50000"><small class="practical-field-help">해지 후보 반영 후 예산 초과 여부를 확인합니다.</small></label>
-              <label><span>전체 예상 인상률(%)</span><input id="subscription-increase" type="number" min="0" max="100" step="0.1" inputmode="decimal" placeholder="예: 5"><small class="practical-field-help">유지할 구독의 다음 해 비용을 단순 추정합니다.</small></label>
-            </div>
-          </section>
-        </div>
-        <div class="practical-actions"><button class="primary-btn" type="submit">구독료 계산하기</button><button class="practical-secondary" id="subscription-reset" type="button">입력 초기화</button></div>
-      </form>
-      <div class="result" id="subscription-result" aria-live="polite"></div>
-      <p class="calculator-note editorial-caution">입력 내용은 서버로 전송하거나 저장하지 않습니다. 실제 결제일, 환율, 세금, 가족 공유, 무료 체험과 프로모션은 각 서비스 결제 내역을 확인하세요.</p>
-    </section>
-    <div class="calculator-editorial" data-calculator-editorial="subscription-cost">
-      <section class="content-block editorial-formula"><h2>구독료 계산 방법</h2><p>월간 결제는 입력 금액을 그대로, 연간 결제는 12로 나누고, 주간 결제는 1년 52주를 월평균으로 바꿉니다. 3개월 결제는 3으로 나눠 모든 서비스를 월 비용으로 통일합니다. 연간 구독료는 월 환산액의 12배이며, 1회 사용당 비용은 월 환산액을 월 사용 횟수로 나눈 값입니다.</p></section>
-      <section class="content-block editorial-result"><h2>구독 정리 순서</h2><ol><li>카드·계좌의 최근 정기결제 내역을 보며 빠진 서비스를 먼저 찾으세요.</li><li>월 사용 횟수가 적거나 1회 사용당 비용이 큰 항목을 해지 후보로 표시하세요.</li><li>해지 전에 남은 이용 기간, 연간 결제 환불 규정, 가족 공유 여부와 필요한 데이터 백업을 확인하세요.</li></ol></section>
-      <section class="content-block editorial-example"><h2>구독료 계산 예시</h2><p>매월 14,900원인 동영상 서비스, 매년 59,000원인 클라우드, 매월 11,900원인 음악 서비스를 입력하면 각 결제 주기를 월 기준으로 환산해 합산합니다. 동영상 서비스를 해지 후보로 선택하면 월 14,900원, 연 178,800원의 예상 절감액을 별도로 보여줍니다. 사용 횟수를 월 2회로 입력했다면 1회 사용당 약 7,450원으로 계산됩니다.</p></section>
-      <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>연간 구독료는 월 비용으로 어떻게 환산하나요?</summary><p>연간 결제 금액을 12개월로 나눕니다. 실제로는 결제일에 전액 빠져나가므로 월평균 비용과 현금 결제 시점은 구분해서 보세요.</p></details><details><summary>무료 체험 구독도 입력해야 하나요?</summary><p>현재 비용이 0원이라면 합계에는 포함할 필요가 없습니다. 다만 자동 유료 전환 예정일과 해지 마감일은 캘린더에 따로 기록해 두는 것이 좋습니다.</p></details><details><summary>1회 사용당 비용은 어떻게 해석하나요?</summary><p>월 환산 구독료를 한 달 사용 횟수로 나눈 값입니다. 콘텐츠 종류와 필요성이 다르므로 숫자 하나로 해지 여부를 결정하기보다 실제 사용 만족도와 대체 서비스도 함께 비교하세요.</p></details></section>
-    </div>
-    <section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/budget.html">생활비 예산 계산기</a><a href="/calculators/daily-proration.html">일할 계산기</a><a href="/calculators/percent-change.html">퍼센트 증가율 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a></div></section>
-  </main>
-  <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
+  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/money.html">금융 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">구독료 계산기</span></nav>
+  <a class="calculator-home category-more-link" href="/categories/money.html">금융 카테고리 더보기</a>
+      <h1>구독료 계산기</h1>
+      <p class="lead">OTT, 음악, 클라우드, 앱 등 여러 구독료를 월·연간 비용으로 환산하고 사용당 비용과 해지 후보 절감액을 확인하세요.</p>
+      <section class="calculator-box utility-box readable-calc-box practical-box subscription-box">
+        <div class="readable-intro editorial-input"><h2>작은 정기결제도 1년치로 보면 달라집니다</h2><p>월간, 연간, 주간처럼 결제 주기가 다른 구독을 월 기준으로 통일해 비교합니다. 사용 횟수를 함께 넣으면 1회 사용할 때 실제로 얼마를 내는지, 해지 후보를 선택하면 한 달과 1년에 얼마나 줄어드는지 바로 볼 수 있습니다.</p></div>
+        <form class="practical-form" id="subscription-form" novalidate>
+          <div class="subscription-toolbar"><div><h2>구독 서비스 입력</h2><p>필요한 만큼 항목을 추가하고 사용하지 않는 행은 비워두세요.</p></div><button class="subscription-add" id="subscription-add" type="button">+ 구독 추가</button></div>
+          <div class="subscription-list" id="subscription-list"><article class="subscription-row" aria-label="구독 1 입력"><div class="subscription-row-head"><span class="subscription-row-title">구독 1</span><div class="subscription-row-actions"><label class="subscription-toggle"><input class="subscription-cancel" type="checkbox"><span>해지 후보</span></label><button class="subscription-remove" type="button" aria-label="이 구독 항목 삭제">삭제</button></div></div><div class="subscription-row-fields"><label class="subscription-field"><span>서비스명</span><input class="subscription-name" type="text" maxlength="40" placeholder="예: 동영상 서비스" autocomplete="off"></label><label class="subscription-field"><span>결제 금액(원)</span><input class="subscription-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 14900"></label><label class="subscription-field"><span>결제 주기</span><select class="subscription-cycle"><option value="monthly">매월</option><option value="annual">매년</option><option value="weekly">매주</option><option value="quarterly">3개월마다</option></select></label><label class="subscription-field"><span>월 사용 횟수</span><input class="subscription-uses" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8"><small class="practical-field-help">모르면 비워두세요.</small></label></div></article><article class="subscription-row" aria-label="구독 2 입력"><div class="subscription-row-head"><span class="subscription-row-title">구독 2</span><div class="subscription-row-actions"><label class="subscription-toggle"><input class="subscription-cancel" type="checkbox"><span>해지 후보</span></label><button class="subscription-remove" type="button" aria-label="이 구독 항목 삭제">삭제</button></div></div><div class="subscription-row-fields"><label class="subscription-field"><span>서비스명</span><input class="subscription-name" type="text" maxlength="40" placeholder="예: 동영상 서비스" autocomplete="off"></label><label class="subscription-field"><span>결제 금액(원)</span><input class="subscription-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 14900"></label><label class="subscription-field"><span>결제 주기</span><select class="subscription-cycle"><option value="monthly">매월</option><option value="annual">매년</option><option value="weekly">매주</option><option value="quarterly">3개월마다</option></select></label><label class="subscription-field"><span>월 사용 횟수</span><input class="subscription-uses" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8"><small class="practical-field-help">모르면 비워두세요.</small></label></div></article></div>
+          <div class="subscription-options">
+            <section class="practical-section">
+              <h2>예산과 다음 해 예상</h2><p>선택 입력입니다. 비워두면 현재 구독료와 해지 절감액만 계산합니다.</p>
+              <div class="practical-fields">
+                <label><span>월 구독 예산(원)</span><input id="subscription-budget" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 50000"><small class="practical-field-help">해지 후보 반영 후 예산 초과 여부를 확인합니다.</small></label>
+                <label><span>전체 예상 인상률(%)</span><input id="subscription-increase" type="number" min="0" max="100" step="0.1" inputmode="decimal" placeholder="예: 5"><small class="practical-field-help">유지할 구독의 다음 해 비용을 단순 추정합니다.</small></label>
+              </div>
+            </section>
+          </div>
+          <div class="practical-actions"><button class="primary-btn" type="submit">구독료 계산하기</button><button class="practical-secondary" id="subscription-reset" type="button">입력 초기화</button></div>
+        </form>
+        <div class="result" id="subscription-result" aria-live="polite" aria-atomic="true"></div>
+        <p class="calculator-note editorial-caution">입력 내용은 서버로 전송하거나 저장하지 않습니다. 실제 결제일, 환율, 세금, 가족 공유, 무료 체험과 프로모션은 각 서비스 결제 내역을 확인하세요.</p>
+      </section>
+
+      <div class="calculator-editorial" data-calculator-editorial="subscription-cost"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>서비스명, 실제 결제 금액과 매월·매년·매주·3개월 중 결제 주기를 구독별로 입력합니다.</li><li>월 사용 횟수는 사용당 비용을 볼 때만 입력하고, 정리하려는 항목은 해지 후보로 표시합니다. 예상 인상률과 월 예산은 선택 항목입니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>월간·연간·주간 결제가 섞인 구독을 월 기준으로 통일해 고정비를 파악할 때 사용합니다.</li><li>해지 후보와 월 예산을 지정해 유지할 서비스의 연간 비용과 예상 절감액을 비교할 때 활용합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>월 환산액은 월 결제액, 연 결제액÷12, 주 결제액×52÷12, 분기 결제액÷3으로 계산합니다. 연 환산액 = 월 환산액×12, 예상 연간 절감액 = 해지 후보 월 환산액 합계×12, 1회 사용당 비용 = 월 환산액÷월 사용 횟수입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>월 14,900원 구독과 연 120,000원 구독을 함께 쓰면 월 환산 합계는 24,900원, 연 환산 합계는 298,800원입니다. 월 14,900원 항목을 해지 후보로 표시하면 유지 비용은 월 10,000원이고 예상 연간 절감액은 178,800원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>현재 월·연 구독료, 해지 후보 반영 월액, 예상 연간 절감액과 인상률 반영 다음 해 비용을 보여줍니다. 서비스별 월·연 환산액과 사용당 비용을 큰 금액순으로 비교할 수 있습니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>각 서비스의 실제 결제 금액과 월간·연간·주간·3개월 결제 주기를 맞게 입력합니다.</li><li>월 사용 횟수와 해지 후보 표시가 최근 이용 내역을 반영하는지 확인합니다.</li><li>무료 체험 종료일·환불 규정·환율처럼 합계에 없는 조건을 결제 화면에서 점검합니다.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>무료 체험 종료일, 할인 기간, 가족 공유 정산, 외화 결제 수수료와 세금은 입력한 결제 금액에 포함된 것으로 봅니다.</li><li>주간 결제는 1년을 52주로 두고 월평균으로 환산하므로 실제 달력 월의 결제 횟수와 다를 수 있습니다.</li><li>해지 후보 표시는 절감 시나리오일 뿐 실제 구독을 해지하지 않으므로 서비스별 결제 화면에서 별도로 처리해야 합니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>월 구독 예산은 전체 비용과 비교되나요?</summary><p>해지 후보를 제외한 유지 구독의 월 환산액을 기준으로 예산 초과 여부를 확인합니다.</p></details><details><summary>3개월마다 결제하는 서비스는 어떻게 환산하나요?</summary><p>입력 결제액을 3으로 나눠 월평균 비용으로 합산합니다.</p></details><details><summary>예상 인상률은 해지 후보에도 적용되나요?</summary><p>현재 설명은 유지할 구독의 다음 해 비용을 단순 추정하는 선택 입력값으로 안내합니다.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside></div><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/budget.html">생활비 예산 계산기</a><a href="/calculators/daily-proration.html">일할 계산기</a><a href="/calculators/percent-change.html">퍼센트 증가율 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a></div></section>
+</main>
+  <footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
 </body>
 </html>

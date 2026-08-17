@@ -278,6 +278,16 @@ class VirtualNode extends EventHub {
     if (items.length) this._notify('childList', { addedNodes: items, removedNodes: [] });
   }
 
+  after() {
+    if (!this.parentNode) return;
+    const parent = this.parentNode;
+    const siblings = parent.childNodes;
+    const reference = siblings[siblings.indexOf(this) + 1] || null;
+    for (const item of arguments) {
+      parent.insertBefore(coerceNode(item, this.ownerDocument), reference);
+    }
+  }
+
   insertBefore(node, reference) {
     if (!reference) return this.appendChild(node);
     const index = this.childNodes.indexOf(reference);
@@ -1686,6 +1696,17 @@ function editorialMarkup(slug, data, relatedLinks) {
       return '<li>' + escapeText(item) + '</li>';
     }).join('') + '</ul>';
   };
+  const orderedList = function(items) {
+    return '<ol>' + items.map(function(item) {
+      return '<li>' + escapeText(item) + '</li>';
+    }).join('') + '</ol>';
+  };
+  const useCases = Array.isArray(data.useCases) && data.useCases.length ?
+    '<section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2>' +
+      list(data.useCases) + '</section>' : '';
+  const checks = Array.isArray(data.checks) && data.checks.length ?
+    '<section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2>' +
+      orderedList(data.checks) + '</section>' : '';
   const sources = Array.isArray(data.sources) && data.sources.length ?
     '<section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul>' +
       data.sources.map(function(source) {
@@ -1708,18 +1729,23 @@ function editorialMarkup(slug, data, relatedLinks) {
       data.faq.map(function(item) {
         return '<details><summary>' + escapeText(item[0]) + '</summary><p>' + escapeText(item[1]) + '</p></details>';
       }).join('') + '</section>' : '';
+  const reviewed = data.reviewed ?
+    '<aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong>' +
+      '<span>최종 내용 검토: ' + escapeText(data.reviewed) + '</span>' +
+      '<span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span>' +
+      '<a href="/pages/methodology.html">검수 기준 보기</a></aside>' : '';
   return '<div class="calculator-editorial" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
     '<section class="content-block editorial-input"><h2>입력 항목 설명</h2>' +
-    list(data.input || []) + '</section>' +
+    list(data.input || []) + '</section>' + useCases +
     '<section class="content-block editorial-formula"><h2>계산 공식</h2><p>' +
     escapeText(data.formula || '') + '</p></section>' +
     '<section class="content-block editorial-example"><h2>계산 예시</h2><p>' +
     escapeText(data.example || '') + '</p></section>' +
     '<section class="content-block editorial-result"><h2>결과 해석</h2><p>' +
     escapeText(data.result || '') + '</p></section>' +
-    '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
-    list(data.cautions || []) + '</section>' + detail + faq + sources + related + '</div>';
+    checks + '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
+    list(data.cautions || []) + '</section>' + detail + faq + sources + reviewed + related + '</div>';
 }
 
 function mergeEditorial(root, slug, data) {
@@ -1799,11 +1825,23 @@ function countDuplicateIds(root) {
 
 function formatVirtualRoot(root, eol) {
   const opening = serializeOpeningTag(root);
-  const inner = root.innerHTML.trim();
-  if (!inner) return opening + '</' + root.localName + '>';
-  const indented = inner.split(/\r?\n/).map(function(line) {
-    return '  ' + line.replace(/\s+$/, '');
-  }).join(eol);
+  const lines = root.innerHTML.split(/\r?\n/);
+  while (lines.length && !lines[0].trim()) lines.shift();
+  while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+  if (!lines.length) return opening + '</' + root.localName + '>';
+  const normalized = [];
+  let previousBlank = false;
+  for (const line of lines) {
+    if (!line.trim()) {
+      if (!previousBlank) normalized.push('');
+      previousBlank = true;
+      continue;
+    }
+    previousBlank = false;
+    const trimmed = line.replace(/\s+$/, '');
+    normalized.push(/^(?: {2}|\t)/.test(trimmed) ? trimmed : '  ' + trimmed);
+  }
+  const indented = normalized.join(eol);
   return opening + eol + indented + eol + '</' + root.localName + '>';
 }
 
@@ -1854,7 +1892,57 @@ function materializeStaticPage(originalBlock, root, eol) {
       else output = output.replace(/<\/main>$/i, replacement + eol + '</main>');
     }
   }
+
+  // Preserve the hand-authored shell while mirroring deterministic startup
+  // state and accessibility metadata into the initial document.
+  output = syncStaticOpeningTags(output, root, 'table');
+  output = syncStaticOpeningTags(output, root, 'th');
+  output = syncStaticElementById(output, root, 'cpm-result');
+  output = syncStaticElementById(output, root, 'jlpt-result');
+  output = syncStaticElementById(output, root, 'jlpt-field-note');
+  output = syncStaticElementByClass(
+    output,
+    root,
+    '.cpm-actions .calculator-note',
+    'calculator-note'
+  );
   return output;
+}
+
+function syncStaticOpeningTags(output, root, tagName) {
+  const elements = root.querySelectorAll(tagName);
+  let index = 0;
+  const pattern = new RegExp('<' + escapeRegExp(tagName) + '\\b[^>]*>', 'gi');
+  return output.replace(pattern, function(openingTag) {
+    const element = elements[index];
+    index += 1;
+    return element ? serializeOpeningTag(element) : openingTag;
+  });
+}
+
+function syncStaticElementById(output, root, id) {
+  const element = root.querySelector('#' + id);
+  if (!element) return output;
+  const tagName = escapeRegExp(element.localName);
+  const pattern = new RegExp(
+    '<' + tagName + '\\b(?=[^>]*\\bid=["\']' + escapeRegExp(id) +
+      '["\'])[^>]*>[\\s\\S]*?<\\/' + tagName + '>',
+    'i'
+  );
+  return output.replace(pattern, element.outerHTML);
+}
+
+function syncStaticElementByClass(output, root, selector, className) {
+  const element = root.querySelector(selector);
+  if (!element) return output;
+  const tagName = escapeRegExp(element.localName);
+  const pattern = new RegExp(
+    '<' + tagName + '\\b(?=[^>]*\\bclass=["\'][^"\']*\\b' +
+      escapeRegExp(className) + '\\b[^"\']*["\'])[^>]*>[\\s\\S]*?<\\/' +
+      tagName + '>',
+    'i'
+  );
+  return output.replace(pattern, element.outerHTML);
 }
 
 function addAttributesToOpeningTag(block, attributes) {
@@ -1919,6 +2007,20 @@ function ensureCalculatorHeaderNavigation(html) {
   return html.replace(headerPattern, function(header) {
     if (/<nav\b/i.test(header)) return header;
     return header.replace(/<\/header>$/i, CALCULATOR_HEADER_NAV + '</header>');
+  });
+}
+
+function ensureTrustFooter(html) {
+  const footerPattern = /<footer\b[^>]*>[\s\S]*?<\/footer>/i;
+  if (!footerPattern.test(html)) return html;
+  return html.replace(footerPattern, function(footer) {
+    if (/href=["']\/pages\/methodology\.html["']/i.test(footer)) return footer;
+    const about = /(<a\b[^>]*href=["']\/pages\/about\.html["'][^>]*>[\s\S]*?<\/a>)/i;
+    if (about.test(footer)) {
+      return footer.replace(about, '$1<a href="/pages/methodology.html">검수 기준</a>');
+    }
+    return footer.replace(/<\/footer>$/i,
+      '<a href="/pages/methodology.html">검수 기준</a></footer>');
   });
 }
 
@@ -2059,6 +2161,7 @@ async function renderArtifact(filePath, kind, catalogue) {
     output = ensureStaticRuntimeScript(output);
     output = ensureCalculatorHeaderNavigation(output);
   }
+  output = ensureTrustFooter(output);
   output = normalizeStaticCopy(output);
   if (hasBom) output = '\uFEFF' + output;
   return {

@@ -14,9 +14,10 @@ import { fileURLToPath } from 'node:url';
 const SITE_ORIGIN = 'https://calculatepage.com';
 const ADSENSE_ACCOUNT = 'ca-pub-5944689754824076';
 const ADS_TXT_PUBLISHER = 'pub-5944689754824076';
-const EXPECTED_HTML_COUNT = 122;
-const EXPECTED_CALCULATOR_COUNT = 111;
+const EXPECTED_HTML_COUNT = 126;
+const EXPECTED_CALCULATOR_COUNT = 114;
 const EXPECTED_CATEGORY_COUNT = 6;
+const EDITORIAL_REVIEW_DATE = '2026-08-17';
 const VIEWPORT_CONTENT = 'width=device-width,initial-scale=1';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, '..');
@@ -447,7 +448,7 @@ function sanitizeSchemaValue(value) {
 
 function primarySchemaMatches(html) {
   return [...html.matchAll(
-    /([ \t]*)<script\b(?=[^>]*\bdata-primary-image-schema\b)[^>]*>([\s\S]*?)<\/script>/gi
+    /([ \t]*)<script\b(?=[^>]*\b(?:data-primary-image-schema|data-calculator-schema)\b)[^>]*>([\s\S]*?)<\/script>/gi
   )];
 }
 
@@ -467,6 +468,11 @@ function buildCalculatorGraph(existingSchema, metadata, category) {
   delete preserved.name;
   delete preserved.url;
   delete preserved.description;
+  delete preserved.inLanguage;
+  delete preserved.dateModified;
+  delete preserved.publisher;
+  delete preserved.image;
+  delete preserved.primaryImageOfPage;
   delete preserved.breadcrumb;
   delete preserved.mainEntity;
 
@@ -481,6 +487,21 @@ function buildCalculatorGraph(existingSchema, metadata, category) {
     url: metadata.canonical,
     description: metadata.description,
     inLanguage: 'ko-KR',
+    dateModified: EDITORIAL_REVIEW_DATE,
+    publisher: {
+      '@type': 'Organization',
+      name: '계산페이지',
+      url: SITE_ORIGIN + '/pages/about.html'
+    },
+    image: SITE_ORIGIN + '/assets/og-image.png',
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: SITE_ORIGIN + '/assets/og-image.png',
+      contentUrl: SITE_ORIGIN + '/assets/og-image.png',
+      width: 1200,
+      height: 630,
+      caption: '계산페이지 - 생활·금융·건강 무료 계산기 모음'
+    },
     breadcrumb: { '@id': breadcrumbId },
     mainEntity: { '@id': applicationId }
   };
@@ -536,7 +557,7 @@ function normalizeCalculatorSchema(
   const matches = primarySchemaMatches(html);
   const match = single(
     matches,
-    relativePath + ': data-primary-image-schema가 정확히 1개여야 합니다.'
+    relativePath + ': 계산기 primary schema가 정확히 1개여야 합니다.'
   );
   let existing;
   try {
@@ -571,10 +592,10 @@ function isBreadcrumbNav(markup) {
 function breadcrumbMarkup(metadata, category) {
   return '<nav class="breadcrumb calculator-breadcrumb" '
     + 'aria-label="현재 위치" data-seo-breadcrumb="true">'
-    + '<a href="/">홈</a><span aria-hidden="true"> &gt; </span>'
+    + '<a href="/">홈</a><span aria-hidden="true"> > </span>'
     + '<a href="' + escapeAttribute(category.href) + '">'
     + escapeText(category.label) + '</a>'
-    + '<span aria-hidden="true"> &gt; </span>'
+    + '<span aria-hidden="true"> > </span>'
     + '<span aria-current="page">' + escapeText(metadata.h1) + '</span>'
     + '</nav>';
 }
@@ -698,7 +719,10 @@ function validateCalculatorSchema(html, metadata, category, relativePath) {
   assert(
     webPage.url === metadata.canonical
       && webPage.name === metadata.title
-      && webPage.description === metadata.description,
+      && webPage.description === metadata.description
+      && webPage.dateModified === EDITORIAL_REVIEW_DATE
+      && webPage.publisher?.name === '계산페이지'
+      && webPage.primaryImageOfPage?.url === SITE_ORIGIN + '/assets/og-image.png',
     relativePath + ': WebPage schema와 메타데이터가 다릅니다.'
   );
   assert(
@@ -781,12 +805,12 @@ function ensureUnique(records, key, label) {
 }
 
 function validateGlobal(pages, outputRecords) {
-  assert(pages.length === EXPECTED_HTML_COUNT, 'HTML 수가 122개가 아닙니다.');
+  assert(pages.length === EXPECTED_HTML_COUNT, 'HTML 수가 126개가 아닙니다.');
   const calculators = pages.filter((page) => page.relativePath.startsWith('calculators/'));
   const categories = pages.filter((page) => page.relativePath.startsWith('categories/'));
   assert(
     calculators.length === EXPECTED_CALCULATOR_COUNT,
-    '계산기 HTML 수가 111개가 아닙니다.'
+    '계산기 HTML 수가 114개가 아닙니다.'
   );
   assert(
     categories.length === EXPECTED_CATEGORY_COUNT,
@@ -930,7 +954,7 @@ function printUsage() {
   console.log('  node scripts/finalize-seo.mjs --write');
   console.log('');
   console.log('--check는 파일을 쓰지 않으며 변경 필요 시 종료 코드 1을 반환합니다.');
-  console.log('--write는 122개 대상과 모든 불변 조건을 메모리에서 검증한 뒤에만 씁니다.');
+  console.log('--write는 126개 대상과 모든 불변 조건을 메모리에서 검증한 뒤에만 씁니다.');
 }
 
 export async function finalizeSeo(mode = 'check') {
@@ -939,7 +963,7 @@ export async function finalizeSeo(mode = 'check') {
   const files = await listHtmlFiles();
   assert(
     files.length === EXPECTED_HTML_COUNT,
-    '안전 중단: 대상 HTML이 122개가 아닙니다. (현재 ' + files.length + '개)'
+    '안전 중단: 대상 HTML이 126개가 아닙니다. (현재 ' + files.length + '개)'
   );
   const pages = await readPages(files);
   const categoryIndex = buildCategoryIndex(pages);

@@ -17,6 +17,14 @@
     }
   };
   const field=(id,label,example)=>`<label><span>${label}</span><input id="${id}" type="number" step="any" inputmode="decimal" placeholder="예: ${example}"></label>`;
+  const parseLocalDateInput=value=>{
+    const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value||''));
+    if(!match)return null;
+    const year=Number(match[1]),month=Number(match[2]),day=Number(match[3]);
+    const date=new Date(year,month-1,day);
+    date.setHours(0,0,0,0);
+    return date.getFullYear()===year&&date.getMonth()===month-1&&date.getDate()===day?date:null;
+  };
   if(type==='dsr'){
     root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>DSR 계산기</h1><p class="lead">연소득 대비 모든 대출의 연간 원리금 상환 부담 비율을 계산합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><div class="utility-fields">${field('dsr-income','연소득(원)','50000000')}${field('dsr-payment','기존 대출 연간 상환액(원)','6000000')}${field('dsr-new','신규 대출 연간 상환액(원)','3000000')}</div><button class="primary-btn" id="advanced-calc">DSR 계산하기</button></div><div class="result" id="advanced-result"></div><p class="calculator-note">금융기관별 DSR 산정 방식, 스트레스 금리, 적용 대출 범위는 다를 수 있는 참고용 계산입니다.</p></section>`;
     root.querySelector('#advanced-calc').onclick=()=>{const income=+root.querySelector('#dsr-income').value,old=+root.querySelector('#dsr-payment').value,newPay=+root.querySelector('#dsr-new').value,r=root.querySelector('#advanced-result');if(!income)return;const value=(old+newPay)/income*100;r.innerHTML=`<strong>${value.toFixed(1)}%</strong><p>연간 원리금 상환액 ${Math.round(old+newPay).toLocaleString()}원 기준 DSR입니다.</p>`;r.classList.add('show')};
@@ -209,7 +217,18 @@
     };
     return;
   }
-  if(type==='ovulation'||type==='menstrual-cycle'){const isOvu=type==='ovulation';root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${isOvu?'배란일·가임기 계산기':'생리 주기 계산기'}</h1><p class="lead">최근 생리 시작일과 평소 주기를 기준으로 예상 날짜를 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><label>최근 생리 시작일 <input id="cycle-date" type="date"></label><label>평소 주기(일) <input id="cycle-length" type="number" placeholder="예: 28"></label><button class="primary-btn" id="cycle-calc">계산하기</button></div><div class="result" id="cycle-result"></div><p class="calculator-note">건강 상태를 판단하는 의료 도구가 아닌 날짜 기준 참고용 계산입니다.</p></section>`;root.querySelector('#cycle-calc').onclick=()=>{const d=new Date(root.querySelector('#cycle-date').value),n=+root.querySelector('#cycle-length').value,r=root.querySelector('#cycle-result');if(isNaN(d)||!n)return;const target=new Date(d);target.setDate(target.getDate()+(isOvu?n-14:n));r.innerHTML=`<strong>${target.toLocaleDateString('ko-KR')}</strong><p>${isOvu?'예상 배란일':'예상 다음 생리 시작일'}입니다.</p>`;r.classList.add('show')}}
+  if(type==='ovulation'||type==='menstrual-cycle'){
+    const isOvu=type==='ovulation';
+    root.innerHTML=`<a class="calculator-home" href="/">← 계산페이지 홈</a><h1>${isOvu?'배란일·가임기 계산기':'생리 주기 계산기'}</h1><p class="lead">최근 생리 시작일과 평소 주기를 기준으로 예상 날짜를 확인합니다.</p><section class="calculator-box utility-box"><div class="utility-form"><label>최근 생리 시작일 <input id="cycle-date" type="date"></label><label>평소 주기(일) <input id="cycle-length" type="number" placeholder="예: 28"></label><button class="primary-btn" id="cycle-calc">계산하기</button></div><div class="result" id="cycle-result"></div><p class="calculator-note">건강 상태를 판단하는 의료 도구가 아닌 날짜 기준 참고용 계산입니다.</p></section>`;
+    root.querySelector('#cycle-calc').onclick=()=>{
+      const date=parseLocalDateInput(root.querySelector('#cycle-date').value),n=+root.querySelector('#cycle-length').value,r=root.querySelector('#cycle-result');
+      if(!date||!n)return;
+      const target=new Date(date);
+      target.setDate(target.getDate()+(isOvu?n-14:n));
+      r.innerHTML=`<strong>${target.toLocaleDateString('ko-KR')}</strong><p>${isOvu?'예상 배란일':'예상 다음 생리 시작일'}입니다.</p>`;
+      r.classList.add('show');
+    };
+  }
   const guides={
     'dsr':['DSR 계산 방법','DSR은 연간 원리금 상환액을 연소득으로 나눈 비율입니다. 금융기관별 산정 범위와 스트레스 금리 적용 여부에 따라 실제 심사 결과는 달라질 수 있습니다.'],
     'stock-return':['주식 수익률 계산 방법','매수·매도 금액에 수수료를 반영한 뒤 실제 손익과 수익률을 계산합니다. 세금과 환전 비용은 별도입니다.'],

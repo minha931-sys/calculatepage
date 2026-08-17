@@ -23,8 +23,8 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="계산페이지">
-  <meta property="og:title" content="전기차 유지비 계산기 | 충전비·유류비 비교">
-  <meta property="og:description" content="실제 주행 조건으로 전기차 충전비와 내연기관 유류비, 구매 추가금 회수 기간을 비교하세요.">
+  <meta property="og:title" content="전기차 유지비 계산기 | 충전비·유류비·손익분기 비교 | 계산페이지">
+  <meta property="og:description" content="연간 주행거리, 실연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 월·연간 비용, 5년 절감액과 구매 추가금 회수 기간을 비교하세요.">
   <meta property="og:url" content="https://calculatepage.com/calculators/ev-fuel-cost.html">
   <meta property="og:image" content="https://calculatepage.com/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -38,14 +38,74 @@
   <link rel="stylesheet" href="/css/practical-calculators.css">
   <script defer src="/js/static-calculator-runtime.js"></script>
   <script defer src="/js/ev-fuel-cost.js"></script>
-  <script type="application/ld+json" data-calculator-schema="true">
+  <script type="application/ld+json" data-primary-image-schema data-calculator-schema="true">
   {
-    "@context":"https://schema.org",
-    "@graph":[
-      {"@type":"WebPage","@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#webpage","name":"전기차 유지비 계산기 | 충전비·유류비·손익분기 비교","url":"https://calculatepage.com/calculators/ev-fuel-cost.html","description":"전기차 충전비와 내연기관차 유류비, 구매 추가금 회수 기간을 실제 주행 조건으로 비교합니다.","inLanguage":"ko-KR","breadcrumb":{"@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#breadcrumb"},"mainEntity":{"@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#application"}},
-      {"@type":"WebApplication","@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#application","name":"전기차 유지비 계산기","url":"https://calculatepage.com/calculators/ev-fuel-cost.html","description":"완속·급속 충전 비중과 충전 손실을 반영해 전기차와 내연기관차의 에너지 비용을 비교하는 무료 계산기입니다.","applicationCategory":"CalculatorApplication","operatingSystem":"Any","inLanguage":"ko-KR","isAccessibleForFree":true},
-      {"@type":"BreadcrumbList","@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://calculatepage.com/"},{"@type":"ListItem","position":2,"name":"생활 계산기","item":"https://calculatepage.com/categories/life.html"},{"@type":"ListItem","position":3,"name":"전기차 유지비 계산기","item":"https://calculatepage.com/calculators/ev-fuel-cost.html"}]},
-      {"@type":"FAQPage","@id":"https://calculatepage.com/calculators/ev-fuel-cost.html#faq","mainEntity":[{"@type":"Question","name":"공인 연비와 전비를 입력하면 되나요?","acceptedAnswer":{"@type":"Answer","text":"실제 운행 기록이 있다면 계기판이나 충전·주유 기록에서 확인한 실연비와 실전비를 입력하는 편이 현실적인 비교에 도움이 됩니다."}},{"@type":"Question","name":"완속과 급속 충전 비중은 왜 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"충전 방식별 단가가 다를 수 있어 실제 사용 비중을 가중평균해야 연간 충전비를 더 현실적으로 계산할 수 있기 때문입니다."}},{"@type":"Question","name":"전기차 구매 추가금 회수 기간은 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"입력한 연간 에너지비와 기타 절감액이 계속 유지된다는 가정의 예상값입니다. 차량 가격, 감가상각, 보험, 세금, 수리비와 단가 변동은 별도로 비교해야 합니다."}}]}
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://calculatepage.com/calculators/ev-fuel-cost.html#webpage",
+        "name": "전기차 유지비 계산기 | 충전비·유류비·손익분기 비교 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/ev-fuel-cost.html",
+        "description": "연간 주행거리, 실연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 월·연간 비용, 5년 절감액과 구매 추가금 회수 기간을 비교하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
+        "image": "https://calculatepage.com/assets/og-image.png",
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://calculatepage.com/assets/og-image.png",
+          "contentUrl": "https://calculatepage.com/assets/og-image.png",
+          "width": 1200,
+          "height": 630,
+          "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
+        },
+        "breadcrumb": {
+          "@id": "https://calculatepage.com/calculators/ev-fuel-cost.html#breadcrumb"
+        },
+        "mainEntity": {
+          "@id": "https://calculatepage.com/calculators/ev-fuel-cost.html#application"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://calculatepage.com/calculators/ev-fuel-cost.html#application",
+        "name": "전기차 유지비 계산기",
+        "description": "연간 주행거리, 실연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 월·연간 비용, 5년 절감액과 구매 추가금 회수 기간을 비교하세요.",
+        "url": "https://calculatepage.com/calculators/ev-fuel-cost.html",
+        "applicationCategory": "CalculatorApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "ko-KR",
+        "isAccessibleForFree": true
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://calculatepage.com/calculators/ev-fuel-cost.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "홈",
+            "item": "https://calculatepage.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "생활 계산기",
+            "item": "https://calculatepage.com/categories/life.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "전기차 유지비 계산기",
+            "item": "https://calculatepage.com/calculators/ev-fuel-cost.html"
+          }
+        ]
+      }
     ]
   }
   </script>
@@ -53,54 +113,49 @@
 <body data-practical-calculator="ev-fuel-cost">
   <header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
   <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
-    <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> &gt; </span><a href="/categories/life.html">생활 계산기</a><span aria-hidden="true"> &gt; </span><span aria-current="page">전기차 유지비 계산기</span></nav>
-    <a class="calculator-home category-more-link" href="/categories/life.html">생활 카테고리 더보기</a>
-    <h1>전기차 유지비 계산기</h1>
-    <p class="lead">연간 주행거리와 실제 연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 유지비 차이를 비교하세요.</p>
-    <section class="calculator-box utility-box readable-calc-box practical-box ev-cost-box">
-      <div class="readable-intro editorial-input"><h2>내 주행거리와 충전 패턴으로 비교하세요</h2><p>전기차 유지비는 충전 장소와 급속 충전 비중에 따라 달라집니다. 완속·급속 단가를 가중평균하고 충전 손실까지 반영해 월·연간 에너지 비용, 5년 누적 차이와 차량 구매 추가금 회수 기간을 계산합니다.</p></div>
-      <form class="practical-form" id="ev-cost-form" novalidate>
-        <section class="practical-section">
-          <h2>1. 공통 주행 조건</h2><p>최근 1년 주행거리나 예상 연간 주행거리를 입력하세요.</p>
-          <div class="practical-fields"><label><span>연간 주행거리(km)</span><input id="ev-distance" type="number" min="1" step="1" inputmode="numeric" placeholder="예: 15000"></label></div>
-        </section>
-        <section class="practical-section">
-          <h2>2. 내연기관차 조건</h2><p>휘발유, 경유, LPG 차량 모두 실제 사용 연료의 단가와 실연비를 넣을 수 있습니다.</p>
-          <div class="practical-fields">
-            <label><span>실연비(km/L)</span><input id="ev-fuel-efficiency" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="예: 12.5"></label>
-            <label><span>유류 단가(원/L)</span><input id="ev-fuel-price" type="number" min="1" step="1" inputmode="numeric" placeholder="예: 1700"></label>
-          </div>
-        </section>
-        <section class="practical-section">
-          <h2>3. 전기차 충전 조건</h2><p>실제 충전 내역에서 확인한 단가를 입력하면 요금제나 충전 사업자에 관계없이 비교할 수 있습니다.</p>
-          <div class="practical-fields three">
-            <label><span>실전비(km/kWh)</span><input id="ev-efficiency" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="예: 5.5"></label>
-            <label><span>완속·집밥 단가(원/kWh)</span><input id="ev-slow-price" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 220"></label>
-            <label><span>급속 충전 단가(원/kWh)</span><input id="ev-fast-price" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 350"></label>
-            <label><span>급속 충전 비중(%)</span><input id="ev-fast-share" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="예: 30"><small class="practical-field-help">나머지는 완속·집밥 충전으로 계산합니다.</small></label>
-            <label><span>충전 손실률(%, 선택)</span><input id="ev-loss" type="number" min="0" max="49.9" step="0.1" inputmode="decimal" placeholder="예: 10"><small class="practical-field-help">비워두면 충전 손실을 반영하지 않습니다.</small></label>
-          </div>
-        </section>
-        <section class="practical-section">
-          <h2>4. 구매가와 기타 유지비 차이</h2><p>선택 입력입니다. 에너지 비용만 비교하려면 두 항목을 비워두세요.</p>
-          <div class="practical-fields">
-            <label><span>전기차 구매 추가금(원)</span><input id="ev-premium" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8000000"><small class="practical-field-help">비교할 내연기관차보다 비싼 금액만 입력합니다.</small></label>
-            <label><span>전기차 연간 기타 절감액(원)</span><input id="ev-other-savings" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 300000"><small class="practical-field-help">소모품·정비 등 직접 확인한 연간 차이만 입력하세요.</small></label>
-          </div>
-        </section>
-        <div class="practical-actions"><button class="primary-btn" type="submit">유지비 비교하기</button><button class="practical-secondary" id="ev-cost-reset" type="button">입력 초기화</button></div>
-      </form>
-      <div class="result" id="ev-cost-result" aria-live="polite"></div>
-      <p class="calculator-note editorial-caution">결과는 입력 단가가 계속 유지된다는 가정의 예상치입니다. 차량 가격, 보조금, 감가상각, 보험료, 자동차세, 충전 기본요금, 타이어와 실제 정비비는 별도로 비교하세요.</p>
-    </section>
-    <div class="calculator-editorial" data-calculator-editorial="ev-fuel-cost">
-      <section class="content-block editorial-formula"><h2>전기차 충전비와 유류비 계산 방법</h2><p>내연기관차의 연간 유류비는 연간 주행거리를 실연비로 나눠 필요한 연료량을 구한 뒤 유류 단가를 곱합니다. 전기차는 주행거리를 실전비로 나눈 전력량에 충전 손실을 반영하고, 완속·급속 단가를 사용 비중으로 가중평균해 연간 충전비를 계산합니다.</p></section>
-      <section class="content-block editorial-result"><h2>구매 추가금 손익분기 계산</h2><p>연간 총 절감액은 내연기관 유류비에서 전기차 충전비를 뺀 에너지 절감액에 사용자가 입력한 연간 기타 절감액을 더한 값입니다. 구매 추가금 회수 기간은 전기차 구매 추가금을 연간 총 절감액으로 나눕니다. 연간 총 절감액이 0원 이하라면 입력 조건에서는 추가금 회수가 어려운 것으로 표시합니다.</p></section>
-      <section class="content-block editorial-example"><h2>전기차 유지비 비교 예시</h2><p>연 15,000km 주행, 내연기관 실연비 12.5km/L와 유류 단가 1,700원/L, 전기차 실전비 5.5km/kWh를 가정할 수 있습니다. 완속 220원/kWh, 급속 350원/kWh를 급속 비중 30%로 사용하고 충전 손실 10%를 입력하면 각 차량의 연간 에너지 사용량과 비용을 같은 거리 기준으로 비교합니다. 이 숫자는 예시이므로 실제 주유·충전 내역의 평균 단가를 입력하세요.</p></section>
-      <section class="content-block practical-faq"><h2>자주 묻는 질문</h2><details open><summary>공인 연비와 전비를 입력하면 되나요?</summary><p>차량을 이미 운행 중이라면 계기판 또는 주유·충전 기록에서 확인한 실연비와 실전비를 넣는 편이 현실적입니다. 계절, 주행 속도, 냉난방, 적재량에 따라 효율이 달라질 수 있습니다.</p></details><details><summary>완속과 급속 충전 비중은 왜 필요한가요?</summary><p>충전 방식과 사업자에 따라 단가가 다르기 때문입니다. 급속 충전을 자주 이용할수록 혼합 단가가 높아질 수 있으므로 실제 충전 내역의 비중을 참고하세요.</p></details><details><summary>구매 추가금 회수 기간은 정확한가요?</summary><p>현재 입력한 단가와 주행 패턴이 유지된다는 가정의 예상값입니다. 감가상각, 보험, 세금, 보조금, 금융비용과 예상 밖 수리비는 별도로 비교해야 합니다.</p></details></section>
-    </div>
-    <section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/fuel-cost.html">주유비 계산기</a><a href="/calculators/car-installment.html">자동차 할부 계산기</a><a href="/calculators/car-tax.html">자동차세 계산기</a><a href="/calculators/electricity.html">전기요금 계산기</a></div></section>
-  </main>
-  <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
+  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/life.html">생활 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">전기차 유지비 계산기</span></nav>
+  <a class="calculator-home category-more-link" href="/categories/life.html">생활 카테고리 더보기</a>
+      <h1>전기차 유지비 계산기</h1>
+      <p class="lead">연간 주행거리와 실제 연비·전비, 유가, 완속·급속 충전단가를 입력해 전기차와 내연기관차의 유지비 차이를 비교하세요.</p>
+      <section class="calculator-box utility-box readable-calc-box practical-box ev-cost-box">
+        <div class="readable-intro editorial-input"><h2>내 주행거리와 충전 패턴으로 비교하세요</h2><p>전기차 유지비는 충전 장소와 급속 충전 비중에 따라 달라집니다. 완속·급속 단가를 가중평균하고 충전 손실까지 반영해 월·연간 에너지 비용, 5년 누적 차이와 차량 구매 추가금 회수 기간을 계산합니다.</p></div>
+        <form class="practical-form" id="ev-cost-form" novalidate>
+          <section class="practical-section">
+            <h2>1. 공통 주행 조건</h2><p>최근 1년 주행거리나 예상 연간 주행거리를 입력하세요.</p>
+            <div class="practical-fields"><label><span>연간 주행거리(km)</span><input id="ev-distance" type="number" min="1" step="1" inputmode="numeric" placeholder="예: 15000"></label></div>
+          </section>
+          <section class="practical-section">
+            <h2>2. 내연기관차 조건</h2><p>휘발유, 경유, LPG 차량 모두 실제 사용 연료의 단가와 실연비를 넣을 수 있습니다.</p>
+            <div class="practical-fields">
+              <label><span>실연비(km/L)</span><input id="ev-fuel-efficiency" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="예: 12.5"></label>
+              <label><span>유류 단가(원/L)</span><input id="ev-fuel-price" type="number" min="1" step="1" inputmode="numeric" placeholder="예: 1700"></label>
+            </div>
+          </section>
+          <section class="practical-section">
+            <h2>3. 전기차 충전 조건</h2><p>실제 충전 내역에서 확인한 단가를 입력하면 요금제나 충전 사업자에 관계없이 비교할 수 있습니다.</p>
+            <div class="practical-fields three">
+              <label><span>실전비(km/kWh)</span><input id="ev-efficiency" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="예: 5.5"></label>
+              <label><span>완속·집밥 단가(원/kWh)</span><input id="ev-slow-price" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 220"></label>
+              <label><span>급속 충전 단가(원/kWh)</span><input id="ev-fast-price" type="number" min="0" step="0.1" inputmode="decimal" placeholder="예: 350"></label>
+              <label><span>급속 충전 비중(%)</span><input id="ev-fast-share" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="예: 30"><small class="practical-field-help">나머지는 완속·집밥 충전으로 계산합니다.</small></label>
+              <label><span>충전 손실률(%, 선택)</span><input id="ev-loss" type="number" min="0" max="49.9" step="0.1" inputmode="decimal" placeholder="예: 10"><small class="practical-field-help">비워두면 충전 손실을 반영하지 않습니다.</small></label>
+            </div>
+          </section>
+          <section class="practical-section">
+            <h2>4. 구매가와 기타 유지비 차이</h2><p>선택 입력입니다. 에너지 비용만 비교하려면 두 항목을 비워두세요.</p>
+            <div class="practical-fields">
+              <label><span>전기차 구매 추가금(원)</span><input id="ev-premium" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 8000000"><small class="practical-field-help">비교할 내연기관차보다 비싼 금액만 입력합니다.</small></label>
+              <label><span>전기차 연간 기타 절감액(원)</span><input id="ev-other-savings" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 300000"><small class="practical-field-help">소모품·정비 등 직접 확인한 연간 차이만 입력하세요.</small></label>
+            </div>
+          </section>
+          <div class="practical-actions"><button class="primary-btn" type="submit">유지비 비교하기</button><button class="practical-secondary" id="ev-cost-reset" type="button">입력 초기화</button></div>
+        </form>
+        <div class="result" id="ev-cost-result" aria-live="polite" aria-atomic="true"></div>
+        <p class="calculator-note editorial-caution">결과는 입력 단가가 계속 유지된다는 가정의 예상치입니다. 차량 가격, 보조금, 감가상각, 보험료, 자동차세, 충전 기본요금, 타이어와 실제 정비비는 별도로 비교하세요.</p>
+      </section>
+
+      <div class="calculator-editorial" data-calculator-editorial="ev-fuel-cost"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>연간 주행거리와 내연기관차의 실제 연비·유류 단가, 전기차의 실제 전비를 입력합니다.</li><li>완속·급속 충전 단가와 급속 충전 비중을 입력하고, 충전 손실률·구매 추가금·연간 기타 절감액은 확인 가능한 경우에만 더합니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>현재 내연기관차의 실제 연비와 주행거리를 기준으로 전기차로 바꿨을 때 월·연간 에너지 비용 차이를 비교할 때 사용할 수 있습니다.</li><li>전기차 구매 추가금이 완속·급속 충전 비중을 반영한 절감액으로 몇 년 안에 회수되는지 검토할 때 유용합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>내연기관 연 유류비 = 연간 주행거리÷실연비×유류 단가입니다. 급속 비중을 100으로 나눈 값으로 바꾼 뒤 혼합 충전 단가 = 완속 단가×(1-급속 비중)+급속 단가×급속 비중, 충전량 = 주행거리÷전비÷(1-충전 손실률)로 계산합니다. 전기차 연 충전비 = 충전량×혼합 충전 단가, 연간 총 절감액 = 유류비-충전비+기타 절감액, 구매 추가금 회수 기간 = 구매 추가금÷연간 총 절감액입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>연 15,000km, 실연비 12.5km/L, 유류 단가 1,700원/L이면 연 유류비는 2,040,000원입니다. 전비 5.5km/kWh, 완속 220원, 급속 350원, 급속 비중 30%, 충전 손실 10%이면 혼합 단가는 259원/kWh, 연 충전비는 약 784,848원으로 에너지 비용 차이는 약 1,255,152원입니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>월·연간 유류비와 충전비, 연간 총 절감액, 5년 누적 차이와 구매 추가금 회수 기간을 표시합니다. 절감액이 음수이거나 0이면 입력 조건에서 구매 추가금을 에너지 비용으로 회수하기 어렵다는 뜻입니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>계기판이나 정비 기록에서 확인한 연간 주행거리와 실제 연비·전비를 입력했는지 확인하세요.</li><li>완속과 급속 충전 비중의 합계, 각 충전 단가와 충전 손실률이 평소 충전 패턴과 맞는지 대조하세요.</li><li>5년 누적 차이와 회수 기간을 볼 때 차량 구매 추가금 외의 보험료·세금·정비비는 별도 비용으로 비교하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>유가·충전 단가·계절별 전비는 계속 달라질 수 있으므로 최근 주유·충전 내역의 실제 단가를 사용하세요.</li><li>보조금, 취득 비용, 보험료, 자동차세, 감가상각, 충전 기본요금과 정비비는 자동 반영하지 않습니다.</li><li>기타 절감액은 막연한 예상이 아니라 비교 차량 사이에서 직접 확인한 연간 차액만 입력해야 중복 계산을 줄일 수 있습니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>공인 연비와 실제 연비 중 무엇을 넣어야 하나요?</summary><p>현재 지출과 비교하려면 최근 주행 기록에서 확인한 실제 연비와 전비가 더 적합합니다. 차량 후보를 처음 비교한다면 공인 수치를 시작값으로 쓰되 계절과 주행 환경에 따른 차이를 별도로 고려하세요.</p></details><details><summary>급속 충전 비중이 높아지면 결과가 어떻게 달라지나요?</summary><p>급속 단가가 완속 단가보다 높게 입력된 경우 가중평균 충전 단가가 올라가 전기차의 연간 충전비와 회수 기간이 커집니다.</p></details><details><summary>구매 추가금 회수 기간이 곧 차량 교체의 손익분기점인가요?</summary><p>이 화면은 에너지 비용 절감으로 구매 추가금을 회수하는 기간만 계산합니다. 취득 비용, 보험료, 감가상각, 정비비와 보조금 차이는 포함하지 않습니다.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside></div><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/fuel-cost.html">주유비 계산기</a><a href="/calculators/car-installment.html">자동차 할부 계산기</a><a href="/calculators/car-tax.html">자동차세 계산기</a><a href="/calculators/electricity.html">전기요금 계산기</a></div></section>
+</main>
+  <footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
 </body>
 </html>

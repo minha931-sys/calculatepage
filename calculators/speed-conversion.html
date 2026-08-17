@@ -50,6 +50,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/speed-conversion.html#webpage",
+        "name": "속도 단위 변환 계산기 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/speed-conversion.html",
+        "description": "m/s, km/h, mph, knot 등 속도 단위를 입력값 기준으로 변환하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -59,10 +69,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "속도 단위 변환 계산기 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/speed-conversion.html",
-        "description": "m/s, km/h, mph, knot 등 속도 단위를 입력값 기준으로 변환하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/speed-conversion.html#breadcrumb"
         },
@@ -113,30 +119,30 @@
   <header class="site-header"><a class="logo" href="/">계산<span>페이지</span></a><nav aria-label="주요 메뉴"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
   <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
   <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/conversion.html">단위환산 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">속도 단위 변환 계산기</span></nav>
-      <a class="calculator-home category-more-link" href="/categories/conversion.html">단위환산 카테고리 더보기</a>
-                <h1>속도 단위 변환 계산기</h1>
-                <p class="lead">m/s, km/h, mph, knot 등 속도 단위를 바꿔 이동·운동·항해 속도를 비교하세요.</p>
-                <section class="calculator-box utility-box">
-                  <div class="utility-form">
-                    <div class="utility-fields">
-                      <label><span>값</span><input id="unit-value" type="number" placeholder="예: 100" inputmode="decimal" step="any"></label>
-                      <label><span>변환 전 단위</span><select id="unit-from"><option value="mps">미터/초(m/s)</option><option value="kmh">킬로미터/시(km/h)</option><option value="mph">마일/시(mph)</option><option value="knot">노트(knot)</option><option value="fps">피트/초(ft/s)</option></select></label>
-                      <label><span>변환 후 단위</span><select id="unit-to"><option value="mps">미터/초(m/s)</option><option value="kmh" selected>킬로미터/시(km/h)</option><option value="mph">마일/시(mph)</option><option value="knot">노트(knot)</option><option value="fps">피트/초(ft/s)</option></select></label>
+  <a class="calculator-home category-more-link" href="/categories/conversion.html">단위환산 카테고리 더보기</a>
+                  <h1>속도 단위 변환 계산기</h1>
+                  <p class="lead">m/s, km/h, mph, knot 등 속도 단위를 바꿔 이동·운동·항해 속도를 비교하세요.</p>
+                  <section class="calculator-box utility-box">
+                    <div class="utility-form">
+                      <div class="utility-fields">
+                        <label><span>값</span><input id="unit-value" type="number" placeholder="예: 100" inputmode="decimal" step="any"></label>
+                        <label><span>변환 전 단위</span><select id="unit-from"><option value="mps">미터/초(m/s)</option><option value="kmh">킬로미터/시(km/h)</option><option value="mph">마일/시(mph)</option><option value="knot">노트(knot)</option><option value="fps">피트/초(ft/s)</option></select></label>
+                        <label><span>변환 후 단위</span><select id="unit-to"><option value="mps">미터/초(m/s)</option><option value="kmh" selected>킬로미터/시(km/h)</option><option value="mph">마일/시(mph)</option><option value="knot">노트(knot)</option><option value="fps">피트/초(ft/s)</option></select></label>
+                      </div>
+                      <button class="primary-btn" id="unit-calc" type="button">단위 변환하기</button>
                     </div>
-                    <button class="primary-btn" id="unit-calc" type="button">단위 변환하기</button>
-                  </div>
-                  <div class="result" id="unit-result" aria-live="polite"></div>
-                  <p class="calculator-note">표준 환산 계수를 이용한 참고용 계산입니다. 산업·기관·상품별 반올림 기준이 있으면 해당 기준을 우선 확인하세요.</p>
-                </section>
-                <section class="content-block">
-                  <h2>속도 단위 예시</h2>
-                  <ul><li>100 km/h = 27.78 m/s</li><li>1 mph = 1.609 km/h</li><li>1 knot = 1.852 km/h</li></ul>
-                </section>
-                <div class="calculator-editorial" data-calculator-editorial="speed-conversion"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>숫자 값과 변환 전·후 속도 단위를 선택합니다. 단위는 m/s, km/h, mph, knot, ft/s입니다.</li><li>거리나 시간은 별도 입력하지 않으며, 하나의 속도값만 변환합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>입력 속도를 먼저 m/s 기준으로 바꾼 뒤 목표 단위의 계수로 나눕니다. 예를 들어 km/h는 0.2777777777778m/s, mph는 0.44704m/s, knot는 0.5144444444444m/s입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>100km/h를 m/s로 바꾸면 100×0.2777777777778로 계산해 약 27.77777778m/s가 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>선택한 목표 단위의 변환값을 최대 소수 여덟째 자리까지 표시하고, 매우 크거나 작은 값은 지수 표기할 수 있습니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>이 계산은 물리 단위 변환만 하며 평균속도, 풍속·유속 보정, 차량 계기 오차는 반영하지 않습니다.</li><li>knot는 해상·항공에서 쓰는 노트 단위이며 1 knot는 1 해리/시간입니다.</li></ul></section></div><section class="content-block">
-                  <h2>관련 계산기</h2>
-                  <div class="related"><a href="/calculators/running-pace.html">러닝 페이스 계산기</a><a href="/calculators/length-conversion.html">길이 단위 변환 계산기</a><a href="/calculators/time.html">시간 계산기</a><a href="/calculators/fuel-cost.html">주유비 계산기</a></div>
-                </section>
+                    <div class="result" id="unit-result" aria-live="polite" aria-atomic="true"></div>
+                    <p class="calculator-note">표준 환산 계수를 이용한 참고용 계산입니다. 산업·기관·상품별 반올림 기준이 있으면 해당 기준을 우선 확인하세요.</p>
+                  </section>
+                  <section class="content-block">
+                    <h2>속도 단위 예시</h2>
+                    <ul><li>100 km/h = 27.78 m/s</li><li>1 mph = 1.609 km/h</li><li>1 knot = 1.852 km/h</li></ul>
+                  </section>
+                  <div class="calculator-editorial" data-calculator-editorial="speed-conversion"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>숫자 값과 변환 전·후 속도 단위를 선택합니다. 단위는 m/s, km/h, mph, knot, ft/s입니다.</li><li>거리나 시간은 별도 입력하지 않으며, 하나의 속도값만 변환합니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>러닝·차량 기록의 km/h를 m/s로 바꿔 다른 자료와 단위를 맞출 때 사용합니다.</li><li>선박 속도의 knot나 영미권 자료의 mph를 익숙한 속도 단위로 비교할 때 활용합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>입력 속도를 먼저 m/s 기준으로 바꾼 뒤 목표 단위의 계수로 나눕니다. 예를 들어 km/h는 0.2777777777778m/s, mph는 0.44704m/s, knot는 0.5144444444444m/s입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>100km/h를 m/s로 바꾸면 100×0.2777777777778로 계산해 약 27.77777778m/s가 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>선택한 목표 단위의 변환값을 최대 소수 여덟째 자리까지 표시하고, 매우 크거나 작은 값은 지수 표기할 수 있습니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>변환 전 단위가 원자료에 적힌 단위와 같은지 확인합니다.</li><li>변환 후 원하는 단위를 중복 없이 선택합니다.</li><li>결과의 소수 자릿수를 실제 측정 정밀도에 맞춰 반올림합니다.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>이 계산은 물리 단위 변환만 하며 평균속도, 풍속·유속 보정, 차량 계기 오차는 반영하지 않습니다.</li><li>knot는 해상·항공에서 쓰는 노트 단위이며 1 knot는 1 해리/시간입니다.</li></ul></section><section class="content-block editorial-detail"><h2>속도 단위를 m/s 기준으로 검산하기</h2><ul><li>계산기는 입력 속도를 먼저 m/s로 바꾼 뒤 목표 단위 계수로 나눕니다. 72km/h는 72×0.277777…=20m/s이고, 이를 다시 km/h로 바꾸면 20÷0.277777…=72가 됩니다. 변환 전후를 한 번 반대로 계산해 원래 값이 나오는지 확인하면 단위 선택 오류를 빠르게 찾을 수 있습니다.</li><li>mph는 한 시간에 이동한 statute mile, knot는 한 시간에 이동한 nautical mile을 뜻하므로 숫자가 비슷해도 같은 속도가 아닙니다. 화면은 1mph=0.44704m/s, 1knot=0.514444…m/s를 사용합니다. 항공·해상 자료의 knot를 mph로 잘못 선택하지 않았는지 원자료의 단위 기호까지 확인하세요.</li><li>결과는 최대 소수 여덟째 자리까지 표시할 수 있지만 원래 측정값보다 정밀해진 것은 아닙니다. 자동차 계기판처럼 정수로 측정한 값은 목적에 맞게 다시 반올림하세요. 이 계산은 속도의 크기만 단위 변환하며 구간별 가속, 정지시간, 측정기 오차나 평균속도 산정 방식은 보정하지 않습니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>36km/h는 몇 m/s인가요?</summary><p>이 계산기의 표준 배율로 36km/h는 10m/s입니다.</p></details><details><summary>mph와 knot는 같은 단위인가요?</summary><p>아닙니다. mph는 시간당 마일, knot는 시간당 해리 기준이므로 서로 다른 환산계수를 사용합니다.</p></details><details><summary>같은 단위를 양쪽에서 선택해도 되나요?</summary><p>가능합니다. 값은 바뀌지 않으며 입력 단위를 확인하는 용도로 볼 수 있습니다.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside></div><section class="content-block">
+                    <h2>관련 계산기</h2>
+                    <div class="related"><a href="/calculators/running-pace.html">러닝 페이스 계산기</a><a href="/calculators/length-conversion.html">길이 단위 변환 계산기</a><a href="/calculators/time.html">시간 계산기</a><a href="/calculators/fuel-cost.html">주유비 계산기</a></div>
+                  </section>
 </main>
-  <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
+  <footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
 </body>
 </html>

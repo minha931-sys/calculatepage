@@ -39,6 +39,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/day-count.html#webpage",
+        "name": "일수 계산기 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/day-count.html",
+        "description": "시작일과 종료일 사이의 일수, 주 수, 포함 일수를 계산하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -48,10 +58,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "일수 계산기 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/day-count.html",
-        "description": "시작일과 종료일 사이의 일수, 주 수, 포함 일수를 계산하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/day-count.html#breadcrumb"
         },
@@ -99,13 +105,7 @@
   </script>
 </head><body data-custom-calculator="day-count"><header class="site-header"><a class="logo" href="/">계산페이지</a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header><main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
   <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/life.html">생활 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">일수 계산기</span></nav>
-            <a class="calculator-home" href="/">← 계산페이지 홈</a><h1>일수 계산기</h1><p class="lead">시작일과 종료일 사이의 기간을 일수와 주 단위로 계산하세요.</p><section class="calculator-box age-box"><div class="age-fields"><div class="field-with-option"><label><span>시작일</span><input id="dc-start" type="date"></label><label class="field-option"><input id="dc-start-inclusive" type="checkbox"> 시작일 포함</label></div><div class="field-with-option"><label><span>종료일</span><input id="dc-end" type="date"></label><label class="field-option"><input id="dc-end-inclusive" type="checkbox"> 종료일 포함</label></div></div><button class="primary-btn" id="dc-calc">일수 계산하기</button><div class="result" id="dc-result"></div></section>
+  <a class="calculator-home" href="/">← 계산페이지 홈</a><h1>일수 계산기</h1><p class="lead">시작일과 종료일 사이의 기간을 일수와 주 단위로 계산하세요.</p><section class="calculator-box age-box"><div class="age-fields"><div class="field-with-option"><label><span>시작일</span><input id="dc-start" type="date"></label><label class="field-option"><input id="dc-start-inclusive" type="checkbox"> 시작일 포함</label></div><div class="field-with-option"><label><span>종료일</span><input id="dc-end" type="date"></label><label class="field-option"><input id="dc-end-inclusive" type="checkbox"> 종료일 포함</label></div></div><button class="primary-btn" id="dc-calc">일수 계산하기</button><div class="result" id="dc-result" aria-live="polite" aria-atomic="true"></div></section>
 
-
-
-
-
-
-
-  <div class="calculator-editorial" data-calculator-editorial="day-count"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>시작일과 종료일을 선택하고 시작일·종료일을 기간에 포함할지 각각 선택합니다.</li><li>종료일은 시작일보다 빠를 수 없으며, 같은 날짜를 선택한 경우 포함 체크가 있을 때 1일로 표시합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>기본 날짜 차이 = 종료일-시작일입니다. 현재 로직의 기간 일수 = max(기본 날짜 차이-1, 0)+시작일 포함(0 또는 1)+종료일 포함(0 또는 1)이며, 주는 floor(일수÷7), 개월 환산은 일수÷30.44입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>시작일 2026년 7월 1일, 종료일 2026년 7월 15일에 두 날짜를 모두 포함하면 15일, 2주 1일, 약 0.5개월로 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>선택한 포함 기준의 총 기간, 주 단위와 30.44일 기준 개월 환산을 표시합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>경과일수와 시작·종료일을 모두 세는 포함일수는 다릅니다. 계약·휴가·입퇴사 일수는 각 제도의 산정 기준을 우선해야 합니다.</li><li>날짜만 비교하며 시간·시간대·영업일·공휴일은 고려하지 않습니다.</li></ul></section><section class="content-block editorial-detail"><h2>날짜 포함 여부가 결과에 미치는 영향</h2><ul><li>기본 차이는 종료일과 시작일의 날짜 차이입니다. 7월 1일~7월 15일은 14일이며 양쪽을 모두 포함하면 15일입니다.</li><li>시작일·종료일 포함 체크를 각각 사용하므로 계약서가 어느 날짜를 포함하는지 먼저 정해야 합니다. 같은 날짜는 포함 체크가 있으면 1일로 표시됩니다.</li><li>월 환산은 실제 달의 일수가 아니라 30.44일로 나눈 참고값이며 영업일·근무일 계산에는 사용할 수 없습니다.</li></ul></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/date.html">날짜 계산기</a><a href="/calculators/d-day.html">디데이 계산기</a><a href="/calculators/exam-dday.html">시험 D-day 계산기</a><a href="/calculators/daily-proration.html">일할 계산기</a></div></section></div>
-</main><footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>
+  <div class="calculator-editorial" data-calculator-editorial="day-count"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>시작일과 종료일을 선택하고 시작일·종료일을 기간에 포함할지 각각 선택합니다.</li><li>종료일은 시작일보다 빠를 수 없으며, 같은 날짜를 선택한 경우 포함 체크가 있을 때 1일로 표시합니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>숙박·대여·보험 기간에서 양 끝 날짜 포함 여부에 따른 총 일수를 계산할 수 있습니다.</li><li>프로젝트 시작일과 종료일 사이를 주·일 단위로 나눠 일정 길이를 확인할 수 있습니다.</li><li>같은 날짜 범위에서 시작일 포함과 제외 결과를 비교해 계약서 산정 방식을 검산할 수 있습니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>기본 날짜 차이 = 종료일-시작일입니다. 현재 로직의 기간 일수 = max(기본 날짜 차이-1, 0)+시작일 포함(0 또는 1)+종료일 포함(0 또는 1)이며, 주는 floor(일수÷7), 개월 환산은 일수÷30.44입니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>시작일 2026년 7월 1일, 종료일 2026년 7월 15일에 두 날짜를 모두 포함하면 15일, 2주 1일, 약 0.5개월로 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>선택한 포함 기준의 총 기간, 주 단위와 30.44일 기준 개월 환산을 표시합니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>시작일이 종료일보다 늦지 않도록 원문 일정과 두 날짜를 대조하세요.</li><li>시작일·종료일 포함 선택을 계약·예약의 청구 규칙과 각각 맞추세요.</li><li>개월 환산은 30.44일 기준 참고값이므로 월 단위 계약에는 실제 달력 조항을 다시 확인하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>경과일수와 시작·종료일을 모두 세는 포함일수는 다릅니다. 계약·휴가·입퇴사 일수는 각 제도의 산정 기준을 우선해야 합니다.</li><li>날짜만 비교하며 시간·시간대·영업일·공휴일은 고려하지 않습니다.</li></ul></section><section class="content-block editorial-detail"><h2>날짜 포함 여부가 결과에 미치는 영향</h2><ul><li>기본 차이는 종료일과 시작일의 날짜 차이입니다. 7월 1일~7월 15일은 14일이며 양쪽을 모두 포함하면 15일입니다.</li><li>시작일·종료일 포함 체크를 각각 사용하므로 계약서가 어느 날짜를 포함하는지 먼저 정해야 합니다. 같은 날짜는 포함 체크가 있으면 1일로 표시됩니다.</li><li>월 환산은 실제 달의 일수가 아니라 30.44일로 나눈 참고값이며 영업일·근무일 계산에는 사용할 수 없습니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>시작일과 종료일이 같은 날이면 몇 일인가요?</summary><p>두 날짜를 모두 포함하면 1일이며, 포함 선택을 해제하면 현재 산식에서 0일로 표시될 수 있습니다.</p></details><details><summary>평일만 세어 주나요?</summary><p>아니요. 토요일·일요일·공휴일을 구분하지 않는 달력일 계산입니다.</p></details><details><summary>두 날짜를 모두 포함하면 왜 하루가 늘어나나요?</summary><p>날짜 사이의 경계 개수에 시작일과 종료일 자체를 모두 세기 때문에 기본 차이에 포함분을 더합니다.</p></details></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/date.html">날짜 계산기</a><a href="/calculators/d-day.html">디데이 계산기</a><a href="/calculators/age.html">나이 계산기</a></div></section></div>
+</main><footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer></body></html>

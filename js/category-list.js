@@ -1,9 +1,15 @@
 (function(){
   const section=document.querySelector('#category .category-all');
+  if(!section)return;
+  const existingGrid=section.querySelector('.card-grid');
+  section.querySelectorAll('.category-list-disclosure').forEach(disclosure=>{
+    if(existingGrid&&disclosure.contains(existingGrid))section.append(existingGrid);
+    disclosure.remove();
+  });
   const heading=section?.querySelector('.section-heading');
-  const grid=section?.querySelector('.card-grid');
+  const grid=existingGrid||section?.querySelector('.card-grid');
   const cards=grid?[...grid.querySelectorAll('.calc-card')]:[];
-  if(!section||!heading||!grid||!cards.length)return;
+  if(!heading||!grid||!cards.length)return;
 
   const details=document.createElement('details');
   details.className='category-list-disclosure';

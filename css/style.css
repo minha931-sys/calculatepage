@@ -205,10 +205,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .calculator-editorial .editorial-example{background:#f6fbf7;border:1px solid #dcefe0}
 .calculator-editorial .editorial-caution{background:#fff9f0;border:1px solid #f2dfbf}
 .calculator-editorial .editorial-formula p,.calculator-editorial .editorial-example p,.calculator-editorial .editorial-caution li{color:#3f4e63}
+.calculator-editorial .editorial-use-cases ul,.calculator-editorial .editorial-checks ol{margin:0;padding-left:22px}
+.calculator-editorial .editorial-use-cases li,.calculator-editorial .editorial-checks li{margin:8px 0;color:#46556a}
+.calculator-editorial .editorial-faq details{padding:15px 0;border-bottom:1px solid var(--line)}
+.calculator-editorial .editorial-faq summary{cursor:pointer;font-weight:800;color:#2e3b50}
+.calculator-editorial .editorial-faq details p{margin:8px 0 0;color:#536174}
+.editorial-review{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0;padding:14px 16px;border:1px solid #dce5f3;border-radius:10px;background:#f8fbff;color:#526071;font-size:13px}
+.editorial-review strong{color:#26364d}.editorial-review a{margin-left:auto;color:#2858d7;font-weight:700;text-decoration:none}
+.review-status{display:flex;gap:.75rem;align-items:flex-start;margin:0 0 1rem;padding:.9rem 1rem;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff}
+.review-status strong{flex:0 0 auto;color:#3730a3}.review-status span{color:var(--muted)}
 .editorial-sources a{color:#2858d7}
 .home-value .category-purpose-grid{margin-top:18px}
 @media(max-width:700px){
   .calculator-editorial .editorial-formula,.calculator-editorial .editorial-example,.calculator-editorial .editorial-caution{padding:17px}
+  .editorial-review{align-items:flex-start;gap:6px}.editorial-review span,.editorial-review a{width:100%;margin-left:0}
+  .review-status{display:block}.review-status span{display:block;margin-top:.35rem}
   .gpa-table-wrap,.estimate-table-wrap,.loan-schedule-table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
 

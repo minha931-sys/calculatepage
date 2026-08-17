@@ -48,6 +48,16 @@
       {
         "@type": "WebPage",
         "@id": "https://calculatepage.com/calculators/jlpt-score.html#webpage",
+        "name": "JLPT 점수 계산기 - N1 N2 N3 N4 N5 합격 기준 | 계산페이지",
+        "url": "https://calculatepage.com/calculators/jlpt-score.html",
+        "description": "JLPT N1~N5 급수를 선택하고 득점 구분별 점수를 입력해 종합점수, 과락 여부, 합격 가능 여부를 확인하세요.",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-08-17",
+        "publisher": {
+          "@type": "Organization",
+          "name": "계산페이지",
+          "url": "https://calculatepage.com/pages/about.html"
+        },
         "image": "https://calculatepage.com/assets/og-image.png",
         "primaryImageOfPage": {
           "@type": "ImageObject",
@@ -57,10 +67,6 @@
           "height": 630,
           "caption": "계산페이지 - 생활·금융·건강 무료 계산기 모음"
         },
-        "inLanguage": "ko-KR",
-        "name": "JLPT 점수 계산기 - N1 N2 N3 N4 N5 합격 기준 | 계산페이지",
-        "url": "https://calculatepage.com/calculators/jlpt-score.html",
-        "description": "JLPT N1~N5 급수를 선택하고 득점 구분별 점수를 입력해 종합점수, 과락 여부, 합격 가능 여부를 확인하세요.",
         "breadcrumb": {
           "@id": "https://calculatepage.com/calculators/jlpt-score.html#breadcrumb"
         },
@@ -113,7 +119,7 @@
 <body>
   <header class="site-header"><a class="logo" href="/">계산<span>페이지</span></a><nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
   <main class="calculator-page" id="calculator" data-static-rendered="true" data-static-calculator="true">
-  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> &gt; </span><a href="/categories/education.html">교육 계산기</a><span aria-hidden="true"> &gt; </span><span aria-current="page">JLPT 점수 계산기</span></nav>
+  <nav class="breadcrumb calculator-breadcrumb" aria-label="현재 위치" data-seo-breadcrumb="true"><a href="/">홈</a><span aria-hidden="true"> > </span><a href="/categories/education.html">교육 계산기</a><span aria-hidden="true"> > </span><span aria-current="page">JLPT 점수 계산기</span></nav>
   <a class="calculator-home category-more-link" href="/categories/education.html">교육 카테고리 더보기</a>
     <h1>JLPT 점수 계산기</h1>
     <p class="lead">응시 급수를 선택하고 JLPT 성적표의 득점 구분별 점수를 입력해 종합점수, 과락 여부, 합격 가능 여부를 확인하세요.</p>
@@ -132,7 +138,7 @@
       </div>
       <div class="jlpt-section">
         <h2>2. 득점 구분별 점수 입력</h2>
-        <p id="jlpt-field-note">N1~N3는 언어지식, 독해, 청해가 각각 0~60점입니다.</p>
+        <p id="jlpt-field-note">N1은 성적표 기준 언어지식, 독해, 청해가 각각 0~60점입니다.</p>
         <div class="jlpt-fields" id="jlpt-fields">
           <label>
             <span>언어지식(문자·어휘·문법)</span>
@@ -154,7 +160,7 @@
       <div class="jlpt-actions">
         <button class="primary-btn" id="calculate-jlpt" type="button">JLPT 합격 여부 계산하기</button>
       </div>
-      <div class="result" id="jlpt-result" aria-live="polite"></div>
+      <div class="result" id="jlpt-result" aria-live="polite" aria-atomic="true"></div>
       <p class="calculator-note">정답 개수를 점수로 환산하는 계산기가 아닙니다. JLPT 공식 성적표에 표시되는 척도득점을 입력해 주세요.</p>
     </section>
 
@@ -162,8 +168,8 @@
       <h2>JLPT 합격 기준</h2>
       <p>JLPT는 종합점수만 넘으면 합격하는 시험이 아닙니다. 급수별 종합 합격점 이상을 받아야 하고, 동시에 각 득점 구분의 기준점도 넘어야 합니다. 예를 들어 종합점수가 충분히 높아도 청해나 독해 한 구분이 기준점에 미달하면 합격으로 판정되지 않습니다.</p>
       <div class="jlpt-info-grid">
-        <table class="jlpt-info-table">
-          <thead><tr><th>급수</th><th>종합 합격점</th><th>득점 구분 기준점</th></tr></thead>
+        <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 1">
+          <thead><tr><th scope="col">급수</th><th scope="col">종합 합격점</th><th scope="col">득점 구분 기준점</th></tr></thead>
           <tbody>
             <tr><td>N1</td><td>100 / 180</td><td>각 19 / 60</td></tr>
             <tr><td>N2</td><td>90 / 180</td><td>각 19 / 60</td></tr>
@@ -172,8 +178,8 @@
             <tr><td>N5</td><td>80 / 180</td><td>언어지식·독해 38 / 120, 청해 19 / 60</td></tr>
           </tbody>
         </table>
-        <table class="jlpt-info-table">
-          <thead><tr><th>급수</th><th>시험 과목과 시간</th><th>점수 표시</th></tr></thead>
+        <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 2">
+          <thead><tr><th scope="col">급수</th><th scope="col">시험 과목과 시간</th><th scope="col">점수 표시</th></tr></thead>
           <tbody>
             <tr><td>N1</td><td>언어지식·독해 110분, 청해 55분</td><td>3개 득점 구분</td></tr>
             <tr><td>N2</td><td>언어지식·독해 105분, 청해 50분</td><td>3개 득점 구분</td></tr>
@@ -184,8 +190,8 @@
         </table>
       </div>
       <p>N1, N2, N3는 언어지식, 독해, 청해가 각각 0~60점으로 표시됩니다. N4, N5는 언어지식과 독해가 합쳐져 0~120점으로 표시되고, 청해는 0~60점으로 따로 표시됩니다. 따라서 성적표를 볼 때는 본인이 응시한 급수에 맞는 입력칸 구조를 먼저 확인하는 것이 좋습니다.</p>
-      <table class="jlpt-info-table">
-        <thead><tr><th>구분</th><th>N1·N2·N3</th><th>N4·N5</th></tr></thead>
+      <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 3">
+        <thead><tr><th scope="col">구분</th><th scope="col">N1·N2·N3</th><th scope="col">N4·N5</th></tr></thead>
         <tbody>
           <tr><td>입력칸 수</td><td>3개</td><td>2개</td></tr>
           <tr><td>입력 방식</td><td>언어지식, 독해, 청해를 각각 입력</td><td>언어지식·독해 합산 점수와 청해 점수를 입력</td></tr>
@@ -193,8 +199,8 @@
         </tbody>
       </table>
       <p>급수를 선택할 때는 단순히 총점 기준만 보지 말고 현재 약한 영역도 함께 보는 것이 좋습니다. N3 이상은 언어지식, 독해, 청해가 각각 나뉘어 표시되기 때문에 특정 영역의 약점이 더 분명하게 드러납니다. N4와 N5는 언어지식과 독해가 합쳐져 표시되므로, 계산 결과만으로는 어휘·문법과 독해 중 어느 쪽이 더 약한지까지는 구분하기 어렵습니다.</p>
-      <table class="jlpt-info-table">
-        <thead><tr><th>응시 목적</th><th>확인할 기준</th><th>계산기 활용법</th></tr></thead>
+      <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 4">
+        <thead><tr><th scope="col">응시 목적</th><th scope="col">확인할 기준</th><th scope="col">계산기 활용법</th></tr></thead>
         <tbody>
           <tr><td>이번 시험 합격 가능성 확인</td><td>종합점수와 구분별 기준점</td><td>성적표 또는 모의고사 척도득점을 입력해 부족한 기준을 확인합니다.</td></tr>
           <tr><td>다음 급수 도전 여부 판단</td><td>현재 급수의 여유 점수</td><td>합격점보다 얼마나 여유가 있는지 보고 상위 급수 준비 여부를 판단합니다.</td></tr>
@@ -207,8 +213,8 @@
       <h2>점수 환산과 성적표 이해</h2>
       <h3>기준일과 공식 기준</h3>
       <p>기준일: 2026년 7월 11일. 이 계산기는 JLPT 공식 안내의 급수별 종합 합격점과 득점 구분별 기준점을 바탕으로 판정합니다. N1, N2, N3는 언어지식, 독해, 청해 3개 구분을 각각 입력하고, N4와 N5는 언어지식·독해 합산 점수와 청해 점수를 입력합니다.</p>
-      <table class="jlpt-info-table">
-        <thead><tr><th>예시</th><th>입력값</th><th>계산기 판정</th><th>읽는 방법</th></tr></thead>
+      <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 5">
+        <thead><tr><th scope="col">예시</th><th scope="col">입력값</th><th scope="col">계산기 판정</th><th scope="col">읽는 방법</th></tr></thead>
         <tbody>
           <tr><td>N2 합격선 근처</td><td>언어지식 28, 독해 30, 청해 34</td><td>총점 92점, 각 구분 19점 이상</td><td>N2 종합 합격점 90점을 넘고 과락도 없어 기준 충족</td></tr>
           <tr><td>N3 과락 예시</td><td>언어지식 45, 독해 36, 청해 14</td><td>총점 95점이지만 청해 미달</td><td>종합점수는 맞아도 한 구분이 기준점 미달이면 불합격</td></tr>
@@ -217,8 +223,8 @@
       </table>
       <p>JLPT 점수는 단순히 맞힌 문제 수를 더한 원점수가 아니라 시험 난이도 차이를 보정한 척도득점으로 표시됩니다. 따라서 문제별 배점이나 정답 개수만으로 공식 점수를 정확히 환산할 수 없습니다. 이 계산기는 이미 성적표나 모의고사 결과에서 0~60점, 0~120점 형태로 나온 점수를 기준으로 합격 기준 충족 여부를 확인하는 용도입니다.</p>
       <p>합격하려면 종합점수가 급수별 합격점 이상이어야 하고, 동시에 모든 득점 구분이 기준점 이상이어야 합니다. 한 구분이라도 기준점에 미달하면 종합점수가 높아도 불합격입니다.</p>
-      <table class="jlpt-info-table">
-        <thead><tr><th>상황</th><th>계산 결과에서 볼 부분</th><th>해석 방법</th></tr></thead>
+      <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 6">
+        <thead><tr><th scope="col">상황</th><th scope="col">계산 결과에서 볼 부분</th><th scope="col">해석 방법</th></tr></thead>
         <tbody>
           <tr><td>종합점수가 부족한 경우</td><td>종합점수, 급수별 종합 합격점</td><td>전체 실력이 합격선에 아직 도달하지 못한 상태로 볼 수 있습니다.</td></tr>
           <tr><td>종합점수는 넘었지만 과락이 있는 경우</td><td>득점 구분별 상태</td><td>특정 영역이 기준점에 미달한 상태이므로 약한 영역 보완이 우선입니다.</td></tr>
@@ -226,8 +232,8 @@
         </tbody>
       </table>
       <p>모의고사 점수를 입력할 때는 문제 수나 정답 개수를 그대로 넣지 말고, 모의고사 제공처가 JLPT 척도득점 형태로 환산해 제공한 점수를 넣어야 합니다. 특히 N4와 N5는 언어지식과 독해가 분리 입력이 아니라 합산 구분으로 계산되므로, 성적표의 구분명과 입력칸 이름을 맞춰 입력해 주세요.</p>
-      <table class="jlpt-info-table">
-        <thead><tr><th>결과 유형</th><th>우선 점검할 영역</th><th>다음 준비 방향</th></tr></thead>
+      <table class="jlpt-info-table" aria-label="JLPT 점수 계산기 계산표 7">
+        <thead><tr><th scope="col">결과 유형</th><th scope="col">우선 점검할 영역</th><th scope="col">다음 준비 방향</th></tr></thead>
         <tbody>
           <tr><td>종합점수와 모든 구분 기준을 충족</td><td>합격점 대비 여유 점수</td><td>실전 시간 관리와 실수 줄이기를 중심으로 마무리합니다.</td></tr>
           <tr><td>종합점수는 충분하지만 한 구분만 미달</td><td>미달한 득점 구분</td><td>전체 공부량을 늘리기보다 해당 영역 문제 유형을 집중적으로 보완합니다.</td></tr>
@@ -239,7 +245,7 @@
       <p class="jlpt-source">참고: <a href="https://www.jlpt.jp/sp/e/guideline/results.html" target="_blank" rel="noopener noreferrer">JLPT 공식 합격 기준</a>, <a href="https://www.jlpt.or.kr/html/jlpt_info02.html" target="_blank" rel="noopener noreferrer">JLPT 서울실시위원회 시험 안내</a></p>
     </section>
 
-    <div class="calculator-editorial" data-calculator-editorial="jlpt-score"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>N1~N5 중 응시 급수를 선택한 뒤 성적표에 표시된 득점 구분별 척도득점을 입력합니다. N1~N3은 언어지식·독해·청해 3개, N4~N5는 언어지식·독해 합산과 청해 2개를 입력합니다.</li><li>정답 개수나 원점수를 척도득점으로 환산하는 기능은 없으며, 각 입력칸의 0~60점 또는 0~120점 범위를 지켜야 합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>종합점수 = 각 득점 구분 점수의 합계입니다. 합격 기준은 N1 100점, N2 90점, N3 95점, N4 90점, N5 80점 이상이며 동시에 N1~N3의 각 구분은 19점 이상, N4~N5는 언어지식·독해 38점 이상 및 청해 19점 이상이어야 합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>N2에서 언어지식 28점, 독해 30점, 청해 34점을 입력하면 총점 92점이고 세 구분 모두 19점 이상이어서 화면 기준으로 합격 조건 충족으로 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>종합점수, 선택 급수의 종합 합격점, 합격 기준 충족 여부와 각 득점 구분의 기준점 충족·미달 상태를 표시합니다.</p></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>JLPT 점수는 정답 수를 단순 합산한 값이 아닌 척도득점이므로 모의고사의 원점수를 그대로 넣으면 정확한 판정이 아닐 수 있습니다.</li><li>이 결과는 공식 성적 발표를 대체하지 않으며, 회차별 성적표와 JLPT 공식 안내가 최종 기준입니다.</li></ul></section><section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul><li><a href="https://www.jlpt.jp/sp/e/guideline/results.html" target="_blank" rel="noopener noreferrer">JLPT 공식 합격 기준</a></li></ul></section></div>
+    <div class="calculator-editorial" data-calculator-editorial="jlpt-score"><section class="content-block editorial-input"><h2>입력 항목 설명</h2><ul><li>N1~N5 중 응시 급수를 선택한 뒤 성적표에 표시된 득점 구분별 척도득점을 입력합니다. N1~N3은 언어지식·독해·청해 3개, N4~N5는 언어지식·독해 합산과 청해 2개를 입력합니다.</li><li>정답 개수나 원점수를 척도득점으로 환산하는 기능은 없으며, 각 입력칸의 0~60점 또는 0~120점 범위를 지켜야 합니다.</li></ul></section><section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2><ul><li>JLPT 공식 성적표의 득점 구분별 척도득점을 입력해 총점과 과락 여부를 함께 확인할 때 사용할 수 있습니다.</li><li>모의 성적을 급수별 구분 범위에 맞춰 넣어 총점은 넘지만 특정 영역이 부족한 상황을 점검할 때 유용합니다.</li></ul></section><section class="content-block editorial-formula"><h2>계산 공식</h2><p>종합점수 = 각 득점 구분 점수의 합계입니다. 합격 기준은 N1 100점, N2 90점, N3 95점, N4 90점, N5 80점 이상이며 동시에 N1~N3의 각 구분은 19점 이상, N4~N5는 언어지식·독해 38점 이상 및 청해 19점 이상이어야 합니다.</p></section><section class="content-block editorial-example"><h2>계산 예시</h2><p>N2에서 언어지식 28점, 독해 30점, 청해 34점을 입력하면 총점 92점이고 세 구분 모두 19점 이상이어서 화면 기준으로 합격 조건 충족으로 표시됩니다.</p></section><section class="content-block editorial-result"><h2>결과 해석</h2><p>종합점수, 선택 급수의 종합 합격점, 합격 기준 충족 여부와 각 득점 구분의 기준점 충족·미달 상태를 표시합니다.</p></section><section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2><ol><li>응시한 N1~N5 급수를 먼저 선택하고 화면에 표시되는 득점 구분이 성적표와 같은지 확인하세요.</li><li>정답 개수가 아니라 각 구분의 0~60 척도득점을 입력했는지 대조하세요.</li><li>종합점수 기준과 함께 각 득점 구분의 최소 기준을 모두 충족했는지 결과표에서 확인하세요.</li></ol></section><section class="content-block editorial-caution"><h2>주의사항</h2><ul><li>JLPT 점수는 정답 수를 단순 합산한 값이 아닌 척도득점이므로 모의고사의 원점수를 그대로 넣으면 정확한 판정이 아닐 수 있습니다.</li><li>이 결과는 공식 성적 발표를 대체하지 않으며, 회차별 성적표와 JLPT 공식 안내가 최종 기준입니다.</li></ul></section><section class="content-block editorial-faq"><h2>자주 묻는 질문</h2><details><summary>맞힌 문제 수를 그대로 입력해도 되나요?</summary><p>아니요. 정답 수와 공식 척도득점은 같지 않으므로 성적표에 표시되는 득점 구분별 점수를 입력해야 합니다.</p></details><details><summary>총점이 합격 기준보다 높은데 불합격일 수 있나요?</summary><p>네. 어느 한 득점 구분이라도 급수별 최소 기준보다 낮으면 총점을 넘더라도 합격 조건을 충족하지 못합니다.</p></details><details><summary>N4와 N5는 왜 입력 구분이 N1~N3와 다른가요?</summary><p>N4·N5는 언어지식과 독해를 합친 구분 및 청해 구분의 기준을 사용하므로 선택 급수에 맞는 입력 화면을 따라야 합니다.</p></details></section><section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul><li><a href="https://www.jlpt.jp/sp/e/guideline/results.html" target="_blank" rel="noopener noreferrer">JLPT 공식 합격 기준</a></li></ul></section><aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong><span>최종 내용 검토: 2026-08-17</span><span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span><a href="/pages/methodology.html">검수 기준 보기</a></aside></div>
     <section class="content-block">
       <h2>관련 계산기</h2>
       <div class="related">
@@ -250,7 +256,7 @@
       </div>
     </section>
   </main>
-  <footer><a href="/pages/about.html">소개</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
+  <footer><a href="/pages/about.html">소개</a><a href="/pages/methodology.html">검수 기준</a><a href="/pages/privacy.html">개인정보처리방침</a><a href="/pages/terms.html">이용약관</a><a href="/pages/contact.html">문의</a><p>© 2026 계산페이지</p></footer>
   <script>
     (function(){
       const standards = {
