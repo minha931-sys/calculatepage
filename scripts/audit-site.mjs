@@ -115,7 +115,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
   const uniqueness = {
     title: new Map(), description: new Map(), h1: new Map(), canonical: new Map()
   };
-  if (files.length !== 126) issues.push(`HTML 수 불일치 (${files.length}개, 기대 126개)`);
+  if (files.length !== 127) issues.push(`HTML 수 불일치 (${files.length}개, 기대 127개)`);
 
   for (const relativePath of files) {
     const html = await readFile(path.join(root, relativePath), 'utf8');
@@ -241,16 +241,20 @@ export async function auditSite(root = DEFAULT_ROOT) {
     [`${SITE_ORIGIN}/pages/privacy.html`, '2026-07-31'],
     [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
   ]);
+  const currentContentDates = new Map([
+    [`${SITE_ORIGIN}/`, '2026-08-23'],
+    [`${SITE_ORIGIN}/pages/about.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/pages/guides.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-08-23']
+  ]);
   if (sitemapEntries.length !== files.length) {
     issues.push(`sitemap: lastmod 누락 (${sitemapEntries.length}개, 기대 ${files.length}개)`);
   }
   for (const entry of sitemapEntries) {
-    const changedInReview = entry.url === `${SITE_ORIGIN}/`
-      || entry.url.startsWith(`${SITE_ORIGIN}/calculators/`)
+    const changedInReview = entry.url.startsWith(`${SITE_ORIGIN}/calculators/`)
       || entry.url.startsWith(`${SITE_ORIGIN}/categories/`)
-      || entry.url === `${SITE_ORIGIN}/pages/about.html`
-      || entry.url === `${SITE_ORIGIN}/pages/methodology.html`;
-    const expectedLastmod = changedInReview ? '2026-08-17' : unchangedPolicyDates.get(entry.url);
+    const expectedLastmod = currentContentDates.get(entry.url)
+      || (changedInReview ? '2026-08-17' : unchangedPolicyDates.get(entry.url));
     if (!expectedLastmod || entry.lastmod !== expectedLastmod) {
       issues.push(`sitemap: ${entry.url} lastmod 불일치 (${entry.lastmod})`);
     }

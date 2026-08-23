@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const SITE_ORIGIN = 'https://calculatepage.com';
 const ADSENSE_ACCOUNT = 'ca-pub-5944689754824076';
 const ADS_TXT_PUBLISHER = 'pub-5944689754824076';
-const EXPECTED_HTML_COUNT = 126;
+const EXPECTED_HTML_COUNT = 127;
 const EXPECTED_CALCULATOR_COUNT = 114;
 const EXPECTED_CATEGORY_COUNT = 6;
 const EDITORIAL_REVIEW_DATE = '2026-08-17';
@@ -805,7 +805,7 @@ function ensureUnique(records, key, label) {
 }
 
 function validateGlobal(pages, outputRecords) {
-  assert(pages.length === EXPECTED_HTML_COUNT, 'HTML 수가 126개가 아닙니다.');
+  assert(pages.length === EXPECTED_HTML_COUNT, 'HTML 수가 127개가 아닙니다.');
   const calculators = pages.filter((page) => page.relativePath.startsWith('calculators/'));
   const categories = pages.filter((page) => page.relativePath.startsWith('categories/'));
   assert(
@@ -954,7 +954,7 @@ function printUsage() {
   console.log('  node scripts/finalize-seo.mjs --write');
   console.log('');
   console.log('--check는 파일을 쓰지 않으며 변경 필요 시 종료 코드 1을 반환합니다.');
-  console.log('--write는 126개 대상과 모든 불변 조건을 메모리에서 검증한 뒤에만 씁니다.');
+  console.log('--write는 127개 대상과 모든 불변 조건을 메모리에서 검증한 뒤에만 씁니다.');
 }
 
 export async function finalizeSeo(mode = 'check') {
@@ -963,7 +963,7 @@ export async function finalizeSeo(mode = 'check') {
   const files = await listHtmlFiles();
   assert(
     files.length === EXPECTED_HTML_COUNT,
-    '안전 중단: 대상 HTML이 126개가 아닙니다. (현재 ' + files.length + '개)'
+    '안전 중단: 대상 HTML이 127개가 아닙니다. (현재 ' + files.length + '개)'
   );
   const pages = await readPages(files);
   const categoryIndex = buildCategoryIndex(pages);
