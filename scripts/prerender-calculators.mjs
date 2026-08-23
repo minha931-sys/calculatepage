@@ -27,6 +27,13 @@ const CATEGORY_DIR = path.join(PROJECT_ROOT, 'categories');
 const BASE_EDITORIAL_SCRIPT = path.join(PROJECT_ROOT, 'js', 'calculator-content.js');
 const SITE_AUDIT_PATH = '/js/site-audit-fix.js';
 const STATIC_CALCULATOR_PAGES = new Set(['cpm.html', 'jlpt-score.html']);
+const SCENARIO_COMPARISON_PANELS = Object.freeze({
+  'loan-interest': '<section class="scenario-panel scenario-loan" data-scenario-panel="loan-interest" aria-labelledby="loan-scenario-title"><div class="scenario-panel-header"><div><h2 id="loan-scenario-title">상환안 3개 비교</h2><p>원금·금리·기간·상환 방식을 바꿔 계산한 뒤 총이자와 월 부담을 한 표에서 비교하세요.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-add disabled>현재 결과 추가</button><button class="scenario-clear" type="button" data-scenario-clear disabled>비교표 비우기</button></div></div><div class="scenario-empty" data-scenario-empty>계산 결과가 아직 없습니다. 대출을 계산한 뒤 ‘현재 결과 추가’를 눌러 상환안을 저장하세요.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">최대 3개까지 비교할 수 있으며 비교값은 이 화면에서만 유지됩니다.</p></section>',
+  'loan-refinance': '<section class="scenario-panel scenario-refinance" data-scenario-panel="loan-refinance" aria-labelledby="refinance-scenario-title"><div class="scenario-panel-header"><div><h2 id="refinance-scenario-title">대환 후보 손익분기 보드</h2><p>은행별 제안 조건을 다시 계산해 저장하면 실질 절감액과 비용 회수 시점을 후보별로 비교할 수 있습니다.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-add disabled>대환 후보 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>후보 모두 지우기</button></div></div><div class="scenario-empty" data-scenario-empty>갈아타기 결과를 계산한 뒤 후보로 저장하세요. 금리뿐 아니라 기간과 전환 비용까지 함께 비교합니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">최대 3개까지 비교할 수 있으며 입력한 조건과 비교값은 서버에 전송하거나 저장하지 않습니다.</p></section>',
+  'savings-interest': '<section class="scenario-panel scenario-savings" data-scenario-panel="savings-interest" aria-labelledby="savings-scenario-title"><div class="scenario-panel-header"><div><h2 id="savings-scenario-title">예·적금 상품 후보 카드</h2><p>예치금이나 월 납입액, 금리, 기간을 바꿔 계산하고 원금 대비 예상 수령 이자율이 높은 조건을 찾으세요.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-add disabled>상품 후보 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>후보 모두 지우기</button></div></div><div class="scenario-empty" data-scenario-empty>예금 또는 적금 결과를 계산한 뒤 후보로 저장하면 상품 설명서 형태로 비교해 드립니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">최대 3개까지 비교할 수 있습니다. 세금 반영 여부를 같게 맞추고 우대금리·중도해지 조건은 각 상품 설명서에서 확인하세요.</p></section>',
+  salary: '<section class="scenario-panel scenario-salary" data-scenario-panel="salary" aria-labelledby="salary-scenario-title"><div class="scenario-panel-header"><div><h2 id="salary-scenario-title">현재 조건과 제안 조건 비교</h2><p>현재 급여를 먼저 계산해 저장하고, 이직·연봉협상 조건을 다시 계산해 월·연 실수령 차이를 확인하세요.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-slot="current" disabled>현재 조건에 저장</button><button class="scenario-add" type="button" data-scenario-slot="offer" disabled>비교 조건에 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>비교 초기화</button></div></div><div class="scenario-empty" data-scenario-empty>급여 결과를 계산한 뒤 현재 조건 또는 비교 조건에 저장하세요. 같은 결과를 다시 계산해 덮어쓸 수 있습니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">소득세 입력 여부와 보험 계산 기간이 같은지 확인해야 조건 간 차이를 올바르게 볼 수 있습니다.</p></section>',
+  budget: '<section class="scenario-panel scenario-budget" data-scenario-panel="budget" aria-labelledby="budget-scenario-title"><div class="scenario-panel-header"><div><h2 id="budget-scenario-title">월 예산안 구성 비교</h2><p>주거비·생활비·저축 목표를 바꿔 저장하면 돈의 배분과 목표 달성 후 여유자금을 막대로 비교할 수 있습니다.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-add disabled>현재 예산안 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>예산안 모두 지우기</button></div></div><div class="scenario-empty" data-scenario-empty>생활비 예산을 계산한 뒤 예산안으로 저장하세요. 이사 전후나 절약 전후 조건을 최대 3개까지 비교할 수 있습니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">비교값은 새로고침할 때 초기화되며 브라우저나 서버에 저장되지 않습니다.</p></section>'
+});
 const VOID_ELEMENTS = new Set([
   'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link',
   'meta', 'param', 'source', 'track', 'wbr'
@@ -1997,6 +2004,36 @@ function ensureStaticRuntimeScript(html) {
   return html.replace(/<\/head>/i, tag + '</head>');
 }
 
+function addScenarioComparisonPanel(root, slug) {
+  const markup = SCENARIO_COMPARISON_PANELS[slug];
+  if (!markup || root.querySelector('[data-scenario-panel]')) return false;
+  const editorial = root.querySelector('[data-calculator-editorial]');
+  if (editorial) editorial.insertAdjacentHTML('beforebegin', markup);
+  else root.insertAdjacentHTML('beforeend', markup);
+  return true;
+}
+
+function ensureScenarioComparisonAssets(html, slug, eol) {
+  if (!SCENARIO_COMPARISON_PANELS[slug]) return html;
+  let output = html;
+  if (!/href=["']\/css\/scenario-comparisons\.css["']/i.test(output)) {
+    const style = /<link\b(?=[^>]*\bhref=["']\/css\/style\.css["'])[^>]*>/i;
+    const tag = '<link rel="stylesheet" href="/css/scenario-comparisons.css">';
+    output = style.test(output)
+      ? output.replace(style, match => match + eol + '  ' + tag + eol)
+      : output.replace(/<\/head>/i, '  ' + tag + eol + '</head>');
+  }
+  output = output.replace(
+    /(<link\b(?=[^>]*\bhref=["']\/css\/scenario-comparisons\.css["'])[^>]*>)[ \t]*(?=<script)/i,
+    '$1' + eol
+  );
+  if (!/src=["']\/js\/scenario-comparisons\.js["']/i.test(output)) {
+    output = output.replace(/<\/head>/i,
+      '  <script defer src="/js/scenario-comparisons.js"></script>' + eol + '</head>');
+  }
+  return output;
+}
+
 const CALCULATOR_HEADER_NAV = '<nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav>';
 
 function ensureCalculatorHeaderNavigation(html) {
@@ -2131,6 +2168,7 @@ async function renderArtifact(filePath, kind, catalogue) {
     const data = catalogue[slug];
     if (!data) errors.push('editorial catalogue에 slug가 없습니다: ' + slug);
     else editorial = mergeEditorial(root, slug, data);
+    addScenarioComparisonPanel(root, slug);
   }
   const inputStats = normalizeStaticInputs(root);
   stripRuntimeState(root);
@@ -2159,6 +2197,7 @@ async function renderArtifact(filePath, kind, catalogue) {
     legacy = removeLegacyScriptReferences(output);
     output = legacy.html;
     output = ensureStaticRuntimeScript(output);
+    output = ensureScenarioComparisonAssets(output, slug, eol);
     output = ensureCalculatorHeaderNavigation(output);
   }
   output = ensureTrustFooter(output);

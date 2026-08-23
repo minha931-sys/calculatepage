@@ -166,6 +166,14 @@
       const taxNotice = hasIncomeTax ? `입력한 월 소득세 ${money(monthlyIncomeTax)}과 지방소득세 간편 추정액을 반영했습니다.` : '<strong>소득세·지방소득세 미반영:</strong> 급여명세서나 국세청 간이세액표에서 확인한 월 소득세를 입력하면 세금까지 반영할 수 있습니다.';
       const pensionBaseText = ins.rates.simple ? `${money(ins.pensionBase)} (상·하한 미반영)` : money(ins.pensionBase);
       show('ep-result',`<div class="savings-result-grid salary-result-grid">${card(hasIncomeTax?'예상 월 실수령액':'소득세 미반영 4대보험 후 금액',money(net))}${card(hasIncomeTax?'월 총 공제액':'월 4대보험 합계',money(totalDeduct))}${card('공제 후 비율',pct(net/gross*100))}${card('보험료 간편 기준 보수',money(ins.base))}</div><details class="salary-deduction-detail" open><summary>공제 항목 자세히 보기</summary><table class="rate-table"><tbody><tr><td>국민연금</td><td>${money(ins.pension)}</td></tr><tr><td>건강보험</td><td>${money(ins.health)}</td></tr><tr><td>장기요양보험</td><td>${money(ins.care)}</td></tr><tr><td>고용보험</td><td>${money(ins.employment)}</td></tr><tr><td>월 소득세(국세)</td><td>${hasIncomeTax?money(monthlyIncomeTax):'미반영'}</td></tr><tr><td>지방소득세</td><td>${hasIncomeTax?money(monthlyLocal):'미반영'}</td></tr><tr><td>국민연금 기준소득월액</td><td>${pensionBaseText}</td></tr></tbody></table></details><p>${taxNotice}</p><p>${ins.rates.label} 보험료 기준으로 계산했습니다.</p>`);
+      window.CalculatorScenarioComparison?.capture('salary',{
+        gross,
+        nontax,
+        totalDeduct,
+        net,
+        hasIncomeTax,
+        yearLabel:{'2026-h2':'2026년 7~12월','2026-h1':'2026년 1~6월','2025':'2025년 단순 요율'}[year]
+      });
     };
   }
 
@@ -233,6 +241,19 @@
           const note = root.querySelector('.loan-schedule-note');
           if(note) note.textContent = '전체 상환 회차를 표시했습니다.';
         };
+      }
+      if(!isJeonse){
+        window.CalculatorScenarioComparison?.capture('loan-interest',{
+          principal,
+          rate,
+          months,
+          method,
+          methodLabel:{annuity:'원리금균등',principal:'원금균등',bullet:'만기일시'}[method],
+          first:calc.first,
+          last:calc.last,
+          totalInterest:calc.totalInterest,
+          totalPay:calc.totalPay
+        });
       }
     };
   }

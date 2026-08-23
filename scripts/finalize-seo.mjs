@@ -18,6 +18,14 @@ const EXPECTED_HTML_COUNT = 127;
 const EXPECTED_CALCULATOR_COUNT = 114;
 const EXPECTED_CATEGORY_COUNT = 6;
 const EDITORIAL_REVIEW_DATE = '2026-08-17';
+const SCENARIO_FEATURE_DATE = '2026-08-23';
+const SCENARIO_FEATURE_PAGES = new Set([
+  'calculators/budget.html',
+  'calculators/loan-interest.html',
+  'calculators/loan-refinance.html',
+  'calculators/salary.html',
+  'calculators/savings-interest.html'
+]);
 const VIEWPORT_CONTENT = 'width=device-width,initial-scale=1';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, '..');
@@ -452,7 +460,13 @@ function primarySchemaMatches(html) {
   )];
 }
 
-function buildCalculatorGraph(existingSchema, metadata, category) {
+function calculatorModifiedDate(relativePath) {
+  return SCENARIO_FEATURE_PAGES.has(relativePath.replaceAll('\\', '/'))
+    ? SCENARIO_FEATURE_DATE
+    : EDITORIAL_REVIEW_DATE;
+}
+
+function buildCalculatorGraph(existingSchema, metadata, category, relativePath) {
   const nodes = Array.isArray(existingSchema?.['@graph'])
     ? existingSchema['@graph']
     : [existingSchema];
@@ -487,7 +501,7 @@ function buildCalculatorGraph(existingSchema, metadata, category) {
     url: metadata.canonical,
     description: metadata.description,
     inLanguage: 'ko-KR',
-    dateModified: EDITORIAL_REVIEW_DATE,
+    dateModified: calculatorModifiedDate(relativePath),
     publisher: {
       '@type': 'Organization',
       name: '계산페이지',
@@ -565,7 +579,7 @@ function normalizeCalculatorSchema(
   } catch (error) {
     fail(relativePath + ': 기존 primary JSON-LD 문법 오류: ' + error.message);
   }
-  const graph = buildCalculatorGraph(existing, metadata, category);
+  const graph = buildCalculatorGraph(existing, metadata, category, relativePath);
   const indent = match[1];
   const json = JSON.stringify(graph, null, 2)
     .split('\n')
@@ -720,7 +734,7 @@ function validateCalculatorSchema(html, metadata, category, relativePath) {
     webPage.url === metadata.canonical
       && webPage.name === metadata.title
       && webPage.description === metadata.description
-      && webPage.dateModified === EDITORIAL_REVIEW_DATE
+      && webPage.dateModified === calculatorModifiedDate(relativePath)
       && webPage.publisher?.name === '계산페이지'
       && webPage.primaryImageOfPage?.url === SITE_ORIGIN + '/assets/og-image.png',
     relativePath + ': WebPage schema와 메타데이터가 다릅니다.'

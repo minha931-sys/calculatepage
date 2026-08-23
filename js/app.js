@@ -265,6 +265,17 @@ function addSavingsTaxOption(){
     const money=value=>Math.round(value).toLocaleString('ko-KR')+'원';
     result.innerHTML=`<div class="savings-result-grid"><div><span>만기 예상액</span><strong>${money(principal+receivedInterest)}</strong></div><div><span>${taxApplied?'세전 이자':'예상 이자'}</span><b>${money(interest)}</b></div><div><span>${taxApplied?'세후 이자':'적용 세금'}</span><b>${taxApplied?money(receivedInterest):'0원'}</b></div><div><span>원금</span><b>${money(principal)}</b></div></div>`;
     result.classList.add('show');
+    window.CalculatorScenarioComparison?.capture('savings-interest',{
+      amount,
+      rate,
+      months,
+      installment,
+      modeLabel:installment?'적금':'예금',
+      principal,
+      receivedInterest,
+      maturity:principal+receivedInterest,
+      taxApplied
+    });
   };
 }
 addSavingsTaxOption();
@@ -338,15 +349,18 @@ function enhanceBudgetCalculator(){
   root.innerHTML=`<h1>생활비 예산 계산기</h1><p class="lead">월 수입과 지출을 항목별로 정리하고, 저축 목표까지 고려한 한 달 예산을 확인하세요.</p><section class="calculator-box budget-box"><div class="budget-section income-section"><h2>월 수입</h2><div class="budget-fields">${field('budget-income','월 실수령 수입(원)','3000000')}${field('budget-extra','부수입(원)','200000')}</div></div><div class="budget-section"><h2>고정 지출 <small>매달 거의 같은 금액</small></h2><div class="budget-fields budget-fields-four">${field('budget-rent','주거비·관리비','700000')}${field('budget-utility','공과금','150000')}${field('budget-phone','통신비·구독','100000')}${field('budget-insurance','보험·대출·기타','200000')}</div></div><div class="budget-section"><h2>변동 지출 <small>생활에 따라 달라지는 금액</small></h2><div class="budget-fields budget-fields-four">${field('budget-food','식비·카페','500000')}${field('budget-transport','교통비','100000')}${field('budget-leisure','여가·쇼핑','200000')}${field('budget-other','기타 지출','100000')}</div></div><div class="budget-section savings-goal"><h2>저축 목표</h2><div class="budget-fields">${field('budget-saving','월 저축 목표(원)','500000')}</div></div><button class="primary-btn" id="calculate-budget" type="button">예산 계산하기</button><div class="result" id="budget-result" aria-live="polite"></div><p class="calculator-note">입력한 금액은 브라우저에 저장되지 않습니다. 실제 지출은 카드 내역과 함께 정기적으로 확인해 보세요.</p></section><section class="content-block"><h2>생활비 예산을 관리하는 방법</h2><ol><li>최근 2~3개월의 실제 지출을 참고해 항목별 평균을 입력하세요.</li><li>고정 지출부터 확인해 줄일 수 있는 항목을 찾으세요.</li><li>남는 금액과 저축 목표를 비교하고, 변동 지출 한도를 정해 보세요.</li></ol></section><section class="content-block"><h2>관련 계산기</h2><div class="related"><a href="/calculators/salary.html">월급 실수령액 계산기</a><a href="/calculators/dutch-pay.html">더치페이 계산기</a><a href="/calculators/savings-interest.html">예금 이자 계산기</a></div></section>`;
   root.querySelector('#calculate-budget').onclick=()=>{
     const get=id=>{const value=root.querySelector(`#${id}`).value;return value.trim()===''?0:Number(value)};
+    const budgetIds=['budget-income','budget-extra','budget-rent','budget-utility','budget-phone','budget-insurance','budget-food','budget-transport','budget-leisure','budget-other','budget-saving'];
+    const invalidValue=budgetIds.some(id=>!Number.isFinite(get(id))||get(id)<0);
     const income=get('budget-income')+get('budget-extra');
     const fixed=['budget-rent','budget-utility','budget-phone','budget-insurance'].reduce((sum,id)=>sum+get(id),0);
     const variable=['budget-food','budget-transport','budget-leisure','budget-other'].reduce((sum,id)=>sum+get(id),0);
     const goal=get('budget-saving'),expenses=fixed+variable,remaining=income-expenses,afterGoal=remaining-goal;
     const result=root.querySelector('#budget-result'),money=value=>Math.abs(Math.round(value)).toLocaleString('ko-KR')+'원';
-    if(!Number.isFinite(income)||income<=0||[fixed,variable,goal].some(value=>!Number.isFinite(value))){result.innerHTML='<strong>월 수입을 입력해 주세요</strong><p>수입과 지출 항목에는 0 이상의 숫자를 입력할 수 있습니다.</p>';result.classList.add('show');return}
+    if(invalidValue||!Number.isFinite(income)||income<=0||[fixed,variable,goal].some(value=>!Number.isFinite(value))){result.innerHTML='<strong>월 수입을 입력해 주세요</strong><p>수입과 지출 항목에는 0 이상의 숫자를 입력할 수 있습니다.</p>';result.classList.add('show');return}
     const status=afterGoal>=0?`저축 목표를 달성하고도 ${money(afterGoal)}이 남습니다.`:`저축 목표까지 ${money(afterGoal)}이 부족합니다.`;
     result.innerHTML=`<div class="budget-result-grid"><div class="budget-highlight"><span>예상 월 잔액</span><strong>${remaining<0?'-':''}${money(remaining)}</strong></div><div><span>고정 지출</span><b>${money(fixed)}</b><small>수입의 ${(fixed/income*100).toFixed(1)}%</small></div><div><span>변동 지출</span><b>${money(variable)}</b><small>수입의 ${(variable/income*100).toFixed(1)}%</small></div><div><span>총 지출</span><b>${money(expenses)}</b><small>수입의 ${(expenses/income*100).toFixed(1)}%</small></div></div><p class="budget-status ${afterGoal>=0?'positive':'warning'}">${status}</p>`;
     result.classList.add('show');
+    window.CalculatorScenarioComparison?.capture('budget',{income,fixed,variable,goal,expenses,remaining,afterGoal});
   };
 }
 enhanceBudgetCalculator();

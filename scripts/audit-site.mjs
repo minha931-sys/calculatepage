@@ -245,7 +245,12 @@ export async function auditSite(root = DEFAULT_ROOT) {
     [`${SITE_ORIGIN}/`, '2026-08-23'],
     [`${SITE_ORIGIN}/pages/about.html`, '2026-08-23'],
     [`${SITE_ORIGIN}/pages/guides.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-08-23']
+    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/calculators/budget.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/calculators/loan-interest.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/calculators/loan-refinance.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/calculators/salary.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/calculators/savings-interest.html`, '2026-08-23']
   ]);
   if (sitemapEntries.length !== files.length) {
     issues.push(`sitemap: lastmod 누락 (${sitemapEntries.length}개, 기대 ${files.length}개)`);
