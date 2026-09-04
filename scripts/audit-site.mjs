@@ -200,7 +200,9 @@ export async function auditSite(root = DEFAULT_ROOT) {
       const reviewBlock = first(main, /<aside\b[^>]*class=["'][^"']*\beditorial-review\b[^"']*["'][^>]*>([\s\S]*?)<\/aside>/i);
       if (!reviewBlock.includes('2026-08-17')) issues.push(`${relativePath}: 최신 검수일 누락`);
       if (matches(html, /data-calculator-editorial=["'][^"']+["']/gi).length !== 1) issues.push(`${relativePath}: 계산기 본문 중복/누락`);
-      if (matches(html, /<h2>관련 계산기<\/h2>/gi).length !== 1) issues.push(`${relativePath}: 관련 계산기 섹션 중복/누락`);
+      const relatedSectionCount = matches(html, /<h2>관련 계산기<\/h2>/gi).length
+        + matches(html, /class=["'][^"']*\beditorial-related\b[^"']*["']/gi).length;
+      if (relatedSectionCount !== 1) issues.push(`${relativePath}: 관련 계산기 섹션 중복/누락`);
       if (/__staticCalculatorGuide|restoreStaticCalculatorGuide/.test(html)) issues.push(`${relativePath}: 이전 콘텐츠 복원 코드 잔류`);
     } else if (relativePath === 'index.html' && !schemaTypes.includes('WebSite')) {
       issues.push('index.html: WebSite schema 누락');
@@ -242,15 +244,10 @@ export async function auditSite(root = DEFAULT_ROOT) {
     [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
   ]);
   const currentContentDates = new Map([
-    [`${SITE_ORIGIN}/`, '2026-08-23'],
-    [`${SITE_ORIGIN}/pages/about.html`, '2026-08-23'],
+    [`${SITE_ORIGIN}/`, '2026-09-04'],
+    [`${SITE_ORIGIN}/pages/about.html`, '2026-09-04'],
     [`${SITE_ORIGIN}/pages/guides.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/calculators/budget.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/calculators/loan-interest.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/calculators/loan-refinance.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/calculators/salary.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/calculators/savings-interest.html`, '2026-08-23']
+    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-09-04']
   ]);
   if (sitemapEntries.length !== files.length) {
     issues.push(`sitemap: lastmod 누락 (${sitemapEntries.length}개, 기대 ${files.length}개)`);
@@ -259,7 +256,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
     const changedInReview = entry.url.startsWith(`${SITE_ORIGIN}/calculators/`)
       || entry.url.startsWith(`${SITE_ORIGIN}/categories/`)
     const expectedLastmod = currentContentDates.get(entry.url)
-      || (changedInReview ? '2026-08-17' : unchangedPolicyDates.get(entry.url));
+      || (changedInReview ? '2026-09-04' : unchangedPolicyDates.get(entry.url));
     if (!expectedLastmod || entry.lastmod !== expectedLastmod) {
       issues.push(`sitemap: ${entry.url} lastmod 불일치 (${entry.lastmod})`);
     }

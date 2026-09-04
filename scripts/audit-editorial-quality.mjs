@@ -34,7 +34,7 @@ function visibleText(value) {
 
 function section(html, className) {
   const expression = new RegExp(
-    '<section class="content-block ' + className + '">([\\s\\S]*?)<\\/section>'
+    '<section\\b[^>]*class="[^"]*\\bcontent-block\\b[^"]*\\b' + className + '\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/section>'
   );
   const match = html.match(expression);
   return match ? match[1] : '';
@@ -58,11 +58,11 @@ for (const file of files) {
   const slug = file.slice(0, -5);
   const html = await readFile(path.join(calculatorDirectory, file), 'utf8');
   const editorialMatch = html.match(
-    /<div class="calculator-editorial"[\s\S]*?<\/div>/
+    /<div\b[^>]*class="[^"]*\bcalculator-editorial\b[^"]*"[^>]*>[\s\S]*?<\/div>/
   );
   const editorial = editorialMatch ? editorialMatch[0] : '';
   const detail = section(html, 'editorial-detail');
-  const titleMatch = detail.match(/<h2>([\s\S]*?)<\/h2>/);
+  const titleMatch = detail.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/);
   const title = titleMatch ? visibleText(titleMatch[1]) : '';
   const detailItems = [...detail.matchAll(/<li>([\s\S]*?)<\/li>/g)]
     .map(function(match) { return visibleText(match[1]); });
@@ -89,7 +89,11 @@ for (const file of files) {
 
   if (title) addOccurrence(detailTitles, title, slug);
   for (const item of detailItems) addOccurrence(detailBullets, item, slug);
-  for (const match of editorial.matchAll(/<(?:p|li)[^>]*>([\s\S]*?)<\/(?:p|li)>/g)) {
+  const auditableEditorial = editorial.replace(
+    /<header\b[^>]*class="[^"]*\beditorial-guide-head\b[^"]*"[^>]*>[\s\S]*?<\/header>/,
+    ''
+  );
+  for (const match of auditableEditorial.matchAll(/<(?:p|li)[^>]*>([\s\S]*?)<\/(?:p|li)>/g)) {
     const paragraph = visibleText(match[1]);
     if (paragraph.length >= 30) addOccurrence(editorialParagraphs, paragraph, slug);
   }
@@ -107,4 +111,10 @@ for (const [paragraph, slugs] of editorialParagraphs) {
 
 console.log('콘텐츠 품질: ' + files.length + '개 검사 / 실패 ' + failures.length + '개');
 for (const failure of failures) console.error(failure);
-if (failures.length) process.exitCode = 1;
+if (failures.length && typeof globalThis.process === 'object') globalThis.process.exitCode = 1;
+
+export const editorialAuditResult = {
+  calculatorCount: files.length,
+  failureCount: failures.length,
+  failures: failures
+};

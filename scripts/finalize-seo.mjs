@@ -17,15 +17,7 @@ const ADS_TXT_PUBLISHER = 'pub-5944689754824076';
 const EXPECTED_HTML_COUNT = 127;
 const EXPECTED_CALCULATOR_COUNT = 114;
 const EXPECTED_CATEGORY_COUNT = 6;
-const EDITORIAL_REVIEW_DATE = '2026-08-17';
-const SCENARIO_FEATURE_DATE = '2026-08-23';
-const SCENARIO_FEATURE_PAGES = new Set([
-  'calculators/budget.html',
-  'calculators/loan-interest.html',
-  'calculators/loan-refinance.html',
-  'calculators/salary.html',
-  'calculators/savings-interest.html'
-]);
+const EDITORIAL_SYSTEM_DATE = '2026-09-04';
 const VIEWPORT_CONTENT = 'width=device-width,initial-scale=1';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, '..');
@@ -461,9 +453,8 @@ function primarySchemaMatches(html) {
 }
 
 function calculatorModifiedDate(relativePath) {
-  return SCENARIO_FEATURE_PAGES.has(relativePath.replaceAll('\\', '/'))
-    ? SCENARIO_FEATURE_DATE
-    : EDITORIAL_REVIEW_DATE;
+  void relativePath;
+  return EDITORIAL_SYSTEM_DATE;
 }
 
 function buildCalculatorGraph(existingSchema, metadata, category, relativePath) {

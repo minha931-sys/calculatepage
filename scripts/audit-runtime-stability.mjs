@@ -30,4 +30,10 @@ for (const failure of failures) {
   console.error(JSON.stringify(failure));
 }
 
-if (failures.length) process.exitCode = 1;
+if (failures.length && typeof globalThis.process === 'object') globalThis.process.exitCode = 1;
+
+export const runtimeAuditResult = {
+  calculatorCount: slugs.length,
+  failureCount: failures.length,
+  failures: failures
+};

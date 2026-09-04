@@ -34,6 +34,90 @@ const SCENARIO_COMPARISON_PANELS = Object.freeze({
   salary: '<section class="scenario-panel scenario-salary" data-scenario-panel="salary" aria-labelledby="salary-scenario-title"><div class="scenario-panel-header"><div><h2 id="salary-scenario-title">현재 조건과 제안 조건 비교</h2><p>현재 급여를 먼저 계산해 저장하고, 이직·연봉협상 조건을 다시 계산해 월·연 실수령 차이를 확인하세요.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-slot="current" disabled>현재 조건에 저장</button><button class="scenario-add" type="button" data-scenario-slot="offer" disabled>비교 조건에 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>비교 초기화</button></div></div><div class="scenario-empty" data-scenario-empty>급여 결과를 계산한 뒤 현재 조건 또는 비교 조건에 저장하세요. 같은 결과를 다시 계산해 덮어쓸 수 있습니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">소득세 입력 여부와 보험 계산 기간이 같은지 확인해야 조건 간 차이를 올바르게 볼 수 있습니다.</p></section>',
   budget: '<section class="scenario-panel scenario-budget" data-scenario-panel="budget" aria-labelledby="budget-scenario-title"><div class="scenario-panel-header"><div><h2 id="budget-scenario-title">월 예산안 구성 비교</h2><p>주거비·생활비·저축 목표를 바꿔 저장하면 돈의 배분과 목표 달성 후 여유자금을 막대로 비교할 수 있습니다.</p></div><div class="scenario-actions"><button class="scenario-add" type="button" data-scenario-add disabled>현재 예산안 저장</button><button class="scenario-clear" type="button" data-scenario-clear disabled>예산안 모두 지우기</button></div></div><div class="scenario-empty" data-scenario-empty>생활비 예산을 계산한 뒤 예산안으로 저장하세요. 이사 전후나 절약 전후 조건을 최대 3개까지 비교할 수 있습니다.</div><div data-scenario-list hidden></div><p class="scenario-status" data-scenario-status aria-live="polite"></p><p class="scenario-storage-note">비교값은 새로고침할 때 초기화되며 브라우저나 서버에 저장되지 않습니다.</p></section>'
 });
+
+const EDITORIAL_FAMILY_PROFILES = Object.freeze({
+  loan: {
+    label: '대출 조건표',
+    promise: '월 납입액만 보지 않고 기간, 총비용과 계산에서 빠진 조건까지 한 장의 조건표처럼 읽습니다.',
+    groupTitles: ['조건을 맞추는 단계', '상환 숫자를 푸는 단계', '계약 조건과 대조하는 단계'],
+    titles: ['비교할 대출 조건', '이 표가 필요한 순간', '상환액이 만들어지는 식', '같은 조건으로 검산', '월 부담과 총비용 읽기', '은행 안내와 맞춰볼 항목', '계산 밖에 남는 비용']
+  },
+  tax: {
+    label: '세금 검산표',
+    promise: '과세 대상과 기준일을 먼저 고정하고 과세표준, 세율, 공제와 계산 밖의 특례를 차례로 대조합니다.',
+    groupTitles: ['과세 조건 정리', '산식과 숫자 대조', '신고 전에 확인할 범위'],
+    titles: ['먼저 정할 과세 조건', '이 계산이 필요한 경우', '세액 산정 순서', '숫자로 따라가기', '결과에서 구분할 금액', '자료와 대조할 항목', '별도 판정이 필요한 조건']
+  },
+  income: {
+    label: '급여·노무 기록',
+    promise: '급여명세서와 근로조건에서 가져올 값을 구분하고, 계산 결과와 실제 지급 항목의 차이를 찾는 순서로 정리합니다.',
+    groupTitles: ['근로조건 옮겨 적기', '지급액 계산 근거', '명세서와 다시 맞추기'],
+    titles: ['준비할 급여·근로 정보', '이 기록이 필요한 때', '금액이 계산되는 순서', '한 사례로 확인', '결과표 읽는 법', '명세서 대조 순서', '계산만으로 정할 수 없는 것']
+  },
+  asset: {
+    label: '자산 비교 노트',
+    promise: '수익률 한 숫자보다 원금, 기간, 비용과 세후 결과를 분리해 서로 같은 조건으로 비교합니다.',
+    groupTitles: ['비교 기준 세우기', '수익과 비용 풀어보기', '후보를 고르기 전 점검'],
+    titles: ['같게 맞출 입력 조건', '비교가 유용한 상황', '수익을 구하는 방식', '예시 조건 대입', '결과에서 볼 차이', '후보별 검산 항목', '숫자에 포함되지 않은 조건']
+  },
+  housing: {
+    label: '주거 비용 노트',
+    promise: '매매·임대·청약 조건에서 기준 금액과 적용 시점을 먼저 확인하고 전체 주거비 흐름으로 해석합니다.',
+    groupTitles: ['주거 조건 정리', '비용 구조 계산', '계약·공고와 대조'],
+    titles: ['계약서에서 찾을 값', '이 도구를 꺼낼 때', '주거비 산정 방식', '조건을 넣어 본 예', '결과 금액의 의미', '계약 전 확인 순서', '지역·가구별로 달라지는 점']
+  },
+  health: {
+    label: '건강 지표 해설',
+    promise: '측정 조건을 일정하게 맞추고, 계산값을 진단이 아닌 변화 관찰용 참고 지표로 읽습니다.',
+    groupTitles: ['측정 조건 맞추기', '지표가 나오는 과정', '건강 정보로 사용할 때'],
+    titles: ['측정 전에 준비할 값', '참고하기 좋은 상황', '사용한 추정식', '측정값 예시', '범위와 변화 읽기', '다시 측정할 때 확인할 것', '의료 판단과 구분할 점']
+  },
+  study: {
+    label: '학습 계산 노트',
+    promise: '학교·시험 기관의 반영 규칙을 먼저 확인하고 현재 결과와 다음 목표를 같은 기준으로 이어 봅니다.',
+    groupTitles: ['반영 기준 확인', '점수 계산 따라가기', '다음 계획에 적용'],
+    titles: ['성적표에서 옮길 값', '학습 계획에 쓰는 경우', '점수 산정 규칙', '예시 점수 대입', '등급·평균 읽기', '기관 기준과 대조할 것', '계산 결과의 적용 한계']
+  },
+  time: {
+    label: '날짜·생활 기록',
+    promise: '포함일, 기준 시각과 생활 조건처럼 결과를 바꾸는 기준을 먼저 정하고 실제 일정에 옮겨 봅니다.',
+    groupTitles: ['기준점 정하기', '시간·생활값 계산', '일정에 옮기기'],
+    titles: ['먼저 고를 기준', '생활에서 쓰는 장면', '차이를 구하는 규칙', '달력 예시', '표시된 값 읽기', '적용 전 확인 순서', '도구가 반영하지 않는 상황']
+  },
+  work: {
+    label: '업무 계산 시트',
+    promise: '견적·원가·수량의 단위를 맞춘 뒤 중간값과 최종값을 나눠 실무 자료로 검산합니다.',
+    groupTitles: ['업무 자료 준비', '산식과 예시 확인', '견적·보고서에 적용'],
+    titles: ['문서에서 가져올 값', '업무에 필요한 순간', '계산 시트의 산식', '샘플 행 계산', '결과값 구분', '제출 전 검산 순서', '별도로 반영할 비용']
+  },
+  unit: {
+    label: '단위 변환 표',
+    promise: '원래 값과 바꿀 단위를 명확히 표시하고 변환계수, 반올림과 역산 결과를 함께 확인합니다.',
+    groupTitles: ['원 단위 확인', '변환계수 적용', '역산으로 검산'],
+    titles: ['변환할 값과 단위', '변환표가 필요한 경우', '단위가 바뀌는 규칙', '변환 예시', '소수점 결과 읽기', '원 단위로 되돌려 확인', '정밀도와 표기 주의']
+  },
+  general: {
+    label: '생활 계산 메모',
+    promise: '입력한 조건, 계산 과정과 결과의 쓰임을 짧은 메모처럼 연결해 필요한 판단만 남깁니다.',
+    groupTitles: ['조건 정리', '계산 과정 확인', '결과 활용과 검산'],
+    titles: ['먼저 입력할 값', '필요한 생활 장면', '계산이 진행되는 방식', '예시로 따라가기', '결과를 읽는 기준', '사용 전후 확인', '결과를 제한하는 조건']
+  }
+});
+
+const EDITORIAL_FAMILY_RULES = Object.freeze([
+  ['loan', /(?:loan|dsr|installment|prepayment)/],
+  ['tax', /(?:tax|withholding|deduction|insurance|pension)/],
+  ['income', /(?:salary|wage|pay|leave|severance|freelance|unemployment|work-hours|parental)/],
+  ['housing', /(?:property|real-estate|rent|housing|jeonse|mortgage|interior|youth-account)/],
+  ['asset', /(?:saving|interest|stock|roi|cagr|average-price|averaging-down|exchange|compound|leverage)/],
+  ['health', /(?:bmi|bmr|body-fat|calorie|weight|water|exercise|pregnancy|ovulation|menstrual)/],
+  ['study', /(?:gpa|grade|score|exam|retake|jlpt)/],
+  ['unit', /(?:conversion|unit|cbm|scale|volumetric|temperature|speed|length|area|volume)/],
+  ['work', /(?:vat|margin|estimate|break-even|cpm|expected-value|shipping|subscription|budget)/],
+  ['time', /(?:date|day|time|age|travel|fuel|electricity|pet-age)/]
+]);
+
+const EDITORIAL_LAYOUTS = Object.freeze(['dossier', 'notebook', 'worksheet', 'reference']);
 const VOID_ELEMENTS = new Set([
   'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link',
   'meta', 'param', 'source', 'track', 'wbr'
@@ -1684,20 +1768,43 @@ const CATEGORY_RELATED_LINKS = {
   ]
 };
 
-function inferredRelated(root, slug) {
+function inferredCategory(root) {
   const categoryLink = root.querySelectorAll('a').find(function(link) {
     return /\/categories\/[a-z-]+\.html(?:$|[?#])/i.test(link.getAttribute('href') || '');
   }) || root.querySelector('.calculator-home');
   const categoryHref = categoryLink && categoryLink.getAttribute('href') || '';
   const categoryMatch = categoryHref.match(/\/categories\/([a-z-]+)\.html/i);
-  const category = categoryMatch ? categoryMatch[1] : 'money';
+  return categoryMatch ? categoryMatch[1] : 'money';
+}
+
+function editorialProfile(root, slug) {
+  const category = inferredCategory(root);
+  const matched = EDITORIAL_FAMILY_RULES.find(function(rule) {
+    return rule[1].test(slug);
+  });
+  const family = matched ? matched[0] : category === 'education' ? 'study' :
+    category === 'health' ? 'health' : category === 'conversion' ? 'unit' :
+      category === 'business' ? 'work' : category === 'life' ? 'time' : 'general';
+  const hash = Array.from(slug).reduce(function(sum, character, index) {
+    return sum + character.charCodeAt(0) * (index + 1);
+  }, 0);
+  return {
+    category: category,
+    family: family,
+    layout: EDITORIAL_LAYOUTS[hash % EDITORIAL_LAYOUTS.length],
+    copy: EDITORIAL_FAMILY_PROFILES[family] || EDITORIAL_FAMILY_PROFILES.general
+  };
+}
+
+function inferredRelated(root, slug) {
+  const category = inferredCategory(root);
   const links = CATEGORY_RELATED_LINKS[category] || CATEGORY_RELATED_LINKS.money;
   return links.filter(function(link) {
     return !link[1].endsWith('/' + slug + '.html');
   }).slice(0, 3);
 }
 
-function editorialMarkup(slug, data, relatedLinks) {
+function editorialMarkup(slug, data, relatedLinks, profile, pageTitle) {
   const list = function(items) {
     return '<ul>' + items.map(function(item) {
       return '<li>' + escapeText(item) + '</li>';
@@ -1708,51 +1815,82 @@ function editorialMarkup(slug, data, relatedLinks) {
       return '<li>' + escapeText(item) + '</li>';
     }).join('') + '</ol>';
   };
+  const section = function(className, idSuffix, heading, body) {
+    return '<section class="content-block ' + className + '" id="guide-' +
+      escapeAttribute(slug + '-' + idSuffix) + '"><h3>' + escapeText(heading) +
+      '</h3>' + body + '</section>';
+  };
+  const sectionTitles = profile.copy.titles;
   const useCases = Array.isArray(data.useCases) && data.useCases.length ?
-    '<section class="content-block editorial-use-cases"><h2>이 계산기가 유용한 상황</h2>' +
-      list(data.useCases) + '</section>' : '';
+    section('editorial-use-cases', 'situations', sectionTitles[1], list(data.useCases)) : '';
   const checks = Array.isArray(data.checks) && data.checks.length ?
-    '<section class="content-block editorial-checks"><h2>계산 전후 확인할 점</h2>' +
-      orderedList(data.checks) + '</section>' : '';
+    section('editorial-checks', 'checks', sectionTitles[5], orderedList(data.checks)) : '';
   const sources = Array.isArray(data.sources) && data.sources.length ?
-    '<section class="content-block editorial-sources"><h2>공식 기준 확인</h2><ul>' +
+    '<section class="content-block editorial-sources" id="guide-' +
+      escapeAttribute(slug) + '-sources"><h3>근거 자료 원문</h3><ul>' +
       data.sources.map(function(source) {
         return '<li><a href="' + escapeAttribute(source[1]) +
           '" target="_blank" rel="noopener noreferrer">' +
           escapeText(source[0]) + '</a></li>';
       }).join('') + '</ul></section>' : '';
   const related = relatedLinks && relatedLinks.length ?
-    '<section class="content-block"><h2>관련 계산기</h2><div class="related">' +
+    '<section class="content-block editorial-related"><h3>이어서 계산하기</h3><div class="related">' +
       relatedLinks.map(function(link) {
         return '<a href="' + escapeAttribute(link[1]) + '">' + escapeText(link[0]) + '</a>';
       }).join('') + '</div></section>' : '';
   const detail = Array.isArray(data.detail) && data.detail.length ?
-    '<section class="content-block editorial-detail"><h2>' +
-      escapeText(data.detailTitle || '계산 결과를 읽는 방법') + '</h2><ul>' +
+    '<section class="content-block editorial-detail" id="guide-' +
+      escapeAttribute(slug) + '-detail"><h3>' +
+      escapeText(data.detailTitle || '계산 결과를 읽는 방법') + '</h3><ul>' +
       data.detail.map(function(item) { return '<li>' + escapeText(item) + '</li>'; }).join('') +
       '</ul></section>' : '';
   const faq = Array.isArray(data.faq) && data.faq.length ?
-    '<section class="content-block editorial-faq"><h2>자주 묻는 질문</h2>' +
+    '<section class="content-block editorial-faq" id="guide-' +
+      escapeAttribute(slug) + '-faq"><h3>사용하면서 생기는 질문</h3>' +
       data.faq.map(function(item) {
         return '<details><summary>' + escapeText(item[0]) + '</summary><p>' + escapeText(item[1]) + '</p></details>';
       }).join('') + '</section>' : '';
   const reviewed = data.reviewed ?
-    '<aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>콘텐츠 검수 정보</strong>' +
+    '<aside class="editorial-review" aria-label="콘텐츠 검수 정보"><strong>이 페이지를 확인한 기록</strong>' +
       '<span>최종 내용 검토: ' + escapeText(data.reviewed) + '</span>' +
       '<span>검토 범위: 계산식·입력 조건·예시 결과·주의사항</span>' +
       '<a href="/pages/methodology.html">검수 기준 보기</a></aside>' : '';
-  return '<div class="calculator-editorial" data-calculator-editorial="' +
+  const introId = 'guide-' + slug + '-title';
+  const groupIds = profile.copy.groupTitles.map(function(_, index) {
+    return 'guide-' + slug + '-group-' + (index + 1);
+  });
+  return '<div class="calculator-editorial editorial-layout-' +
+    escapeAttribute(profile.layout) + ' editorial-family-' +
+    escapeAttribute(profile.family) + '" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
-    '<section class="content-block editorial-input"><h2>입력 항목 설명</h2>' +
-    list(data.input || []) + '</section>' + useCases +
-    '<section class="content-block editorial-formula"><h2>계산 공식</h2><p>' +
-    escapeText(data.formula || '') + '</p></section>' +
-    '<section class="content-block editorial-example"><h2>계산 예시</h2><p>' +
-    escapeText(data.example || '') + '</p></section>' +
-    '<section class="content-block editorial-result"><h2>결과 해석</h2><p>' +
-    escapeText(data.result || '') + '</p></section>' +
-    checks + '<section class="content-block editorial-caution"><h2>주의사항</h2>' +
-    list(data.cautions || []) + '</section>' + detail + faq + sources + reviewed + related + '</div>';
+    '<header class="editorial-guide-head"><p class="editorial-kicker">' +
+    escapeText(profile.copy.label) + '</p><h2 id="' + escapeAttribute(introId) + '">' +
+    escapeText(pageTitle + '를 실제 판단에 쓰는 법') + '</h2><p>' +
+    escapeText(profile.copy.promise) + '</p></header>' +
+    '<nav class="editorial-local-nav" aria-label="이 페이지의 계산 안내"><span>읽는 순서</span>' +
+    '<a href="#' + escapeAttribute(groupIds[0]) + '">조건</a>' +
+    '<a href="#' + escapeAttribute(groupIds[1]) + '">산식</a>' +
+    '<a href="#' + escapeAttribute(groupIds[2]) + '">적용</a>' +
+    (faq ? '<a href="#guide-' + escapeAttribute(slug) + '-faq">질문</a>' : '') +
+    '</nav>' +
+    '<section class="editorial-cluster editorial-cluster-start" aria-labelledby="' +
+    escapeAttribute(groupIds[0]) + '"><header class="editorial-cluster-head"><span>01</span><h2 id="' +
+    escapeAttribute(groupIds[0]) + '">' + escapeText(profile.copy.groupTitles[0]) + '</h2></header>' +
+    section('editorial-input', 'input', sectionTitles[0], list(data.input || [])) + useCases + '</section>' +
+    '<section class="editorial-cluster editorial-cluster-proof" aria-labelledby="' +
+    escapeAttribute(groupIds[1]) + '"><header class="editorial-cluster-head"><span>02</span><h2 id="' +
+    escapeAttribute(groupIds[1]) + '">' + escapeText(profile.copy.groupTitles[1]) + '</h2></header>' +
+    section('editorial-formula', 'formula', sectionTitles[2], '<p>' + escapeText(data.formula || '') + '</p>') +
+    section('editorial-example', 'example', sectionTitles[3], '<p>' + escapeText(data.example || '') + '</p>') +
+    section('editorial-result', 'result', sectionTitles[4], '<p>' + escapeText(data.result || '') + '</p>') +
+    '</section>' +
+    '<section class="editorial-cluster editorial-cluster-apply" aria-labelledby="' +
+    escapeAttribute(groupIds[2]) + '"><header class="editorial-cluster-head"><span>03</span><h2 id="' +
+    escapeAttribute(groupIds[2]) + '">' + escapeText(profile.copy.groupTitles[2]) + '</h2></header>' +
+    detail + checks + section('editorial-caution', 'caution', sectionTitles[6], list(data.cautions || [])) +
+    '</section>' +
+    '<section class="editorial-cluster editorial-cluster-reference"><header class="editorial-cluster-head"><span>+</span><h2>더 확인할 자료</h2></header>' +
+    faq + sources + reviewed + related + '</section></div>';
 }
 
 function mergeEditorial(root, slug, data) {
@@ -1760,10 +1898,16 @@ function mergeEditorial(root, slug, data) {
     element.remove();
   });
   if (!data) return false;
+  const profile = editorialProfile(root, slug);
+  const title = root.querySelector('h1');
+  const pageTitle = title ? title.textContent.trim() : slug;
+  root.setAttribute('data-page-family', profile.family);
+  root.setAttribute('data-editorial-layout', profile.layout);
+  root.setAttribute('data-page-category', profile.category);
   const relatedLinks = Array.isArray(data.related) && data.related.length ?
     data.related : inferredRelated(root, slug);
   const markup = editorialMarkup(slug, data,
-    root.querySelector('.related') ? [] : relatedLinks);
+    root.querySelector('.related') ? [] : relatedLinks, profile, pageTitle);
   const related = root.querySelectorAll('.content-block').find(function(section) {
     const heading = section.querySelector('h2');
     return heading && heading.textContent.trim() === '관련 계산기';
@@ -1867,10 +2011,15 @@ function addStaticMarkers(root, kind) {
 }
 
 function materializeStaticPage(originalBlock, root, eol) {
-  let output = addAttributesToOpeningTag(originalBlock, {
+  const rootAttributes = {
     'data-static-rendered': 'true',
     'data-static-calculator': 'true'
-  });
+  };
+  for (const attribute of ['data-page-family', 'data-editorial-layout', 'data-page-category']) {
+    const value = root.getAttribute(attribute);
+    if (value) rootAttributes[attribute] = value;
+  }
+  let output = addAttributesToOpeningTag(originalBlock, rootAttributes);
   for (const id of ['cpm-rows', 'jlpt-fields']) {
     const virtual = root.querySelector('#' + id);
     if (!virtual || !virtual.innerHTML.trim()) continue;
@@ -2032,6 +2181,15 @@ function ensureScenarioComparisonAssets(html, slug, eol) {
       '  <script defer src="/js/scenario-comparisons.js"></script>' + eol + '</head>');
   }
   return output;
+}
+
+function ensureEditorialSystemStylesheet(html, eol) {
+  if (/href=["']\/css\/editorial-system\.css["']/i.test(html)) return html;
+  const baseStyle = /<link\b(?=[^>]*\bhref=["']\/css\/style\.css["'])[^>]*>/i;
+  const tag = '<link rel="stylesheet" href="/css/editorial-system.css">';
+  return baseStyle.test(html)
+    ? html.replace(baseStyle, function(match) { return match + eol + '  ' + tag; })
+    : html.replace(/<\/head>/i, '  ' + tag + eol + '</head>');
 }
 
 const CALCULATOR_HEADER_NAV = '<nav aria-label="계산기 카테고리"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav>';
@@ -2201,6 +2359,7 @@ async function renderArtifact(filePath, kind, catalogue) {
     output = ensureCalculatorHeaderNavigation(output);
   }
   output = ensureTrustFooter(output);
+  output = ensureEditorialSystemStylesheet(output, eol);
   output = normalizeStaticCopy(output);
   if (hasBom) output = '\uFEFF' + output;
   return {
