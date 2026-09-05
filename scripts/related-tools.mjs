@@ -23,7 +23,7 @@ const groups=[
   'lotto-tax withholding-33 income-tax percent',
   'car-installment car-acquisition-tax car-tax fuel-cost ev-fuel-cost',
   'card-installment discount percent budget',
-  'budget subscription-cost daily-proration dutch-pay travel-budget',
+  'budget daily-proration dutch-pay travel-budget',
   'travel-budget exchange fuel-cost dutch-pay',
   'electricity ev-fuel-cost fuel-cost budget',
   'percent percent-change discount vat',

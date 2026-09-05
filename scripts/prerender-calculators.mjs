@@ -1786,7 +1786,7 @@ function editorialProfile(root, slug) {
   const overrides = {
     installment: 'asset', 'youth-leap-account': 'asset', 'youth-account-switch': 'asset',
     'dutch-pay': 'general', 'volumetric-weight': 'work', 'monthly-average-income': 'housing',
-    'daily-proration': 'general', 'subscription-cost': 'general', budget: 'general',
+    'daily-proration': 'general', budget: 'general',
     'travel-budget': 'general', 'fuel-cost': 'general', 'ev-fuel-cost': 'general', electricity: 'general',
     'exam-dday': 'time', 'running-pace': 'general'
   };

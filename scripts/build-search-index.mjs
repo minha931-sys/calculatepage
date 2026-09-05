@@ -12,7 +12,7 @@ export async function buildSearchIndex(){
     if(!name||!category)throw new Error(file+': search metadata missing');
     index.push({slug:file.slice(0,-5),name,description,category});
   }
-  if(index.length!==114)throw new Error('Expected 114 calculators');
+  if(index.length!==113)throw new Error('Expected 113 calculators');
   await writeFile(path.join(root,'js/search-index.js'),'/* Generated from published calculator pages. */\nwindow.CP_SEARCH_INDEX = '+JSON.stringify(index).replace(/</g,'\\u003c')+';\n','utf8');
   return {count:index.length};
 }

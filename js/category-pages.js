@@ -22,7 +22,7 @@
       groups:[
         {title:'대출 / 이자',desc:'월 이자, 총 상환액, 갈아타기 절감액과 대출 부담률을 확인할 때 사용하세요.',ids:['mortgage-loan','loan-interest','loan-schedule','loan-refinance','jeonse-loan','prepayment-fee','dsr']},
         {title:'예금 / 적금',desc:'저축 만기 금액, 세후 이자, 월 납입 복리 투자 결과를 비교할 때 유용합니다.',ids:['savings-interest','installment','compound-interest','youth-leap-account']},
-        {title:'월급 / 생활비',desc:'월 실수령액과 건강보험료, 생활 예산, 구독료, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','employee-health-insurance','budget','subscription-cost','unemployment-benefit','daily-proration','rent-conversion']},
+        {title:'월급 / 생활비',desc:'월 실수령액과 건강보험료, 생활 예산, 퇴직·실업 상황의 현금흐름을 점검하세요.',ids:['salary','employee-health-insurance','budget','unemployment-benefit','daily-proration','rent-conversion']},
         {title:'부동산 / 임대',desc:'복비, 취득세, 종부세, 임대수익률, 청약·임대 소득기준처럼 부동산 관련 조건을 점검하세요.',ids:['monthly-average-income','housing-subscription','real-estate-brokerage','real-estate-acquisition-tax','comprehensive-real-estate-tax','rental-yield','property-tax']},
         {title:'세금 / 공제',desc:'세금과 공제 예상액을 빠르게 보고 신고 전 체크리스트로 활용하세요.',ids:['capital-gains-tax','gift-tax','monthly-rent-deduction','property-tax','car-acquisition-tax','lotto-tax']},
         {title:'투자 / 주식',desc:'매수 단가, 수익률, 연평균 성장률, 레버리지 위험을 계산해 투자 판단을 보조합니다.',ids:['average-price','averaging-down','stock-return','stock-leverage','cagr','roi','percent-change']}

@@ -115,7 +115,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
   const uniqueness = {
     title: new Map(), description: new Map(), h1: new Map(), canonical: new Map()
   };
-  if (files.length !== 127) issues.push(`HTML 수 불일치 (${files.length}개, 기대 127개)`);
+  if (files.length !== 126) issues.push(`HTML 수 불일치 (${files.length}개, 기대 126개)`);
 
   for (const relativePath of files) {
     const html = await readFile(path.join(root, relativePath), 'utf8');
@@ -244,6 +244,8 @@ export async function auditSite(root = DEFAULT_ROOT) {
     [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
   ]);
   const currentContentDates = new Map([
+    [`${SITE_ORIGIN}/categories/money.html`, '2026-09-05'],
+    [`${SITE_ORIGIN}/categories/life.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/`, '2026-09-05'],
     [`${SITE_ORIGIN}/pages/about.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/pages/guides.html`, '2026-08-23'],
@@ -274,7 +276,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
   if (!robots.includes(`${SITE_ORIGIN}/sitemap.xml`)) issues.push('robots.txt: sitemap URL 누락/오류');
 
   const calculatorRecords = records.filter(record => record.relativePath.startsWith(`calculators${path.sep}`));
-  if (calculatorRecords.length !== 114) issues.push(`계산기 수 불일치 (${calculatorRecords.length}개, 기대 114개)`);
+  if (calculatorRecords.length !== 113) issues.push(`계산기 수 불일치 (${calculatorRecords.length}개, 기대 113개)`);
   const calculatorBySlug = new Map(calculatorRecords.map(record => [path.basename(record.relativePath, '.html'), record]));
   for (const record of calculatorRecords) {
     for (const slug of record.relatedSlugs) {
