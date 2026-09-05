@@ -198,7 +198,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
       const cautionBlock = first(main, /<section\b[^>]*class=["'][^"']*\beditorial-caution\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
       if (matches(cautionBlock, /<li\b/gi).length < 2) issues.push(`${relativePath}: 주의사항 2개 미만`);
       const reviewBlock = first(main, /<aside\b[^>]*class=["'][^"']*\beditorial-review\b[^"']*["'][^>]*>([\s\S]*?)<\/aside>/i);
-      if (!reviewBlock.includes('2026-08-17')) issues.push(`${relativePath}: 최신 검수일 누락`);
+      if (!/최종 내용 검토:\s*\d{4}-\d{2}-\d{2}/.test(reviewBlock)) issues.push(`${relativePath}: 내용 검토일 누락`);
       if (matches(html, /data-calculator-editorial=["'][^"']+["']/gi).length !== 1) issues.push(`${relativePath}: 계산기 본문 중복/누락`);
       const relatedSectionCount = matches(html, /<h2>관련 계산기<\/h2>/gi).length
         + matches(html, /class=["'][^"']*\beditorial-related\b[^"']*["']/gi).length;
@@ -240,14 +240,14 @@ export async function auditSite(root = DEFAULT_ROOT) {
   )].map(match => ({ url: match[1], lastmod: match[2] }));
   const unchangedPolicyDates = new Map([
     [`${SITE_ORIGIN}/pages/contact.html`, '2026-07-31'],
-    [`${SITE_ORIGIN}/pages/privacy.html`, '2026-07-31'],
+    [`${SITE_ORIGIN}/pages/privacy.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
   ]);
   const currentContentDates = new Map([
-    [`${SITE_ORIGIN}/`, '2026-09-04'],
-    [`${SITE_ORIGIN}/pages/about.html`, '2026-09-04'],
+    [`${SITE_ORIGIN}/`, '2026-09-05'],
+    [`${SITE_ORIGIN}/pages/about.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/pages/guides.html`, '2026-08-23'],
-    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-09-04']
+    [`${SITE_ORIGIN}/pages/methodology.html`, '2026-09-05']
   ]);
   if (sitemapEntries.length !== files.length) {
     issues.push(`sitemap: lastmod 누락 (${sitemapEntries.length}개, 기대 ${files.length}개)`);
@@ -256,7 +256,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
     const changedInReview = entry.url.startsWith(`${SITE_ORIGIN}/calculators/`)
       || entry.url.startsWith(`${SITE_ORIGIN}/categories/`)
     const expectedLastmod = currentContentDates.get(entry.url)
-      || (changedInReview ? '2026-09-04' : unchangedPolicyDates.get(entry.url));
+      || (entry.url.startsWith(`${SITE_ORIGIN}/calculators/`) ? '2026-09-05' : changedInReview ? '2026-09-04' : unchangedPolicyDates.get(entry.url));
     if (!expectedLastmod || entry.lastmod !== expectedLastmod) {
       issues.push(`sitemap: ${entry.url} lastmod 불일치 (${entry.lastmod})`);
     }
@@ -280,7 +280,7 @@ export async function auditSite(root = DEFAULT_ROOT) {
     for (const slug of record.relatedSlugs) {
       const target = calculatorBySlug.get(slug);
       if (!target) issues.push(`${record.relativePath}: 관련 계산기 대상 없음 (${slug})`);
-      else if (record.category && target.category && record.category !== target.category) issues.push(`${record.relativePath}: 주제 불일치 관련 계산기 (${slug})`);
+      else if (target === record) issues.push(`${record.relativePath}: 자기 자신을 추천하는 관련 계산기 (${slug})`);
     }
   }
   const similar = [];

@@ -153,10 +153,23 @@
   const keys = Object.keys(tool.units);
   if(keys[1]) to.value = keys[1];
 
-  root.querySelector('#unit-calc').onclick = () => {
-    const input = Number(root.querySelector('#unit-value').value);
-    if(!Number.isFinite(input)){
+  const inputElement = root.querySelector('#unit-value');
+  const calculate = () => {
+    const inputText = inputElement.value.trim();
+    const input = Number(inputText);
+    if(!inputText || !Number.isFinite(input)){
       result.innerHTML = '<strong>값을 입력해 주세요</strong><p>변환할 숫자를 입력한 뒤 다시 계산해 주세요.</p>';
+      result.classList.add('show');
+      return;
+    }
+
+    if(tool.temperature && toBaseTemperature(input, from.value) < -273.15 - 1e-10){
+      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>절대영도(−273.15°C, −459.67°F, 0K)보다 낮은 온도는 변환할 수 없습니다.</p>';
+      result.classList.add('show');
+      return;
+    }
+    if(!tool.temperature && input < 0){
+      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>길이·넓이·무게·부피·속도는 0 이상으로 입력하세요.</p>';
       result.classList.add('show');
       return;
     }
@@ -168,8 +181,25 @@
       converted = input * tool.units[from.value].factor / tool.units[to.value].factor;
     }
 
+    const convertedUnits = Object.entries(tool.units).map(([key,unit])=>{
+      const value = tool.temperature ? fromBaseTemperature(toBaseTemperature(input,from.value),key) : input * tool.units[from.value].factor / unit.factor;
+      return {label:unit.label,value};
+    });
+    if(!Number.isFinite(converted) || convertedUnits.some(unit=>!Number.isFinite(unit.value))){
+      result.innerHTML = '<strong>입력값을 확인해 주세요</strong><p>환산 가능한 숫자 범위를 초과했습니다. 입력값을 줄여 주세요.</p>';
+      result.classList.add('show');return;
+    }
+    const conversions = convertedUnits.map(unit=>`<tr><th scope="row">${unit.label}</th><td>${format(unit.value)}</td></tr>`).join('');
     result.innerHTML = `<strong>${format(converted)} ${tool.units[to.value].label}</strong>
-      <p>${format(input)} ${tool.units[from.value].label} 변환 결과입니다.</p>`;
+      <p>${format(input)} ${tool.units[from.value].label} 변환 결과입니다.</p>
+      <table class="unit-reference-table"><caption>같은 값을 다른 단위로 보기</caption><thead><tr><th scope="col">단위</th><th scope="col">환산값</th></tr></thead><tbody>${conversions}</tbody></table>
+      <p>표시는 최대 소수 8자리이며 큰 수와 아주 작은 수는 지수 표기를 사용합니다. 실제 변환은 반올림 전 값으로 계산합니다.</p>`;
     result.classList.add('show');
   };
+  root.querySelector('#unit-calc').onclick = calculate;
+  if(typeof getComputedStyle === 'function'){
+    let actions=root.querySelector('.unit-extra-actions');
+    if(!actions){actions=document.createElement('div');actions.className='unit-extra-actions';const button=document.createElement('button');button.type='button';button.textContent='단위 방향 바꾸기';actions.append(button);root.querySelector('#unit-calc').insertAdjacentElement('afterend',actions);}
+    actions.querySelector('button').onclick=()=>{const previous=from.value;from.value=to.value;to.value=previous;from.dispatchEvent(new Event('change',{bubbles:true}));if(inputElement.value.trim())calculate();};
+  }
 })();

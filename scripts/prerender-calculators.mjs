@@ -19,6 +19,8 @@ import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { workbenchMarkup } from './workbench-markup.mjs';
+import { relatedTools } from './related-tools.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, '..');
@@ -117,7 +119,6 @@ const EDITORIAL_FAMILY_RULES = Object.freeze([
   ['time', /(?:date|day|time|age|travel|fuel|electricity|pet-age)/]
 ]);
 
-const EDITORIAL_LAYOUTS = Object.freeze(['dossier', 'notebook', 'worksheet', 'reference']);
 const VOID_ELEMENTS = new Set([
   'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link',
   'meta', 'param', 'source', 'track', 'wbr'
@@ -1782,16 +1783,20 @@ function editorialProfile(root, slug) {
   const matched = EDITORIAL_FAMILY_RULES.find(function(rule) {
     return rule[1].test(slug);
   });
-  const family = matched ? matched[0] : category === 'education' ? 'study' :
-    category === 'health' ? 'health' : category === 'conversion' ? 'unit' :
-      category === 'business' ? 'work' : category === 'life' ? 'time' : 'general';
-  const hash = Array.from(slug).reduce(function(sum, character, index) {
-    return sum + character.charCodeAt(0) * (index + 1);
-  }, 0);
+  const overrides = {
+    installment: 'asset', 'youth-leap-account': 'asset', 'youth-account-switch': 'asset',
+    'dutch-pay': 'general', 'volumetric-weight': 'work', 'monthly-average-income': 'housing',
+    'daily-proration': 'general', 'subscription-cost': 'general', budget: 'general',
+    'travel-budget': 'general', 'fuel-cost': 'general', 'ev-fuel-cost': 'general', electricity: 'general',
+    'exam-dday': 'time', 'running-pace': 'general'
+  };
+  const family = overrides[slug] || (category === 'conversion' ? 'unit' :
+    category === 'health' ? 'health' : category === 'education' ? 'study' :
+      matched ? matched[0] : category === 'business' ? 'work' : category === 'life' ? 'time' : 'general');
   return {
     category: category,
     family: family,
-    layout: EDITORIAL_LAYOUTS[hash % EDITORIAL_LAYOUTS.length],
+    layout: 'standard',
     copy: EDITORIAL_FAMILY_PROFILES[family] || EDITORIAL_FAMILY_PROFILES.general
   };
 }
@@ -1820,7 +1825,7 @@ function editorialMarkup(slug, data, relatedLinks, profile, pageTitle) {
       escapeAttribute(slug + '-' + idSuffix) + '"><h3>' + escapeText(heading) +
       '</h3>' + body + '</section>';
   };
-  const sectionTitles = profile.copy.titles;
+  const sectionTitles = ['입력 방법', '활용 상황', '계산식', '계산 예시', '결과 해석', '검산 체크리스트', '주의사항'];
   const useCases = Array.isArray(data.useCases) && data.useCases.length ?
     section('editorial-use-cases', 'situations', sectionTitles[1], list(data.useCases)) : '';
   const checks = Array.isArray(data.checks) && data.checks.length ?
@@ -1863,30 +1868,28 @@ function editorialMarkup(slug, data, relatedLinks, profile, pageTitle) {
     escapeAttribute(profile.layout) + ' editorial-family-' +
     escapeAttribute(profile.family) + '" data-calculator-editorial="' +
     escapeAttribute(slug) + '">' +
-    '<header class="editorial-guide-head"><p class="editorial-kicker">' +
-    escapeText(profile.copy.label) + '</p><h2 id="' + escapeAttribute(introId) + '">' +
-    escapeText(pageTitle + '를 실제 판단에 쓰는 법') + '</h2><p>' +
-    escapeText(profile.copy.promise) + '</p></header>' +
+    '<header class="editorial-guide-head"><h2 id="' + escapeAttribute(introId) + '">' +
+    escapeText(pageTitle + ' 사용 안내') + '</h2></header>' +
     '<nav class="editorial-local-nav" aria-label="이 페이지의 계산 안내"><span>읽는 순서</span>' +
-    '<a href="#' + escapeAttribute(groupIds[0]) + '">조건</a>' +
-    '<a href="#' + escapeAttribute(groupIds[1]) + '">산식</a>' +
-    '<a href="#' + escapeAttribute(groupIds[2]) + '">적용</a>' +
-    (faq ? '<a href="#guide-' + escapeAttribute(slug) + '-faq">질문</a>' : '') +
+    '<a href="#' + escapeAttribute(groupIds[0]) + '">입력 기준</a>' +
+    '<a href="#' + escapeAttribute(groupIds[1]) + '">계산식과 예시</a>' +
+    '<a href="#' + escapeAttribute(groupIds[2]) + '">결과 확인</a>' +
+    (faq ? '<a href="#guide-' + escapeAttribute(slug) + '-faq">자주 묻는 질문</a>' : '') +
     '</nav>' +
     '<section class="editorial-cluster editorial-cluster-start" aria-labelledby="' +
     escapeAttribute(groupIds[0]) + '"><header class="editorial-cluster-head"><span>01</span><h2 id="' +
-    escapeAttribute(groupIds[0]) + '">' + escapeText(profile.copy.groupTitles[0]) + '</h2></header>' +
+    escapeAttribute(groupIds[0]) + '">입력 기준과 사용 범위</h2></header>' +
     section('editorial-input', 'input', sectionTitles[0], list(data.input || [])) + useCases + '</section>' +
     '<section class="editorial-cluster editorial-cluster-proof" aria-labelledby="' +
     escapeAttribute(groupIds[1]) + '"><header class="editorial-cluster-head"><span>02</span><h2 id="' +
-    escapeAttribute(groupIds[1]) + '">' + escapeText(profile.copy.groupTitles[1]) + '</h2></header>' +
+    escapeAttribute(groupIds[1]) + '">계산식과 예시</h2></header>' +
     section('editorial-formula', 'formula', sectionTitles[2], '<p>' + escapeText(data.formula || '') + '</p>') +
     section('editorial-example', 'example', sectionTitles[3], '<p>' + escapeText(data.example || '') + '</p>') +
     section('editorial-result', 'result', sectionTitles[4], '<p>' + escapeText(data.result || '') + '</p>') +
     '</section>' +
     '<section class="editorial-cluster editorial-cluster-apply" aria-labelledby="' +
     escapeAttribute(groupIds[2]) + '"><header class="editorial-cluster-head"><span>03</span><h2 id="' +
-    escapeAttribute(groupIds[2]) + '">' + escapeText(profile.copy.groupTitles[2]) + '</h2></header>' +
+    escapeAttribute(groupIds[2]) + '">결과를 확인할 때</h2></header>' +
     detail + checks + section('editorial-caution', 'caution', sectionTitles[6], list(data.cautions || [])) +
     '</section>' +
     '<section class="editorial-cluster editorial-cluster-reference"><header class="editorial-cluster-head"><span>+</span><h2>더 확인할 자료</h2></header>' +
@@ -1904,8 +1907,14 @@ function mergeEditorial(root, slug, data) {
   root.setAttribute('data-page-family', profile.family);
   root.setAttribute('data-editorial-layout', profile.layout);
   root.setAttribute('data-page-category', profile.category);
-  const relatedLinks = Array.isArray(data.related) && data.related.length ?
-    data.related : inferredRelated(root, slug);
+  const selectedRelated = relatedTools(slug);
+  const relatedLinks = selectedRelated.length ? selectedRelated :
+    Array.isArray(data.related) && data.related.length ? data.related : inferredRelated(root, slug);
+  root.querySelectorAll('.related').forEach(function(element) {
+    element.innerHTML = relatedLinks.map(function(link) {
+      return '<a href="' + escapeAttribute(link[1]) + '">' + escapeText(link[0]) + '</a>';
+    }).join('');
+  });
   const markup = editorialMarkup(slug, data,
     root.querySelector('.related') ? [] : relatedLinks, profile, pageTitle);
   const related = root.querySelectorAll('.content-block').find(function(section) {
@@ -2013,7 +2022,8 @@ function addStaticMarkers(root, kind) {
 function materializeStaticPage(originalBlock, root, eol) {
   const rootAttributes = {
     'data-static-rendered': 'true',
-    'data-static-calculator': 'true'
+    'data-static-calculator': 'true',
+    'data-clarity-mask': 'True'
   };
   for (const attribute of ['data-page-family', 'data-editorial-layout', 'data-page-category']) {
     const value = root.getAttribute(attribute);
@@ -2048,6 +2058,9 @@ function materializeStaticPage(originalBlock, root, eol) {
       else output = output.replace(/<\/main>$/i, replacement + eol + '</main>');
     }
   }
+
+  const related = root.querySelector('.related');
+  if (related) output = output.replace(/<div\b[^>]*class=["']related["'][^>]*>[\s\S]*?<\/div>/i, related.outerHTML);
 
   // Preserve the hand-authored shell while mirroring deterministic startup
   // state and accessibility metadata into the initial document.
@@ -2323,10 +2336,19 @@ async function renderArtifact(filePath, kind, catalogue) {
   }
   let editorial = false;
   if (kind === 'calculator') {
+    root.setAttribute('data-clarity-mask', 'True');
+    root.querySelectorAll('.result-tools,.input-updated').forEach(function(element) { element.remove(); });
+    root.querySelectorAll('.unit-extra-actions').slice(1).forEach(function(element) { element.remove(); });
     const data = catalogue[slug];
     if (!data) errors.push('editorial catalogue에 slug가 없습니다: ' + slug);
     else editorial = mergeEditorial(root, slug, data);
     addScenarioComparisonPanel(root, slug);
+    root.querySelectorAll('[data-workbench]').forEach(function(element) { element.remove(); });
+    const extraWorkbench = workbenchMarkup(slug);
+    if (extraWorkbench) {
+      const guide = root.querySelector('[data-calculator-editorial]');
+      if (guide) guide.insertAdjacentHTML('beforebegin', extraWorkbench);
+    }
   }
   const inputStats = normalizeStaticInputs(root);
   stripRuntimeState(root);
@@ -2356,6 +2378,14 @@ async function renderArtifact(filePath, kind, catalogue) {
     output = legacy.html;
     output = ensureStaticRuntimeScript(output);
     output = ensureScenarioComparisonAssets(output, slug, eol);
+    if (!output.includes('src="/js/calculator-tools.js"')) {
+      output = output.replace('</head>', '  <script defer src="/js/calculator-tools.js"></script>' + eol + '</head>');
+    }
+    if (!workbenchMarkup(slug)) {
+      output = output.replace(/\s*<script\b[^>]*src="\/js\/(?:workbench-math|calculator-workbenches)\.js"[^>]*><\/script>/g, '');
+    } else if (!output.includes('src="/js/calculator-workbenches.js"')) {
+      output = output.replace('</head>', '  <script defer src="/js/workbench-math.js"></script>' + eol + '  <script defer src="/js/calculator-workbenches.js"></script>' + eol + '</head>');
+    }
     output = ensureCalculatorHeaderNavigation(output);
   }
   output = ensureTrustFooter(output);

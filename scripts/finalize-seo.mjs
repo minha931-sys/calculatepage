@@ -17,7 +17,7 @@ const ADS_TXT_PUBLISHER = 'pub-5944689754824076';
 const EXPECTED_HTML_COUNT = 127;
 const EXPECTED_CALCULATOR_COUNT = 114;
 const EXPECTED_CATEGORY_COUNT = 6;
-const EDITORIAL_SYSTEM_DATE = '2026-09-04';
+const EDITORIAL_SYSTEM_DATE = '2026-09-05';
 const VIEWPORT_CONTENT = 'width=device-width,initial-scale=1';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, '..');
