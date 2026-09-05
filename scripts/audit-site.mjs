@@ -239,11 +239,12 @@ export async function auditSite(root = DEFAULT_ROOT) {
     /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/gi
   )].map(match => ({ url: match[1], lastmod: match[2] }));
   const unchangedPolicyDates = new Map([
-    [`${SITE_ORIGIN}/pages/contact.html`, '2026-07-31'],
     [`${SITE_ORIGIN}/pages/privacy.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/pages/terms.html`, '2026-07-29']
   ]);
   const currentContentDates = new Map([
+    [`${SITE_ORIGIN}/pages/contact.html`, '2026-09-05'],
+    [`${SITE_ORIGIN}/categories/business.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/categories/money.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/categories/life.html`, '2026-09-05'],
     [`${SITE_ORIGIN}/`, '2026-09-05'],

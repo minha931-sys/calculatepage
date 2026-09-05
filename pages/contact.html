@@ -42,8 +42,11 @@
   <meta name="twitter:image:alt" content="계산페이지 - 생활·금융·건강 무료 계산기 모음">
 <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/editorial-system.css">
+  <link rel="stylesheet" href="/css/contact-report.css">
+  <script defer src="/js/search-index.js"></script>
+  <script defer src="/js/contact-report.js"></script>
 
-  <script type="application/ld+json" data-primary-image-schema>{"@context":"https://schema.org","@type":"WebPage","name":"문의 | 계산페이지","url":"https://calculatepage.com/pages/contact.html","description":"계산기 오류 제보, 기능 제안, 사이트 문의를 위한 계산페이지 안내입니다.","dateModified":"2026-07-31","image":"https://calculatepage.com/assets/og-image.png","primaryImageOfPage":{"@type":"ImageObject","url":"https://calculatepage.com/assets/og-image.png","contentUrl":"https://calculatepage.com/assets/og-image.png","width":1200,"height":630,"caption":"계산페이지 - 생활·금융·건강 무료 계산기 모음"}}</script>
+  <script type="application/ld+json" data-primary-image-schema>{"@context":"https://schema.org","@type":"WebPage","name":"문의 | 계산페이지","url":"https://calculatepage.com/pages/contact.html","description":"계산기 오류 제보, 기능 제안, 사이트 문의를 위한 계산페이지 안내입니다.","dateModified":"2026-09-05","image":"https://calculatepage.com/assets/og-image.png","primaryImageOfPage":{"@type":"ImageObject","url":"https://calculatepage.com/assets/og-image.png","contentUrl":"https://calculatepage.com/assets/og-image.png","width":1200,"height":630,"caption":"계산페이지 - 생활·금융·건강 무료 계산기 모음"}}</script>
 </head>
 <body class="info-page">
   <header class="site-header"><a class="logo" href="/">계산<span>페이지</span></a><nav aria-label="주요 메뉴"><a href="/categories/money.html">금융</a><a href="/categories/education.html">교육</a><a href="/categories/health.html">건강</a><a href="/categories/life.html">생활</a><a href="/categories/business.html">업무</a><a href="/categories/conversion.html">단위환산</a></nav></header>
@@ -53,6 +56,23 @@
     <section class="content-block">
       <h2>오류 제보를 보낼 때</h2>
       <p>계산기 이름, 입력한 값, 기대한 결과, 실제로 표시된 결과를 함께 적어 주시면 더 빠르게 확인할 수 있습니다. 화면 캡처나 사용한 브라우저 정보를 함께 보내 주셔도 좋습니다.</p>
+    </section>
+    <section class="content-block" id="report-builder" data-clarity-mask="True" aria-labelledby="report-heading">
+      <h2 id="report-heading">오류 제보 초안 만들기</h2>
+      <p>어떤 조건에서 결과가 달라졌는지 재현할 수 있도록 정리합니다. 아래 입력은 서버에 제출되지 않으며 저장되지 않습니다. 이름·주민등록번호·계좌번호는 적지 말고 급여·건강 정보는 가상 값으로 바꿔 주세요.</p>
+      <label><span>계산기</span><select id="report-calculator"><option value="">계산기 선택</option></select></label>
+      <label><span>재현 순서와 익명화한 입력값 (필수)</span><textarea id="report-steps" rows="4" maxlength="1200" placeholder="예: 다음 날 퇴근을 선택하고 22:00, 06:00, 휴게 30분을 입력한 뒤 계산했습니다."></textarea></label>
+      <label><span>실제로 표시된 결과</span><textarea id="report-actual" rows="2" maxlength="500" placeholder="화면에 나온 숫자 또는 오류 문구"></textarea></label>
+      <label><span>기대한 결과와 근거</span><textarea id="report-expected" rows="2" maxlength="500" placeholder="직접 검산한 결과나 확인한 공식 자료 주소"></textarea></label>
+      <label><span>기기·브라우저 (선택)</span><input id="report-browser" type="text" maxlength="120" placeholder="예: 안드로이드 · Chrome"></label>
+      <button id="report-build" type="button">제보 초안 확인</button>
+      <div id="report-actions" hidden>
+        <label><span>보내기 전 내용 확인</span><textarea id="report-preview" readonly></textarea></label>
+        <button id="report-copy" type="button">초안 복사</button><a id="report-email">이메일 앱에서 열기</a>
+        <p>이메일 앱에서 직접 보내야 접수됩니다. 앱이 열리지 않으면 초안을 복사해 <a href="mailto:min9pages@gmail.com">min9pages@gmail.com</a>으로 보내 주세요.</p>
+      </div>
+      <p id="report-status" role="status"></p>
+      <noscript><p>초안 도구는 JavaScript가 필요합니다. 계산기 이름·입력 조건·실제 결과를 이메일로 직접 보내 주세요.</p></noscript>
     </section>
     <section class="content-block">
       <h2>기능 제안</h2>

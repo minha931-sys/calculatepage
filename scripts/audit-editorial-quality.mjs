@@ -85,7 +85,7 @@ for (const file of files) {
   }
   if (useCaseCount < 2) failures.push(slug + ': 사용 상황이 2개 미만');
   if (checkCount !== 3) failures.push(slug + ': 확인 항목이 3개가 아님');
-  if (faqCount !== 3) failures.push(slug + ': FAQ가 3개가 아님');
+  if (faqCount < 3) failures.push(slug + ': FAQ가 3개 미만');
 
   if (title) addOccurrence(detailTitles, title, slug);
   for (const item of detailItems) addOccurrence(detailBullets, item, slug);

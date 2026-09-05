@@ -1,0 +1,6 @@
+#report-builder label { display: grid; gap: 8px; margin: 18px 0; font-size: 14px; font-weight: 600; }
+#report-builder select, #report-builder textarea, #report-builder input { width: 100%; min-width: 0; box-sizing: border-box; min-height: 44px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font: inherit; line-height: 1.6; }
+#report-builder button, #report-email { display: inline-block; margin: 8px 10px 8px 0; padding: 11px 14px; min-height: 44px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; color: #244778; font: inherit; cursor: pointer; }
+#report-builder [hidden] { display: none; }
+#report-builder #report-preview { min-height: 250px; font-weight: 400; }
+#report-status { color: #475569; font-size: 13px; }

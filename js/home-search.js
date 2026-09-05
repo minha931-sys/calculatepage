@@ -21,7 +21,8 @@
     'weight-conversion':'무게 kg g lb 파운드', 'length-conversion':'길이 인치 센티미터 피트',
     'temperature-conversion':'온도 섭씨 화씨 켈빈', 'volume-conversion':'부피 리터 갤런 밀리리터',
     'running-pace':'러닝 페이스 달리기 마라톤 완주', 'break-even':'손익분기점 원가 판매량',
-    budget:'생활비 가계부 예산 지출 저축'
+    budget:'생활비 가계부 예산 지출 저축',
+    time:'하루 근무 시간 휴게 출퇴근', 'work-hours':'주간 근무시간 근무표 교대 분할근무 출퇴근 CSV'
   };
   const normalize = text => String(text).toLowerCase().replace(/[\s·_%.,-]+/g, '');
   let matches = [], active = -1;

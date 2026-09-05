@@ -5,6 +5,11 @@
   if (!root) return;
   const slug = location.pathname.split('/').pop().replace(/\.html$/, '');
   const title = root.querySelector('h1')?.textContent.trim() || '계산 결과';
+  // Pass only the public page identifier; never put user inputs in a URL.
+  const reportUrl = '/pages/contact.html?calculator=' + encodeURIComponent(slug);
+  document.querySelectorAll('footer a[href="/pages/contact.html"]').forEach(link => {
+    link.href = reportUrl; link.textContent = '문의·오류 제보';
+  });
   const bound = new WeakSet();
   const clean = value => String(value || '').replace(/\s+/g, ' ').trim();
   function inputSnapshot(container) {
@@ -44,6 +49,8 @@
     const stale=document.createElement('p');stale.className='input-updated';stale.hidden=true;
     stale.textContent='입력 조건이 바뀌었습니다. 아래는 이전 결과이므로 다시 계산해 주세요.';
     const copy=tools.querySelector('[data-copy]'),save=tools.querySelector('[data-save]'),status=tools.querySelector('[role="status"]');
+    const report=document.createElement('a'); report.href=reportUrl; report.textContent='이 계산기 오류 제보';
+    tools.querySelector('.result-tools-bar').append(report);
     const history=tools.querySelector('.result-history'),grid=tools.querySelector('.history-grid'),fallback=tools.querySelector('textarea');
     function sync() {copy.disabled=!latest;save.disabled=!latest || records.length>=3;}
     function renderHistory() {

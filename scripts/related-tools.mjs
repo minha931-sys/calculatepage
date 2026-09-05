@@ -8,6 +8,8 @@ const groups=[
   'salary annual-salary four-insurance employee-health-insurance income-tax',
   'annual-leave-pay annual-leave ordinary-wage wage',
   'average-wage severance ordinary-wage unemployment-benefit',
+  'work-hours time wage weekly-holiday-pay overtime-pay',
+  'time work-hours wage date',
   'wage weekly-holiday-pay overtime-pay work-hours salary',
   'parental-leave salary four-insurance annual-leave',
   'national-pension four-insurance salary employee-health-insurance local-health-insurance',
